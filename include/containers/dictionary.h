@@ -403,7 +403,7 @@ dictionary<type>::iterator dictionary<type>::end() const {
 	int iter(25);
 	while (iter >= 0) {
 		if ( nodeIter->alphabet[ iter ] != HL_NULL ) {
-			currWord.push_back( nodeIter->letter );
+			currWord.push_back( nodeIter->alphabet[ iter ]->letter );
 			nodeIter = nodeIter->alphabet[ iter ];
 			iter = 25;
 		}
@@ -441,7 +441,7 @@ dictionary<type>::iterator& dictionary<type>::iterator::operator ++() {
 template <typename type> typename
 dictionary<type>::iterator& dictionary<type>::iterator::operator --() {
 	if (dictToIter != HL_NULL) {
-		currentWord = dictToIter->iterateToPrevNode();
+		currentWord = dictToIter->iterateToPrevNode( currentWord.c_str() );
 		currentNode = dictToIter->iterateToNode( currentWord.c_str() );
 	}
 	return *this;
@@ -506,7 +506,7 @@ cstr dictionary<type>::iterator::getCurrentWord() const {
 
 template <typename type>
 type* dictionary<type>::iterator::getData() const {
-	if (dictToIter != HL_NULL)
+	if (dictToIter != HL_NULL && currentNode != HL_NULL)
 		return currentNode->definition;
 	return HL_NULL;
 }

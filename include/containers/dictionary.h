@@ -86,11 +86,6 @@ class dictionary {
 		
 		iterator begin			() const;
 		iterator end			() const;
-		
-		//TODO!!!
-		//void printDictionary		(std::ostream& outputStream, cstr wordSeparator = " -- ");
-		//bool saveToCSVFile	(cstr fileName);
-		//bool loadFromCSVFile	(cstr fileName);
 };
 
 //-----------------------------------------------------------------------------
@@ -510,50 +505,6 @@ type* dictionary<type>::iterator::getData() const {
 		return currentNode->definition;
 	return HL_NULL;
 }
-
-//-----------------------------------------------------------------------------
-//		Data saving & reloading
-//-----------------------------------------------------------------------------
-/*
-template <typename type>
-void dictionary<type>::printDictionary(std::ostream& output, cstr wordSeparator) {
-	node* nodeTracker = iterateToNode("a");
-	std::string currentNode = "a";
-	
-	do {
-		if (nodeTracker && nodeTracker->definition.size() != 0) {
-			output << "\t" << currentNode.c_str() << wordSeparator;
-			output << nodeTracker->definition.c_str() << wordSeparator << std::endl;
-		}
-		currentNode = iterateToNextNode( currentNode.c_str() );
-		nodeTracker = iterateToNode( currentNode.c_str() );
-	} while (nodeTracker);
-}
-
-bool dictionary<type>::saveToCSVFile(cstr fileName) {
-	std::ofstream fout(fileName, std::ios_base::out | std::ios_base::binary);
-	if (!fout) {
-		std::cerr << "ERROR: Unable to save dictionary file " << fileName << "!" << std::endl;
-		return false;
-	}
-	
-	printDictionary(fout, ", ");
-	fout.close();
-	
-	if (fout.fail()) {
-		std::cerr << "ERROR: A problem occurred while saving the dictionary file " << fileName << "!";
-		std::cerr << std::endl;
-		fout.clear();
-		return false;
-	}
-	fout.clear();
-	return true;
-}
-
-bool dictionary<type>::loadFromCSVFile(cstr fileName) {
-	return false;
-}
-*/
 
 } //end containers namespace
 } //end hamLibs namespace

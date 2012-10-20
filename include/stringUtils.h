@@ -45,7 +45,7 @@ namespace hamLibs {
 		//-------------------------------------------------------------
 		template <typename dataType>
 		dataType convertToType(const std::string& stringToConvert) {
-			std::istringstream converter(stringToConvert);
+			std::istringstream converter( stringToConvert );
 			dataType returnVal;
 			converter >> returnVal;
 			return returnVal;

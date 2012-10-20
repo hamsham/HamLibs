@@ -18,7 +18,6 @@ template <typename type>
 class dictionary {
 	private:
 		struct node {
-			char		letter;
 			type*	definition;
 			node*	alphabet[26];
 			
@@ -93,7 +92,6 @@ class dictionary {
 //-----------------------------------------------------------------------------
 template <typename type>
 dictionary<type>::node::node() :
-	letter		(0),
 	definition	(HL_NULL)
 {
 	//NULL-ify all of the elements in the array
@@ -105,7 +103,6 @@ dictionary<type>::node::node() :
 
 template <typename type>
 dictionary<type>::node::node(const node& nodeCopy) :
-	letter(0),
 	definition( HL_NULL )
 {
 	int iter(26);
@@ -122,7 +119,6 @@ template <typename type>
 template <typename type> typename
 dictionary<type>::node& dictionary<type>::node::operator = (const node& nodeCopy) {
 	clear();
-	letter = nodeCopy.letter;
 	
 	if (nodeCopy.definition != HL_NULL) {
 		if (definition)
@@ -142,7 +138,6 @@ dictionary<type>::node& dictionary<type>::node::operator = (const node& nodeCopy
 
 template <typename type>
 void dictionary<type>::node::clear() {
-	letter = 0;
 	delete definition;
 	definition = HL_NULL;
 	
@@ -180,7 +175,7 @@ dictionary<type>::node* dictionary<type>::iterateToNode(cstr nodeName) const {
 	do {
 		index = getArrayIndex( nodeName[pos] );
 		if (index == -1 || !nodeTracker->alphabet[ index ]) return HL_NULL;
-		nodeTracker = nodeTracker->alphabet[index];
+		nodeTracker = nodeTracker->alphabet[ index ];
 		++pos;
 	} while (nodeName[ pos ]);					//end the loop when a null-termination is reached
 	return nodeTracker;						//return the position of the requested node
@@ -218,7 +213,8 @@ std::string dictionary<type>::iterateToNextNode(cstr nodeName) const {
 		}
 		nodeIdentifier[ nodeIdentifier.size()-1 ] += 1;
 		nodeIter = iterateToNode( nodeIdentifier.c_str() );
-		if (nodeIter) return nodeIdentifier;
+		if (nodeIter)
+			return nodeIdentifier;
 	}
 	return nodeIdentifier;
 }
@@ -226,36 +222,34 @@ std::string dictionary<type>::iterateToNextNode(cstr nodeName) const {
 template <typename type>
 std::string dictionary<type>::iterateToPrevNode(cstr nodeName) const {
 	std::string nodeIdentifier;
-	if (nodeName != HL_NULL) {
+	if (nodeName != HL_NULL)
 		nodeIdentifier = nodeName;
-	}
-	else {
+	else
 		return nodeIdentifier;
-	}
-	node* nodeIter = iterateToNode( nodeName );
-	int iter = 26;
 	
-	//search for a possible child node (going from z-a)
-	if (nodeIter) {
-		while (iter--) {
-			if (nodeIter->alphabet[ iter ]) {
-				//move to the next node by incrementing the specified letter by "iter"
-				nodeIdentifier.push_back( 'a' + iter );
-				return nodeIdentifier;
-			}
-		}
-	}
+	node* nodeIter = HL_NULL; //iterateToNode( nodeName );
 	
-	//if no child node was found in the previous loop, go to the parent node, then return the next sibling node
+	//go to the next sibling node
 	while (nodeIdentifier.size() > 0) {
-		if (nodeIdentifier[ nodeIdentifier.size()-1 ] == 'a' ) {
+		if (nodeIdentifier[ nodeIdentifier.size()-1 ] == 'a') {
 			nodeIdentifier.erase( nodeIdentifier.size()-1 );
-			continue;
+			if (nodeIdentifier.size() > 0)
+				//return the parent node if the children have all been searched
+				return nodeIdentifier;
 		}
 		nodeIdentifier[ nodeIdentifier.size()-1 ] -= 1;
 		nodeIter = iterateToNode( nodeIdentifier.c_str() );
-		if (nodeIter) return nodeIdentifier;
+		//return the next sibling node's child if possible
+		if (nodeIter) {
+			if (nodeIter->hasSubNodes()) {
+				nodeIdentifier.push_back( 'z' );
+				continue;
+			}
+			//else
+			return nodeIdentifier;
+		}
 	}
+	
 	return nodeIdentifier;
 }
 
@@ -330,7 +324,6 @@ void dictionary<type>::addWord(cstr word) {
 
 		if (nodeIter->alphabet[ index ] == HL_NULL) {
 			nodeIter->alphabet[ index ] = new node;	//add a new word to the dictionary if possible
-			nodeIter->alphabet[ index ]->letter = word[ pos ];
 		}
 		nodeIter = nodeIter->alphabet[index];	//move to the next letter in dictionary<type>::alphabet
 		++pos;
@@ -340,12 +333,15 @@ void dictionary<type>::addWord(cstr word) {
 template <typename type>
 void dictionary<type>::deleteWord(cstr word) {
 	node* nodeTracker( iterateToNode(word) );
-	if (nodeTracker != HL_NULL && nodeTracker != &mainNode) {
-		if (nodeTracker->hasSubNodes() == false) {
-			nodeTracker->letter = 0;
-		}
+	if (nodeTracker == HL_NULL || nodeTracker == &mainNode)
+		return;
+	
+	if (nodeTracker->hasSubNodes() == true) {
 		delete nodeTracker->definition;
 		nodeTracker->definition = HL_NULL;
+	}
+	else {
+		delete nodeTracker;
 	}
 }
 
@@ -377,7 +373,7 @@ dictionary<type>::iterator dictionary<type>::begin() const {
 	int iter(0);
 	while (iter < 26) {
 		if ( nodeIter->alphabet[ iter ] != HL_NULL ) {
-			currWord.push_back( nodeIter->alphabet[ iter ]->letter );
+			currWord.push_back( iter + 'a' );
 			break;
 		}
 		else {
@@ -398,7 +394,7 @@ dictionary<type>::iterator dictionary<type>::end() const {
 	int iter(25);
 	while (iter >= 0) {
 		if ( nodeIter->alphabet[ iter ] != HL_NULL ) {
-			currWord.push_back( nodeIter->alphabet[ iter ]->letter );
+			currWord.push_back( iter + 'a' );
 			nodeIter = nodeIter->alphabet[ iter ];
 			iter = 25;
 		}
@@ -456,16 +452,20 @@ dictionary<type>::iterator& dictionary<type>::iterator::operator = ( const dicti
 
 template <typename type>
 bool dictionary<type>::iterator::atFront () const {
-	if (dictToIter == HL_NULL
-	|| dictToIter->iterateToPrevNode( currentWord.c_str() ).size() == 0)
-		   return true;
+	if (dictToIter == HL_NULL)
+		return true;
+	if ( currentNode == HL_NULL
+	&& dictToIter->iterateToPrevNode( currentWord.c_str() ).size() == 0 )
+		return true;
 	return false;
 }
 
 template <typename type>
 bool dictionary<type>::iterator::atEnd() const {
-	if (dictToIter == HL_NULL
-	|| dictToIter->iterateToNextNode( currentWord.c_str() ).size() == 0)
+	if (dictToIter == HL_NULL)
+		return true;
+	if ( currentNode == HL_NULL
+	&& dictToIter->iterateToNextNode( currentWord.c_str() ).size() == 0 )
 		return true;
 	return false;
 }

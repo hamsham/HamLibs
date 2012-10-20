@@ -13,13 +13,13 @@ namespace filesystem {
 	std::string	getCurrentPath		();
 	bool		setCurrentPath		(const char* path);
 	void		getFileListing		(	containers::dynArray<ALLEGRO_FS_ENTRY*>& fileList,
-										std::string extension,
-										int flags = ALLEGRO_FILEMODE_READ	|
-													ALLEGRO_FILEMODE_WRITE	|
-													ALLEGRO_FILEMODE_EXECUTE|
-													ALLEGRO_FILEMODE_HIDDEN	|
-													ALLEGRO_FILEMODE_ISFILE	|
-													ALLEGRO_FILEMODE_ISDIR	);
+								std::string extension,
+								int flags =	ALLEGRO_FILEMODE_READ	|
+											ALLEGRO_FILEMODE_WRITE	|
+											ALLEGRO_FILEMODE_EXECUTE	|
+											ALLEGRO_FILEMODE_HIDDEN	|
+											ALLEGRO_FILEMODE_ISFILE	|
+											ALLEGRO_FILEMODE_ISDIR	);
 	void		clearFileListing	(containers::dynArray<ALLEGRO_FS_ENTRY*>& fileList);
 	//extra functionality
 	bool		fileIsReadable		(ALLEGRO_FS_ENTRY* inFile);	//check file properties

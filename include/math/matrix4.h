@@ -23,6 +23,11 @@ namespace math {
 //---------------------------------------------------------------------
 template <class numType>
 class mat4 {
+	template <typename type>
+	friend std::ostream& operator << ( std::ostream&, const mat4<type>& );
+	template <typename type>
+	friend std::istream& operator >> ( std::istream&, mat4<type>& );
+	
 	public:
 		union {
 			struct {
@@ -110,6 +115,29 @@ class mat4 {
 		mat4			getTransposed		() const;
 		void			setTransposed		();
 };
+
+//---------------------------------------------------------------------
+//						I/O Streams
+//---------------------------------------------------------------------
+template <typename type> HL_INLINE
+std::ostream& operator << ( std::ostream& sout, const mat4<type>& mat ) {
+	sout
+		<< mat.xx << " " << mat.xy << " " << mat.xz << " " << mat.xw << " "
+		<< mat.yx << " " << mat.yy << " " << mat.yz << " " << mat.yw << " "
+		<< mat.zx << " " << mat.zy << " " << mat.zz << " " << mat.zw << " "
+		<< mat.wx << " " << mat.wy << " " << mat.wz << " " << mat.ww;
+	return sout;
+}
+
+template <typename type> HL_INLINE
+std::istream& operator >> ( std::istream& stin, mat4<type>& mat ) {
+	stin
+		>> mat.xx >> mat.xy >> mat.xz >> mat.xw
+		>> mat.yx >> mat.yy >> mat.yz >> mat.yw
+		>> mat.zx >> mat.zy >> mat.zz >> mat.zw
+		>> mat.wx >> mat.wy >> mat.wz >> mat.ww;
+	return sin;
+}
 
 //---------------------------------------------------------------------
 //	Matrix Constructors

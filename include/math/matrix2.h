@@ -22,6 +22,11 @@ namespace math {
 //---------------------------------------------------------------------
 template <class numType>
 class mat2 {
+	template <typename type>
+	friend std::ostream& operator << ( std::ostream&, const mat2<type>& );
+	template <typename type>
+	friend std::istream& operator >> ( std::istream&, mat2<type>& );
+	
 	public:
 		union {
 			struct {
@@ -97,6 +102,25 @@ class mat2 {
 };
 
 //---------------------------------------------------------------------
+//						I/O Streams
+//---------------------------------------------------------------------
+template <typename type> HL_INLINE
+std::ostream& operator << ( std::ostream& sout, const mat2<type>& mat ) {
+	sout
+		<< mat.xx << " " << mat.xy << " "
+		<< mat.yx << " " << mat.yy;
+	return sout;
+}
+
+template <typename type> HL_INLINE
+std::istream& operator >> ( std::istream& stin, mat2<type>& mat ) {
+	stin
+		>> mat.xx >> mat.xy
+		>> mat.yx >> mat.yy;
+	return sin;
+}
+
+//---------------------------------------------------------------------
 //	mat Constructors
 //---------------------------------------------------------------------
 //construct all matricies as identity matricies unless stated otherwise
@@ -109,7 +133,7 @@ mat2<numType>::mat2() :
 
 template <class numType> HL_INLINE
 mat2<numType>::mat2(numType input[4]) :
-	xx(input.x), xy(input.y),
+	xx(input[0]), xy(input[1]),
 	yx(input[2]), yy(input[3])
 {}
 

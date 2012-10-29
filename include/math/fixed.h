@@ -11,6 +11,9 @@ namespace hamLibs {
 namespace math {
 	
 class fixed {
+	friend std::ostream& operator << ( std::ostream&, const fixed& );
+	friend std::istream& operator >> ( std::istream&, fixed& );
+	
 	public:
 		al_fixed num;
 		
@@ -118,6 +121,21 @@ class fixed {
 		static fixed	atan		(const double& x);
 		static fixed	atan2	(const double& x, const double& y);
 };
+
+//---------------------------------------------------------------------
+//						I/O Streams
+//---------------------------------------------------------------------
+HL_INLINE std::ostream& operator << ( std::ostream& sout, const fixed& fix ) {
+	sout << (float)fix;
+	return sout;
+}
+
+HL_INLINE std::istream& operator >> ( std::istream& stin, fixed& fix ) {
+	float inNum( 0.f );
+	stin >> inNum;
+	fix.num = al_ftofix( inNum );
+	return stin;
+}
 
 //---------------------------------------------------------------------
 //						Construction
@@ -406,19 +424,19 @@ HL_INLINE fixed::operator float() const {
 //						Static Methods
 //---------------------------------------------------------------------
 //misc
-HL_INLINE int fixed::floor	(const fixed& x) {
+HL_INLINE int fixed::floor(const fixed& x) {
 	return al_fixtoi(al_fixfloor(x.num));
 }
 
-HL_INLINE int fixed::ceil	(const fixed& x) {
+HL_INLINE int fixed::ceil(const fixed& x) {
 	return al_fixtoi(al_fixceil(x.num));
 }
 
-HL_INLINE fixed	fixed::sqrt (const fixed& x) {
+HL_INLINE fixed fixed::sqrt(const fixed& x) {
 	return fixed(al_fixsqrt(x.num));
 }
 
-HL_INLINE fixed	fixed::hypot (const fixed& x, const fixed& y) {
+HL_INLINE fixed fixed::hypot(const fixed& x, const fixed& y) {
 	fixed temp;
 	temp = al_fixhypot(x.num, y.num);
 	return temp;

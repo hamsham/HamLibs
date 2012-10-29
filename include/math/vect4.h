@@ -20,6 +20,11 @@ namespace math {
 
 template <class numType>
 class vec4 {
+	template <typename type>
+	friend std::ostream& operator << ( std::ostream, const vec4<type>& );
+	template <typename type>
+	friend std::istream& operator >> ( std::istream, vec4<type>& );
+	
 	public:
 		union {
 			struct {
@@ -97,6 +102,23 @@ class vec4 {
 		static numType	angleBetween	(const vec4<numType>& v1, const vec4<numType>& v2, const vec4<numType>& origin = 0);
 		static vec4		crossProduct	(const vec4<numType>& v1, const vec4<numType>& v2);
 };
+
+//---------------------------------------------------------------------
+//						I/O Streams
+//---------------------------------------------------------------------
+template <typename type> HL_INLINE
+std::ostream& operator << ( std::ostream& sout, const vec4<type>& v4 ) {
+	sout
+		<< v4.x << " " << v4.y << " " << v4.z << " " << v4.w;
+	return sout;
+}
+
+template <typename type> HL_INLINE
+std::istream& operator >> ( std::istream& stin, vec4<type>& v4 ) {
+	stin
+		>> v4.x >> v4.y >> v4.z >> v4.w;
+	return sin;
+}
 
 //---------------------------------------------------------------------
 //	Vector Constructors

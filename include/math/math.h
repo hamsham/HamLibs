@@ -18,7 +18,7 @@
 #define HL_PI_INV		0.31830988618379067153f
 #define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // PI / 180
 #define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // 180 / PI
-#define	HL_E			2.71828182845904523536f
+#define HL_E			2.71828182845904523536f
 #define HL_EPSILON		1.0e-5f
 #define HL_ROUND(x)		(std::floor(x + 0.5))
 

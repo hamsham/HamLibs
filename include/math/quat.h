@@ -24,6 +24,11 @@ namespace math {
 //---------------------------------------------------------------------
 template <class numType>
 class quat {
+	template <typename type>
+	friend std::ostream& operator << ( std::ostream, const quat<type>& );
+	template <typename type>
+	friend std::istream& operator >> ( std::istream, quat<type>& );
+	
 	public:
 		union {
 			struct {
@@ -96,6 +101,23 @@ class quat {
 		void			fromMatrix3		(const mat3<numType>& m3x3);
 		void			fromMatrix4		(const mat4<numType>& m4x4);
 };
+
+//---------------------------------------------------------------------
+//						I/O Streams
+//---------------------------------------------------------------------
+template <typename type> HL_INLINE
+std::ostream& operator << ( std::ostream& sout, const quat<type>& qt ) {
+	sout
+		<< qt.x << " " << qt.y << " " << qt.z << " " << qt.w;
+	return sout;
+}
+
+template <typename type> HL_INLINE
+std::istream& operator >> ( std::istream& stin, quat<type>& qt ) {
+	stin
+		>> qt.x >> qt.y >> qt.z >> qt.w;
+	return sin;
+}
 
 //---------------------------------------------------------------------
 //				Quaternion Constructors

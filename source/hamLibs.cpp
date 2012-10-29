@@ -5,7 +5,7 @@
 namespace hamLibs {
 	
 	bool hlInit() {
-		if (!al_init()) return false;
+		return al_init();
 	}
 	
 }//end hamlibs namespace

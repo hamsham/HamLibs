@@ -72,8 +72,8 @@ class mat4 {
 		mat4&			operator	+=		(const mat4<numType>& input);
 		mat4&			operator	-=		(const mat4<numType>& input);
 		mat4&			operator	*=		(const mat4<numType>& input);
-		bool			operator	==		(const mat4<numType>& input);
-		bool			operator	!=		(const mat4<numType>& input);
+		bool			operator	==		(const mat4<numType>& input) const;
+		bool			operator	!=		(const mat4<numType>& input) const;
 
 		//matrix-vector operators
 		mat4			operator	+		(const vec4<numType>&) const;
@@ -136,7 +136,7 @@ std::istream& operator >> ( std::istream& stin, mat4<type>& mat ) {
 		>> mat.yx >> mat.yy >> mat.yz >> mat.yw
 		>> mat.zx >> mat.zy >> mat.zz >> mat.zw
 		>> mat.wx >> mat.wy >> mat.wz >> mat.ww;
-	return sin;
+	return stin;
 }
 
 //---------------------------------------------------------------------
@@ -357,7 +357,7 @@ mat4<numType>& mat4<numType>::operator *= (const mat4<numType>& input) {
 }
 
 template <class numType> HL_INLINE
-bool mat4<numType>::operator == (const mat4<numType>& compare) {
+bool mat4<numType>::operator == (const mat4<numType>& compare) const {
 	return	(
 				xx == compare.xx && xy == compare.xy && xz == compare.xz && xw == compare.xw &&
 				yx == compare.yx && yy == compare.yy && yz == compare.yz && yw == compare.yw &&
@@ -367,7 +367,7 @@ bool mat4<numType>::operator == (const mat4<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool mat4<numType>::operator != (const mat4<numType>& compare) {
+bool mat4<numType>::operator != (const mat4<numType>& compare) const {
 	return	(
 				xx != compare.xx && xy != compare.xy && xz != compare.xz && xw != compare.xw &&
 				yx != compare.yx && yy != compare.yy && yz != compare.yz && yw != compare.yw &&

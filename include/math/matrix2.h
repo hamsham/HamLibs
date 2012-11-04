@@ -65,8 +65,8 @@ class mat2 {
 		mat2&			operator	+=		(const mat2<numType>& input);
 		mat2&			operator	-=		(const mat2<numType>& input);
 		mat2&			operator	*=		(const mat2<numType>& input);
-		bool			operator	==		(const mat2<numType>& input);
-		bool			operator	!=		(const mat2<numType>& input);
+		bool			operator	==		(const mat2<numType>& input) const;
+		bool			operator	!=		(const mat2<numType>& input) const;
 
 		//mat-vector operators
 		mat2			operator	+		(const vec2<numType>&) const;
@@ -117,7 +117,7 @@ std::istream& operator >> ( std::istream& stin, mat2<type>& mat ) {
 	stin
 		>> mat.xx >> mat.xy
 		>> mat.yx >> mat.yy;
-	return sin;
+	return stin;
 }
 
 //---------------------------------------------------------------------
@@ -274,7 +274,7 @@ mat2<numType>& mat2<numType>::operator *= (const mat2<numType>& input) {
 }
 
 template <class numType> HL_INLINE
-bool mat2<numType>::operator == (const mat2<numType>& compare) {
+bool mat2<numType>::operator == (const mat2<numType>& compare) const {
 	return	(
 				xx == compare.xx && xy == compare.xy &&
 				yx == compare.yx && yy == compare.yy
@@ -282,7 +282,7 @@ bool mat2<numType>::operator == (const mat2<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool mat2<numType>::operator != (const mat2<numType>& compare) {
+bool mat2<numType>::operator != (const mat2<numType>& compare) const {
 	return	(
 				xx != compare.xx && xy != compare.xy &&
 				yx != compare.yx && yy != compare.yy

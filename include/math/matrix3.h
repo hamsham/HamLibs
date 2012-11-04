@@ -69,8 +69,8 @@ class mat3 {
 		mat3&			operator	+=		(const mat3<numType>& input);
 		mat3&			operator	-=		(const mat3<numType>& input);
 		mat3&			operator	*=		(const mat3<numType>& input);
-		bool			operator	==		(const mat3<numType>& input);
-		bool			operator	!=		(const mat3<numType>& input);
+		bool			operator	==		(const mat3<numType>& input) const;
+		bool			operator	!=		(const mat3<numType>& input) const;
 
 		//matrix-vector operators
 		mat3			operator	+		(const vec3<numType>&) const;
@@ -131,7 +131,7 @@ std::istream& operator >> ( std::istream& stin, mat3<type>& mat ) {
 		>> mat.xx >> mat.xy >> mat.xz
 		>> mat.yx >> mat.yy >> mat.yz
 		>> mat.zx >> mat.zy >> mat.zz;
-	return sin;
+	return stin;
 }
 
 //---------------------------------------------------------------------
@@ -320,7 +320,7 @@ mat3<numType>& mat3<numType>::operator *= (const mat3<numType>& input) {
 }
 
 template <class numType> HL_INLINE
-bool mat3<numType>::operator == (const mat3<numType>& compare) {
+bool mat3<numType>::operator == (const mat3<numType>& compare) const {
 	return	(
 				xx == compare.xx && xy == compare.xy && xz == compare.xz &&
 				yx == compare.yx && yy == compare.yy && yz == compare.yz &&
@@ -329,7 +329,7 @@ bool mat3<numType>::operator == (const mat3<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool mat3<numType>::operator != (const mat3<numType>& compare) {
+bool mat3<numType>::operator != (const mat3<numType>& compare) const {
 	return	(
 				xx != compare.xx && xy != compare.xy && xz != compare.xz &&
 				yx != compare.yx && yy != compare.yy && yz != compare.yz &&

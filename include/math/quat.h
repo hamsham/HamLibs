@@ -25,9 +25,9 @@ namespace math {
 template <class numType>
 class quat {
 	template <typename type>
-	friend std::ostream& operator << ( std::ostream, const quat<type>& );
+	friend std::ostream& operator << ( std::ostream&, const quat<type>& );
 	template <typename type>
-	friend std::istream& operator >> ( std::istream, quat<type>& );
+	friend std::istream& operator >> ( std::istream&, quat<type>& );
 	
 	public:
 		union {
@@ -64,8 +64,8 @@ class quat {
 		quat&			operator	-=	(const quat<numType>& input);
 		quat&			operator	*=	(const quat<numType>& input);
 		quat&			operator	/=	(const quat<numType>& input);
-		bool			operator	==	(const quat<numType>& input);
-		bool			operator	!=	(const quat<numType>& input);
+		bool			operator	==	(const quat<numType>& input) const;
+		bool			operator	!=	(const quat<numType>& input) const;
 
 		//misc functions
 		numType			getMagnitude	() const;
@@ -116,7 +116,7 @@ template <typename type> HL_INLINE
 std::istream& operator >> ( std::istream& stin, quat<type>& qt ) {
 	stin
 		>> qt.x >> qt.y >> qt.z >> qt.w;
-	return sin;
+	return stin;
 }
 
 //---------------------------------------------------------------------
@@ -270,7 +270,7 @@ quat<numType>& quat<numType>::operator /= (const quat<numType>& input) {
 }
 
 template <class numType> HL_INLINE
-bool quat<numType>::operator == (const quat<numType>& compare) {
+bool quat<numType>::operator == (const quat<numType>& compare) const {
 	return	(
 				x == compare.x &&
 				y == compare.y &&
@@ -280,7 +280,7 @@ bool quat<numType>::operator == (const quat<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool quat<numType>::operator != (const quat<numType>& compare) {
+bool quat<numType>::operator != (const quat<numType>& compare) const {
 	return	(
 				x != compare.x &&
 				y != compare.y &&

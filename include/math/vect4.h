@@ -21,9 +21,9 @@ namespace math {
 template <class numType>
 class vec4 {
 	template <typename type>
-	friend std::ostream& operator << ( std::ostream, const vec4<type>& );
+	friend std::ostream& operator << ( std::ostream&, const vec4<type>& );
 	template <typename type>
-	friend std::istream& operator >> ( std::istream, vec4<type>& );
+	friend std::istream& operator >> ( std::istream&, vec4<type>& );
 	
 	public:
 		union {
@@ -61,12 +61,12 @@ class vec4 {
 		vec4&			operator 		--		();
 		vec4			operator 		++		(int); //postfix operators
 		vec4			operator 		--		(int);
-		bool			operator		==		(const vec4<numType>& compare); //comparisons
-		bool			operator		!=		(const vec4<numType>& compare);
-		bool			operator		<		(const vec4<numType>& compare);
-		bool			operator		>		(const vec4<numType>& compare);
-		bool			operator		<=		(const vec4<numType>& compare);
-		bool			operator		>=		(const vec4<numType>& compare);
+		bool			operator		==		(const vec4<numType>& compare) const; //comparisons
+		bool			operator		!=		(const vec4<numType>& compare) const;
+		bool			operator		<		(const vec4<numType>& compare) const;
+		bool			operator		>		(const vec4<numType>& compare) const;
+		bool			operator		<=		(const vec4<numType>& compare) const;
+		bool			operator		>=		(const vec4<numType>& compare) const;
 
 		//vector-matrix operators
 		mat4<numType>	operator		+		(const mat4<numType>&) const;
@@ -117,7 +117,7 @@ template <typename type> HL_INLINE
 std::istream& operator >> ( std::istream& stin, vec4<type>& v4 ) {
 	stin
 		>> v4.x >> v4.y >> v4.z >> v4.w;
-	return sin;
+	return stin;
 }
 
 //---------------------------------------------------------------------
@@ -292,7 +292,7 @@ vec4<numType> vec4<numType>::operator-- (int) {
 
 //comparisons
 template <class numType> HL_INLINE
-bool vec4<numType>::operator== (const vec4<numType>& compare) {
+bool vec4<numType>::operator== (const vec4<numType>& compare) const {
 	return (	x == compare.x &&
 				y == compare.y &&
 				z == compare.z &&
@@ -301,7 +301,7 @@ bool vec4<numType>::operator== (const vec4<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool vec4<numType>::operator!= (const vec4<numType>& compare) {
+bool vec4<numType>::operator!= (const vec4<numType>& compare) const {
 	return (	x != compare.x &&
 				y != compare.y &&
 				z != compare.z &&
@@ -310,7 +310,7 @@ bool vec4<numType>::operator!= (const vec4<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool vec4<numType>::operator< (const vec4<numType>& compare) {
+bool vec4<numType>::operator< (const vec4<numType>& compare) const {
 	return (	x < compare.x &&
 				y < compare.y &&
 				z < compare.z &&
@@ -319,7 +319,7 @@ bool vec4<numType>::operator< (const vec4<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool vec4<numType>::operator> (const vec4<numType>& compare) {
+bool vec4<numType>::operator> (const vec4<numType>& compare) const {
 	return (	x > compare.x &&
 				y > compare.y &&
 				z > compare.z &&
@@ -328,7 +328,7 @@ bool vec4<numType>::operator> (const vec4<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool vec4<numType>::operator<= (const vec4<numType>& compare) {
+bool vec4<numType>::operator<= (const vec4<numType>& compare) const {
 	return (	x <= compare.x &&
 				y <= compare.y &&
 				z <= compare.z &&
@@ -337,7 +337,7 @@ bool vec4<numType>::operator<= (const vec4<numType>& compare) {
 }
 
 template <class numType> HL_INLINE
-bool vec4<numType>::operator>= (const vec4<numType>& compare) {
+bool vec4<numType>::operator>= (const vec4<numType>& compare) const {
 	return (	x >= compare.x &&
 				y >= compare.y &&
 				z >= compare.z &&

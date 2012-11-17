@@ -55,8 +55,8 @@ hamString::hamString() :
 }
 
 hamString::hamString(char c) :
-	Size	(1),
-	array	(new char[2])
+	array	(new char[2]),
+	Size	(1)
 {
 	array[0] = c;
 	array[1] = 0;
@@ -220,12 +220,12 @@ bool hamString::operator != (char compare) const {
 
 //---------------------------------------------------------------------
 char& hamString::operator [](int i) {
-	HL_ASSERT(i < Size);
+	HL_ASSERT((unsigned)i < Size);
 	return array[i];
 }
 
 char hamString::operator [](int i) const {
-	HL_ASSERT(i < Size);
+	HL_ASSERT((unsigned)i < Size);
 	return array[i];
 }
 

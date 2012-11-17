@@ -151,13 +151,13 @@ void database::printDB() const {
 //get & set data-------------------------------------------------------
 std::string database::getItem(int row, int column) const {
 	//character strings were removed upon loading the database
-	HL_ASSERT((row < data.size()) && (column < data[row].size()));
+	HL_ASSERT(((unsigned)row < data.size()) && ((unsigned)column < data[row].size()));
 	std::string parser(data[row][column]);
 	return parser.c_str();
 }
 
 void database::setItem(int row, int column, const char* value) {
-	HL_ASSERT((row < data.size()) && (column < data[row].size()));
+	HL_ASSERT(((unsigned)row < data.size()) && ((unsigned)column < data[row].size()));
 	data[row][column] = value;
 }
 

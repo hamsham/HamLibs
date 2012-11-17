@@ -20,7 +20,7 @@ class fixed {
 		fixed		();
 		fixed		(const fixed& x);
 		fixed		(const int& x);
-		fixed		(const double& x);
+		fixed		(const float& x);
 		~fixed		();
 		
 		//comparisons
@@ -64,22 +64,22 @@ class fixed {
 		bool			operator	<=		(const int& x) const;
 		bool			operator	>=		(const int& x) const;
 		
-		//fixed-double operations
-		fixed		operator 	+ 		(const double& x) const;
-		fixed		operator 	- 		(const double& x) const;
-		fixed		operator 	* 		(const double& x) const;
-		fixed		operator 	/ 		(const double& x) const;
-		fixed&		operator	= 		(const double& x);
-		fixed&		operator 	+= 		(const double& x);
-		fixed&		operator 	-= 		(const double& x);
-		fixed&		operator 	*= 		(const double& x);
-		fixed&		operator 	/= 		(const double& x);
-		bool			operator	==		(const double& x) const;
-		bool			operator	!=		(const double& x) const;
-		bool			operator	<		(const double& x) const;
-		bool			operator	>		(const double& x) const;
-		bool			operator	<=		(const double& x) const;
-		bool			operator	>=		(const double& x) const;
+		//fixed-float operations
+		fixed		operator 	+ 		(const float& x) const;
+		fixed		operator 	- 		(const float& x) const;
+		fixed		operator 	* 		(const float& x) const;
+		fixed		operator 	/ 		(const float& x) const;
+		fixed&		operator	= 		(const float& x);
+		fixed&		operator 	+= 		(const float& x);
+		fixed&		operator 	-= 		(const float& x);
+		fixed&		operator 	*= 		(const float& x);
+		fixed&		operator 	/= 		(const float& x);
+		bool			operator	==		(const float& x) const;
+		bool			operator	!=		(const float& x) const;
+		bool			operator	<		(const float& x) const;
+		bool			operator	>		(const float& x) const;
+		bool			operator	<=		(const float& x) const;
+		bool			operator	>=		(const float& x) const;
 		
 		//regular conversions
 		operator		int		() const;
@@ -112,14 +112,14 @@ class fixed {
 		static fixed	atan		(const int& x);
 		static fixed	atan2	(const int& x, const int& y);
 		
-		//trigonometry (double conversions)
-		static fixed	sin		(const double& x);
-		static fixed	cos		(const double& x);
-		static fixed	tan		(const double& x);
-		static fixed	asin		(const double& x);
-		static fixed	acos		(const double& x);
-		static fixed	atan		(const double& x);
-		static fixed	atan2	(const double& x, const double& y);
+		//trigonometry (float conversions)
+		static fixed	sin		(const float& x);
+		static fixed	cos		(const float& x);
+		static fixed	tan		(const float& x);
+		static fixed	asin		(const float& x);
+		static fixed	acos		(const float& x);
+		static fixed	atan		(const float& x);
+		static fixed	atan2	(const float& x, const float& y);
 };
 
 //---------------------------------------------------------------------
@@ -149,7 +149,7 @@ HL_INLINE fixed::fixed(const fixed& x) : num(x.num) {
 HL_INLINE fixed::fixed(const int& x) : num(al_itofix(x)) {
 }
 
-HL_INLINE fixed::fixed(const double& x) : num(al_ftofix(x)) {
+HL_INLINE fixed::fixed(const float& x) : num(al_ftofix(x)) {
 }
 
 HL_INLINE fixed::~fixed() {
@@ -215,7 +215,7 @@ HL_INLINE fixed fixed::operator + (const fixed& x) const {
 	
 HL_INLINE fixed fixed::operator - (const fixed& x) const {
 	fixed temp;
-	temp.num = al_fixsub(0, num);
+	temp.num = al_fixsub(num, x.num);
 	return temp;
 }
 	
@@ -334,79 +334,79 @@ HL_INLINE bool fixed::operator >= (const int& x) const {
 }
 
 //---------------------------------------------------------------------
-//						Fixed-double Operators
+//						Fixed-float Operators
 //---------------------------------------------------------------------
-HL_INLINE fixed fixed::operator + (const double& x) const {
+HL_INLINE fixed fixed::operator + (const float& x) const {
 	fixed temp;
 	temp.num = al_fixadd(num, al_ftofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator - (const double& x) const {
+HL_INLINE fixed fixed::operator - (const float& x) const {
 	fixed temp;
 	temp.num = al_fixsub(num, al_ftofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator * (const double& x) const {
+HL_INLINE fixed fixed::operator * (const float& x) const {
 	fixed temp;
 	temp.num = al_fixmul(num, al_ftofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator / (const double& x) const {
+HL_INLINE fixed fixed::operator / (const float& x) const {
 	fixed temp;
 	temp.num = al_fixdiv(num, al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed& fixed::operator = (const double& x) {
+HL_INLINE fixed& fixed::operator = (const float& x) {
 	num = al_ftofix(x);
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator += (const double& x) {
+HL_INLINE fixed& fixed::operator += (const float& x) {
 	num = al_fixadd(num, al_ftofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator -= (const double& x) {
+HL_INLINE fixed& fixed::operator -= (const float& x) {
 	num = al_fixsub(num, al_ftofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator *= (const double& x) {
+HL_INLINE fixed& fixed::operator *= (const float& x) {
 	num = al_fixmul(num, al_ftofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator /= (const double& x) {
+HL_INLINE fixed& fixed::operator /= (const float& x) {
 	num = al_fixdiv(num, al_ftofix(x));
 	return *this;
 }
 
 //comparisons
-HL_INLINE bool fixed::operator == (const double& x) const {
+HL_INLINE bool fixed::operator == (const float& x) const {
 	return (num == al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator != (const double& x) const {
+HL_INLINE bool fixed::operator != (const float& x) const {
 	return (num != al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator < (const double& x) const {
+HL_INLINE bool fixed::operator < (const float& x) const {
 	return (num < al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator > (const double& x) const {
+HL_INLINE bool fixed::operator > (const float& x) const {
 	return (num > al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator <= (const double& x) const {
+HL_INLINE bool fixed::operator <= (const float& x) const {
 	return (num <= al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator >= (const double& x) const {
+HL_INLINE bool fixed::operator >= (const float& x) const {
 	return (num >= al_ftofix(x)) ? true : false;
 }
 
@@ -528,44 +528,44 @@ HL_INLINE fixed	fixed::atan2 (const int& x, const int& y) {
 	return temp;
 }
 
-//trigonometry (double conversions)
-HL_INLINE fixed	fixed::sin (const double& x) {
+//trigonometry (float conversions)
+HL_INLINE fixed	fixed::sin (const float& x) {
 	fixed temp;
 	temp.num = al_fixsin(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::cos (const double& x) {
+HL_INLINE fixed	fixed::cos (const float& x) {
 	fixed temp;
 	temp.num = al_fixcos(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::tan (const double& x) {
+HL_INLINE fixed	fixed::tan (const float& x) {
 	fixed temp;
 	temp.num = al_fixtan(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::asin (const double& x) {
+HL_INLINE fixed	fixed::asin (const float& x) {
 	fixed temp;
 	temp.num = al_fixasin(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::acos (const double& x) {
+HL_INLINE fixed	fixed::acos (const float& x) {
 	fixed temp;
 	temp.num = al_fixacos(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::atan (const double& x) {
+HL_INLINE fixed	fixed::atan (const float& x) {
 	fixed temp;
 	temp.num = al_fixatan(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::atan2 (const double& x, const double& y) {
+HL_INLINE fixed	fixed::atan2 (const float& x, const float& y) {
 	fixed temp;
 	temp.num = al_fixatan2(al_ftofix(x), al_ftofix(y));
 	return temp;

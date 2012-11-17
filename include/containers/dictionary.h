@@ -64,7 +64,7 @@ class dictionary {
 				void goToEnd();
 				void goToWord( cstr word );
 				
-				cstr getCurrentWord() const;
+				const char* getCurrentWord() const;
 				type* getData() const;
 		};
 		
@@ -493,7 +493,7 @@ void dictionary<type>::iterator::goToWord( cstr word ) {
 }
 
 template <typename type>
-cstr dictionary<type>::iterator::getCurrentWord() const {
+const char* dictionary<type>::iterator::getCurrentWord() const {
 	if (dictToIter != HL_NULL)
 		return currentWord.c_str();
 	return HL_NULL;

@@ -74,7 +74,7 @@ const char* config::getFirstConfigEntry(const char* section) {
 	return al_get_first_config_entry(cfg, section, &entryIterator);
 }
 
-const char* config::getNextConfigEntry(const char* section) {
+const char* config::getNextConfigEntry() {
 	return al_get_next_config_entry(&entryIterator);
 }
 

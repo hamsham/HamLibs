@@ -4,11 +4,9 @@
 //macros
 #define HL_NULL 0
 
-#ifndef size_t
-	#define size_t unsigned long int
-#endif
-
 namespace hamLibs {
+	typedef unsigned long int size_t;
+	
 	//utility classes
 	class	logger;
 	class	config;

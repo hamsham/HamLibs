@@ -44,7 +44,7 @@ class config {
 		cstr	getFirstConfigSection	();
 		cstr	getNextConfigSection	();
 		cstr	getFirstConfigEntry		(cstr section);
-		cstr	getNextConfigEntry		(cstr section);
+		cstr	getNextConfigEntry		();
 		cstr	getConfigVal			(cstr section, cstr name);
 		void	setConfigVal			(cstr section, cstr name, cstr setValue);
 		

@@ -105,14 +105,14 @@ class quat {
 //---------------------------------------------------------------------
 //						I/O Streams
 //---------------------------------------------------------------------
-template <typename type> HL_INLINE
+template <typename type> HL_IMPERATIVE
 std::ostream& operator << ( std::ostream& sout, const quat<type>& qt ) {
 	sout
 		<< qt.x << " " << qt.y << " " << qt.z << " " << qt.w;
 	return sout;
 }
 
-template <typename type> HL_INLINE
+template <typename type> HL_IMPERATIVE
 std::istream& operator >> ( std::istream& stin, quat<type>& qt ) {
 	stin
 		>> qt.x >> qt.y >> qt.z >> qt.w;
@@ -122,22 +122,22 @@ std::istream& operator >> ( std::istream& stin, quat<type>& qt ) {
 //---------------------------------------------------------------------
 //				Quaternion Constructors
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>::quat() :
 	x(0), y(0), z(0), w(0)
 {}
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>::quat(const numType input[4]) :
 	x(input[X]), y(input[Y]), z(input[Z]), w(input[W])
 {}
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>::quat(const quat<numType>& input) :
 	x(input.x), y(input.y), z(input.z), w(input.w)
 {}
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>::quat(numType inX, numType inY, numType inZ, numType inW) :
 	x(inX), y(inY), z(inZ), w(inW)
 {}
@@ -145,13 +145,13 @@ quat<numType>::quat(numType inX, numType inY, numType inZ, numType inW) :
 //---------------------------------------------------------------------
 //					Array Operators
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType quat<numType>::operator[](const int index) const {
 	HL_ASSERT((index >= 0) && (index < 4));
 	return q[ index ];
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType& quat<numType>::operator[](const int index) {
 	HL_ASSERT((index >= 0) && (index < 4));
 	return q[ index ];
@@ -161,34 +161,34 @@ numType& quat<numType>::operator[](const int index) {
 //	Quaternion-Quaternion Operators
 //---------------------------------------------------------------------
 // prefix operators
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>& quat<numType>::operator++ () {
 	++x; ++y; ++z; ++w;
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>& quat<numType>::operator-- () {
 	--x; --y; --z; --w;
 	return *this;
 }
 
 //postfix operators
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::operator++ (int) {
 	return quat<numType>(
 		++x, ++y, ++z, ++w
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::operator-- (int) {
 	return quat<numType>(
 		--x, --y, --z, --w
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::operator + (const quat<numType>& input) const {
 	return quat<numType>(
 		x + input.x,
@@ -198,7 +198,7 @@ quat<numType> quat<numType>::operator + (const quat<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::operator - (const quat<numType>& input) const {
 	return quat<numType>(
 		x - input.x,
@@ -208,7 +208,7 @@ quat<numType> quat<numType>::operator - (const quat<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::operator * (const quat<numType>& input) const {
 	return quat<numType>(
 		(w*input.x) - (x*input.w) - (y*input.z) - (z*input.y),
@@ -218,7 +218,7 @@ quat<numType> quat<numType>::operator * (const quat<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::operator / (const quat<numType>& input) const {
 	numType magnitude((input.x*input.x)+(input.y*input.y)+(input.z*input.z)+(input.w*input.w));
 
@@ -230,7 +230,7 @@ quat<numType> quat<numType>::operator / (const quat<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>& quat<numType>::operator = (const quat<numType>& input) {
 	x = input.x;
 	y = input.y;
@@ -239,7 +239,7 @@ quat<numType>& quat<numType>::operator = (const quat<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>& quat<numType>::operator += (const quat<numType>& input) {
 	x += input.x;
 	y += input.y;
@@ -248,7 +248,7 @@ quat<numType>& quat<numType>::operator += (const quat<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>& quat<numType>::operator -= (const quat<numType>& input) {
 	x -= input.x;
 	y -= input.y;
@@ -257,19 +257,19 @@ quat<numType>& quat<numType>::operator -= (const quat<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>& quat<numType>::operator *= (const quat<numType>& input) {
 	*this = *this * input;
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType>& quat<numType>::operator /= (const quat<numType>& input) {
 	*this = *this / input;
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool quat<numType>::operator == (const quat<numType>& compare) const {
 	return	(
 				x == compare.x &&
@@ -279,7 +279,7 @@ bool quat<numType>::operator == (const quat<numType>& compare) const {
 			);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool quat<numType>::operator != (const quat<numType>& compare) const {
 	return	(
 				x != compare.x &&
@@ -292,7 +292,7 @@ bool quat<numType>::operator != (const quat<numType>& compare) const {
 //---------------------------------------------------------------------
 //					Miscellaneous Functions
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType quat<numType>::getMagnitude() const {
 	return hamLibs::math::fastSqrt(
 		(x * x) +
@@ -302,7 +302,7 @@ numType quat<numType>::getMagnitude() const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::setNormal() {
 	//get the inverse square root
 	numType length = fastInvSqrt(getMagnitude());
@@ -312,7 +312,7 @@ void quat<numType>::setNormal() {
 	w *= length;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::getNormal() const {
 	//get the inverse square root
 	numType length = fastInvSqrt(getMagnitude());
@@ -324,14 +324,14 @@ quat<numType> quat<numType>::getNormal() const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::setConjugate() {
 	x = -x;
 	y = -y;
 	z = -z;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::getConjugate() const {
 	return quat<numType>(
 		-x,
@@ -344,7 +344,7 @@ quat<numType> quat<numType>::getConjugate() const {
 //This piece of slerpage was blatantly plagiarized from:
 //http://www.gamasutra.com/view/feature/131686/rotating_objects_using_quaternions.php?page=2
 //some info was also found in the DOOM 3 source code
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::slerp(const quat<numType>& slerpTo, const numType& alpha) {
 	numType temp[4] = {0, 0, 0, 0};
 	numType omega, sinTheta, cosTheta, scale0, scale1;
@@ -388,19 +388,19 @@ void quat<numType>::slerp(const quat<numType>& slerpTo, const numType& alpha) {
 	this->normalize();
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::rotate(const numType& yaw, const numType& pitch, const numType& roll) {
 	fromEuler(yaw, pitch, roll);
 	setNormal();
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::makeIdentity() {
 	x = y = z = 0;
 	w = 1;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::setInverse() {
 	numType length = -1 / ((x*x) + (y*y) + (z*z) + (w*w));
 	//multiplication is faster than division
@@ -410,7 +410,7 @@ void quat<numType>::setInverse() {
 	w *= -length;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::getInverse() const {
 	numType length = -1 / ((x*x) + (y*y) + (z*z) + (w*w));
 	
@@ -427,7 +427,7 @@ quat<numType> quat<numType>::getInverse() const {
 //---------------------------------------------------------------------
 //Code for this conversion was found at:
 // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::toVect(numType& outX, numType& outY, numType& outZ) {
 	if (w > 1) setNormal();		// if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
 	float s = sqrt(1-(w*w));	// assuming quaternion normalized then w is less than 1, so term always positive.
@@ -444,25 +444,25 @@ void quat<numType>::toVect(numType& outX, numType& outY, numType& outZ) {
 	}
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::toVect(vec3<numType>& outVect) {
 	toVect(outVect.x, outVect.y, outVect.z);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::toAxes(numType& outX, numType& outY, numType& outZ, numType& outAngle) {
 	outAngle = acos(w) * 2;
 	toVect(outX, outY, outZ);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::toAxes(vec3<numType>& outVect, numType& outAngle) {
 	toAxes(outVect.x, outVect.y, outVect.z, outAngle);
 }
 
 //more code found on:
 //http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::toEuler(numType& yaw, numType& pitch, numType& roll) const {
 	numType sqw = w*w;
 	numType sqx = x*x;
@@ -492,7 +492,7 @@ void quat<numType>::toEuler(numType& yaw, numType& pitch, numType& roll) const {
 
 //code found on:
 //http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::toMatrix3(mat3<numType>& m3x3, bool isUnitQuat) const {
 	numType xx = x * x;	numType yy = y * y;	numType zz = z * z;	numType ww = w * w;
 	numType xy = x * y;	numType xz = x * z;	numType xw = x * w;
@@ -513,7 +513,7 @@ void quat<numType>::toMatrix3(mat3<numType>& m3x3, bool isUnitQuat) const {
 	}
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::toMatrix4(mat4<numType>& m4x4, bool isUnitQuat) const {
 	numType xx = x * x;	numType yy = y * y;	numType zz = z * z;	numType ww = w * w;
 	numType xy = x * y;	numType xz = x * z;	numType xw = x * w;
@@ -540,7 +540,7 @@ void quat<numType>::toMatrix4(mat4<numType>& m4x4, bool isUnitQuat) const {
 //---------------------------------------------------------------------
 //					Input Conversions
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::fromVect(const numType& inX, const numType& inY, const numType& inZ) {
 	x = inX;
 	y = inY;
@@ -548,12 +548,12 @@ void quat<numType>::fromVect(const numType& inX, const numType& inY, const numTy
 	w = 0;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::fromVect(const vec3<numType>& inVector) {
 	fromVect(inVector.x, inVector.y, inVector.z);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::fromAxes(const numType& inX, const numType& inY, const numType& inZ, const numType& radians) {
 	numType angle = sin(radians * 0.5);
 	x = inX * angle;
@@ -562,12 +562,12 @@ void quat<numType>::fromAxes(const numType& inX, const numType& inY, const numTy
 	w = cos(radians * 0.5);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::fromAxes(const vec3<numType>& inVector, const numType& radians) {
 	fromAxes(inVector.x, inVector.y, inVector.z, radians);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::fromEuler(const numType& yaw, const numType& pitch, const numType& roll) {
 	//too many premature optimizations went into this
 	numType sP	(sin(pitch*0.5));
@@ -588,14 +588,14 @@ void quat<numType>::fromEuler(const numType& yaw, const numType& pitch, const nu
 	w = cR * cPcY	+	sR * sPsY;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::fromEuler(const vec3<numType>& rotationVector) {
 	fromEuler(rotationVector.x, rotationVector.y, rotationVector.z);
 }
 
 // 	matrix-quaternion conversions found from
 //	http://www.j3d.org/matrix_faq/matrfaq_latest.html
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::fromMatrix3(const mat3<numType>& m3x3) {
 	//calculate the trace of the input matrix major diagonal
 	numType trace = 4 * (1 - (m3x3[0]*m3x3[0]) - (m3x3[4]*m3x3[4]) - (m3x3[8]*m3x3[8]));
@@ -634,7 +634,7 @@ void quat<numType>::fromMatrix3(const mat3<numType>& m3x3) {
 	}
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void quat<numType>::fromMatrix4(const mat4<numType>& m4x4) {
 	//calculate the trace of the input matrix major diagonal
 	numType trace = 4 * (1 - (m4x4[0]*m4x4[0]) - (m4x4[5]*m4x4[5]) - (m4x4[10]*m4x4[10]));

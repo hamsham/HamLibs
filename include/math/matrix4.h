@@ -119,7 +119,7 @@ class mat4 {
 //---------------------------------------------------------------------
 //						I/O Streams
 //---------------------------------------------------------------------
-template <typename type> HL_INLINE
+template <typename type> HL_IMPERATIVE
 std::ostream& operator << ( std::ostream& sout, const mat4<type>& mat ) {
 	sout
 		<< mat.xx << " " << mat.xy << " " << mat.xz << " " << mat.xw << " "
@@ -129,7 +129,7 @@ std::ostream& operator << ( std::ostream& sout, const mat4<type>& mat ) {
 	return sout;
 }
 
-template <typename type> HL_INLINE
+template <typename type> HL_IMPERATIVE
 std::istream& operator >> ( std::istream& stin, mat4<type>& mat ) {
 	stin
 		>> mat.xx >> mat.xy >> mat.xz >> mat.xw
@@ -143,7 +143,7 @@ std::istream& operator >> ( std::istream& stin, mat4<type>& mat ) {
 //	Matrix Constructors
 //---------------------------------------------------------------------
 //construct all matricies as identity matricies unless stated otherwise
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>::mat4() :
 	xx(1),	xy(0),	xz(0),	xw(0),
 	yx(0),	yy(1),	yz(0),	yw(0),
@@ -151,7 +151,7 @@ mat4<numType>::mat4() :
 	wx(0),	wy(0),	wz(0),	ww(1)
 {}
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>::mat4(numType input[16]) :
 	xx(input[XX]), xy(input[XY]), xz(input[XZ]), xw(input[XW]),
 	yx(input[YX]), yy(input[YY]), yz(input[YZ]), yw(input[YW]),
@@ -159,7 +159,7 @@ mat4<numType>::mat4(numType input[16]) :
 	wx(input[WX]), wy(input[WY]), wz(input[WZ]), ww(input[WW])
 {}
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>::mat4(const mat4<numType>& input) :
 	xx(input.xx), xy(input.xy), xz(input.xz), xw(input.xw),
 	yx(input.yx), yy(input.yy), yz(input.yz), yw(input.yw),
@@ -167,7 +167,7 @@ mat4<numType>::mat4(const mat4<numType>& input) :
 	wx(input.wx), wy(input.wy), wz(input.wz), ww(input.ww)
 {}
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>::mat4(numType inXX, numType inXY, numType inXZ, numType inXW,
 					numType inYX, numType inYY, numType inYZ, numType inYW,
 					numType inZX, numType inZY, numType inZZ, numType inZW,
@@ -181,13 +181,13 @@ mat4<numType>::mat4(numType inXX, numType inXY, numType inXZ, numType inXW,
 //---------------------------------------------------------------------
 //	Array Operators
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType mat4<numType>::operator[](const int index) const {
 	HL_ASSERT((index >= 0) && (index < 16));
 	return m4[ index ];
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType& mat4<numType>::operator[](const int index) {
 	HL_ASSERT((index >= 0) && (index < 16));
 	return m4[ index ];
@@ -197,7 +197,7 @@ numType& mat4<numType>::operator[](const int index) {
 //	Matrix-Matrix Operators
 //---------------------------------------------------------------------
 // prefix operators
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator++ () {
 	++xx; ++xy; ++xz; ++xw;
 	++yx; ++yy; ++yz; ++yw;
@@ -206,7 +206,7 @@ mat4<numType>& mat4<numType>::operator++ () {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator-- () {
 	--xx; --xy; --xz; --xw;
 	--yx; --yy; --yz; --yw;
@@ -216,7 +216,7 @@ mat4<numType>& mat4<numType>::operator-- () {
 }
 
 //postfix operators
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator++ (int) {
 	return mat4<numType>(
 		++xx, ++xy, ++xz, ++xw,
@@ -226,7 +226,7 @@ mat4<numType> mat4<numType>::operator++ (int) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator-- (int) {
 	return mat4<numType>(
 		--xx, --xy, --xz, --xw,
@@ -236,7 +236,7 @@ mat4<numType> mat4<numType>::operator-- (int) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator + (const mat4<numType>& input) const {
 	return mat4<numType>(
 		xx + input.xx, xy + input.xy, xz + input.xz, xw + input.xw,
@@ -246,7 +246,7 @@ mat4<numType> mat4<numType>::operator + (const mat4<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator - (const mat4<numType>& input) const {
 	return mat4<numType>(
 		xx - input.xx, xy - input.xy, xz - input.xz, xw - input.xw,
@@ -257,7 +257,7 @@ mat4<numType> mat4<numType>::operator - (const mat4<numType>& input) const {
 }
 
 //for operations like "matrix4a = -matrix4b"
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator - () const {
 	return mat4<numType>(	-xx, -xy, -xz, -xw,
 							-yx, -yy, -yz, -yw,
@@ -265,7 +265,7 @@ mat4<numType> mat4<numType>::operator - () const {
 							-wx, -wy, -wz, -ww);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator * (const mat4<numType>& input) const {
 	return mat4<numType>(
 	//X
@@ -295,7 +295,7 @@ mat4<numType> mat4<numType>::operator * (const mat4<numType>& input) const {
 	//if this is wrong, fuck you
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator = (const mat4<numType>& input) {
 	xx = input.xx; xy = input.xy; xz = input.xz; xw = input.xw;
 	yx = input.yx; yy = input.yy; yz = input.yz; yw = input.yw;
@@ -304,7 +304,7 @@ mat4<numType>& mat4<numType>::operator = (const mat4<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator += (const mat4<numType>& input) {
 	xx += input.xx; xy += input.xy; xz += input.xz; xw += input.xw;
 	yx += input.yx; yy += input.yy; yz += input.yz; yw += input.yw;
@@ -313,7 +313,7 @@ mat4<numType>& mat4<numType>::operator += (const mat4<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator -= (const mat4<numType>& input) {
 	xx -= input.xx; xy -= input.xy; xz -= input.xz; xw -= input.xw;
 	yx -= input.yx; yy -= input.yy; yz -= input.yz; yw -= input.yw;
@@ -322,7 +322,7 @@ mat4<numType>& mat4<numType>::operator -= (const mat4<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator *= (const mat4<numType>& input) {
 	numType temp[] = {
 	//X
@@ -356,7 +356,7 @@ mat4<numType>& mat4<numType>::operator *= (const mat4<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool mat4<numType>::operator == (const mat4<numType>& compare) const {
 	return	(
 				xx == compare.xx && xy == compare.xy && xz == compare.xz && xw == compare.xw &&
@@ -366,7 +366,7 @@ bool mat4<numType>::operator == (const mat4<numType>& compare) const {
 			);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool mat4<numType>::operator != (const mat4<numType>& compare) const {
 	return	(
 				xx != compare.xx && xy != compare.xy && xz != compare.xz && xw != compare.xw &&
@@ -379,7 +379,7 @@ bool mat4<numType>::operator != (const mat4<numType>& compare) const {
 //---------------------------------------------------------------------
 //	Matrix-Vector Operators
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator + (const vec4<numType>& input) const {
 	return mat4(
 		xx + input.x, xy + input.x, xz + input.x, xw + input.x,
@@ -389,7 +389,7 @@ mat4<numType> mat4<numType>::operator + (const vec4<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator - (const vec4<numType>& input) const {
 	return mat4(
 		xx - input.x, xy - input.x, xz - input.x, xw - input.x,
@@ -399,7 +399,7 @@ mat4<numType> mat4<numType>::operator - (const vec4<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec4<numType> mat4<numType>::operator * (const vec4<numType>& inVect) const {
 	return vec4<numType>(
 		(xx * inVect.x) + (xy * inVect.y) + (xz * inVect.z) + (xw * inVect.w),
@@ -409,7 +409,7 @@ vec4<numType> mat4<numType>::operator * (const vec4<numType>& inVect) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator = (const vec4<numType>& input) {
 	xx = input.x; xy = input.x; xz = input.x; xw = input.x;
 	yx = input.y; yy = input.y; yz = input.y; yw = input.y;
@@ -418,7 +418,7 @@ mat4<numType>& mat4<numType>::operator = (const vec4<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator += (const vec4<numType>& input) {
 	xx += input.x; xy += input.x; xz += input.x; xw += input.x;
 	yx += input.y; yy += input.y; yz += input.y; yw += input.y;
@@ -427,7 +427,7 @@ mat4<numType>& mat4<numType>::operator += (const vec4<numType>& input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator -= (const vec4<numType>& input) {
 	xx -= input.x; xy -= input.x; xz -= input.x; xw -= input.x;
 	yx -= input.y; yy -= input.y; yz -= input.y; yw -= input.y;
@@ -439,7 +439,7 @@ mat4<numType>& mat4<numType>::operator -= (const vec4<numType>& input) {
 //---------------------------------------------------------------------
 //	Matrix-Scalar Operators
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator + (numType input) const {
 	return mat4<numType>(
 		xx + input, xy + input, xz + input, xw + input,
@@ -449,7 +449,7 @@ mat4<numType> mat4<numType>::operator + (numType input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator - (numType input) const {
 	return mat4<numType>(
 		xx - input, xy - input, xz - input, xw - input,
@@ -459,7 +459,7 @@ mat4<numType> mat4<numType>::operator - (numType input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator * (numType input) const {
 	return mat4<numType>(
 		xx * input, xy * input, xz * input, xw * input,
@@ -469,7 +469,7 @@ mat4<numType> mat4<numType>::operator * (numType input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::operator / (numType input) const {
 	return mat4<numType>(
 		xx / input, xy / input, xz / input, xw / input,
@@ -479,7 +479,7 @@ mat4<numType> mat4<numType>::operator / (numType input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator = (numType input) {
 	xx = input; xy = input; xz = input; xw = input;
 	yx = input; yy = input; yz = input; yw = input;
@@ -488,7 +488,7 @@ mat4<numType>& mat4<numType>::operator = (numType input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator += (numType input) {
 	xx += input; xy += input; xz += input; xw += input;
 	yx += input; yy += input; yz += input; yw += input;
@@ -497,7 +497,7 @@ mat4<numType>& mat4<numType>::operator += (numType input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator -= (numType input) {
 	xx -= input; xy -= input; xz -= input; xw -= input;
 	yx -= input; yy -= input; yz -= input; yw -= input;
@@ -506,7 +506,7 @@ mat4<numType>& mat4<numType>::operator -= (numType input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator *= (numType input) {
 	xx *= input; xy *= input; xz *= input; xw *= input;
 	yx *= input; yy *= input; yz *= input; yw *= input;
@@ -515,7 +515,7 @@ mat4<numType>& mat4<numType>::operator *= (numType input) {
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType>& mat4<numType>::operator /= (numType input) {
 	xx /= input; xy /= input; xz /= input; xw /= input;
 	yx /= input; yy /= input; yz /= input; yw /= input;
@@ -530,7 +530,7 @@ mat4<numType>& mat4<numType>::operator /= (numType input) {
 //basic Identity Matrix rotations.
 //these van be used independently of class objects by calling:
 //	"matrix<numberType>::rotmatrixXYZW(radians)"
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::rotMatrixX(numType radians) {
 	numType nsin = (numType)sin(radians);
 	numType ncos = (numType)cos(radians);
@@ -543,7 +543,7 @@ mat4<numType> mat4<numType>::rotMatrixX(numType radians) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::rotMatrixY(numType radians) {
 	numType nsin = (numType)sin(radians);
 	numType ncos = (numType)cos(radians);
@@ -556,7 +556,7 @@ mat4<numType> mat4<numType>::rotMatrixY(numType radians) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::rotMatrixZ(numType radians) {
 	numType nsin = (numType)sin(radians);
 	numType ncos = (numType)cos(radians);
@@ -569,12 +569,12 @@ mat4<numType> mat4<numType>::rotMatrixZ(numType radians) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::rotmatrixXYZW(numType radians) const {
 	return rotMatrixX(radians) * rotMatrixY(radians) * rotMatrixZ(radians);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::rotmatrixXYZW(numType radX, numType radY, numType radZ) const {
 	return rotMatrixX(radX) * rotMatrixY(radY) * rotMatrixZ(radZ);
 }
@@ -583,7 +583,7 @@ mat4<numType> mat4<numType>::rotmatrixXYZW(numType radX, numType radY, numType r
 //added only for extra functionality, but not recommended for regular
 //use. Constant rotation of non-identity matricies will result in a
 //loss of precision with each rotation (I.E. your matrix will shrink)
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void mat4<numType>::rotateX(numType radians) {
 	numType ncos = cos(radians);
 	numType nsin = sin(radians);
@@ -596,7 +596,7 @@ void mat4<numType>::rotateX(numType radians) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void mat4<numType>::rotateY(numType radians) {
 	numType ncos = cos(radians);
 	numType nsin = sin(radians);
@@ -609,7 +609,7 @@ void mat4<numType>::rotateY(numType radians) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void mat4<numType>::rotateZ(numType radians) {
 	numType nsin = (numType)sin(radians);
 	numType ncos = (numType)cos(radians);
@@ -622,12 +622,12 @@ void mat4<numType>::rotateZ(numType radians) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void mat4<numType>::rotateXYZ(numType radians) {
 	rotateX(radians); rotateY(radians); rotateZ(radians);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void mat4<numType>::rotateXYZ(numType radX, numType radY, numType radZ) {
 	rotateX(radX); rotateY(radY); rotateZ(radZ);
 }
@@ -635,7 +635,7 @@ void mat4<numType>::rotateXYZ(numType radX, numType radY, numType radZ) {
 //---------------------------------------------------------------------
 //	Miscellaneous Functions
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::getIdentity() {
 	return mat4<numType>(	1,	0,	0,	0,
 							0,	1,	0,	0,
@@ -643,7 +643,7 @@ mat4<numType> mat4<numType>::getIdentity() {
 							0,	0,	0,	1	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void mat4<numType>::setIdentity() {
 	xx = 1; xy = 0; xz = 0; xw = 0;
 	yx = 0; yy = 1; yz = 0; yw = 0;
@@ -651,14 +651,14 @@ void mat4<numType>::setIdentity() {
 	wx = 0; wy = 0; wz = 0; ww = 1;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::getNormal() const {
 	mat4<numType> output(*this);
 	output.setNormal();
 	return output;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void mat4<numType>::setNormal() {
 	numType mag = hamLibs::math::fastInvSqrt(
 		(xx * xx)+
@@ -693,7 +693,7 @@ void mat4<numType>::setNormal() {
 	wx *= mag; wy *= mag; wz *= mag; ww *= mag;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType mat4<numType>::getDeterminant() const {
 	return numType(
 		(xw * yz * zy * wx) - (xz * yw * zy * wx) - (xw * yy * zz * wx) + (xy * yw * zz * wx) +
@@ -705,7 +705,7 @@ numType mat4<numType>::getDeterminant() const {
 	//umm... wow
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::getTransposed() const {
 	return mat4<numType>(	xx, yx, zx, wx,
 							xy, yy, zy, wy,
@@ -713,7 +713,7 @@ mat4<numType> mat4<numType>::getTransposed() const {
 							xw, yw, zw, ww	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void mat4<numType>::setTransposed() {
 	*this = mat4<numType>(	xx, yx, zx, wx,
 							xy, yy, zy, wy,

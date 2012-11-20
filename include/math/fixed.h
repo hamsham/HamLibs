@@ -125,12 +125,12 @@ class fixed {
 //---------------------------------------------------------------------
 //						I/O Streams
 //---------------------------------------------------------------------
-HL_INLINE std::ostream& operator << ( std::ostream& sout, const fixed& fix ) {
+HL_IMPERATIVE std::ostream& operator << ( std::ostream& sout, const fixed& fix ) {
 	sout << (float)fix;
 	return sout;
 }
 
-HL_INLINE std::istream& operator >> ( std::istream& stin, fixed& fix ) {
+HL_IMPERATIVE std::istream& operator >> ( std::istream& stin, fixed& fix ) {
 	float inNum( 0.f );
 	stin >> inNum;
 	fix.num = al_ftofix( inNum );
@@ -140,118 +140,118 @@ HL_INLINE std::istream& operator >> ( std::istream& stin, fixed& fix ) {
 //---------------------------------------------------------------------
 //						Construction
 //---------------------------------------------------------------------
-HL_INLINE fixed::fixed() : num(0) {
+HL_IMPERATIVE fixed::fixed() : num(0) {
 }
 
-HL_INLINE fixed::fixed(const fixed& x) : num(x.num) {
+HL_IMPERATIVE fixed::fixed(const fixed& x) : num(x.num) {
 }
 
-HL_INLINE fixed::fixed(const int& x) : num(al_itofix(x)) {
+HL_IMPERATIVE fixed::fixed(const int& x) : num(al_itofix(x)) {
 }
 
-HL_INLINE fixed::fixed(const float& x) : num(al_ftofix(x)) {
+HL_IMPERATIVE fixed::fixed(const float& x) : num(al_ftofix(x)) {
 }
 
-HL_INLINE fixed::~fixed() {
+HL_IMPERATIVE fixed::~fixed() {
 }
 
 //---------------------------------------------------------------------
 //						Fixed Point Operators
 //---------------------------------------------------------------------
 //comparisons
-HL_INLINE bool fixed::operator == (const fixed& x) const {
+HL_IMPERATIVE bool fixed::operator == (const fixed& x) const {
 	return (num == x.num) ? true : false;
 }
 
-HL_INLINE bool fixed::operator != (const fixed& x) const {
+HL_IMPERATIVE bool fixed::operator != (const fixed& x) const {
 	return (num != x.num) ? true : false;
 }
 
-HL_INLINE bool fixed::operator < (const fixed& x) const {
+HL_IMPERATIVE bool fixed::operator < (const fixed& x) const {
 	return (num < x.num) ? true : false;
 }
 
-HL_INLINE bool fixed::operator > (const fixed& x) const {
+HL_IMPERATIVE bool fixed::operator > (const fixed& x) const {
 	return (num > x.num) ? true : false;
 }
 
-HL_INLINE bool fixed::operator <= (const fixed& x) const {
+HL_IMPERATIVE bool fixed::operator <= (const fixed& x) const {
 	return (num <= x.num) ? true : false;
 }
 
-HL_INLINE bool fixed::operator >= (const fixed& x) const {
+HL_IMPERATIVE bool fixed::operator >= (const fixed& x) const {
 	return (num >= x.num) ? true : false;
 }
 
 // prefix operations
-HL_INLINE fixed& fixed::operator ++ () {
+HL_IMPERATIVE fixed& fixed::operator ++ () {
 	num = al_fixadd(num, 1 << 16);
 	return *this;
 }
 
-HL_INLINE fixed& fixed::operator -- () {
+HL_IMPERATIVE fixed& fixed::operator -- () {
 	num = al_fixsub(num, 1 << 16);
 	return *this;
 }
 
 //postfix operations
-HL_INLINE fixed fixed::operator ++ (int) {
+HL_IMPERATIVE fixed fixed::operator ++ (int) {
 	fixed temp;
 	temp.num = al_fixadd(num, 1 << 16);
 	return temp;
 }
 
-HL_INLINE fixed fixed::operator-- (int) {
+HL_IMPERATIVE fixed fixed::operator-- (int) {
 	fixed temp;
 	temp.num = al_fixsub(num, 1 << 16);
 	return temp;
 }
 
-HL_INLINE fixed fixed::operator + (const fixed& x) const {
+HL_IMPERATIVE fixed fixed::operator + (const fixed& x) const {
 	fixed temp;
 	temp.num = al_fixadd(num, x.num);
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator - (const fixed& x) const {
+HL_IMPERATIVE fixed fixed::operator - (const fixed& x) const {
 	fixed temp;
 	temp.num = al_fixsub(num, x.num);
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator * (const fixed& x) const {
+HL_IMPERATIVE fixed fixed::operator * (const fixed& x) const {
 	fixed temp;
 	temp.num = al_fixmul(num, x.num);
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator / (const fixed& x) const {
+HL_IMPERATIVE fixed fixed::operator / (const fixed& x) const {
 	fixed temp;
 	temp.num = al_fixdiv(num, x.num);
 	return temp;
 }
 
-HL_INLINE fixed& fixed::operator = (const fixed& x) {
+HL_IMPERATIVE fixed& fixed::operator = (const fixed& x) {
 	num = x.num;
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator += (const fixed& x) {
+HL_IMPERATIVE fixed& fixed::operator += (const fixed& x) {
 	num = al_fixadd(num, x.num);
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator -= (const fixed& x) {
+HL_IMPERATIVE fixed& fixed::operator -= (const fixed& x) {
 	num = al_fixsub(num, x.num);
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator *= (const fixed& x) {
+HL_IMPERATIVE fixed& fixed::operator *= (const fixed& x) {
 	num = al_fixmul(num, x.num);
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator /= (const fixed& x) {
+HL_IMPERATIVE fixed& fixed::operator /= (const fixed& x) {
 	num = al_fixdiv(num, x.num);
 	return *this;
 }
@@ -259,164 +259,164 @@ HL_INLINE fixed& fixed::operator /= (const fixed& x) {
 //---------------------------------------------------------------------
 //						Fixed-Integer Operators
 //---------------------------------------------------------------------
-HL_INLINE fixed fixed::operator + (const int& x) const {
+HL_IMPERATIVE fixed fixed::operator + (const int& x) const {
 	fixed temp;
 	temp.num = al_fixadd(num, al_itofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator - (const int& x) const {
+HL_IMPERATIVE fixed fixed::operator - (const int& x) const {
 	fixed temp;
 	temp.num = al_fixsub(num, al_itofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator * (const int& x) const {
+HL_IMPERATIVE fixed fixed::operator * (const int& x) const {
 	fixed temp;
 	temp.num = al_fixmul(num, al_itofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator / (const int& x) const {
+HL_IMPERATIVE fixed fixed::operator / (const int& x) const {
 	fixed temp;
 	temp.num = al_fixdiv(num, al_itofix(x));
 	return temp;
 }
 
-HL_INLINE fixed& fixed::operator = (const int& x) {
+HL_IMPERATIVE fixed& fixed::operator = (const int& x) {
 	num = al_itofix(x);
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator += (const int& x) {
+HL_IMPERATIVE fixed& fixed::operator += (const int& x) {
 	num = al_fixadd(num, al_itofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator -= (const int& x) {
+HL_IMPERATIVE fixed& fixed::operator -= (const int& x) {
 	num = al_fixsub(num, al_itofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator *= (const int& x) {
+HL_IMPERATIVE fixed& fixed::operator *= (const int& x) {
 	num = al_fixmul(num, al_itofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator /= (const int& x) {
+HL_IMPERATIVE fixed& fixed::operator /= (const int& x) {
 	num = al_fixdiv(num, al_itofix(x));
 	return *this;
 }
 
 //comparisons
-HL_INLINE bool fixed::operator == (const int& x) const {
+HL_IMPERATIVE bool fixed::operator == (const int& x) const {
 	return (num == al_itofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator != (const int& x) const {
+HL_IMPERATIVE bool fixed::operator != (const int& x) const {
 	return (num != al_itofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator < (const int& x) const {
+HL_IMPERATIVE bool fixed::operator < (const int& x) const {
 	return (num < al_itofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator > (const int& x) const {
+HL_IMPERATIVE bool fixed::operator > (const int& x) const {
 	return (num > al_itofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator <= (const int& x) const {
+HL_IMPERATIVE bool fixed::operator <= (const int& x) const {
 	return (num <= al_itofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator >= (const int& x) const {
+HL_IMPERATIVE bool fixed::operator >= (const int& x) const {
 	return (num >= al_itofix(x)) ? true : false;
 }
 
 //---------------------------------------------------------------------
 //						Fixed-float Operators
 //---------------------------------------------------------------------
-HL_INLINE fixed fixed::operator + (const float& x) const {
+HL_IMPERATIVE fixed fixed::operator + (const float& x) const {
 	fixed temp;
 	temp.num = al_fixadd(num, al_ftofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator - (const float& x) const {
+HL_IMPERATIVE fixed fixed::operator - (const float& x) const {
 	fixed temp;
 	temp.num = al_fixsub(num, al_ftofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator * (const float& x) const {
+HL_IMPERATIVE fixed fixed::operator * (const float& x) const {
 	fixed temp;
 	temp.num = al_fixmul(num, al_ftofix(x));
 	return temp;
 }
 	
-HL_INLINE fixed fixed::operator / (const float& x) const {
+HL_IMPERATIVE fixed fixed::operator / (const float& x) const {
 	fixed temp;
 	temp.num = al_fixdiv(num, al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed& fixed::operator = (const float& x) {
+HL_IMPERATIVE fixed& fixed::operator = (const float& x) {
 	num = al_ftofix(x);
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator += (const float& x) {
+HL_IMPERATIVE fixed& fixed::operator += (const float& x) {
 	num = al_fixadd(num, al_ftofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator -= (const float& x) {
+HL_IMPERATIVE fixed& fixed::operator -= (const float& x) {
 	num = al_fixsub(num, al_ftofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator *= (const float& x) {
+HL_IMPERATIVE fixed& fixed::operator *= (const float& x) {
 	num = al_fixmul(num, al_ftofix(x));
 	return *this;
 }
 	
-HL_INLINE fixed& fixed::operator /= (const float& x) {
+HL_IMPERATIVE fixed& fixed::operator /= (const float& x) {
 	num = al_fixdiv(num, al_ftofix(x));
 	return *this;
 }
 
 //comparisons
-HL_INLINE bool fixed::operator == (const float& x) const {
+HL_IMPERATIVE bool fixed::operator == (const float& x) const {
 	return (num == al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator != (const float& x) const {
+HL_IMPERATIVE bool fixed::operator != (const float& x) const {
 	return (num != al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator < (const float& x) const {
+HL_IMPERATIVE bool fixed::operator < (const float& x) const {
 	return (num < al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator > (const float& x) const {
+HL_IMPERATIVE bool fixed::operator > (const float& x) const {
 	return (num > al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator <= (const float& x) const {
+HL_IMPERATIVE bool fixed::operator <= (const float& x) const {
 	return (num <= al_ftofix(x)) ? true : false;
 }
 
-HL_INLINE bool fixed::operator >= (const float& x) const {
+HL_IMPERATIVE bool fixed::operator >= (const float& x) const {
 	return (num >= al_ftofix(x)) ? true : false;
 }
 
 //regular conversions
-HL_INLINE fixed::operator int() const {
+HL_IMPERATIVE fixed::operator int() const {
 	return al_fixtoi(num);
 }
 
 //regular conversions
-HL_INLINE fixed::operator float() const {
+HL_IMPERATIVE fixed::operator float() const {
 	return al_fixtof(num);
 }
 
@@ -424,148 +424,148 @@ HL_INLINE fixed::operator float() const {
 //						Static Methods
 //---------------------------------------------------------------------
 //misc
-HL_INLINE int fixed::floor(const fixed& x) {
+HL_IMPERATIVE int fixed::floor(const fixed& x) {
 	return al_fixtoi(al_fixfloor(x.num));
 }
 
-HL_INLINE int fixed::ceil(const fixed& x) {
+HL_IMPERATIVE int fixed::ceil(const fixed& x) {
 	return al_fixtoi(al_fixceil(x.num));
 }
 
-HL_INLINE fixed fixed::sqrt(const fixed& x) {
+HL_IMPERATIVE fixed fixed::sqrt(const fixed& x) {
 	return fixed(al_fixsqrt(x.num));
 }
 
-HL_INLINE fixed fixed::hypot(const fixed& x, const fixed& y) {
+HL_IMPERATIVE fixed fixed::hypot(const fixed& x, const fixed& y) {
 	fixed temp;
 	temp = al_fixhypot(x.num, y.num);
 	return temp;
 }
 		
 //trigonometry
-HL_INLINE fixed	fixed::sin (const fixed& x) {
+HL_IMPERATIVE fixed	fixed::sin (const fixed& x) {
 	fixed temp;
 	temp.num = al_fixsin(x.num);
 	return temp;
 }
 
-HL_INLINE fixed	fixed::cos (const fixed& x) {
+HL_IMPERATIVE fixed	fixed::cos (const fixed& x) {
 	fixed temp;
 	temp.num = al_fixcos(x.num);
 	return temp;
 }
 
-HL_INLINE fixed	fixed::tan (const fixed& x) {
+HL_IMPERATIVE fixed	fixed::tan (const fixed& x) {
 	fixed temp;
 	temp.num = al_fixtan(x.num);
 	return temp;
 }
 
-HL_INLINE fixed	fixed::asin (const fixed& x) {
+HL_IMPERATIVE fixed	fixed::asin (const fixed& x) {
 	fixed temp;
 	temp.num = al_fixasin(x.num);
 	return temp;
 }
 
-HL_INLINE fixed	fixed::acos (const fixed& x) {
+HL_IMPERATIVE fixed	fixed::acos (const fixed& x) {
 	fixed temp;
 	temp.num = al_fixacos(x.num);
 	return temp;
 }
 
-HL_INLINE fixed	fixed::atan (const fixed& x) {
+HL_IMPERATIVE fixed	fixed::atan (const fixed& x) {
 	fixed temp;
 	temp.num = al_fixatan(x.num);
 	return temp;
 }
 
-HL_INLINE fixed	fixed::atan2 (const fixed& x, const fixed& y) {
+HL_IMPERATIVE fixed	fixed::atan2 (const fixed& x, const fixed& y) {
 	fixed temp;
 	temp.num = al_fixatan2(x.num, y.num);
 	return temp;
 }
 
 //trigonometry (integer conversions)
-HL_INLINE fixed	fixed::sin (const int& x) {
+HL_IMPERATIVE fixed	fixed::sin (const int& x) {
 	fixed temp;
 	temp.num = al_fixsin(al_itofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::cos (const int& x) {
+HL_IMPERATIVE fixed	fixed::cos (const int& x) {
 	fixed temp;
 	temp.num = al_fixcos(al_itofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::tan (const int& x) {
+HL_IMPERATIVE fixed	fixed::tan (const int& x) {
 	fixed temp;
 	temp.num = al_fixtan(al_itofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::asin (const int& x) {
+HL_IMPERATIVE fixed	fixed::asin (const int& x) {
 	fixed temp;
 	temp.num = al_fixasin(al_itofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::acos (const int& x) {
+HL_IMPERATIVE fixed	fixed::acos (const int& x) {
 	fixed temp;
 	temp.num = al_fixacos(al_itofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::atan (const int& x) {
+HL_IMPERATIVE fixed	fixed::atan (const int& x) {
 	fixed temp;
 	temp.num = al_fixatan(al_itofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::atan2 (const int& x, const int& y) {
+HL_IMPERATIVE fixed	fixed::atan2 (const int& x, const int& y) {
 	fixed temp;
 	temp.num = al_fixatan2(al_itofix(x), al_itofix(y));
 	return temp;
 }
 
 //trigonometry (float conversions)
-HL_INLINE fixed	fixed::sin (const float& x) {
+HL_IMPERATIVE fixed	fixed::sin (const float& x) {
 	fixed temp;
 	temp.num = al_fixsin(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::cos (const float& x) {
+HL_IMPERATIVE fixed	fixed::cos (const float& x) {
 	fixed temp;
 	temp.num = al_fixcos(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::tan (const float& x) {
+HL_IMPERATIVE fixed	fixed::tan (const float& x) {
 	fixed temp;
 	temp.num = al_fixtan(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::asin (const float& x) {
+HL_IMPERATIVE fixed	fixed::asin (const float& x) {
 	fixed temp;
 	temp.num = al_fixasin(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::acos (const float& x) {
+HL_IMPERATIVE fixed	fixed::acos (const float& x) {
 	fixed temp;
 	temp.num = al_fixacos(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::atan (const float& x) {
+HL_IMPERATIVE fixed	fixed::atan (const float& x) {
 	fixed temp;
 	temp.num = al_fixatan(al_ftofix(x));
 	return temp;
 }
 
-HL_INLINE fixed	fixed::atan2 (const float& x, const float& y) {
+HL_IMPERATIVE fixed	fixed::atan2 (const float& x, const float& y) {
 	fixed temp;
 	temp.num = al_fixatan2(al_ftofix(x), al_ftofix(y));
 	return temp;

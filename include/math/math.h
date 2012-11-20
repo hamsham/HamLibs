@@ -41,7 +41,7 @@ namespace math {
 	 * and:
 	 *		http://jheriko-rtw.blogspot.com/2009/04/understanding-and-improving-fast.html
 	*/
-	template <typename numType> HL_INLINE
+	template <typename numType> HL_IMPERATIVE
 	numType fastInvSqrt(numType input) {
 		float x = static_cast<float>(input);
 		union { float f; unsigned int u; } y = {x};
@@ -49,7 +49,7 @@ namespace math {
 		return (numType)(0.703952253f * y.f * (2.38924456f - x * y.f * y.f));
 	}
 
-	template <typename numType> HL_INLINE
+	template <typename numType> HL_IMPERATIVE
 	numType fastSqrt(numType input) {
 		float x = static_cast<float>(input);
 		union { float f; unsigned int u; } y = {x};
@@ -58,13 +58,13 @@ namespace math {
 	}
 
 	//-----------------------------------------------------------------
-	template <typename numType> HL_INLINE
+	template <typename numType> HL_IMPERATIVE
 	numType degToRad(numType input) {
 		return HL_DEG2RAD(input);
 	}
 
 	//-----------------------------------------------------------------
-	template <typename numType> HL_INLINE
+	template <typename numType> HL_IMPERATIVE
 	numType radToDeg(numType input) {
 		return HL_RAD2DEG(input);
 	}

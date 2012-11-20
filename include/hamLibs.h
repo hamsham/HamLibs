@@ -9,7 +9,7 @@
 #define	__HAMLIBS_H__
 
 #ifndef __cplusplus
-	#error "A C++ compliant compiler is required to build Ham's libraries"
+	#error "A C++11-compliant compiler is required to build Ham's libraries"
 #endif
 
 /*	NOTES:

@@ -100,14 +100,14 @@ class vec2 {
 //---------------------------------------------------------------------
 //						I/O Streams
 //---------------------------------------------------------------------
-template <typename type> HL_INLINE
+template <typename type> HL_IMPERATIVE
 std::ostream& operator << ( std::ostream& sout, const vec2<type>& v2 ) {
 	sout
 		<< v2.x << " " << v2.y;
 	return sout;
 }
 
-template <typename type> HL_INLINE
+template <typename type> HL_IMPERATIVE
 std::istream& operator >> ( std::istream& stin, vec2<type>& v2 ) {
 	stin
 		>> v2.x >> v2.y;
@@ -117,25 +117,25 @@ std::istream& operator >> ( std::istream& stin, vec2<type>& v2 ) {
 //---------------------------------------------------------------------
 //	Vector Constructors
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>::vec2() {
 	x = 0.0;
 	y = 0.0;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>::vec2(numType inVect[2]) {
 	x = inVect[X];
 	y = inVect[Y];
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>::vec2(const vec2<numType>& inVect) {
 	x = inVect.x;
 	y = inVect.y;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>::vec2(numType inX, numType inY) {
 	x = inX;
 	y = inY;
@@ -144,13 +144,13 @@ vec2<numType>::vec2(numType inX, numType inY) {
 //---------------------------------------------------------------------
 //	Array Operators
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType vec2<numType>::operator[](const int index) const {
 	HL_ASSERT((index == 0) || (index == 1));
 	return v2[ index ];
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType& vec2<numType>::operator[](const int index) {
 	HL_ASSERT((index == 0) || (index == 1));
 	return v2[ index ];
@@ -159,14 +159,14 @@ numType& vec2<numType>::operator[](const int index) {
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator = (const vec2<numType>& input) {
 	x = input.x;
 	y = input.y;
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator + (const vec2<numType>& input) const {
 	return vec2<numType>(
 		x + input.x,
@@ -174,7 +174,7 @@ vec2<numType> vec2<numType>::operator + (const vec2<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator - (const vec2<numType>& input) const {
 	return vec2<numType>(
 		x - input.x,
@@ -183,12 +183,12 @@ vec2<numType> vec2<numType>::operator - (const vec2<numType>& input) const {
 }
 
 //for operations like "vectA = -vectB"
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator - () const {
 	return vec2<numType>(-x, -y);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator * (const vec2<numType>& input) const {
 	return vec2<numType>(
 		x * input.x,
@@ -196,7 +196,7 @@ vec2<numType> vec2<numType>::operator * (const vec2<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator / (const vec2<numType>& input) const {
 	return vec2<numType>(
 		x / input.x,
@@ -204,28 +204,28 @@ vec2<numType> vec2<numType>::operator / (const vec2<numType>& input) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator += (const vec2<numType>& input) {
 	x += input.x;
 	y += input.y;
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator -= (const vec2<numType>& input) {
 	x -= input.x;
 	y -= input.y;
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator *= (const vec2<numType>& input) {
 	x *= input.x;
 	y *= input.y;
 	return *this;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator /= (const vec2<numType>& input) {
 	x /= input.x;
 	y /= input.y;
@@ -233,27 +233,27 @@ vec2<numType>& vec2<numType>::operator /= (const vec2<numType>& input) {
 }
 
 // prefix operations
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator++ () {
 	++x;
 	++y;
 	return *this;
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator-- () {
 	--x;
 	--y;
 	return *this;
 }
 //postfix operations
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator++ (int) {
 	return vec2<numType>(
 		++x,
 		++y
 	);
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator-- (int) {
 	return vec2<numType>(
 		--x,
@@ -262,42 +262,42 @@ vec2<numType> vec2<numType>::operator-- (int) {
 }
 
 //comparisons
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool vec2<numType>::operator== (const vec2<numType>& compare) const {
 	return (	x == compare.x &&
 				y == compare.y
 			);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool vec2<numType>::operator!= (const vec2<numType>& compare) const {
 	return (	x != compare.x &&
 				y != compare.y
 			);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool vec2<numType>::operator< (const vec2<numType>& compare) const {
 	return (	x < compare.x &&
 				y < compare.y
 			);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool vec2<numType>::operator> (const vec2<numType>& compare) const {
 	return (	x > compare.x &&
 				y > compare.y
 			);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool vec2<numType>::operator<= (const vec2<numType>& compare) const {
 	return (	x <= compare.x &&
 				y <= compare.y
 			);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 bool vec2<numType>::operator>= (const vec2<numType>& compare) const {
 	return (	x >= compare.x &&
 				y >= compare.y
@@ -307,7 +307,7 @@ bool vec2<numType>::operator>= (const vec2<numType>& compare) const {
 //---------------------------------------------------------------------
 //	Vector-Matrix Math Operations
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat2<numType> vec2<numType>::operator + (const mat2<numType>& m2x2) const {
 	return mat2<numType>(
 		x + m2x2.xx, x + m2x2.xy,
@@ -315,7 +315,7 @@ mat2<numType> vec2<numType>::operator + (const mat2<numType>& m2x2) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 mat2<numType> vec2<numType>::operator - (const mat2<numType>& m2x2) const {
 	return mat2<numType>(
 		x - m2x2.xx, x - m2x2.xy,
@@ -323,7 +323,7 @@ mat2<numType> vec2<numType>::operator - (const mat2<numType>& m2x2) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator * (const mat2<numType>& m2x2) const {
 	return vec2<numType>(
 		(m2x2.xx * x) + (m2x2.xy * y),
@@ -331,7 +331,7 @@ vec2<numType> vec2<numType>::operator * (const mat2<numType>& m2x2) const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator *= (const mat2<numType>& m2x2) {
 	vec2<numType> temp(
 		(m2x2.xx * x) + (m2x2.xy * y),
@@ -345,59 +345,59 @@ vec2<numType>& vec2<numType>::operator *= (const mat2<numType>& m2x2) {
 //---------------------------------------------------------------------
 //	Vector-Scalar Math Operations
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator = (numType input) {
 	x = input;
 	y = input;
 	return *this;
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator + (numType input) const {
 	return vec2<numType>(
 		x + input,
 		y + input
 	);
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator - (numType input) const {
 	return vec2<numType>(
 		x - input,
 		y - input
 	);
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator * (numType input) const {
 	return vec2<numType>(
 		x * input,
 		y * input
 	);
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::operator / (numType input) const {
 	return vec2<numType>(
 		x / input,
 		y / input
 	);
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator += (numType input) {
 	x += input;
 	y += input;
 	return *this;
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator -= (numType input) {
 	x -= input;
 	y -= input;
 	return *this;
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator *= (numType input) {
 	x *= input;
 	y *= input;
 	return *this;
 }
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType>& vec2<numType>::operator /= (numType input) {
 	x /= input;
 	y /= input;
@@ -407,7 +407,7 @@ vec2<numType>& vec2<numType>::operator /= (numType input) {
 //---------------------------------------------------------------------
 //	Vector Rotation Functions
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void vec2<numType>::rotate (numType radians) {
 	numType sinTheta = sin(radians);
 	numType cosTheta = cos(radians);
@@ -420,7 +420,7 @@ void vec2<numType>::rotate (numType radians) {
 	y = temp[1];
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::rotVect (numType radians) {
 	numType sinTheta = sin(radians);
 	numType cosTheta = cos(radians);
@@ -434,7 +434,7 @@ vec2<numType> vec2<numType>::rotVect (numType radians) {
 //---------------------------------------------------------------------
 //	Miscellaneous Functions
 //---------------------------------------------------------------------
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType vec2<numType>::Magnitude() const {
 	return hamLibs::math::fastSqrt(
 		(x * x)+
@@ -442,7 +442,7 @@ numType vec2<numType>::Magnitude() const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::getNormal() const {
 	numType mag = hamLibs::math::fastInvSqrt(
 		(x * x)+
@@ -454,7 +454,7 @@ vec2<numType> vec2<numType>::getNormal() const {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void vec2<numType>::normalize() {
 	numType mag = hamLibs::math::fastInvSqrt(
 		(x * x)+
@@ -464,12 +464,12 @@ void vec2<numType>::normalize() {
 	y *= mag;
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType vec2<numType>::dotProduct(const vec2<numType>& v1, const vec2<numType>& v2) {
 	return (v1.x * v2.x) + (v1.y * v2.y);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 numType vec2<numType>::angleBetween(const vec2<numType>& v1, const vec2<numType>& v2, const vec2<numType>& origin) {
 	return	acos(
 				((v1.x - origin.x) * (v2.x - origin.x)) +
@@ -477,7 +477,7 @@ numType vec2<numType>::angleBetween(const vec2<numType>& v1, const vec2<numType>
 			);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 vec2<numType> vec2<numType>::crossProduct(const vec2<numType>& inVect2) {
 	return vec2<numType>(
 			inVect2.y,
@@ -485,7 +485,7 @@ vec2<numType> vec2<numType>::crossProduct(const vec2<numType>& inVect2) {
 	);
 }
 
-template <class numType> HL_INLINE
+template <class numType> HL_IMPERATIVE
 void vec2<numType>::zero() {
 	x = y = 0;
 }

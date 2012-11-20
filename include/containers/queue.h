@@ -11,11 +11,11 @@ template <class type>
 class queue {
 	private:
 		struct node {
-			type *data;
-			node *next, *prev;
+			type data;
+			node *next = HL_NULL;
 		};
-		node	*first;		//List navigation
-		node	*last;
+		node	*first = NULL;		//List navigation
+		node	*last = NULL;
 		size_t	numNodes;
 		
 		
@@ -24,33 +24,31 @@ class queue {
 		~queue 	();
 
 		//data acquisition
-		type*	front		() const;
+		type*	front	() const;
 		type*	peekNext	() const;
 		type*	back		() const;
 
 		//insertion & deletion
-		void	push		(const type& object);
-		void	pop			();
-		void	clear		();
+		void		push		(const type& object);
+		void		pop		();
+		void		clear	();
 
 		//miscellaneous
 		size_t	size		() const;
-		bool	empty		() const;
+		bool		empty	() const;
 };
 
 //-----------------------------------------------------------------------------
 //			Construction & Destruction
 //-----------------------------------------------------------------------------
-template <class type>
-queue<type>::queue() {
-	first = new node;
-	first->data = HL_NULL;
-	first->next = HL_NULL;
-	last = first;
-	numNodes = 0;
-}
+template <class type> HL_INLINE
+queue<type>::queue() :
+	first( HL_NULL ),
+	last( HL_NULL ),
+	numNodes( 0 )
+{}
 
-template <class type>
+template <class type> HL_INLINE
 queue<type>::~queue() {
 	clear();
 }
@@ -60,17 +58,19 @@ queue<type>::~queue() {
 //-----------------------------------------------------------------------------
 template <class type>
 type* queue<type>::front() const {
-	return first->data;
+	return (first) ? (&first->data) : HL_NULL;
 }
 
 template <class type>
 type* queue<type>::peekNext() const {
-	return (first->next) ? first->next->data : NULL;
+	if (first && first->next)
+		return &(first->next->data);
+	return HL_NULL;
 }
 
 template <class type>
 type* queue<type>::back() const {
-	return last->data;
+	return (last) ? &(last->data) : HL_NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -78,12 +78,14 @@ type* queue<type>::back() const {
 //-----------------------------------------------------------------------------
 template <class type>
 void queue<type>::push(const type& object) {
-	*last->data = object;
-	last->next = new node;
-	last = last->next;
-	last->data = HL_NULL;
-	last->next = HL_NULL;
+	node* temp = new node;
+	temp->data = object;
+	temp->next = first;
+	first = temp;
 	++numNodes;
+	
+	if (numNodes == 1)
+		last = first;
 }
 
 //-----------------------------------------------------------------------------
@@ -91,19 +93,23 @@ void queue<type>::push(const type& object) {
 //-----------------------------------------------------------------------------
 template <class type>
 void queue<type>::pop() {
-	if (first->data) {
-		node* temp = first;
-		first = first->next;
-		delete temp;
-		--numNodes;
-	}
+	if (first == HL_NULL)
+		return;
+	
+	node* temp( first->next );
+	delete first;
+	--numNodes;
+	
+	first = temp;	
+	if (first == HL_NULL)
+		last = HL_NULL;
 }
 
 template <class type>
 void queue<type>::clear() {
-	do {
+	while (first != HL_NULL) {
 		pop();
-	} while (last != first);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -116,7 +122,7 @@ size_t queue<type>::size() const {
 
 template <class type>
 bool queue<type>::empty() const {
-	return (first->data) ? false : true;
+	return (first == HL_NULL) ? true : false;
 }
 
 } //end containers namespace

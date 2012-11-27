@@ -121,21 +121,21 @@ std::istream& operator >> ( std::istream& stin, vec4<type>& v4 ) {
 //---------------------------------------------------------------------
 template <class numType> HL_IMPERATIVE
 vec4<numType>::vec4() :
-	vec4 (
+	vec4(
 		0, 0, 0, 1
 	)
 {}
 
 template <class numType> HL_IMPERATIVE
 vec4<numType>::vec4(const numType input[4]) :
-	vec4 (
+	vec4(
 		input[X], input[Y], input[Z], input[W]
 	)
 {}
 
 template <class numType> HL_IMPERATIVE
 vec4<numType>::vec4(const vec4<numType>& input) :
-	vec4 (
+	vec4(
 		input.x, input.y, input.z, input.w
 	)
 {}

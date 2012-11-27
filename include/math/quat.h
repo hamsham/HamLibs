@@ -120,21 +120,21 @@ std::istream& operator >> ( std::istream& stin, quat<type>& qt ) {
 //---------------------------------------------------------------------
 template <class numType> HL_IMPERATIVE
 quat<numType>::quat() :
-	quat (
+	quat(
 		0, 0, 0, 1
 	)
 {}
 
 template <class numType> HL_IMPERATIVE
 quat<numType>::quat(const numType input[4]) :
-	quat (
+	quat(
 		input[X], input[Y], input[Z], input[W]
 	)
 {}
 
 template <class numType> HL_IMPERATIVE
 quat<numType>::quat(const quat<numType>& input) :
-	quat (
+	quat(
 		input.x, input.y, input.z, input.w
 	)
 {}

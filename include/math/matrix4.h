@@ -42,7 +42,7 @@ class mat4 {
 						WX, WY, WZ, WW };
 
 		//hardhat construction
-		mat4();
+		//mat4();
 		mat4(const numType input[16]);
 		mat4(const mat4<numType>& input);
 		mat4(	numType inXX=1, numType inXY=0, numType inXZ=0, numType inXW=0,
@@ -138,6 +138,7 @@ std::istream& operator >> ( std::istream& stin, mat4<type>& mat ) {
 //---------------------------------------------------------------------
 //	4x4 Matrix Constructors (mostly delegated)
 //---------------------------------------------------------------------
+/*
 //construct all matricies as identity matricies unless stated otherwise
 //all constructions use list-initializations
 template <class numType> HL_IMPERATIVE
@@ -149,7 +150,7 @@ mat4<numType>::mat4() :
 		0, 0, 0, 1
 	)
 {}
-
+*/
 template <class numType> HL_IMPERATIVE
 mat4<numType>::mat4(const numType input[16]) :
 	mat4(

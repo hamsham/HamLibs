@@ -36,7 +36,7 @@ class quat {
 		enum {X, Y, Z, W};
 
 		//construction
-		quat			();
+		//quat			();
 		quat			(const numType input[4]);
 		quat			(const quat<numType>& input);
 		quat			(numType inX=0, numType inY=0, numType inZ=0, numType inW=1);
@@ -118,13 +118,14 @@ std::istream& operator >> ( std::istream& stin, quat<type>& qt ) {
 //---------------------------------------------------------------------
 //				Quaternion Constructors
 //---------------------------------------------------------------------
+/*
 template <class numType> HL_IMPERATIVE
 quat<numType>::quat() :
 	quat(
 		0, 0, 0, 1
 	)
 {}
-
+*/
 template <class numType> HL_IMPERATIVE
 quat<numType>::quat(const numType input[4]) :
 	quat(

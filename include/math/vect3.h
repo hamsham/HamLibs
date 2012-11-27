@@ -31,7 +31,7 @@ class vec3 {
 		enum {X, Y, Z};
 		
 		//constructors
-		vec3			();
+		//vec3			();
 		vec3			(const numType inVect[3]);
 		vec3			(const vec3<numType>& invect);
 		vec3			(numType inX=0, numType inY=0, numType inZ=0);
@@ -118,13 +118,14 @@ std::istream& operator >> ( std::istream& stin, vec3<type>& v3 ) {
 //---------------------------------------------------------------------
 //	Vector Constructors
 //---------------------------------------------------------------------
+/*
 template <class numType> HL_IMPERATIVE
 vec3<numType>::vec3() :
 	vec3(
 		0, 0, 0
 	)
 {}
-
+*/
 template <class numType> HL_IMPERATIVE
 vec3<numType>::vec3(const numType input[3]) :
 	vec3(

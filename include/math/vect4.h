@@ -32,7 +32,7 @@ class vec4 {
 		enum {X, Y, Z, W};
 		
 		//constructors
-		vec4			();
+		//vec4			();
 		vec4			(const numType inVect[4]);
 		vec4			(const vec4<numType>& invect);
 		vec4			(numType inX=0, numType inY=0, numType inZ=0, numType inW=0);
@@ -119,13 +119,14 @@ std::istream& operator >> ( std::istream& stin, vec4<type>& v4 ) {
 //---------------------------------------------------------------------
 //	Vector Constructors
 //---------------------------------------------------------------------
+/*
 template <class numType> HL_IMPERATIVE
 vec4<numType>::vec4() :
 	vec4(
 		0, 0, 0, 1
 	)
 {}
-
+*/
 template <class numType> HL_IMPERATIVE
 vec4<numType>::vec4(const numType input[4]) :
 	vec4(

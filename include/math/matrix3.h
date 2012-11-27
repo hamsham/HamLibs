@@ -40,7 +40,7 @@ class mat3 {
 						ZX, ZY, ZZ	};
 
 		//hardhat construction
-		mat3();
+		//mat3();
 		mat3(const numType input[9]);
 		mat3(const mat3<numType>& input);
 		mat3(	numType inXX = 1, numType inXY = 0, numType inXZ = 0,
@@ -133,6 +133,7 @@ std::istream& operator >> ( std::istream& stin, mat3<type>& mat ) {
 //---------------------------------------------------------------------
 //	3x3 Matrix Constructors (mostly delegated)
 //---------------------------------------------------------------------
+/*
 //construct all matricies as identity matricies unless stated otherwise
 //all constructions use list-initializations
 template <class numType> HL_IMPERATIVE
@@ -143,7 +144,7 @@ mat3<numType>::mat3() :
 		0, 0, 1
 	)
 {}
-
+*/
 template <class numType> HL_IMPERATIVE
 mat3<numType>::mat3(const numType input[9]) :
 	mat3(

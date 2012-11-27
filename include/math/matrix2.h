@@ -36,7 +36,7 @@ class mat2 {
 						YX, YY	};
 
 		//hardhat construction
-		mat2();
+		//mat2();
 		mat2(const numType input[4]);
 		mat2(const mat2<numType>& input);
 		mat2(	numType inXX = 1, numType inXY = 0,
@@ -120,6 +120,7 @@ std::istream& operator >> ( std::istream& stin, mat2<type>& mat ) {
 //---------------------------------------------------------------------
 //construct all matricies as identity matricies unless stated otherwise
 //all constructions use list-initializations
+/*
 template <class numType> HL_IMPERATIVE
 mat2<numType>::mat2() :
 	mat2(
@@ -127,7 +128,7 @@ mat2<numType>::mat2() :
 		1, 0
 	)
 {}
-
+*/
 template <class numType> HL_IMPERATIVE
 mat2<numType>::mat2(const numType input[4]) :
 	mat2(

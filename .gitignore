@@ -1,10 +1,2 @@
-/build/LINUX_Dynamic_Release/
-/build/LINUX_Dynamic_Debug/
-/nbproject/private/
-/build/Debug_LINUX_/
-/dist/LINUX/
-/build/Release_LINUX_/
-!/dist/LINUX/libhamlibs.so
-!/dist/LINUX/libhamlibs-debug.so
-/build/
-/nbproject/
+/HamLibs_NetBeans/
+/source/

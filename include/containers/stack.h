@@ -22,25 +22,25 @@ class stack {
 		};
 		
 		node *iter;		//List navigation
-		size_t numNodes;
+		hlSize_t numNodes;
 		static const node bottom;
 		
 	public:
 		stack		();
-		~stack 	();
+		~stack		();
 
 		//data acquisition
-		type*	top		() const;
-		type*	peekNext	() const;
+		type*		top			() const;
+		type*		peekNext	() const;
 
 		//insertion & deletion
-		void	push		(const type& ptr);
-		void	pop		();
-		void	clear		();
+		void		push		(const type& ptr);
+		void		pop			();
+		void		clear		();
 
 		//miscellaneous
-		size_t	size		() const;
-		bool	empty		() const;
+		hlSize_t	size		() const;
+		bool		empty		() const;
 };
 
 //-----------------------------------------------------------------------------
@@ -111,7 +111,7 @@ void stack<type>::clear() {
 //			Miscellaneous
 //-----------------------------------------------------------------------------
 template <class type>
-size_t stack<type>::size() const {
+hlSize_t stack<type>::size() const {
 	return numNodes;
 }
 

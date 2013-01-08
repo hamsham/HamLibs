@@ -1,9 +1,9 @@
 /*
- * 3d mat class
+ * 3d matrix class
  * recommended for use with non-integral types
 
  * NOTES:
- * mat is Row-Major
+ * Matrix is Row-Major
  * orientation is as follows:
  * ----------------
  *		XX	XY
@@ -39,8 +39,9 @@ class mat2 {
 		//mat2();
 		mat2(const numType input[4]);
 		mat2(const mat2<numType>& input);
-		mat2(	numType inXX = 1, numType inXY = 0,
-				numType inYX = 0, numType inYY = 1);
+		mat2(	numType inXX = numType(1), numType inXY = numType(0),
+				numType inYX = numType(0), numType inYY = numType(1)
+		);
 		~mat2() {};
 
 		//array operators
@@ -449,14 +450,14 @@ void mat2<numType>::rotate(numType radians) {
 //---------------------------------------------------------------------
 template <class numType> HL_IMPERATIVE
 mat2<numType> mat2<numType>::getIdentity() {
-	return mat2<numType>(	1, 0,
-							0, 1	);
+	return mat2<numType>(	numType(1), numType(0),
+							numType(0), numType(1)	);
 }
 
 template <class numType> HL_IMPERATIVE
 void mat2<numType>::setIdentity() {
-	xx = 1; xy = 0;
-	yx = 0; yy = 1;
+	xx = numType(1); xy = numType(0);
+	yx = numType(0); yy = numType(1);
 }
 
 template <class numType> HL_IMPERATIVE

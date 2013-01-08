@@ -35,7 +35,7 @@ class vec4 {
 		//vec4			();
 		vec4			(const numType inVect[4]);
 		vec4			(const vec4<numType>& invect);
-		vec4			(numType inX=0, numType inY=0, numType inZ=0, numType inW=0);
+		vec4			(numType inX=numType(0), numType inY=numType(0), numType inZ=numType(0), numType inW=numType(0));
 		~vec4			(){}
 
 		//array operators
@@ -94,9 +94,9 @@ class vec4 {
 		vec4			getNormal		()		const;
 		void			normalize		();
 		void			zero			();
-		static numType	dotProduct		(const vec4<numType>& v1, const vec4<numType>& v2);
-		static numType	angleBetween	(const vec4<numType>& v1, const vec4<numType>& v2, const vec4<numType>& origin = 0);
-		static vec4		crossProduct	(const vec4<numType>& v1, const vec4<numType>& v2);
+		static numType	dot				(const vec4<numType>& v1, const vec4<numType>& v2);
+		static numType	angleBetween	(const vec4<numType>& v1, const vec4<numType>& v2, const vec4<numType>& origin = numType(0));
+		static vec4		cross			(const vec4<numType>& v1, const vec4<numType>& v2);
 };
 
 //---------------------------------------------------------------------
@@ -603,7 +603,7 @@ void vec4<numType>::normalize() {
 }
 
 template <class numType> HL_IMPERATIVE
-numType vec4<numType>::dotProduct(const vec4<numType>& v1, const vec4<numType>& v2) {
+numType vec4<numType>::dot(const vec4<numType>& v1, const vec4<numType>& v2) {
 	return	(v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
 }
 
@@ -618,18 +618,18 @@ numType vec4<numType>::angleBetween(const vec4<numType>& v1, const vec4<numType>
 }
 
 template <class numType> HL_IMPERATIVE
-vec4<numType> vec4<numType>::crossProduct(const vec4<numType>& v1, const vec4<numType>& v2) {
+vec4<numType> vec4<numType>::cross(const vec4<numType>& v1, const vec4<numType>& v2) {
 	return vec4<numType>(
 		(v1.y*v2.z) - (v1.z*v2.y),
 		(v1.z*v2.x) - (v1.x*v2.z),
 		(v1.x*v2.y) - (v1.y*v2.x),
-		0
+		numType(0)
 	);
 }
 
 template <class numType> HL_IMPERATIVE
 void vec4<numType>::zero() {
-	x = y = z = w = 0;
+	x = y = z = w = numType(0);
 }
 
 } //end math namespace

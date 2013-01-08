@@ -32,51 +32,52 @@ template <class type>
 class linkedList {
 	private:
 		struct node {
-			type data;
-			node *next, *prev;
+			type	data;
+			node	*next;
+			node	*prev;
 			node();
 		};
 		
-		node mainNode;	//mainNode serves as the list's beginning and end
-		node *iter;		//List navigation pointer
-		size_t numNodes;
+		node		mainNode;	//mainNode serves as the list's beginning and end
+		node		*iter;		//List navigation pointer
+		hlSize_t	numNodes;
 		
 	public:
 		linkedList	();
 		linkedList	(const linkedList& listCopy);
 		~linkedList	();
-		linkedList&	operator=(const linkedList& listCopy);
+		linkedList&	operator=	(const linkedList& listCopy);
 
 		//link navigation
-		void	goToFront	();			//immediately move "iter" to the front of the list
-		void	goToBack	();			//immediately move "iter" to the end of the list
-		void	goToNext	();			//move iter to the next node in the list if it's not at the end
-		void	goToPrev	();			//move iter to the previous node in the list if it's not at the beginning
+		void		goToFront	();			//immediately move "iter" to the front of the list
+		void		goToBack	();			//immediately move "iter" to the end of the list
+		void		goToNext	();			//move iter to the next node in the list if it's not at the end
+		void		goToPrev	();			//move iter to the previous node in the list if it's not at the beginning
 
 		//data acquisition
-		type*	getFirst	() const;		//get the first item. returns HL_NULL if no objects exist within the list. Does not move the iterator
-		type*	getLast	() const;		//get the last item. returns HL_NULL if no objects exist within the list. Does not move the iterator.
-		type*	getCurrent	() const;		//get currently selected item. returns HL_NULL if no objects exist within the list
-		type*	getNext	() const;		//increment selection ("iter") pointer, return its data (returns HL_NULL if at the end of the list)
-		type*	getPrev	() const;		//decrement selection ("iter") pointer, return its data (returns HL_NULL if at the end of the list)
-		type*	peekNext	() const;		//get the next item in the list without incrementing the "iter" pointer
-		type*	peekPrev	() const;
+		type*		getFirst	() const;		//get the first item. returns HL_NULL if no objects exist within the list. Does not move the iterator
+		type*		getLast		() const;		//get the last item. returns HL_NULL if no objects exist within the list. Does not move the iterator.
+		type*		getCurrent	() const;		//get currently selected item. returns HL_NULL if no objects exist within the list
+		type*		getNext		() const;		//increment selection ("iter") pointer, return its data (returns HL_NULL if at the end of the list)
+		type*		getPrev		() const;		//decrement selection ("iter") pointer, return its data (returns HL_NULL if at the end of the list)
+		type*		peekNext	() const;		//get the next item in the list without incrementing the "iter" pointer
+		type*		peekPrev	() const;
 
 		//insertion
-		void	pushFront	(const type& object);	//add an element to the front of the list
-		void	pushBack	(const type& object);	//add an element to the end of the list
-		void	pushBefore	(const type& object);	//add an element in front of the "iter" pointer; move the iter pointer to the new node
-		void	pushAfter	(const type& object);	//add an element behind the "iter" pointer, move the iter pointer to the new node
+		void		pushFront	(const type& object);	//add an element to the front of the list
+		void		pushBack	(const type& object);	//add an element to the end of the list
+		void		pushBefore	(const type& object);	//add an element in front of the "iter" pointer; move the iter pointer to the new node
+		void		pushAfter	(const type& object);	//add an element behind the "iter" pointer, move the iter pointer to the new node
 
 		//deletion
-		void	popnode	();				//delete the node pointer to by "iter", move to the next node
-		void	popFront	();				//delete the front node; move "iter" to the following node
-		void	popBack	();				//delete the node pointed to by "iter". move to the next node. (will move to the previous node if at the end of the list)
-		void	clear		();				//delete all elements in the list
+		void		popnode		();				//delete the node pointer to by "iter", move to the next node
+		void		popFront	();				//delete the front node; move "iter" to the following node
+		void		popBack		();				//delete the node pointed to by "iter". move to the next node. (will move to the previous node if at the end of the list)
+		void		clear		();				//delete all elements in the list
 
 		//miscellaneous
-		size_t	size		() const;
-		bool	empty		() const;		//check if the list is empty
+		hlSize_t	size		() const;
+		bool		empty		() const;		//check if the list is empty
 };
 
 //-----------------------------------------------------------------------------
@@ -112,7 +113,7 @@ linkedList<type>::~linkedList() {
 template <class type>
 linkedList<type>& linkedList<type>::operator =(const linkedList& listCopy) {
 	const node* iterPos = iter; //preserve the iteration position
-	size_t iterating(size);
+	hlSize_t iterating(size);
 	
 	listCopy.clear();
 	this->goToFront();
@@ -275,7 +276,7 @@ void linkedList<type>::clear() {
 //			Miscellaneous
 //-----------------------------------------------------------------------------
 template <class type>
-size_t linkedList<type>::size() const {
+hlSize_t linkedList<type>::size() const {
 	return numNodes;
 }
 

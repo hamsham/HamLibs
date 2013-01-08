@@ -43,9 +43,9 @@ class mat3 {
 		//mat3();
 		mat3(const numType input[9]);
 		mat3(const mat3<numType>& input);
-		mat3(	numType inXX = 1, numType inXY = 0, numType inXZ = 0,
-				numType inYX = 0, numType inYY = 1, numType inYZ = 0,
-				numType inZX = 0, numType inZY = 0, numType inZZ = 1);
+		mat3(	numType inXX = numType(1), numType inXY = numType(0), numType inXZ = numType(0),
+				numType inYX = numType(0), numType inYY = numType(1), numType inYZ = numType(0),
+				numType inZX = numType(0), numType inZY = numType(0), numType inZZ = numType(1));
 		~mat3(){}
 
 		//array operators
@@ -489,9 +489,9 @@ mat3<numType> mat3<numType>::rotMatrixX(numType radians) {
 	numType ncos = (numType)cos(radians);
 
 	return mat3<numType>(
-		1,	0,		0,
-		0,	ncos,	-nsin,
-		0,	nsin,	ncos
+		numType(1),	numType(0),	numType(0),
+		numType(0),	ncos,		-nsin,
+		numType(0),	nsin,		ncos
 	);
 }
 
@@ -501,9 +501,9 @@ mat3<numType> mat3<numType>::rotMatrixY(numType radians) {
 	numType ncos = (numType)cos(radians);
 
 	return mat3<numType>(
-		ncos,	0,	nsin,
-		0,		1,	0,
-		-nsin,	0,	ncos
+		ncos,		numType(0),	nsin,
+		numType(0),	numType(1),	numType(0),
+		-nsin,		numType(0),	ncos
 	);
 }
 
@@ -513,9 +513,9 @@ mat3<numType> mat3<numType>::rotMatrixZ(numType radians) {
 	numType ncos = (numType)cos(radians);
 
 	return mat3<numType>(
-		ncos,	-nsin,	0,
-		nsin,	ncos,	0,
-		0,		0,		1
+		ncos,		-nsin,		numType(0),
+		nsin,		ncos,		numType(0),
+		numType(0),	numType(0),	numType(1)
 	);
 }
 
@@ -588,16 +588,16 @@ void mat3<numType>::rotateXYZ(numType radX, numType radY, numType radZ) {
 //---------------------------------------------------------------------
 template <class numType> HL_IMPERATIVE
 mat3<numType> mat3<numType>::getIdentity() {
-	return mat3<numType>(	1, 0, 0,
-							0, 1, 0,
-							0, 0, 1	);
+	return mat3<numType>(	numType(1), numType(0), numType(0),
+							numType(0), numType(1), numType(0),
+							numType(0), numType(0), numType(1)	);
 }
 
 template <class numType> HL_IMPERATIVE
 void mat3<numType>::setIdentity() {
-	xx = 1; xy = 0; xz = 0;
-	yx = 0; yy = 1; yz = 0;
-	zx = 0; zy = 0; zz = 1;
+	xx = numType(1); xy = numType(0); xz = numType(0);
+	yx = numType(0); yy = numType(1); yz = numType(0);
+	zx = numType(0); zy = numType(0); zz = numType(1);
 }
 
 template <class numType> HL_IMPERATIVE

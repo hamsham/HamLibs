@@ -14,28 +14,28 @@ class queue {
 			type data;
 			node *next = HL_NULL;
 		};
-		node	*first = NULL;		//List navigation
-		node	*last = NULL;
-		size_t	numNodes;
+		node		*first = NULL;		//List navigation
+		node		*last = NULL;
+		hlSize_t	numNodes;
 		
 		
 	public:
-		queue 	();
-		~queue 	();
+		queue		();
+		~queue		();
 
 		//data acquisition
-		type*	front	() const;
-		type*	peekNext	() const;
-		type*	back		() const;
+		type*		front		() const;
+		type*		peekNext	() const;
+		type*		back		() const;
 
 		//insertion & deletion
 		void		push		(const type& object);
-		void		pop		();
-		void		clear	();
+		void		pop			();
+		void		clear		();
 
 		//miscellaneous
-		size_t	size		() const;
-		bool		empty	() const;
+		hlSize_t	size		() const;
+		bool		empty		() const;
 };
 
 //-----------------------------------------------------------------------------
@@ -116,7 +116,7 @@ void queue<type>::clear() {
 //			Miscellaneous
 //-----------------------------------------------------------------------------
 template <class type>
-size_t queue<type>::size() const {
+hlSize_t queue<type>::size() const {
 	return numNodes;
 }
 

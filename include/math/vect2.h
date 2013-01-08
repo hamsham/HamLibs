@@ -8,7 +8,6 @@
  *		X
  *		Y
  * ----------
- *	derp
 */
 
 #ifndef __HAMLIBS_MATH_VECT2_H__
@@ -34,7 +33,7 @@ class vec2 {
 		//vec2			();
 		vec2			(const numType inVect[2]);
 		vec2			(const vec2<numType>& invect);
-		vec2			(numType inX=0, numType inY=0);
+		vec2			(numType inX=numType(0), numType inY=numType(0));
 
 		//array operators
 		numType			operator		[]		(int) const;
@@ -88,9 +87,9 @@ class vec2 {
 		vec2			getNormal		()		const;
 		void			normalize		();
 		void			zero			();
-		static numType	dotProduct		(const vec2<numType>& v1, const vec2<numType>& v2);
-		static numType	angleBetween	(const vec2<numType>& v1, const vec2<numType>& v2, const vec2<numType>& origin = 0);
-		static vec2		crossProduct	(const vec2<numType>& invect2);
+		static numType	dot				(const vec2<numType>& v1, const vec2<numType>& v2);
+		static numType	angleBetween	(const vec2<numType>& v1, const vec2<numType>& v2, const vec2<numType>& origin = numType(0));
+		static vec2		cross			(const vec2<numType>& invect2);
 };
 
 //---------------------------------------------------------------------
@@ -465,7 +464,7 @@ void vec2<numType>::normalize() {
 }
 
 template <class numType> HL_IMPERATIVE
-numType vec2<numType>::dotProduct(const vec2<numType>& v1, const vec2<numType>& v2) {
+numType vec2<numType>::dot(const vec2<numType>& v1, const vec2<numType>& v2) {
 	return (v1.x * v2.x) + (v1.y * v2.y);
 }
 
@@ -478,7 +477,7 @@ numType vec2<numType>::angleBetween(const vec2<numType>& v1, const vec2<numType>
 }
 
 template <class numType> HL_IMPERATIVE
-vec2<numType> vec2<numType>::crossProduct(const vec2<numType>& inVect2) {
+vec2<numType> vec2<numType>::cross(const vec2<numType>& inVect2) {
 	return vec2<numType>(
 			inVect2.y,
 			-inVect2.x
@@ -487,7 +486,7 @@ vec2<numType> vec2<numType>::crossProduct(const vec2<numType>& inVect2) {
 
 template <class numType> HL_IMPERATIVE
 void vec2<numType>::zero() {
-	x = y = 0;
+	x = y = numType(0);
 }
 
 } //end math namespace

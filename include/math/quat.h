@@ -13,9 +13,6 @@ NOTES:
 #ifndef __HAMLIBS_MATH_QUAT_H__
 #define __HAMLIBS_MATH_QUAT_H__
 
-#include "math.h"
-
-
 namespace hamLibs {
 namespace math {
 
@@ -35,11 +32,14 @@ class quat {
 		
 		enum {X, Y, Z, W};
 
-		//construction
-		//quat			();
+		//construction (all delegated)
 		quat			(const numType input[4]);
 		quat			(const quat<numType>& input);
-		quat			(numType inX=0, numType inY=0, numType inZ=0, numType inW=1);
+		quat			(	numType inX=numType(0),
+							numType inY=numType(0),
+							numType inZ=numType(0),
+							numType inW=numType(1)
+						);
 		~quat(){}
 
 		//array operators
@@ -118,14 +118,7 @@ std::istream& operator >> ( std::istream& stin, quat<type>& qt ) {
 //---------------------------------------------------------------------
 //				Quaternion Constructors
 //---------------------------------------------------------------------
-/*
-template <class numType> HL_IMPERATIVE
-quat<numType>::quat() :
-	quat(
-		0, 0, 0, 1
-	)
-{}
-*/
+//delegated constructors
 template <class numType> HL_IMPERATIVE
 quat<numType>::quat(const numType input[4]) :
 	quat(
@@ -142,6 +135,8 @@ quat<numType>::quat(const quat<numType>& input) :
 
 template <class numType> HL_IMPERATIVE
 quat<numType>::quat(numType inX, numType inY, numType inZ, numType inW) :
+	// all constructors are delegated to use this.
+	// make the references equal a value in the array
 	q{ inX, inY, inZ, inW },
 	x( q[0] ), y( q[1] ), z( q[2] ), w( q[3] )
 {}
@@ -215,22 +210,28 @@ quat<numType> quat<numType>::operator - (const quat<numType>& input) const {
 template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::operator * (const quat<numType>& input) const {
 	return quat<numType>(
-		(w*input.x) - (x*input.w) - (y*input.z) - (z*input.y),
-		(w*input.y) - (x*input.z) - (y*input.w) - (z*input.x),
-		(w*input.z) - (x*input.y) - (y*input.x) - (z*input.w),
-		(w*input.w) - (x*input.x) - (y*input.y) - (z*input.z)
+		(input.w*x) + (input.x*w) - (input.y*z) + (input.z*y),
+		(input.w*y) + (input.x*z) + (input.y*w) - (input.z*x),
+		(input.w*z) - (input.x*y) + (input.y*x) + (input.z*w),
+		(input.w*w) - (input.x*x) - (input.y*y) - (input.z*z)
 	);
 }
 
 template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::operator / (const quat<numType>& input) const {
-	numType magnitude((input.x*input.x)+(input.y*input.y)+(input.z*input.z)+(input.w*input.w));
+	numType length(
+		(input.x*input.x) +
+		(input.y*input.y) +
+		(input.z*input.z) +
+		(input.w*input.w)
+	);
+	length = numType(1) / length;
 
 	return quat<numType>(
-		((input.w*x) - (input.x*w) - (input.y*z) + (input.z*y)) / magnitude,
-		((input.w*y) - (input.x*z) - (input.y*w) + (input.z*x)) / magnitude,
-		((input.w*z) - (input.x*y) - (input.y*x) + (input.z*z)) / magnitude,
-		((input.w*w) - (input.x*x) - (input.y*y) + (input.z*w)) / magnitude
+		((input.w*x) - (input.x*w) - (input.y*z) + (input.z*y)) * length,
+		((input.w*y) + (input.x*z) - (input.y*w) - (input.z*x)) * length,
+		((input.w*z) - (input.x*y) + (input.y*x) - (input.z*w)) * length,
+		((input.w*w) + (input.x*x) + (input.y*y) + (input.z*z)) * length
 	);
 }
 
@@ -298,7 +299,7 @@ bool quat<numType>::operator != (const quat<numType>& compare) const {
 //---------------------------------------------------------------------
 template <class numType> HL_IMPERATIVE
 numType quat<numType>::getMagnitude() const {
-	return hamLibs::math::fastSqrt(
+	return std::sqrt(
 		(x * x) +
 		(y * y) +
 		(z * z) +
@@ -309,7 +310,13 @@ numType quat<numType>::getMagnitude() const {
 template <class numType> HL_IMPERATIVE
 void quat<numType>::setNormal() {
 	//get the inverse square root
-	numType length = fastInvSqrt(getMagnitude());
+	numType length( hamLibs::math::fastInvSqrt(
+		(x * x) +
+		(y * y) +
+		(z * z) +
+		(w * w)
+	));
+	
 	x *= length;
 	y *= length;
 	z *= length;
@@ -319,7 +326,13 @@ void quat<numType>::setNormal() {
 template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::getNormal() const {
 	//get the inverse square root
-	numType length = fastInvSqrt(getMagnitude());
+	numType length( hamLibs::math::fastInvSqrt(
+		(x * x) +
+		(y * y) +
+		(z * z) +
+		(w * w)
+	));
+	
 	return quat<numType>(
 		x * length,
 		y * length,
@@ -350,13 +363,13 @@ quat<numType> quat<numType>::getConjugate() const {
 //some info was also found in the DOOM 3 source code
 template <class numType> HL_IMPERATIVE
 void quat<numType>::slerp(const quat<numType>& slerpTo, const numType& alpha) {
-	numType temp[4] = {0, 0, 0, 0};
+	numType temp[4] = { numType(0) };
 	numType omega, sinTheta, cosTheta, scale0, scale1;
 
 	cosTheta = (x*slerpTo.x) + (y*slerpTo.y) + (z*slerpTo.z) + (w*slerpTo.w);
 
 	//make adjustment if necessary
-	if (cosTheta < 0) {
+	if (cosTheta < numType(0)) {
 		cosTheta = -cosTheta;
 		temp.x = -slerpTo.x;
 		temp.y = -slerpTo.y;
@@ -371,16 +384,16 @@ void quat<numType>::slerp(const quat<numType>& slerpTo, const numType& alpha) {
 	}
 
 	//check if regular LERP should be used instead
-	if (1-cosTheta > HL_EPSILON) {
+	if (numType(1)-cosTheta > HL_EPSILON) {
 		//standard SLERP
 		omega = acos(cosTheta);
 		sinTheta = sin(omega);
-		scale0 = sin((1 - alpha) * omega) / sinTheta;
+		scale0 = sin((numType(1) - alpha) * omega) / sinTheta;
 		scale1 = sin(alpha * omega) / sinTheta;
 	}
 	else {
 		//use LERP if the distance to travel is too small
-		scale0 = 1 - alpha;
+		scale0 = numType(1) - alpha;
 		scale1 = alpha;
 	}
 
@@ -400,13 +413,13 @@ void quat<numType>::rotate(const numType& yaw, const numType& pitch, const numTy
 
 template <class numType> HL_IMPERATIVE
 void quat<numType>::makeIdentity() {
-	x = y = z = 0;
-	w = 1;
+	x = y = z = numType(0);
+	w = numType(1);
 }
 
 template <class numType> HL_IMPERATIVE
 void quat<numType>::setInverse() {
-	numType length = -1 / ((x*x) + (y*y) + (z*z) + (w*w));
+	numType length = numType(-1) / ((x*x) + (y*y) + (z*z) + (w*w));
 	//multiplication is faster than division
 	x *= length;
 	y *= length;
@@ -416,8 +429,8 @@ void quat<numType>::setInverse() {
 
 template <class numType> HL_IMPERATIVE
 quat<numType> quat<numType>::getInverse() const {
-	numType length = -1 / ((x*x) + (y*y) + (z*z) + (w*w));
-	
+	numType length = numType(-1) / ((x*x) + (y*y) + (z*z) + (w*w));
+	//multiplication is faster than division
 	return quat<numType>(
 		x * length,
 		y * length,
@@ -433,10 +446,10 @@ quat<numType> quat<numType>::getInverse() const {
 // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
 template <class numType> HL_IMPERATIVE
 void quat<numType>::toVect(numType& outX, numType& outY, numType& outZ) {
-	if (w > 1) setNormal();		// if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
-	float s = sqrt(1-(w*w));	// assuming quaternion normalized then w is less than 1, so term always positive.
+	if (w > numType(1)) setNormal();		// if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
+	float s = sqrt(numType(1)-(w*w));	// assuming quaternion normalized then w is less than 1, so term always positive.
 
-	if (s < 001) {				// test to avoid divide by zero, s is always positive due to sqrt
+	if (s < HL_EPSILON) {		// test to avoid divide by zero, s is always positive due to sqrt
 		outX = x;				// if s close to zero then direction of axis not important
 		outY = y;				// if it is important that axis is normalized then replace with x=1; y=z=0;
 		outZ = z;
@@ -455,7 +468,7 @@ void quat<numType>::toVect(vec3<numType>& outVect) {
 
 template <class numType> HL_IMPERATIVE
 void quat<numType>::toAxes(numType& outX, numType& outY, numType& outZ, numType& outAngle) {
-	outAngle = acos(w) * 2;
+	outAngle = acos(w) * numType(2);
 	toVect(outX, outY, outZ);
 }
 
@@ -475,22 +488,22 @@ void quat<numType>::toEuler(numType& yaw, numType& pitch, numType& roll) const {
 	numType unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
 	numType test = x*y + z*w;
 	
-	if (test > 0.499*unit) { // singularity at north pole
-		pitch = 2 * atan2(x,w);
+	if (test > HL_EPSILON*unit) { // singularity at north pole
+		pitch = numType(2) * atan2(x,w);
 		yaw = HL_PI_OVR2;
 		roll = 0;
 		return;
 	}
-	else if (test < -0.499*unit) { // singularity at south pole
-		pitch = -2 * atan2(x,w);
+	else if (test < -HL_EPSILON*unit) { // singularity at south pole
+		pitch = numType(-2) * atan2(x,w);
 		yaw = -HL_PI_OVR2;
-		roll = 0;
+		roll = numType(0);
 		return;
 	}
 	else {
-		pitch = atan2((2*(y*w))-(2*(x*z)), sqx - sqy - sqz + sqw);
-		yaw = asin(2*test/unit);
-		roll = atan2((2*(x*w))-(2*(w*z)), -sqx + sqy - sqz + sqw);
+		pitch = atan2((numType(2)*(y*w))-(numType(2)*(x*z)), sqx - sqy - sqz + sqw);
+		yaw = asin(numType(2)*test/unit);
+		roll = atan2((numType(2)*(x*w))-(numType(2)*(w*z)), -sqx + sqy - sqz + sqw);
 	}
 }
 
@@ -506,9 +519,9 @@ void quat<numType>::toMatrix3(mat3<numType>& m3x3, bool isUnitQuat) const {
 	if (isUnitQuat) {
 		//"multiply" the angles by 2 and optimize if the current quaternion is a unit quaternion
 		xx += xx; yy += yy; zz += zz;
-		m3x3[0] = 1-(yy+zz);	m3x3[1] = 2*(xy-zw);	m3x3[2] = 2*(xz+yw);
-		m3x3[3] = 2*(xy+zw);	m3x3[4] = 1-(xx+zz);	m3x3[5] = 2*(yz+xw);
-		m3x3[6] = 2*(xz+yw);	m3x3[7] = 2*(yz+xw);	m3x3[8] = 1-(xx+yy);
+		m3x3[0] = numType(1)-(yy+zz);	m3x3[1] = numType(2)*(xy-zw);	m3x3[2] = numType(2)*(xz+yw);
+		m3x3[3] = numType(2)*(xy+zw);	m3x3[4] = numType(1)-(xx+zz);	m3x3[5] = numType(2)*(yz+xw);
+		m3x3[6] = numType(2)*(xz+yw);	m3x3[7] = numType(2)*(yz+xw);	m3x3[8] = numType(1)-(xx+yy);
 	}
 	else {
 		m3x3[0] = ww+xx-zz-yy;	m3x3[1] = -zw+xy-zw+xy;	m3x3[2] = yw+xz+xz+yw;
@@ -525,18 +538,18 @@ void quat<numType>::toMatrix4(mat4<numType>& m4x4, bool isUnitQuat) const {
 	numType zw = z * w;
 	
 	if (isUnitQuat) {
-		//"multiply" the angles by 2 and optimize if the current quaternion is a unit quaternion
+		// optimize if the current quaternion is a unit quaternion
 		xx += xx; yy += yy; zz += zz;
-		m4x4[0] = 1-(yy+zz);	m4x4[1] = 2*(xy-zw);	m4x4[2] = 2*(xz+yw);	m4x4[3] = 0;
-		m4x4[4] = 2*(xy+zw);	m4x4[5] = 1-(xx+zz);	m4x4[6] = 2*(yz+xw);	m4x4[7] = 0;
-		m4x4[8] = 2*(xz+yw);	m4x4[9] = 2*(yz+xw);	m4x4[10] = 1-(xx+yy);	m4x4[11] = 0;
-		m4x4[12] = 0;			m4x4[13] = 0;			m4x4[14] = 0;			m4x4[15] = 1;
+		m4x4[0] = numType(1)-(yy+zz);	m4x4[1] = numType(2)*(xy-zw);	m4x4[2] = numType(2)*(xz+yw);	m4x4[3] = numType(0);
+		m4x4[4] = numType(2)*(xy+zw);	m4x4[5] = numType(1)-(xx+zz);	m4x4[6] = numType(2)*(yz+xw);	m4x4[7] = numType(0);
+		m4x4[8] = numType(2)*(xz+yw);	m4x4[9] = numType(2)*(yz+xw);	m4x4[10] = numType(1)-(xx+yy);	m4x4[11] = numType(0);
+		m4x4[12] = numType(0);			m4x4[13] = numType(0);			m4x4[14] = numType(0);			m4x4[15] = numType(1);
 	}
 	else {
-		m4x4[0] = ww+xx-zz-yy;	m4x4[1] = -zw+xy-zw+xy;	m4x4[2] = yw+xz+xz+yw;	m4x4[3] = 0;
-		m4x4[4] = xy+zw+zw+xy;	m4x4[5] = yy-zz+ww-xx;	m4x4[6] = yz+yz-xw-xw;	m4x4[7] = 0;
-		m4x4[8] = xz-yw+xz-yw;	m4x4[9] = yz+yz+xw+xw;	m4x4[10] = zz-yy-xx+ww;	m4x4[11] = 0;
-		m4x4[12] = 0;			m4x4[13] = 0;			m4x4[14] = 0;			m4x4[15] = 1;
+		m4x4[0] = ww+xx-zz-yy;	m4x4[1] = -zw+xy-zw+xy;	m4x4[2] = yw+xz+xz+yw;	m4x4[3] = numType(0);
+		m4x4[4] = xy+zw+zw+xy;	m4x4[5] = yy-zz+ww-xx;	m4x4[6] = yz+yz-xw-xw;	m4x4[7] = numType(0);
+		m4x4[8] = xz-yw+xz-yw;	m4x4[9] = yz+yz+xw+xw;	m4x4[10] = zz-yy-xx+ww;	m4x4[11] = numType(0);
+		m4x4[12] = numType(0);	m4x4[13] = numType(0);	m4x4[14] = numType(0);	m4x4[15] = numType(1);
 	}
 }
 
@@ -549,7 +562,7 @@ void quat<numType>::fromVect(const numType& inX, const numType& inY, const numTy
 	x = inX;
 	y = inY;
 	z = inZ;
-	w = 0;
+	w = numType(0);
 }
 
 template <class numType> HL_IMPERATIVE
@@ -559,11 +572,11 @@ void quat<numType>::fromVect(const vec3<numType>& inVector) {
 
 template <class numType> HL_IMPERATIVE
 void quat<numType>::fromAxes(const numType& inX, const numType& inY, const numType& inZ, const numType& radians) {
-	numType angle = sin(radians * 0.5);
+	numType angle = sin(radians * numType(0.5));
 	x = inX * angle;
 	y = inY * angle;
 	z = inZ * angle;
-	w = cos(radians * 0.5);
+	w = cos(radians * numType(0.5));
 }
 
 template <class numType> HL_IMPERATIVE
@@ -574,12 +587,12 @@ void quat<numType>::fromAxes(const vec3<numType>& inVector, const numType& radia
 template <class numType> HL_IMPERATIVE
 void quat<numType>::fromEuler(const numType& yaw, const numType& pitch, const numType& roll) {
 	//too many premature optimizations went into this
-	numType sP	(sin(pitch*0.5));
-	numType cP	(cos(pitch*0.5));
-	numType sY	(sin(yaw*0.5));
-	numType cY	(cos(yaw*0.5));
-	numType sR	(sin(roll*0.5));
-	numType cR	(cos(roll*0.5));
+	numType sP	(sin(pitch*numType(0.5)));
+	numType cP	(cos(pitch*numType(0.5)));
+	numType sY	(sin(yaw*numType(0.5)));
+	numType cY	(cos(yaw*numType(0.5)));
+	numType sR	(sin(roll*numType(0.5)));
+	numType cR	(cos(roll*numType(0.5)));
 	
 	numType sPsY(sP*sY);
 	numType sPcY(sP*cY);
@@ -602,38 +615,38 @@ void quat<numType>::fromEuler(const vec3<numType>& rotationVector) {
 template <class numType> HL_IMPERATIVE
 void quat<numType>::fromMatrix3(const mat3<numType>& m3x3) {
 	//calculate the trace of the input matrix major diagonal
-	numType trace = 4 * (1 - (m3x3[0]*m3x3[0]) - (m3x3[4]*m3x3[4]) - (m3x3[8]*m3x3[8]));
-	numType temp = 0;
+	numType trace(numType(4) * (numType(1) - (m3x3[0]*m3x3[0]) - (m3x3[4]*m3x3[4]) - (m3x3[8]*m3x3[8])) );
+	numType temp(0);
 
 	//if the matrix trace value is too small, perform an immediate conversion
 	if (trace > HL_EPSILON) {
-		temp = fastInvSqrt(trace) * 0.5;
+		temp = fastInvSqrt(trace) * numType(0.5);
 		x = (m3x3[7] - m3x3[5]) * temp;
 		y = (m3x3[2] - m3x3[6]) * temp;
 		z = (m3x3[3] - m3x3[1]) * temp;
-		w = 0.25 / temp;
+		w = numType(0.25) / temp;
 	}
 	//if the trace of the matrix is equal to 0, then find out
 	//which major diagonal has the greatest value.
 	if (m3x3[0] > m3x3[5] && m3x3[0] > m3x3[8]) { //first column
-		temp = fastInvSqrt(1 + m3x3[0] - m3x3[4] - m3x3[8]) * 0.5;
-		x = 0.25 / temp;
+		temp = fastInvSqrt(numType(1) + m3x3[0] - m3x3[4] - m3x3[8]) * numType(0.5);
+		x = numType(0.25) / temp;
 		y = (m3x3[3] + m3x3[1]) * temp;
 		z = (m3x3[2] + m3x3[6]) * temp;
 		w = (m3x3[7] - m3x3[5]) * temp;
 	}
 	else if (m3x3[4] > m3x3[8]) {
-		temp = fastInvSqrt(1 + m3x3[4] - m3x3[0] - m3x3[8]) * 0.5;
+		temp = fastInvSqrt(numType(1) + m3x3[4] - m3x3[0] - m3x3[8]) * numType(0.5);
 		x = (m3x3[3] + m3x3[1]) * temp;
-		y = 0.25 / temp;
+		y = numType(0.25) / temp;
 		z = (m3x3[7] + m3x3[5]) * temp;
 		w = (m3x3[2] - m3x3[6]) * temp;
 	}
 	else {
-		temp = fastInvSqrt(1 + m3x3[4] - m3x3[0] - m3x3[8]) * 0.5;
+		temp = fastInvSqrt(numType(1) + m3x3[4] - m3x3[0] - m3x3[8]) * numType(0.5);
 		x = (m3x3[2] + m3x3[6]) * temp;
 		y = (m3x3[7] + m3x3[5]) * temp;
-		z = 0.25 / temp;
+		z = numType(0.25) / temp;
 		w = (m3x3[3] - m3x3[1]) * temp;
 	}
 }
@@ -641,38 +654,38 @@ void quat<numType>::fromMatrix3(const mat3<numType>& m3x3) {
 template <class numType> HL_IMPERATIVE
 void quat<numType>::fromMatrix4(const mat4<numType>& m4x4) {
 	//calculate the trace of the input matrix major diagonal
-	numType trace = 4 * (1 - (m4x4[0]*m4x4[0]) - (m4x4[5]*m4x4[5]) - (m4x4[10]*m4x4[10]));
-	numType temp = 0;
+	numType trace( numType(4) * (numType(1) - (m4x4[0]*m4x4[0]) - (m4x4[5]*m4x4[5]) - (m4x4[10]*m4x4[10])) );
+	numType temp(0);
 
 	//if the matrix trace value is too small, perform an immediate conversion
 	if (trace > HL_EPSILON) {
-		temp = fastInvSqrt(trace) * 0.5;
+		temp = fastInvSqrt(trace) * numType(0.5);
 		x = (m4x4[9] - m4x4[6]) * temp;
 		y = (m4x4[2] - m4x4[8]) * temp;
 		z = (m4x4[4] - m4x4[1]) * temp;
-		w = 0.25 / temp;
+		w = numType(0.25) / temp;
 	}
 	//if the trace of the matrix is equal to 0, then find out
 	//which major diagonal has the greatest value.
 	if (m4x4[0] > m4x4[5] && m4x4[0] > m4x4[10]) { //first column
-		temp = fastInvSqrt(1 + m4x4[0] - m4x4[5] - m4x4[10]) * 0.5;
-		x = 0.25 / temp;
+		temp = fastInvSqrt(numType(1) + m4x4[0] - m4x4[5] - m4x4[10]) * numType(0.5);
+		x = numType(0.25) / temp;
 		y = (m4x4[4] + m4x4[1]) * temp;
 		z = (m4x4[2] + m4x4[8]) * temp;
 		w = (m4x4[9] - m4x4[6]) * temp;
 	}
 	else if (m4x4[5] > m4x4[10]) {
-		temp = fastInvSqrt(1 + m4x4[5] - m4x4[0] - m4x4[10]) * 0.5;
+		temp = fastInvSqrt(numType(1) + m4x4[5] - m4x4[0] - m4x4[10]) * numType(0.5);
 		x = (m4x4[4] + m4x4[1]) * temp;
-		y = 0.25 / temp;
+		y = numType(0.25) / temp;
 		z = (m4x4[9] + m4x4[6]) * temp;
 		w = (m4x4[2] - m4x4[8]) * temp;
 	}
 	else {
-		temp = fastInvSqrt(1 + m4x4[5] - m4x4[0] - m4x4[10]) * 0.5;
+		temp = fastInvSqrt(numType(1) + m4x4[5] - m4x4[0] - m4x4[10]) * numType(0.5);
 		x = (m4x4[2] + m4x4[8]) * temp;
 		y = (m4x4[9] + m4x4[6]) * temp;
-		z = 0.25 / temp;
+		z = numType(0.25) / temp;
 		w = (m4x4[4] - m4x4[1]) * temp;
 	}
 }

@@ -3,8 +3,6 @@
 #ifndef __HAMLIBS_MATH_H__
 #define __HAMLIBS_MATH_H__
 
-#include <cmath>
-
 /*
  * NOTES:
  * All angle measurements used by this library are in radians
@@ -27,10 +25,19 @@ namespace math {
 	//-------------------------------------------------------------
 	//				Prototypes & Declarations
 	//-------------------------------------------------------------
-	template <typename numType>	numType		fastSqrt(numType);
-	template <typename numType>	numType		fastInvSqrt(numType);
-	template <typename numType>	numType		degToRad(numType);
-	template <typename numType>	numType		radToDeg(numType);
+	//Multidimensional math classes
+	template <class numType> class mat2;
+	template <class numType> class mat3;
+	template <class numType> class mat4;
+	template <class numType> class quat;
+	template <class numType> class vec2;
+	template <class numType> class vec3;
+	template <class numType> class vec4;
+		
+	template <typename numType>	numType fastSqrt(numType);
+	template <typename numType>	numType fastInvSqrt(numType);
+	template <typename numType>	numType degToRad(numType);
+	template <typename numType>	numType radToDeg(numType);
 
 	//-------------------------------------------------------------
 	//				Definitions
@@ -72,7 +79,7 @@ namespace math {
 }//end math namespace
 }//end hamlibs namespace
 
-#include "fixed.h"
+//#include "math/fixed.h"
 #include "matrix2.h"
 #include "matrix3.h"
 #include "matrix4.h"

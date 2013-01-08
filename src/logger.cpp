@@ -1,6 +1,7 @@
 
 //Allegro-based event-logging class
-#include <ostream>
+#include <ctime>
+#include <cstdarg>
 #include "../include/hamLibs.h"
 
 namespace hamLibs {
@@ -31,7 +32,7 @@ void logger::log(const char* info2Log, ...) {
 	
 	va_list args;
 	va_start(args, info2Log);
-	output << "\t" << al_get_time() << " -- ";
+	output << "\t" << std::clock() << " -- ";
 	output << info2Log << args;
 	output << "\n";
 	va_end(args);

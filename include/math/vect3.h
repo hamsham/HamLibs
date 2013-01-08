@@ -34,7 +34,7 @@ class vec3 {
 		//vec3			();
 		vec3			(const numType inVect[3]);
 		vec3			(const vec3<numType>& invect);
-		vec3			(numType inX=0, numType inY=0, numType inZ=0);
+		vec3			(numType inX=numType(0), numType inY=numType(0), numType inZ=numType(0));
 		~vec3			(){}
 
 		//array operators
@@ -93,9 +93,9 @@ class vec3 {
 		vec3			getNormal		()		const;
 		void			normalize		();
 		void			zero			();
-		static numType	dotProduct		(const vec3<numType>& v1, const vec3<numType>& v2);
-		static numType	angleBetween	(const vec3<numType>& v1, const vec3<numType>& v2, const vec3<numType>& origin = 0);
-		static vec3		crossProduct	(const vec3<numType>& v1, const vec3<numType>& v2);
+		static numType	dot				(const vec3<numType>& v1, const vec3<numType>& v2);
+		static numType	angleBetween	(const vec3<numType>& v1, const vec3<numType>& v2, const vec3<numType>& origin = numType(0));
+		static vec3		cross			(const vec3<numType>& v1, const vec3<numType>& v2);
 };
 
 //---------------------------------------------------------------------
@@ -560,7 +560,7 @@ void vec3<numType>::normalize() {
 }
 
 template <class numType> HL_IMPERATIVE
-numType vec3<numType>::dotProduct(const vec3<numType>& v1, const vec3<numType>& v2) {
+numType vec3<numType>::dot(const vec3<numType>& v1, const vec3<numType>& v2) {
 	return	(v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
 
@@ -574,7 +574,7 @@ numType vec3<numType>::angleBetween(const vec3<numType>& v1, const vec3<numType>
 }
 
 template <class numType> HL_IMPERATIVE
-vec3<numType> vec3<numType>::crossProduct(const vec3<numType>& v1, const vec3<numType>& v2) {
+vec3<numType> vec3<numType>::cross(const vec3<numType>& v1, const vec3<numType>& v2) {
 	return vec3<numType>(
 		(v1.y*v2.z) - (v1.z*v2.y),
 		(v1.z*v2.x) - (v1.x*v2.z),
@@ -584,7 +584,7 @@ vec3<numType> vec3<numType>::crossProduct(const vec3<numType>& v1, const vec3<nu
 
 template <class numType> HL_IMPERATIVE
 void vec3<numType>::zero() {
-	x = y = z = 0;
+	x = y = z = numType(0);
 }
 
 } //end math namespace

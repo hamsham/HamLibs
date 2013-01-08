@@ -9,14 +9,12 @@
 #define	__HAMSTRING_H__
 namespace hamLibs {
 
-#ifndef nPos
-	#define nPos (-1)
-#endif
-
 class hamString {
 	private:
+		static const int nPos;
+		
 		char*		array;
-		size_t		Size;
+		hlSize_t	Size;
 	
 	public:
 		hamString		();
@@ -53,24 +51,24 @@ class hamString {
 		void		clear		();
 		void		popFront	();
 		void		popBack		();
-		void		pop			(size_t index);
+		void		pop			(hlSize_t index);
 
 		//random accecss insertion
-		void		push		(size_t index, const char* str, size_t strSize);
-		void		pushAfter	(size_t index, const char* str, size_t strSize);
+		void		push		(hlSize_t index, const char* str, hlSize_t strSize);
+		void		pushAfter	(hlSize_t index, const char* str, hlSize_t strSize);
 		
-		void		push		(size_t index, const hamString& str);
-		void		pushAfter	(size_t index, const hamString& str);
+		void		push		(hlSize_t index, const hamString& str);
+		void		pushAfter	(hlSize_t index, const hamString& str);
 		
-		void		push		(size_t index, const char* str);
-		void		pushAfter	(size_t index, const char* str);
+		void		push		(hlSize_t index, const char* str);
+		void		pushAfter	(hlSize_t index, const char* str);
 		
-		void		push		(size_t index, char c);
-		void		pushAfter	(size_t index, char c);
+		void		push		(hlSize_t index, char c);
+		void		pushAfter	(hlSize_t index, char c);
 		
 		//direct insertion
-		void		pushFront	(const char* str, size_t strSize);
-		void		pushBack	(const char* str, size_t strSize);
+		void		pushFront	(const char* str, hlSize_t strSize);
+		void		pushBack	(const char* str, hlSize_t strSize);
 		
 		void		pushFront	(const hamString& str);
 		void		pushBack	(const hamString& str);
@@ -86,15 +84,15 @@ class hamString {
 		char&		back		();
 		
 		//searching
-		long int	find		(const char* str, size_t strLength) const;
-		long int	find		(const hamString& str) const;
-		long int	find		(const char* str) const;
-		long int	find		(char c) const;
+		hlSize_t	find		(const char* str, hlSize_t strLength) const;
+		hlSize_t	find		(const hamString& str) const;
+		hlSize_t	find		(const char* str) const;
+		hlSize_t	find		(char c) const;
 		
-		long int	rFind		(const char* str, size_t strLength) const;
-		long int	rFind		(const hamString& str) const;
-		long int	rFind		(const char* str) const;
-		long int	rFind		(char c) const;
+		hlSize_t	rFind		(const char* str, hlSize_t strLength) const;
+		hlSize_t	rFind		(const hamString& str) const;
+		hlSize_t	rFind		(const char* str) const;
+		hlSize_t	rFind		(char c) const;
 
 		//utility functions
 		void		copy		(const hamString& str);
@@ -102,17 +100,17 @@ class hamString {
 		void		copy		(char c);
 		
 		void		append		(const hamString& str);
-		void		append		(const char* str, size_t strLength);
+		void		append		(const char* str, hlSize_t strLength);
 		void		append		(const char* str);
 		void		append		(char c);
 		
-		void		resize		(size_t newSize, char c);
-		void		resize		(size_t newSize);
+		void		resize		(hlSize_t newSize, char c);
+		void		resize		(hlSize_t newSize);
 		
 		//miscellaneous
-		hamString	subStr		(size_t pos, size_t length) const;
+		hamString	subStr		(hlSize_t pos, hlSize_t length) const;
 		bool		empty		() const;
-		size_t		size		() const;
+		hlSize_t	size		() const;
 		void		swap		(hamString&);
 		const char*	cStr		() const;
 };

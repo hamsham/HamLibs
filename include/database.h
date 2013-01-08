@@ -26,8 +26,8 @@ class database {
 		typedef containers::linkedList< containers::linkedList<std::string> > dataList;
 		dataArray data;
 		
-		static void	saveToCSV		(const dataArray& dataToSave, const char* fileName);
-		static void	saveToCSV		(dataList& dataToSave, const char* fileName); //resets iteration positions
+		static void	saveToCSV	(const dataArray& dataToSave, const char* fileName);
+		static void	saveToCSV	(dataList& dataToSave, const char* fileName); //resets iteration positions
 
 	public:
 		database	();
@@ -35,31 +35,31 @@ class database {
 		~database	();
 
 		// file loading functions
-		int		loadCSV		(const char* fileName, char delim = ',', char textDelim = '\"');
+		int			loadCSV			(const char* fileName, char delim = ',', char textDelim = '\"');
 		void		unloadCSV		();
 
 		// data loading & saving
-		void		saveDB		(const char* fileName) const;
+		void		saveDB			(const char* fileName) const;
 		void		copyToDB		(database& dbToPut) const;
 		void		copyFromDB		(const database& dbToGet);
 		void		getDb			(dataArray& inDB) const;
 		
 		//misc
-		void		printDB		() const;
+		void		printDB			() const;
 		
 		// data extraction & manipulation, all vector positions start at 0 like arrays
 		template <typename dataType>
-		void		getItem		(dataType* item, int row, int column) const;
+		void		getItem			(dataType* item, int row, int column) const;
 		std::string	getItem		(int row, int column) const;
 		template <typename dataType>
-		void		setItem		(int row, int column, const dataType& value);
-		void		setItem		(int row, int column, const char* value);
-		int		findByRow		(int row, const std::string& item);
-		int		findByCol		(int col, const std::string& item);
-		void		insertRow		(size_t position);
-		void		insertCol		(size_t position);
-		void		deleteRow		(size_t position);
-		void		deleteCol		(size_t position);
+		void		setItem			(int row, int column, const dataType& value);
+		void		setItem			(int row, int column, const char* value);
+		int			findByRow		(int row, const std::string& item);
+		int			findByCol		(int col, const std::string& item);
+		void		insertRow		(hlSize_t position);
+		void		insertCol		(hlSize_t position);
+		void		deleteRow		(hlSize_t position);
+		void		deleteCol		(hlSize_t position);
 };
 
 //---------------------------------------------------------

@@ -45,10 +45,10 @@ class mat4 {
 		//mat4();
 		mat4(const numType input[16]);
 		mat4(const mat4<numType>& input);
-		mat4(	numType inXX=1, numType inXY=0, numType inXZ=0, numType inXW=0,
-				numType inYX=0, numType inYY=1, numType inYZ=0, numType inYW=0,
-				numType inZX=0, numType inZY=0, numType inZZ=1, numType inZW=0,
-				numType inWX=0, numType inWY=0, numType inWZ=0, numType inWW=1);
+		mat4(	numType inXX=numType(1), numType inXY=numType(0), numType inXZ=numType(0), numType inXW=numType(0),
+				numType inYX=numType(0), numType inYY=numType(1), numType inYZ=numType(0), numType inYW=numType(0),
+				numType inZX=numType(0), numType inZY=numType(0), numType inZZ=numType(1), numType inZW=numType(0),
+				numType inWX=numType(0), numType inWY=numType(0), numType inWZ=numType(0), numType inWW=numType(1));
 		~mat4(){}
 
 		//array operators
@@ -546,10 +546,10 @@ mat4<numType> mat4<numType>::rotMatrixX(numType radians) {
 	numType ncos = (numType)cos(radians);
 
 	return mat4<numType>(
-		1,	0,		0,		0,
-		0,	ncos,	-nsin,	0,
-		0,	nsin,	ncos,	0,
-		0,	0,		0,		1
+		numType(1),	numType(0),	numType(0),	numType(0),
+		numType(0),	ncos,		-nsin,		numType(0),
+		numType(0),	nsin,		ncos,		numType(0),
+		numType(0),	numType(0),	numType(0),	numType(1)
 	);
 }
 
@@ -559,10 +559,10 @@ mat4<numType> mat4<numType>::rotMatrixY(numType radians) {
 	numType ncos = (numType)cos(radians);
 
 	return mat4<numType>(
-		ncos,	0,	nsin,	0,
-		0,		1,	0,		0,
-		-nsin,	0,	ncos,	0,
-		0,		0,	0,		1
+		ncos,		numType(0),	nsin,		numType(0),
+		numType(0),	numType(1),	numType(0),	numType(0),
+		-nsin,		numType(0),	ncos,		numType(0),
+		numType(0),	numType(0),	numType(0),	numType(1)
 	);
 }
 
@@ -572,10 +572,10 @@ mat4<numType> mat4<numType>::rotMatrixZ(numType radians) {
 	numType ncos = (numType)cos(radians);
 
 	return mat4<numType>(
-		ncos,	-nsin,	0,	0,
-		nsin,	ncos,	0,	0,
-		0,		0,		1,	0,
-		0,		0,		0,	1
+		ncos,		-nsin,		numType(0),	numType(0),
+		nsin,		ncos,		numType(0),	numType(0),
+		numType(0),	numType(0),	numType(1),	numType(0),
+		numType(0),	numType(0),	numType(0),	numType(1)
 	);
 }
 
@@ -647,18 +647,18 @@ void mat4<numType>::rotateXYZ(numType radX, numType radY, numType radZ) {
 //---------------------------------------------------------------------
 template <class numType> HL_IMPERATIVE
 mat4<numType> mat4<numType>::getIdentity() {
-	return mat4<numType>(	1,	0,	0,	0,
-							0,	1,	0,	0,
-							0,	0,	1,	0,
-							0,	0,	0,	1	);
+	return mat4<numType>(	numType(1),	numType(0),	numType(0),	numType(0),
+							numType(0),	numType(1),	numType(0),	numType(0),
+							numType(0),	numType(0),	numType(1),	numType(0),
+							numType(0),	numType(0),	numType(0),	numType(1)	);
 }
 
 template <class numType> HL_IMPERATIVE
 void mat4<numType>::setIdentity() {
-	xx = 1; xy = 0; xz = 0; xw = 0;
-	yx = 0; yy = 1; yz = 0; yw = 0;
-	zx = 0; zy = 0; zz = 1; zw = 0;
-	wx = 0; wy = 0; wz = 0; ww = 1;
+	xx = numType(1); xy = numType(0); xz = numType(0); xw = numType(0);
+	yx = numType(0); yy = numType(1); yz = numType(0); yw = numType(0);
+	zx = numType(0); zy = numType(0); zz = numType(1); zw = numType(0);
+	wx = numType(0); wy = numType(0); wz = numType(0); ww = numType(1);
 }
 
 template <class numType> HL_IMPERATIVE

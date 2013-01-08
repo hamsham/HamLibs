@@ -1,6 +1,9 @@
 
 /* Preprocessor Definitions & Directives */
 
+#ifndef __HL_PREPROCESSOR_H__
+#define __HL_PREPROCESSOR_H__
+
 #ifdef DEBUG
 	#include <cassert>
 	#define HL_ASSERT(x) assert(x)
@@ -54,13 +57,12 @@
 ******************************************************************************/
 /* x86/x64 */
 #if defined (_WIN64) || defined (__amd64__) || defined (_M_X64)
-	#define HL_ARCH_X64 1
-	#define HL_ARCH_X86 1
+	#define HL_ARCH_X86 64
 	#define HL_ARCH_X86_VER 6 /* Assuming modern processors */
 
 #elif defined (_WIN32) || defined (__i386__) || defined (_M_IX86_) || defined (__THW_INTEL__)
 	#ifndef HL_ARCH_x86
-		#define HL_ARCH_X86 1
+		#define HL_ARCH_X86 32
 	#endif
 
 	/* x86 Versioning */
@@ -178,3 +180,12 @@
 #else
 	#define HL_IMPERATIVE HL_INLINE
 #endif
+
+/******************************************************************************
+		C++11 Support
+******************************************************************************/
+#if (__cplusplus < 201103L) || (!defined(__GXX_EXPERIMENTAL_CXX0X__))
+	#error "A C++11-compliant compiler is required to build Ham's libraries"
+#endif
+
+#endif /* __HL_PREPROCESSOR_H__ */

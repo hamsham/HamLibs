@@ -10,8 +10,8 @@
  * ----------
 */
 
-#ifndef __HAMLIBS_MATH_VECT2_H__
-#define __HAMLIBS_MATH_VECT2_H__
+#ifndef __HL_MATH_VEC2_H__
+#define __HL_MATH_VEC2_H__
 
 namespace hamLibs {
 namespace math {
@@ -491,4 +491,5 @@ void vec2<numType>::zero() {
 
 } //end math namespace
 } //end hamlibs namespace
-#endif /* __vect2_H__*/
+
+#endif /* __HL_MATH_VEC2_H__*/

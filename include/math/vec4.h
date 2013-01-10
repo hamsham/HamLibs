@@ -12,8 +12,8 @@
  * ----------
 */
 
-#ifndef __HAMLIBS_MATH_VECT4_H__
-#define __HAMLIBS_MATH_VECT4_H__
+#ifndef __HL_MATH_VEC4_H__
+#define __HL_MATH_VEC4_H__
 
 namespace hamLibs {
 namespace math {
@@ -634,4 +634,4 @@ void vec4<numType>::zero() {
 
 } //end math namespace
 } //end hamlibs namespace
-#endif /* __VECT4_H__*/
+#endif /* __HL_MATH_VEC4_H__*/

@@ -1,5 +1,8 @@
 
-#include "../include/hamLibs.h"
+#include "../include/defs/preprocessor.h"
+#include "../include/defs/types.h"
+#include "../include/hamString.h"
+
 namespace hamLibs {
 
 //---------------------------------------------------------------------
@@ -44,19 +47,19 @@ namespace {
 ///////////////////////////////////////////////////////////////////////////////
 //					HamString Class
 ///////////////////////////////////////////////////////////////////////////////
-const int hamString::nPos( -1 );
+const int string::nPos( -1 );
 
 //---------------------------------------------------------------------
 //				Construction & Destruction
 //---------------------------------------------------------------------
-hamString::hamString() :
+string::string() :
 	array	(new char[1]),
 	Size	(0)
 {
 	array[0] = 0;
 }
 
-hamString::hamString(char c) :
+string::string(char c) :
 	array	(new char[2]),
 	Size	(1)
 {
@@ -64,7 +67,7 @@ hamString::hamString(char c) :
 	array[1] = 0;
 }
 
-hamString::hamString(const char* str) {
+string::string(const char* str) {
 	//determine the length of the string
 	Size = getStrLen(str);
 	//allocate memory; add a '+1' for NULL termination
@@ -75,7 +78,7 @@ hamString::hamString(const char* str) {
 	array[Size] = 0;
 }
 
-hamString::hamString(const hamString& str) {
+string::string(const string& str) {
 	//determine the length of the string
 	Size = str.Size;
 	//allocate memory; add a '+1' for NULL termination
@@ -86,14 +89,14 @@ hamString::hamString(const hamString& str) {
 	array[Size] = 0;
 }
 
-hamString::~hamString() {
+string::~string() {
 	delete [] array;
 }
 
 //---------------------------------------------------------------------
 //				Operators
 //---------------------------------------------------------------------
-hamString& hamString::operator = (const char* str) {
+string& string::operator = (const char* str) {
 	delete [] array;
 	Size = getStrLen(str);
 	array = new char[Size+1];
@@ -102,7 +105,7 @@ hamString& hamString::operator = (const char* str) {
 	return *this;
 }
 
-hamString& hamString::operator = (const hamString& input) {
+string& string::operator = (const string& input) {
 	delete [] array;
 	Size = input.Size;
 	array = new char[Size+1];
@@ -110,7 +113,7 @@ hamString& hamString::operator = (const hamString& input) {
 	array[Size] = 0;
 	return *this;
 }
-hamString& hamString::operator = (char c) {
+string& string::operator = (char c) {
 	Size = 1;
 	delete [] array;
 	array = new char[2];
@@ -120,7 +123,7 @@ hamString& hamString::operator = (char c) {
 }
 
 //---------------------------------------------------------------------
-hamString& hamString::operator += (const hamString& input) {
+string& string::operator += (const string& input) {
 	hlSize_t tempSize = Size + input.Size;
 	char* temp = new char[tempSize+1]; //need room for NULL termination
 	
@@ -138,7 +141,7 @@ hamString& hamString::operator += (const hamString& input) {
 	Size = tempSize;
 	return *this;
 }
-hamString& hamString::operator += (const char* str) {
+string& string::operator += (const char* str) {
 	hlSize_t strLen = getStrLen(str);
 	hlSize_t tempSize = Size + strLen;
 	char* temp = new char[tempSize+1]; //need room for NULL termination
@@ -157,7 +160,7 @@ hamString& hamString::operator += (const char* str) {
 	Size = tempSize;
 	return *this;
 }
-hamString& hamString::operator += (char c) {
+string& string::operator += (char c) {
 	char* temp = new char[Size+2]; //need room for NULL termination & 'c'
 	
 	register hlSize_t i = 0;
@@ -174,59 +177,59 @@ hamString& hamString::operator += (char c) {
 }
 
 //---------------------------------------------------------------------
-hamString hamString::operator + (const hamString& str) const {
-	hamString temp(*this);
+string string::operator + (const string& str) const {
+	string temp(*this);
 	temp.push(Size, str.array, str.Size);
 	return temp;
 }
-hamString hamString::operator + (const char* str) const {
-	hamString temp(*this);
+string string::operator + (const char* str) const {
+	string temp(*this);
 	temp.operator+=(str);
 	return temp;
 }
-hamString hamString::operator + (char c) const {
-	hamString temp(*this);
+string string::operator + (char c) const {
+	string temp(*this);
 	temp.operator+=(c);
 	return temp;
 }
 
 //---------------------------------------------------------------------
-bool hamString::operator == (const hamString& compare) const {
+bool string::operator == (const string& compare) const {
 	if (compare.Size != Size ) return false;
 	return cmpStr(array, 0, compare.array, Size);
 }
-bool hamString::operator == (const char* compare) const {
+bool string::operator == (const char* compare) const {
 	hlSize_t strLen = getStrLen(compare);
 	if (strLen != Size ) return false;
 	return cmpStr(array, 0, compare, Size);
 }
-bool hamString::operator == (char compare) const {
+bool string::operator == (char compare) const {
 	if (Size != 1) return false;
 	return array[0] == compare;
 }
 
 //---------------------------------------------------------------------
-bool hamString::operator != (const hamString& compare) const {
+bool string::operator != (const string& compare) const {
 	if (compare.Size != Size ) return true;
 	return !cmpStr(array, 0, compare.array, Size);
 }
-bool hamString::operator != (const char* compare) const {
+bool string::operator != (const char* compare) const {
 	hlSize_t strLen = getStrLen(compare);
 	if (strLen != Size ) return true;
 	return !cmpStr(array, 0, compare, Size);
 }
-bool hamString::operator != (char compare) const {
+bool string::operator != (char compare) const {
 	if (Size != 1) return true;
 	return array[0] != compare;
 }
 
 //---------------------------------------------------------------------
-char& hamString::operator [](int i) {
+char& string::operator [](int i) {
 	HL_ASSERT(i >= 0);
 	return array[i];
 }
 
-char hamString::operator [](int i) const {
+char string::operator [](int i) const {
 	HL_ASSERT(i >= 0);
 	return array[i];
 }
@@ -234,14 +237,14 @@ char hamString::operator [](int i) const {
 //---------------------------------------------------------------------
 //				Deletion
 //---------------------------------------------------------------------
-void hamString::clear () {
+void string::clear () {
 	delete [] array;
 	array = new char[1];
 	Size = 0;
 	array[0] = 0;
 }
 
-void hamString::popFront() {
+void string::popFront() {
 	if (!Size) return;
 	register hlSize_t i = 0;
 	char* temp = new char[Size];
@@ -255,7 +258,7 @@ void hamString::popFront() {
 	array = temp;
 	array[Size] = 0; //NULL termination
 }
-void hamString::popBack() {
+void string::popBack() {
 	if (!Size) return;
 	register hlSize_t i = 0;
 	char* temp = new char[Size];
@@ -270,7 +273,7 @@ void hamString::popBack() {
 	array[Size] = 0; //NULL termination
 }
 
-void hamString::pop(hlSize_t index) {
+void string::pop(hlSize_t index) {
 	if (Size == 0) return;
 	HL_ASSERT(index < Size);
 	--Size;
@@ -290,7 +293,7 @@ void hamString::pop(hlSize_t index) {
 //---------------------------------------------------------------------
 //				Random Access Insertion
 //---------------------------------------------------------------------
-void hamString::push(hlSize_t index, const char* data, hlSize_t strSize) {
+void string::push(hlSize_t index, const char* data, hlSize_t strSize) {
 	if (index > Size) index = Size;
 	hlSize_t tempSize = Size + strSize;
 	char* temp = new char[tempSize+1];
@@ -320,71 +323,71 @@ void hamString::push(hlSize_t index, const char* data, hlSize_t strSize) {
 	array[Size] = 0;
 }
 
-void hamString::pushAfter(hlSize_t index, const char* data, hlSize_t strSize) {
+void string::pushAfter(hlSize_t index, const char* data, hlSize_t strSize) {
 	this->push(++index, data, strSize);
 }
 
 //hamStrings
-void hamString::push(hlSize_t index, const hamString& str) {
+void string::push(hlSize_t index, const string& str) {
 	this->push(index, str.array, str.Size);
 }
-void hamString::pushAfter(hlSize_t index, const hamString& str) {
+void string::pushAfter(hlSize_t index, const string& str) {
 	this->push(++index, str.array, str.Size);
 }
 
 //char strings with unknown length
-void hamString::push(hlSize_t index, const char* str) {
+void string::push(hlSize_t index, const char* str) {
 	hlSize_t strSize = getStrLen(str);
 	this->push(index, str, strSize);
 }
-void hamString::pushAfter(hlSize_t index, const char* str) {
+void string::pushAfter(hlSize_t index, const char* str) {
 	hlSize_t strSize = getStrLen(str);
 	this->push(++index, str, strSize);
 }
 
 //individual characters
-void hamString::push(hlSize_t index, char c) {
+void string::push(hlSize_t index, char c) {
 	this->push(index, &c, 1);
 }
-void hamString::pushAfter(hlSize_t index, char c) {
+void string::pushAfter(hlSize_t index, char c) {
 	this->push(++index, &c, 1);
 }
 
 //---------------------------------------------------------------------
 //				Direct Insertion
 //---------------------------------------------------------------------
-void hamString::pushFront (const char* str, hlSize_t strSize) {
+void string::pushFront (const char* str, hlSize_t strSize) {
 	this->push(0, str, strSize);
 }
 
-void hamString::pushBack (const char* str, hlSize_t strSize) {
+void string::pushBack (const char* str, hlSize_t strSize) {
 	this->push(Size, str, strSize);
 }
 
-void hamString::pushFront (const hamString& str) {
+void string::pushFront (const string& str) {
 	this->push(0, str.array, str.Size);
 }
 
-void hamString::pushBack (const hamString& str) {
+void string::pushBack (const string& str) {
 	this->push(Size, str.array, str.Size);
 }
 
-void hamString::pushFront (const char* str) {
+void string::pushFront (const char* str) {
 	hlSize_t strSize = getStrLen(str);
 	this->push(0, str, strSize);
 }
 
-void hamString::pushBack (const char* str) {
+void string::pushBack (const char* str) {
 	hlSize_t strSize = getStrLen(str);
 	this->push(Size, str, strSize);
 }
 
-void hamString::pushFront (char c) {
+void string::pushFront (char c) {
 	const char str[1] = {c};
 	this->push(0, str, 1);
 }
 
-void hamString::pushBack (char c) {
+void string::pushBack (char c) {
 	const char str[1] = {c};
 	this->push(Size, str, 1);
 }
@@ -393,18 +396,18 @@ void hamString::pushBack (char c) {
 //---------------------------------------------------------------------
 //				Traversal
 //---------------------------------------------------------------------
-char& hamString::front() {
+char& string::front() {
 	return array[0];
 }
 
-char& hamString::back() {
+char& string::back() {
 	return array[Size-1];
 }
 
 //---------------------------------------------------------------------
 //				Searching
 //---------------------------------------------------------------------
-hlSize_t hamString::find(const char* str, hlSize_t strLen) const {
+hlSize_t string::find(const char* str, hlSize_t strLen) const {
 	if (!strLen || !Size) return nPos;
 	hlSize_t currPos = 0;
 	hlSize_t limit = 0 + strLen;
@@ -422,22 +425,22 @@ hlSize_t hamString::find(const char* str, hlSize_t strLen) const {
 	return nPos;
 }
 
-hlSize_t hamString::find(const hamString& str) const {
+hlSize_t string::find(const string& str) const {
 	return this->find(str.array, Size);
 }
 
-hlSize_t hamString::find(const char* str) const {
+hlSize_t string::find(const char* str) const {
 	hlSize_t strLength = getStrLen(str);
 	return this->find(str, strLength);
 }
 
-hlSize_t hamString::find(char c) const {
+hlSize_t string::find(char c) const {
 	const char str[1] = {c};
 	return this->find(str, 1);
 }
 
 //---------------------------------------------------------------------
-hlSize_t hamString::rFind(const char* str, hlSize_t strLen) const {
+hlSize_t string::rFind(const char* str, hlSize_t strLen) const {
 	if (!strLen || !Size) return nPos;
 	hlSize_t offset = Size-1;
 	strLen -= 1;
@@ -452,16 +455,16 @@ hlSize_t hamString::rFind(const char* str, hlSize_t strLen) const {
 	return nPos;
 }
 
-hlSize_t hamString::rFind(const hamString& str) const {
+hlSize_t string::rFind(const string& str) const {
 	return this->rFind(str.array, Size);
 }
 
-hlSize_t hamString::rFind(const char* str) const {
+hlSize_t string::rFind(const char* str) const {
 	hlSize_t strLength = getStrLen(str);
 	return this->rFind(str, strLength);
 }
 
-hlSize_t hamString::rFind(char c) const {
+hlSize_t string::rFind(char c) const {
 	const char str[1] = {c};
 	return this->rFind(str, 1);
 }
@@ -469,37 +472,37 @@ hlSize_t hamString::rFind(char c) const {
 //---------------------------------------------------------------------
 //				Utility Functions
 //---------------------------------------------------------------------
-void hamString::copy (const hamString& str) {
+void string::copy (const string& str) {
 	this->operator=(str);
 }
-void hamString::copy (const char* str) {
+void string::copy (const char* str) {
 	this->operator=(str);
 }
-void hamString::copy (char c) {
+void string::copy (char c) {
 	this->operator=(c);
 }
 
 //---------------------------------------------------------------------
-void hamString::append (const hamString& str) {
+void string::append (const string& str) {
 	this->push(Size, str.array, str.Size);
 }
 
-void hamString::append (const char* str, hlSize_t strLength) {
+void string::append (const char* str, hlSize_t strLength) {
 	this->push(Size, str, strLength);
 }
 
-void hamString::append (const char* str) {
+void string::append (const char* str) {
 	hlSize_t strSize = getStrLen(str);
 	this->push(Size, str, strSize);
 }
 
-void hamString::append (char c) {
+void string::append (char c) {
 	const char str[1] = {c};
 	this->push(Size, str, 1);
 }
 
 //---------------------------------------------------------------------
-void hamString::resize (hlSize_t newSize, char c) {
+void string::resize (hlSize_t newSize, char c) {
 	if (newSize == Size) return;
 	char* temp = new char[newSize+1];
 	
@@ -518,15 +521,15 @@ void hamString::resize (hlSize_t newSize, char c) {
 	array[Size] = 0;
 }
 
-void hamString::resize(hlSize_t newSize) {
+void string::resize(hlSize_t newSize) {
 	this->resize(newSize, '\0');
 }
 
 //---------------------------------------------------------------------
 //				Miscellaneous
 //---------------------------------------------------------------------
-hamString hamString::subStr(hlSize_t pos, hlSize_t length) const {
-	hamString temp;
+string string::subStr(hlSize_t pos, hlSize_t length) const {
+	string temp;
 	//error checking
 	if (pos > Size) return temp;
 	delete [] temp.array;
@@ -539,21 +542,21 @@ hamString hamString::subStr(hlSize_t pos, hlSize_t length) const {
 	return temp;
 }
 
-bool hamString::empty () const {
+bool string::empty () const {
 	return (Size) ? false : true;
 }
 
-hlSize_t hamString::size () const {
+hlSize_t string::size () const {
 	return Size;
 }
 
-void hamString::swap (hamString& input) {
+void string::swap (string& input) {
 	char* temp = input.array;
 	input.array = array;
 	array = temp;
 }
 
-const char* hamString::cStr () const {
+const char* string::cStr () const {
 	return array;
 }
 

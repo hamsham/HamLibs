@@ -1,30 +1,35 @@
 
-#ifndef __DYNAMIC_ARRAY__
-#define __DYNAMIC_ARRAY__
+/*
+ * Just a very simple dynamic array implementation. No bells or whistles.
+ * Do not expect this to have anywhere near the same performance as std::vector
+ */
+
+#ifndef __HL_DYNAMIC_ARRAY_H__
+#define __HL_DYNAMIC_ARRAY_H__
 
 namespace hamLibs {
 namespace containers {
 
 template <typename type>
-class dynArray {
+class array {
 	private:
-		type* array;
+		type* Array;
 		hlSize_t Size;
 
 	public:
-		dynArray				();
-		dynArray				(hlSize_t numItems);
-		dynArray				(const type& data);
-		dynArray				(const type& data, hlSize_t numCopies);
-		dynArray				(const dynArray& copy);
-		~dynArray				();
+		array				();
+		array				(hlSize_t numItems);
+		array				(const type& data);
+		array				(const type& data, hlSize_t numCopies);
+		array				(const array& copy);
+		~array				();
 
 		//operators
-		dynArray&	operator =	(const dynArray& input);
-		dynArray&	operator +=	(const dynArray& input);
-		dynArray	operator +	(const dynArray& input) const;
-		bool		operator ==	(const dynArray& compare) const;
-		bool		operator !=	(const dynArray& compare) const;
+		array&	operator =	(const array& input);
+		array&	operator +=	(const array& input);
+		array	operator +	(const array& input) const;
+		bool		operator ==	(const array& compare) const;
+		bool		operator !=	(const array& compare) const;
 		type&		operator []	(hlSize_t);
 		type		operator []	(hlSize_t) const;
 
@@ -44,8 +49,8 @@ class dynArray {
 		type&		back		();
 
 		//miscellaneous
-		static void	copy		(dynArray& dest, const dynArray& source);
-		static void	append		(dynArray& dest, const dynArray& source);
+		static void	copy		(array& dest, const array& source);
+		static void	append		(array& dest, const array& source);
 		void		resize		(hlSize_t newSize);
 		void		clear		();
 		bool		empty		() const;
@@ -57,77 +62,77 @@ class dynArray {
 //			[Con/De]struction
 //---------------------------------------------------------------------
 template <typename type>
-dynArray<type>::dynArray() {
+array<type>::array() {
 	Size = 0;
-	array = new type[0];
+	Array = new type[0];
 }
 
 template <typename type>
-dynArray<type>::dynArray(hlSize_t numItems) {
+array<type>::array(hlSize_t numItems) {
 	Size = numItems;
-	array = new type[numItems];
+	Array = new type[numItems];
 }
 
 template <typename type>
-dynArray<type>::dynArray(const dynArray& copy) {
-	array = new type [copy.Size];
+array<type>::array(const array& copy) {
+	Array = new type [copy.Size];
 	Size = 0;
 	while (Size != copy.Size) {
-		array[Size] = copy.array[Size];
+		Array[Size] = copy.Array[Size];
 		++Size;
 	}
 }
 
 template <typename type>
-dynArray<type>::dynArray(const type& data) {
-	array = new type[1];
-	array[0] = data;
+array<type>::array(const type& data) {
+	Array = new type[1];
+	Array[0] = data;
 	Size = 1;
 }
 
 template <typename type>
-dynArray<type>::dynArray(const type& data, hlSize_t numCopies) {
-	array = new type[numCopies];
+array<type>::array(const type& data, hlSize_t numCopies) {
+	Array = new type[numCopies];
 	Size = 0;
 	while (Size < numCopies) {
-		array[Size] = data;
+		Array[Size] = data;
 		++Size;
 	}
 }
 
 template <typename type>
-dynArray<type>::~dynArray() {
-	delete [] array;
+array<type>::~array() {
+	delete [] Array;
 }
 
 //---------------------------------------------------------------------
 //			Operators
 //---------------------------------------------------------------------
 template <typename type>
-dynArray<type>& dynArray<type>::operator = (const dynArray& input) {
+array<type>& array<type>::operator = (const array& input) {
 	copy(*this, input);
 	return *this;
 }
 
 template <typename type>
-dynArray<type>& dynArray<type>::operator += (const dynArray& input) {
+array<type>& array<type>::operator += (const array& input) {
 	append(*this, input);
 	return *this;
 }
 
 template <typename type>
-dynArray<type> dynArray<type>::operator + (const dynArray& input) const {
-	dynArray<type> temp(*this);
+array<type> array<type>::operator + (const array& input) const {
+	array<type> temp(*this);
 	append(temp, input);
 	return temp;
 }
 
 template <typename type>
-bool dynArray<type>::operator == (const dynArray& compare) const {
+bool array<type>::operator == (const array& compare) const {
 	if (Size != compare.Size) return false;
 	hlSize_t iter = 0;
 	while (iter < Size) {
-		if (array[iter] != compare.array[iter])
+		if (Array[iter] != compare.Array[iter])
 			return false;
 		++iter;
 	}
@@ -135,11 +140,11 @@ bool dynArray<type>::operator == (const dynArray& compare) const {
 }
 
 template <typename type>
-bool dynArray<type>::operator != (const dynArray& compare) const {
+bool array<type>::operator != (const array& compare) const {
 	if (Size != compare.Size) return true;
 	hlSize_t iter = 0;
 	while (iter < Size) {
-		if (array[iter] != compare.array[iter])
+		if (Array[iter] != compare.Array[iter])
 			return true;
 		++iter;
 	}
@@ -147,50 +152,50 @@ bool dynArray<type>::operator != (const dynArray& compare) const {
 }
 
 template <typename type>
-type& dynArray<type>::operator [] (hlSize_t index) {
-	//assert(index >= 0);
-	return array[index];
+type& array<type>::operator [] (hlSize_t index) {
+	HL_ASSERT(index >= 0);
+	return Array[index];
 }
 
 template <typename type>
-type dynArray<type>::operator [] (hlSize_t index) const {
-	//assert(index >= 0);
-	return array[index];
+type array<type>::operator [] (hlSize_t index) const {
+	HL_ASSERT(index >= 0);
+	return Array[index];
 }
 
 //---------------------------------------------------------------------
 //			Deletion
 //---------------------------------------------------------------------
 template <typename type>
-void dynArray<type>::popFront() {
+void array<type>::popFront() {
 	if (!Size) return;
 	hlSize_t i = 0;
 	--Size;
 	type* temp = new type[Size];
 	while (i < Size) {
-		temp[i] = array[i+1];
+		temp[i] = Array[i+1];
 		++i;
 	}
-	delete [] array;
-	array = temp;
+	delete [] Array;
+	Array = temp;
 }
 
 template <typename type>
-void dynArray<type>::popBack() {
+void array<type>::popBack() {
 	if (!Size) return;
 	--Size;
 	hlSize_t i = 0;
 	type* temp = new type[Size];
 	while (i < Size) {
-		temp[i] = array[i];
+		temp[i] = Array[i];
 		++i;
 	}
-	delete [] array;
-	array = temp;
+	delete [] Array;
+	Array = temp;
 }
 
 template <typename type>
-void dynArray<type>::pop(hlSize_t index) {
+void array<type>::pop(hlSize_t index) {
 	if (Size == 0 || index >= Size) return;
 	
 	--Size;
@@ -198,46 +203,46 @@ void dynArray<type>::pop(hlSize_t index) {
 	hlSize_t j = 0;
 	type* temp = new type[Size];
 	while (i < Size) {
-		temp[i] = (i != index) ? array[j] : array[++j];
+		temp[i] = (i != index) ? Array[j] : Array[++j];
 		++i; ++j;
 	}
-	delete [] array;
-	array = temp;
+	delete [] Array;
+	Array = temp;
 }
 
 //---------------------------------------------------------------------
 //			Insertion
 //---------------------------------------------------------------------
 template <typename type>
-void dynArray<type>::pushFront(const type& data) {
+void array<type>::pushFront(const type& data) {
 	++Size;
 	type* temp = new type[Size];
 	temp[0] = data;
 	hlSize_t i = 1;
 	while (i < Size) {
-		temp[i] = array[i-1];
+		temp[i] = Array[i-1];
 		++i;
 	}
-	delete [] array;
-	array = temp;
+	delete [] Array;
+	Array = temp;
 }
 
 template <typename type>
-void dynArray<type>::pushBack(const type& data) {
+void array<type>::pushBack(const type& data) {
 	type* temp = new type[Size+1];
 	hlSize_t i = 0;
 	while (i < Size) {
-		temp[i] = array[i];
+		temp[i] = Array[i];
 		++i;
 	}
 	temp[Size] = data;
 	++Size;
-	delete [] array;
-	array = temp;
+	delete [] Array;
+	Array = temp;
 }
 
 template <typename type>
-void dynArray<type>:: push(hlSize_t index, const type& data) {
+void array<type>:: push(hlSize_t index, const type& data) {
 	//Resize if trying to access an out-of-bounds element
 	if (index >= Size) {
 		pushBack(data);
@@ -251,7 +256,7 @@ void dynArray<type>:: push(hlSize_t index, const type& data) {
 	
 	while (i < Size) {
 		if (i != index) {
-			temp[i] = array[j];
+			temp[i] = Array[j];
 			++j;
 		}
 		else {
@@ -259,12 +264,12 @@ void dynArray<type>:: push(hlSize_t index, const type& data) {
 		}
 		++i;
 	}
-	delete [] array;
-	array = temp;
+	delete [] Array;
+	Array = temp;
 }
 
 template <typename type>
-void dynArray<type>::pushAfter(hlSize_t index, const type& data) {
+void array<type>::pushAfter(hlSize_t index, const type& data) {
 	push(++index, data);
 }
 
@@ -272,53 +277,53 @@ void dynArray<type>::pushAfter(hlSize_t index, const type& data) {
 //			Traversal
 //---------------------------------------------------------------------
 template <typename type>
-type& dynArray<type>::front() {
-	return array[0];
+type& array<type>::front() {
+	return Array[0];
 }
 
 template <typename type>
-type& dynArray<type>::back() {
-	return array[Size-1];
+type& array<type>::back() {
+	return Array[Size-1];
 }
 
 //---------------------------------------------------------------------
 //			Misc
 //---------------------------------------------------------------------
 template <typename type>
-void dynArray<type>::copy(dynArray& dest, const dynArray& source) {
-	delete [] dest.array;
-	dest.array = new type[source.Size];
+void array<type>::copy(array& dest, const array& source) {
+	delete [] dest.Array;
+	dest.Array = new type[source.Size];
 	
 	hlSize_t iter = dest.Size = source.Size;
 	while (iter--) {
-		dest.array[iter] = source.array[iter];
+		dest.Array[iter] = source.Array[iter];
 	}
 }
 
 template <typename type>
-void dynArray<type>::append(dynArray& dest, const dynArray& source) {
+void array<type>::append(array& dest, const array& source) {
 	hlSize_t firstHalf= 0;
 	hlSize_t secondHalf = source.Size;
 	hlSize_t newSize = dest.Size + source.Size;
 	type* temp = new type[newSize];
 	
 	while (firstHalf < dest.Size) {
-		temp[firstHalf] = dest.array[firstHalf];
+		temp[firstHalf] = dest.Array[firstHalf];
 		++firstHalf;
 	}
 	firstHalf = 0;
 	while (secondHalf < newSize) {
-		temp[secondHalf] = source.array[firstHalf];
+		temp[secondHalf] = source.Array[firstHalf];
 		++firstHalf;
 		++secondHalf;
 	}
-	delete [] dest.array;
-	dest.array = temp;
+	delete [] dest.Array;
+	dest.Array = temp;
 	dest.Size = newSize;
 }
 
 template <typename type>
-void dynArray<type>::resize(hlSize_t newSize) {
+void array<type>::resize(hlSize_t newSize) {
 	//this function may leave uninitialized variables if newSize > Size
 	if (newSize == Size) return;
 	else if (!newSize) {
@@ -329,35 +334,36 @@ void dynArray<type>::resize(hlSize_t newSize) {
 	type* temp = new type[newSize];
 	hlSize_t iter = (newSize > Size) ? Size : newSize;
 	while (iter--) { //insures only preexisting variables are copied
-		temp[iter] = array[iter];
+		temp[iter] = Array[iter];
 	}
-	delete [] array;
-	array = temp;
+	delete [] Array;
+	Array = temp;
 	Size = newSize;
 }
 
 template <typename type>
-void dynArray<type>::clear() {
-	delete [] array;
-	array = new type[0];
+void array<type>::clear() {
+	delete [] Array;
+	Array = new type[0];
 	Size = 0;
 }
 
 template <typename type>
-bool dynArray<type>::empty() const {
+bool array<type>::empty() const {
 	return (Size) ? false : true;
 }
 
 template <typename type>
-hlSize_t dynArray<type>::size() const {
+hlSize_t array<type>::size() const {
 	return Size;
 }
 
 template <typename type>
-type* dynArray<type>::data() const {
-	return array;
+type* array<type>::data() const {
+	return Array;
 }
 
 } //end containers namespace
 } //end hamLibs namespace
-#endif //__DYNAMIC_ARRAY__
+
+#endif //__HL_DYNAMIC_ARRAY_H__

@@ -2,7 +2,8 @@
 //Allegro-based event-logging class
 #include <ctime>
 #include <cstdarg>
-#include "../include/hamLibs.h"
+#include "../include/defs/preprocessor.h"
+#include "../include/logger.h"
 
 namespace hamLibs {
 

@@ -1,7 +1,7 @@
 //various math operations
 
-#ifndef __HAMLIBS_MATH_H__
-#define __HAMLIBS_MATH_H__
+#ifndef __HL_MATH_H__
+#define __HL_MATH_H__
 
 /*
  * NOTES:
@@ -9,16 +9,19 @@
  * The Fixed-Point class is totally experimental and heavily relies on Allegro5
  */
 
+#include <cmath>
+#include "../defs/preprocessor.h"
+
 #define HL_PI			3.14159265358979323846f
 #define HL_TWO_PI		6.28318530717958647693f
 #define HL_PI_OVR2		1.57079632679489661923f
 #define HL_PI_OVR4		0.78539816339744830962f
 #define HL_PI_INV		0.31830988618379067153f
-#define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // PI / 180
-#define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // 180 / PI
+#define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
+#define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
 #define HL_E			2.71828182845904523536f
 #define HL_EPSILON		1.0e-5f
-#define HL_ROUND(x)		(std::floor(x + 0.5))
+#define HL_ROUND(x)		(std::floor(x + 0.5f))
 
 namespace hamLibs {
 namespace math {
@@ -84,8 +87,12 @@ namespace math {
 #include "matrix3.h"
 #include "matrix4.h"
 #include "quat.h"
-#include "vect2.h"
-#include "vect3.h"
-#include "vect4.h"
+#include "vec2.h"
+#include "vec3.h"
+#include "vec4.h"
 
-#endif //end math header
+//#include "quat_utils.h"
+#include "vec_utils.h"
+#include "mat_utils.h"
+
+#endif /* __HL_MATH_H__ */

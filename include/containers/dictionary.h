@@ -5,9 +5,10 @@
  * Created on August 28, 2012, 4:53 PM
  */
 
-#ifndef DICTIONARY_H
-#define DICTIONARY_H
+#ifndef __HL_DICTIONARY_H__
+#define __HL_DICTIONARY_H__
 
+#include <string>
 
 namespace hamLibs {
 namespace containers {
@@ -508,4 +509,5 @@ type* dictionary<type>::iterator::getData() const {
 
 } //end containers namespace
 } //end hamLibs namespace
-#endif	/* DICTIONARY_H */
+
+#endif	/* __HL_DICTIONARY_H__ */

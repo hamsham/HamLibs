@@ -5,18 +5,13 @@
  * Created on May 6, 2012, 2:05 PM
  */
 
-#ifndef __HAMLIBS_H__
-#define	__HAMLIBS_H__
-
-#include <cmath>
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <fstream>
+#ifndef __HL_H__
+#define	__HL_H__
 
 //---------------------------------------------------------------------
 //				Preprocessor Wizardry
 //---------------------------------------------------------------------
+//#include "defs/setup.h"
 #include "defs/preprocessor.h"
 
 //---------------------------------------------------------------------
@@ -27,10 +22,10 @@
 //---------------------------------------------------------------------
 //				Meat & Potatoes
 //---------------------------------------------------------------------
-#include "containers/linkedList.h"
+#include "containers/list.h"
 #include "containers/stack.h"
 #include "containers/queue.h"
-#include "containers/dynArr.h"
+#include "containers/array.h"
 #include "containers/dictionary.h"
 
 #include "math/math.h"
@@ -42,9 +37,4 @@
 //#include "config.h"
 //#include "database.h"
 
-//---------------------------------------------------------------------
-//				Function prototypes
-//---------------------------------------------------------------------
-bool	hlInit();
-
-#endif	/* HAMLIBS_H */
+#endif	/* HL_H */

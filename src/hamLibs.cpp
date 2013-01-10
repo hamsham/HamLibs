@@ -1,5 +1,6 @@
 
 //hamLibs miscellaneous functions
+
 #include "../include/hamLibs.h"
 
 namespace hamLibs {

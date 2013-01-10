@@ -29,7 +29,7 @@ namespace hamLibs {
 namespace containers {
 
 template <class type>
-class linkedList {
+class list {
 	private:
 		struct node {
 			type	data;
@@ -43,10 +43,10 @@ class linkedList {
 		hlSize_t	numNodes;
 		
 	public:
-		linkedList	();
-		linkedList	(const linkedList& listCopy);
-		~linkedList	();
-		linkedList&	operator=	(const linkedList& listCopy);
+		list	();
+		list	(const list& listCopy);
+		~list	();
+		list&	operator=	(const list& listCopy);
 
 		//link navigation
 		void		goToFront	();			//immediately move "iter" to the front of the list
@@ -84,14 +84,14 @@ class linkedList {
 //			Construction & Destruction
 //-----------------------------------------------------------------------------
 template <class type>
-linkedList<type>::node::node() :
+list<type>::node::node() :
 	data(),
 	next(HL_NULL),
 	prev(HL_NULL)
 {}
 
 template <class type>
-linkedList<type>::linkedList() :
+list<type>::list() :
 	mainNode(),
 	iter(&mainNode),
 	numNodes(0)
@@ -101,17 +101,17 @@ linkedList<type>::linkedList() :
 }
 
 template <class type>
-linkedList<type>::linkedList(const linkedList& listCopy) {
+list<type>::list(const list& listCopy) {
 	*this = listCopy;
 }
 
 template <class type>
-linkedList<type>::~linkedList() {
+list<type>::~list() {
 	clear();
 }
 
 template <class type>
-linkedList<type>& linkedList<type>::operator =(const linkedList& listCopy) {
+list<type>& list<type>::operator =(const list& listCopy) {
 	const node* iterPos = iter; //preserve the iteration position
 	hlSize_t iterating(size);
 	
@@ -128,24 +128,24 @@ linkedList<type>& linkedList<type>::operator =(const linkedList& listCopy) {
 //			Link Navigation
 //-----------------------------------------------------------------------------
 template <class type>
-void linkedList<type>::goToFront() {
+void list<type>::goToFront() {
 	iter = mainNode.next;
 }
 
 template <class type>
-void linkedList<type>::goToBack() {
+void list<type>::goToBack() {
 	iter = mainNode.prev;
 }
 
 template <class type>
-void linkedList<type>::goToNext() {
+void list<type>::goToNext() {
 	if (iter->next != &mainNode) {
 		iter = iter->next;
 	}
 }
 
 template <class type>
-void linkedList<type>::goToPrev() {
+void list<type>::goToPrev() {
 	if (iter->prev != &mainNode) {
 		iter = iter->prev;
 	}
@@ -155,20 +155,20 @@ void linkedList<type>::goToPrev() {
 //			Data Acquisition
 //-----------------------------------------------------------------------------
 template <class type>
-type* linkedList<type>::getFirst() const {
+type* list<type>::getFirst() const {
 	return &(mainNode.next->data);
 }
 template <class type>
-type* linkedList<type>::getLast() const {
+type* list<type>::getLast() const {
 	return &(mainNode.prev->data);
 }
 template <class type>
-type* linkedList<type>::getCurrent() const {
+type* list<type>::getCurrent() const {
 	return &(iter->data);
 }
 
 template <class type>
-type* linkedList<type>::getNext() const {
+type* list<type>::getNext() const {
 	if (iter->next != &mainNode) {
 		iter = iter->next;
 		return &(iter->data);
@@ -179,7 +179,7 @@ type* linkedList<type>::getNext() const {
 }
 
 template <class type>
-type* linkedList<type>::getPrev() const {
+type* list<type>::getPrev() const {
 	if (iter->prev != &mainNode) {
 		iter = iter->prev;
 		return &(iter->data);
@@ -190,12 +190,12 @@ type* linkedList<type>::getPrev() const {
 }
 
 template <class type>
-type* linkedList<type>::peekNext() const {
+type* list<type>::peekNext() const {
 	return &(iter->next->data);
 }
 
 template <class type>
-type* linkedList<type>::peekPrev() const {
+type* list<type>::peekPrev() const {
 	return &(iter->prev->data);
 }
 
@@ -203,19 +203,19 @@ type* linkedList<type>::peekPrev() const {
 //			Insertion
 //-----------------------------------------------------------------------------
 template <class type>
-void linkedList<type>::pushFront(const type& object) {
+void list<type>::pushFront(const type& object) {
 	iter = mainNode.next;
 	pushBefore(object);
 }
 
 template <class type>
-void linkedList<type>::pushBack(const type& object) {
+void list<type>::pushBack(const type& object) {
 	iter = &mainNode;
 	pushBefore(object);
 }
 
 template <class type>
-void linkedList<type>::pushBefore(const type& object) {
+void list<type>::pushBefore(const type& object) {
 	node* temp = new node;
 	temp->data = object;
 	
@@ -229,7 +229,7 @@ void linkedList<type>::pushBefore(const type& object) {
 }
 
 template <class type>
-void linkedList<type>::pushAfter(const type& object) {
+void list<type>::pushAfter(const type& object) {
 	iter = iter->next;
 	pushBefore(object);
 }
@@ -238,7 +238,7 @@ void linkedList<type>::pushAfter(const type& object) {
 //			Deletion
 //-----------------------------------------------------------------------------
 template <class type>
-void linkedList<type>::popnode() {
+void list<type>::popnode() {
 	//make sure that there's actually something to delete
 	if (iter == &mainNode) return;
 	node* temp = iter;
@@ -253,19 +253,19 @@ void linkedList<type>::popnode() {
 }
 
 template <class type>
-void linkedList<type>::popFront() {
+void list<type>::popFront() {
 	iter = mainNode.next;
 	popnode();
 }
 
 template <class type>
-void linkedList<type>::popBack() {
+void list<type>::popBack() {
 	iter = mainNode.prev;
 	popnode();
 }
 
 template <class type>
-void linkedList<type>::clear() {
+void list<type>::clear() {
 	iter = mainNode.next;
 	while (iter != &mainNode) {
 		popnode();
@@ -276,12 +276,12 @@ void linkedList<type>::clear() {
 //			Miscellaneous
 //-----------------------------------------------------------------------------
 template <class type>
-hlSize_t linkedList<type>::size() const {
+hlSize_t list<type>::size() const {
 	return numNodes;
 }
 
 template <class type>
-bool linkedList<type>::empty() const {
+bool list<type>::empty() const {
 	return (mainNode.next != &mainNode) ? false : true;
 }
 

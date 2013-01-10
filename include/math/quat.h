@@ -10,8 +10,8 @@ NOTES:
  * i.e. Q = <X,Y,Z,W>
  */
 
-#ifndef __HAMLIBS_MATH_QUAT_H__
-#define __HAMLIBS_MATH_QUAT_H__
+#ifndef __HL_MATH_QUAT_H__
+#define __HL_MATH_QUAT_H__
 
 namespace hamLibs {
 namespace math {

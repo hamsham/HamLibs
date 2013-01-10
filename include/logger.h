@@ -1,7 +1,8 @@
-//logging class using allegro
 
-#ifndef __HAMLIBS_LOGGER_H__
-#define __HAMLIBS_LOGGER_H__
+#ifndef __HL_LOGGER_H__
+#define __HL_LOGGER_H__
+
+#include <ostream>
 
 namespace hamLibs {
 
@@ -20,5 +21,7 @@ class logger {
 		void		setLogState		(bool state);
 		void		log			(const char* info2Log, ...);
 };
+
 } //end hamlibs namespace
+
 #endif /*__LOGGER_H__*/

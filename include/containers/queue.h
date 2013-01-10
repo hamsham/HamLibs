@@ -14,8 +14,8 @@ class queue {
 			type data;
 			node *next = HL_NULL;
 		};
-		node		*first = NULL;		//List navigation
-		node		*last = NULL;
+		node		*first = HL_NULL;		//List navigation
+		node		*last = HL_NULL;
 		hlSize_t	numNodes;
 		
 		

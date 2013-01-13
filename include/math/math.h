@@ -6,36 +6,63 @@
 /*
  * NOTES:
  * All angle measurements used by this library are in radians
- * The Fixed-Point class is totally experimental and heavily relies on Allegro5
+ * I also use constructors rather than assignments when creating objects and
+ * variables, so this might make readability slightly difficult at first.
  */
 
 #include <cmath>
 #include "../defs/preprocessor.h"
 
-#define HL_PI			3.14159265358979323846f
-#define HL_TWO_PI		6.28318530717958647693f
-#define HL_PI_OVR2		1.57079632679489661923f
-#define HL_PI_OVR4		0.78539816339744830962f
-#define HL_PI_INV		0.31830988618379067153f
+#define HL_ROUND(x)		(std::floor(x + 0.5f))
 #define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
 #define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
-#define HL_E			2.71828182845904523536f
-#define HL_EPSILON		1.0e-5f
-#define HL_ROUND(x)		(std::floor(x + 0.5f))
 
 namespace hamLibs {
 namespace math {
+
+	const float HL_PI			( 3.14159265358979323846f );
+	const float HL_TWO_PI		( 6.28318530717958647693f );
+	const float HL_PI_OVR2		( 1.57079632679489661923f );
+	const float HL_PI_OVR4		( 0.78539816339744830962f );
+	const float HL_PI_INV		( 0.31830988618379067153f ); // 1 / pi
+	const float HL_E			( 2.71828182845904523536f );
+	const float HL_EPSILON		( 1.0e-5f );
+
 	//-------------------------------------------------------------
 	//				Prototypes & Declarations
 	//-------------------------------------------------------------
 	//Multidimensional math classes
-	template <class numType> class mat2;
-	template <class numType> class mat3;
-	template <class numType> class mat4;
-	template <class numType> class quat;
-	template <class numType> class vec2;
-	template <class numType> class vec3;
-	template <class numType> class vec4;
+	template <class numType> class mat2_t;
+	template <class numType> class mat3_t;
+	template <class numType> class mat4_t;
+	template <class numType> class quat_t;
+	template <class numType> class vec2_t;
+	template <class numType> class vec3_t;
+	template <class numType> class vec4_t;
+
+	//[Hopefully] Useful Typedefs
+	typedef quat_t	<float>		quatf;		//Quaternions
+	typedef quat_t	<double>	quatd;
+	typedef vec2_t	<float>		vec2f;		//2D vectors
+	typedef vec2_t	<double>	vec2d;
+	typedef vec3_t	<float>		vec3f;		//3D vectors
+	typedef vec3_t	<double>	vec3d;
+	typedef vec4_t	<float>		vec4f;		//4D vectors
+	typedef vec4_t	<double>	vec4d;
+	typedef mat2_t	<float>		mat2f;		//2x2 matrices
+	typedef mat2_t	<double>	mat2d;
+	typedef mat3_t	<float>		mat3f;		//3x3 matrices
+	typedef mat3_t	<double>	mat3d;
+	typedef mat4_t	<float>		mat4f;		//4x4 matrices
+	typedef mat4_t	<double>	mat4d;
+
+	typedef quat_t	<HL_FLOAT>	quat;
+	typedef vec2_t	<HL_FLOAT>	vec2;
+	typedef vec3_t	<HL_FLOAT>	vec3;
+	typedef vec4_t	<HL_FLOAT>	vec4;
+	typedef mat2_t	<HL_FLOAT>	mat2;
+	typedef mat3_t	<HL_FLOAT>	mat3;
+	typedef mat4_t	<HL_FLOAT>	mat4;
 		
 	template <typename numType>	numType fastSqrt(numType);
 	template <typename numType>	numType fastInvSqrt(numType);
@@ -56,7 +83,7 @@ namespace math {
 		float x = static_cast<float>(input);
 		union { float f; unsigned int u; } y = {x};
 		y.u = 0x5F1FFFF9ul - (y.u >> 1);
-		return (numType)(0.703952253f * y.f * (2.38924456f - x * y.f * y.f));
+		return numType(0.703952253f * y.f * (2.38924456f - x * y.f * y.f));
 	}
 
 	template <typename numType> HL_IMPERATIVE
@@ -64,7 +91,7 @@ namespace math {
 		float x = static_cast<float>(input);
 		union { float f; unsigned int u; } y = {x};
 		y.u = 0x5F1FFFF9ul - (y.u >> 1);
-		return (numType)1.0f/(0.703952253f * y.f * (2.38924456f - x * y.f * y.f));
+		return numType(1.0f/(0.703952253f * y.f * (2.38924456f - x * y.f * y.f)));
 	}
 
 	//-----------------------------------------------------------------
@@ -91,7 +118,7 @@ namespace math {
 #include "vec3.h"
 #include "vec4.h"
 
-//#include "quat_utils.h"
+#include "quat_utils.h"
 #include "vec_utils.h"
 #include "mat_utils.h"
 

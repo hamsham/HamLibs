@@ -1,11 +1,10 @@
 
-//Allegro-based event-logging class
 #include <ctime>
 #include <cstdarg>
-#include "../include/defs/preprocessor.h"
-#include "../include/logger.h"
+#include "../include/hamlibs.h"
 
 namespace hamLibs {
+namespace utils {
 
 logger::logger() :
 	logFile(0)
@@ -40,4 +39,5 @@ void logger::log(const char* info2Log, ...) {
 	output.flush();
 }
 
+} //end utils namespace
 } //end hamlibs namespace

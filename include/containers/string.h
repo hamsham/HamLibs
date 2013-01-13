@@ -9,6 +9,7 @@
 #define	__HL_STRING_H__
 
 namespace hamLibs {
+namespace containers {
 
 class string {
 	private:
@@ -116,6 +117,7 @@ class string {
 		const char*	cStr		() const;
 };
 
+} // end containers namespace
 } //end hamLibs namespace
 
 #endif	/* __HL_STRING_H__ */

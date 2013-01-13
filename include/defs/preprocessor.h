@@ -37,4 +37,7 @@
 	#define HL_FLOAT float
 #endif
 
+#define HL_SQRT( x ) std::sqrt( x )
+//#define HL_SQRT( x ) hamLibs::math::fastSqrt( x )
+
 #endif /* __HL_PREPROCESSOR_H__ */

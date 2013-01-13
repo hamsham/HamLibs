@@ -5,6 +5,7 @@
 #include <ostream>
 
 namespace hamLibs {
+namespace utils {
 
 class logger {
 	private:
@@ -22,6 +23,7 @@ class logger {
 		void		log			(const char* info2Log, ...);
 };
 
+} // end utils namespace
 } //end hamlibs namespace
 
 #endif /*__LOGGER_H__*/

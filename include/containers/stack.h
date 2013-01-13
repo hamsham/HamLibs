@@ -7,12 +7,6 @@
 namespace hamLibs {
 namespace containers {
 
-//readability problems start... here
-namespace {
-	//this is the glue which binds the stack class together
-} //end anonymous namespace
-
-
 template <class type>
 class stack {
 	private:

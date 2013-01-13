@@ -1,9 +1,8 @@
 
-#include "../include/defs/preprocessor.h"
-#include "../include/defs/types.h"
-#include "../include/hamString.h"
+#include "../include/hamLibs.h"
 
 namespace hamLibs {
+namespace containers {
 
 //---------------------------------------------------------------------
 //			Misc functions not intended for external use
@@ -560,4 +559,5 @@ const char* string::cStr () const {
 	return array;
 }
 
+} // end containers namespace
 } //end hamLibs namespace

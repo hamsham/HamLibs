@@ -21,113 +21,90 @@ namespace math {
 //				Begin mat2 class
 //---------------------------------------------------------------------
 template <typename numType>
-struct mat2 {
-	template <typename type>
-	friend std::ostream& operator << ( std::ostream&, const mat2<type>& );
-	template <typename type>
-	friend std::istream& operator >> ( std::istream&, mat2<type>& );
-	
+struct mat2_t {
 	numType	m[2][2];
 	numType	&xx, &xy,
 			&yx, &yy; // these references are attached to the array above during construction
 
 	//hardhat construction
-	mat2();
-	mat2(numType n);
-	mat2(const mat2<numType>& input);
+	mat2_t();
+	mat2_t(numType n);
+	mat2_t(const mat2_t<numType>& input);
 	//delegated constructor
-	mat2(	numType inXX, numType inXY,
+	mat2_t(	numType inXX, numType inXY,
 			numType inYX, numType inYY
 	);
-	~mat2() {};
+	~mat2_t() {};
 
 	//array operators
 	numType*		operator	[]		(int);
+	const numType*	operator	[]		(int) const;
 
 	//mat-mat operators
-	mat2&			operator	++		();			//prefix operators
-	mat2&			operator	--		();
-	mat2			operator	++		(int);	//postfix operators
-	mat2			operator	--		(int);
-	mat2			operator	+		(const mat2<numType>& input) const;
-	mat2			operator	-		(const mat2<numType>& input) const;
-	mat2			operator	-		() const;
-	mat2			operator	*		(const mat2<numType>& input) const;
-	mat2&			operator	=		(const mat2<numType>& input);
-	mat2&			operator	+=		(const mat2<numType>& input);
-	mat2&			operator	-=		(const mat2<numType>& input);
-	mat2&			operator	*=		(const mat2<numType>& input);
-	bool			operator	==		(const mat2<numType>& input) const;
-	bool			operator	!=		(const mat2<numType>& input) const;
+	mat2_t&			operator	++		(); //prefix operators
+	mat2_t&			operator	--		();
+	mat2_t			operator	++		(int); //postfix operators
+	mat2_t			operator	--		(int);
+	mat2_t			operator	+		(const mat2_t<numType>& input) const;
+	mat2_t			operator	-		(const mat2_t<numType>& input) const;
+	mat2_t			operator	-		() const;
+	mat2_t			operator	*		(const mat2_t<numType>& input) const;
+	mat2_t&			operator	=		(const mat2_t<numType>& input);
+	mat2_t&			operator	+=		(const mat2_t<numType>& input);
+	mat2_t&			operator	-=		(const mat2_t<numType>& input);
+	mat2_t&			operator	*=		(const mat2_t<numType>& input);
+	bool			operator	==		(const mat2_t<numType>& input) const;
+	bool			operator	!=		(const mat2_t<numType>& input) const;
 
 	//mat-vector operators
-	mat2			operator	+		(const vec2<numType>&) const;
-	mat2			operator	-		(const vec2<numType>&) const;
-	vec2<numType>	operator	*		(const vec2<numType>&) const;
-	mat2&			operator	=		(const vec2<numType>&);
-	mat2&			operator	+=		(const vec2<numType>&);
-	mat2&			operator	-=		(const vec2<numType>&);
+	mat2_t			operator	+		(const vec2_t<numType>&) const;
+	mat2_t			operator	-		(const vec2_t<numType>&) const;
+	vec2_t<numType>	operator	*		(const vec2_t<numType>&) const;
+	mat2_t&			operator	=		(const vec2_t<numType>&);
+	mat2_t&			operator	+=		(const vec2_t<numType>&);
+	mat2_t&			operator	-=		(const vec2_t<numType>&);
 
 	//mat-scalar operators
-	mat2			operator	+		(numType) const;
-	mat2			operator	-		(numType) const;
-	mat2			operator	*		(numType) const;
-	mat2			operator	/		(numType) const;
-	mat2&			operator	=		(numType);
-	mat2&			operator	+=		(numType);
-	mat2&			operator	-=		(numType);
-	mat2&			operator	*=		(numType);
-	mat2&			operator	/=		(numType);
+	mat2_t			operator	+		(numType) const;
+	mat2_t			operator	-		(numType) const;
+	mat2_t			operator	*		(numType) const;
+	mat2_t			operator	/		(numType) const;
+	mat2_t&			operator	=		(numType);
+	mat2_t&			operator	+=		(numType);
+	mat2_t&			operator	-=		(numType);
+	mat2_t&			operator	*=		(numType);
+	mat2_t&			operator	/=		(numType);
 };
-
-//---------------------------------------------------------------------
-//						I/O Streams
-//---------------------------------------------------------------------
-template <typename type> HL_IMPERATIVE
-std::ostream& operator << ( std::ostream& sout, const mat2<type>& mat ) {
-	sout
-		<< mat.m[0][0] << " " << mat.m[0][1] << " "
-		<< mat.m[1][0] << " " << mat.m[1][1];
-	return sout;
-}
-
-template <typename type> HL_IMPERATIVE
-std::istream& operator >> ( std::istream& stin, mat2<type>& mat ) {
-	stin
-		>> mat.m[0][0] >> mat.m[0][1]
-		>> mat.m[1][0] >> mat.m[1][1];
-	return stin;
-}
 
 //---------------------------------------------------------------------
 //	2x2 Matrix Constructors (mostly delegated)
 //---------------------------------------------------------------------
 //all constructions use list-initializations and Delegations
 template <typename numType> HL_IMPERATIVE
-mat2<numType>::mat2() :
-	mat2(
+mat2_t<numType>::mat2_t() :
+	mat2_t(
 		numType(0), numType(0),
 		numType(0), numType(0)
 	)
 {}
 template <typename numType> HL_IMPERATIVE
-mat2<numType>::mat2(numType n) :
-	mat2(
+mat2_t<numType>::mat2_t(numType n) :
+	mat2_t(
 		n, numType(0),
 		numType(0), n
 	)
 {}
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>::mat2(const mat2<numType>& input) :
-	mat2(
+mat2_t<numType>::mat2_t(const mat2_t<numType>& input) :
+	mat2_t(
 		input.m[0][0], input.m[0][1],
 		input.m[1][0], input.m[1][1]
 	)
 {}
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>::mat2(	numType inXX, numType inXY,
+mat2_t<numType>::mat2_t(	numType inXX, numType inXY,
 						numType inYX, numType inYY) :
 	m{
 		{ inXX, inXY },
@@ -141,7 +118,13 @@ mat2<numType>::mat2(	numType inXX, numType inXY,
 //	Array Operators
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
-numType* mat2<numType>::operator[](const int index) {
+numType* mat2_t<numType>::operator[](const int index) {
+	HL_ASSERT((index >= 0) && (index < 2));
+	return m[ index ];
+}
+
+template <typename numType> HL_IMPERATIVE
+const numType* mat2_t<numType>::operator[](const int index) const {
 	HL_ASSERT((index >= 0) && (index < 2));
 	return m[ index ];
 }
@@ -151,14 +134,14 @@ numType* mat2<numType>::operator[](const int index) {
 //---------------------------------------------------------------------
 // prefix operators
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator++ () {
+mat2_t<numType>& mat2_t<numType>::operator++ () {
 	++m[0][0]; ++m[0][1];
 	++m[1][0]; ++m[1][1];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator-- () {
+mat2_t<numType>& mat2_t<numType>::operator-- () {
 	--m[0][0]; --m[0][1];
 	--m[1][0]; --m[1][1];
 	return *this;
@@ -166,32 +149,32 @@ mat2<numType>& mat2<numType>::operator-- () {
 
 //postfix operators
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator++ (int) {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator++ (int) {
+	return mat2_t<numType>(
 		++m[0][0], ++m[0][1],
 		++m[1][0], ++m[1][1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator-- (int) {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator-- (int) {
+	return mat2_t<numType>(
 		--m[0][0], --m[0][1],
 		--m[1][0], --m[1][1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator + (const mat2<numType>& input) const {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator + (const mat2_t<numType>& input) const {
+	return mat2_t<numType>(
 		m[0][0] + input.m[0][0], m[0][1] + input.m[0][1],
 		m[1][0] + input.m[1][0], m[1][1] + input.m[1][1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator - (const mat2<numType>& input) const {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator - (const mat2_t<numType>& input) const {
+	return mat2_t<numType>(
 		m[0][0] - input.m[0][0], m[0][1] - input.m[0][1],
 		m[1][0] - input.m[1][0], m[1][1] - input.m[1][1]
 	);
@@ -199,14 +182,14 @@ mat2<numType> mat2<numType>::operator - (const mat2<numType>& input) const {
 
 //for operations like "mat2a = -mat2b"
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator - () const {
-	return mat2<numType>(	-m[0][0], -m[0][1],
+mat2_t<numType> mat2_t<numType>::operator - () const {
+	return mat2_t<numType>(	-m[0][0], -m[0][1],
 							-m[1][0], -m[1][1]);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator * (const mat2<numType>& input) const {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator * (const mat2_t<numType>& input) const {
+	return mat2_t<numType>(
 	//X
 		(m[0][0]*input.m[0][0]) + (m[0][1]*input.m[1][0]),
 		(m[0][0]*input.m[0][1]) + (m[0][1]*input.m[1][1]),
@@ -218,32 +201,32 @@ mat2<numType> mat2<numType>::operator * (const mat2<numType>& input) const {
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator = (const mat2<numType>& input) {
+mat2_t<numType>& mat2_t<numType>::operator = (const mat2_t<numType>& input) {
 	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1];
 	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator += (const mat2<numType>& input) {
+mat2_t<numType>& mat2_t<numType>::operator += (const mat2_t<numType>& input) {
 	*this = *this + input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator -= (const mat2<numType>& input) {
+mat2_t<numType>& mat2_t<numType>::operator -= (const mat2_t<numType>& input) {
 	*this = *this - input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator *= (const mat2<numType>& input) {
+mat2_t<numType>& mat2_t<numType>::operator *= (const mat2_t<numType>& input) {
 	*this = *this * input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-bool mat2<numType>::operator == (const mat2<numType>& compare) const {
+bool mat2_t<numType>::operator == (const mat2_t<numType>& compare) const {
 	return	(
 				m[0][0] == compare.m[0][0] && m[0][1] == compare.m[0][1] &&
 				m[1][0] == compare.m[1][0] && m[1][1] == compare.m[1][1]
@@ -251,7 +234,7 @@ bool mat2<numType>::operator == (const mat2<numType>& compare) const {
 }
 
 template <typename numType> HL_IMPERATIVE
-bool mat2<numType>::operator != (const mat2<numType>& compare) const {
+bool mat2_t<numType>::operator != (const mat2_t<numType>& compare) const {
 	return	(
 				m[0][0] != compare.m[0][0] && m[0][1] != compare.m[0][1] &&
 				m[1][0] != compare.m[1][0] && m[1][1] != compare.m[1][1]
@@ -262,44 +245,44 @@ bool mat2<numType>::operator != (const mat2<numType>& compare) const {
 //	mat-vector Operators
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator + (const vec2<numType>& input) const {
-	return mat2(
+mat2_t<numType> mat2_t<numType>::operator + (const vec2_t<numType>& input) const {
+	return mat2_t(
 		m[0][0] + input.x, m[0][1] + input.y,
 		m[1][0] + input.x, m[1][1] + input.y
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator - (const vec2<numType>& input) const {
-	return mat2(
+mat2_t<numType> mat2_t<numType>::operator - (const vec2_t<numType>& input) const {
+	return mat2_t(
 		m[0][0] - input.x, m[0][1] - input.y,
 		m[1][0] - input.x, m[1][1] - input.y
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-vec2<numType> mat2<numType>::operator * (const vec2<numType>& inVec) const {
-	return vec2<numType>(
+vec2_t<numType> mat2_t<numType>::operator * (const vec2_t<numType>& inVec) const {
+	return vec2_t<numType>(
 		(m[0][0] * inVec.x) + (m[0][1] * inVec.y),
 		(m[1][0] * inVec.x) + (m[1][1] * inVec.y)
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator = (const vec2<numType>& input) {
+mat2_t<numType>& mat2_t<numType>::operator = (const vec2_t<numType>& input) {
 	m[0][0] = input.x; m[0][1] = input.x;
 	m[1][0] = input.y; m[1][1] = input.y;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator += (const vec2<numType>& input) {
+mat2_t<numType>& mat2_t<numType>::operator += (const vec2_t<numType>& input) {
 	*this = *this + input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator -= (const vec2<numType>& input) {
+mat2_t<numType>& mat2_t<numType>::operator -= (const vec2_t<numType>& input) {
 	*this = *this - input;
 	return *this;
 }
@@ -308,64 +291,64 @@ mat2<numType>& mat2<numType>::operator -= (const vec2<numType>& input) {
 //	mat-Scalar Operators
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator + (numType input) const {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator + (numType input) const {
+	return mat2_t<numType>(
 		m[0][0] + input, m[0][1] + input,
 		m[1][0] + input, m[1][1] + input
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator - (numType input) const {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator - (numType input) const {
+	return mat2_t<numType>(
 		m[0][0] - input, m[0][1] - input,
 		m[1][0] - input, m[1][1] - input
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator * (numType input) const {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator * (numType input) const {
+	return mat2_t<numType>(
 		m[0][0] * input, m[0][1] * input,
 		m[1][0] * input, m[1][1] * input
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType> mat2<numType>::operator / (numType input) const {
-	return mat2<numType>(
+mat2_t<numType> mat2_t<numType>::operator / (numType input) const {
+	return mat2_t<numType>(
 		m[0][0] / input, m[0][1] / input,
 		m[1][0] / input, m[1][1] / input
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator = (numType input) {
+mat2_t<numType>& mat2_t<numType>::operator = (numType input) {
 	m[0][0] = input; m[0][1] = input;
 	m[1][0] = input; m[1][1] = input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator += (numType input) {
+mat2_t<numType>& mat2_t<numType>::operator += (numType input) {
 	*this = *this + input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator -= (numType input) {
+mat2_t<numType>& mat2_t<numType>::operator -= (numType input) {
 	*this = *this - input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator *= (numType input) {
+mat2_t<numType>& mat2_t<numType>::operator *= (numType input) {
 	*this = *this * input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
-mat2<numType>& mat2<numType>::operator /= (numType input) {
+mat2_t<numType>& mat2_t<numType>::operator /= (numType input) {
 	*this = *this / input;
 	return *this;
 }

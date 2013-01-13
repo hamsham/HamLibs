@@ -1,4 +1,7 @@
 
+#ifndef __HAMLIBS_TYPES_H__
+#define	__HAMLIBS_TYPES_H__
+
 //templated variable and class declarations
 
 namespace hamLibs {
@@ -39,3 +42,5 @@ namespace hamLibs {
 
 	}//hamLibs::math
 }//hamLibs
+
+#endif /* __HAMLIBS_TYPES_H__ */

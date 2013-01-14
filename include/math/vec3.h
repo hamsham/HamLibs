@@ -24,7 +24,6 @@ struct vec3_t {
 
 	//constructors
 	vec3_t			();
-	vec3_t			(const numType inVect[3]);
 	vec3_t			(const vec3_t<numType>& invect);
 	vec3_t			(numType inX, numType inY, numType inZ);
 	~vec3_t			(){}

@@ -19,12 +19,13 @@ namespace math {
 template <typename numType>
 struct vec2_t {
 	numType v[2];
-	numType	x, y;
+	numType	&x, &y;
 
 	//constructors
 	vec2_t			();
 	vec2_t			(const vec2_t<numType>& invect);
 	vec2_t			(numType inX, numType inY);
+	~vec2_t			() {}
 
 	//array operators
 	numType			operator		[]		(int) const;

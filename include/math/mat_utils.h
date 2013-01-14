@@ -120,18 +120,23 @@ math::mat2_t<numType> math::scale( const mat2_t<numType>& m, const vec2_t<numTyp
 //-----------------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 numType math::determinant( const mat3_t<numType>& m ) {
-	return ( (m.xx*m.yy*m.zz) + (m.xy*m.yz*m.zx) + (m.xz*m.yx*m.zy) ) -
-		( (m.xz*m.yy*m.zx) + (m.xy*m.yx*m.zz) + (m.xx*m.yz*m.zy) );
+	return
+		(m.xx*m.yy*m.zz) +
+		(m.xy*m.yz*m.zx) +
+		(m.xz*m.yx*m.zy) -
+		(m.xz*m.yy*m.zx) -
+		(m.xy*m.yx*m.zz) -
+		(m.xx*m.yz*m.zy);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::mat3_t<numType> math::inverse( const mat3_t<numType>& m ) {
+	numType detInv( numType(1) / determinant( m ) );
 	return
 	mat3_t<numType>(
-		m.xx, m.yx, m.zx,
-		m.xy, m.yy, m.zy,
-		m.xz, m.yz, m.zz )
-	* ( numType( 1 ) / determinant( m ) );
+		m.xx * detInv, m.yx * detInv, m.zx * detInv,
+		m.xy * detInv, m.yy * detInv, m.zy * detInv,
+		m.xz * detInv, m.yz * detInv, m.zz * detInv );
 }
 
 template <typename numType> HL_IMPERATIVE
@@ -139,7 +144,8 @@ math::mat3_t<numType> math::transpose( const mat3_t<numType>& m ) {
 	return mat3_t<numType>(
 		m.xx, m.yx, m.zx,
 		m.xy, m.yy, m.zy,
-		m.xz, m.yz, m.zz );
+		m.xz, m.yz, m.zz
+	);
 }
 
 template <typename numType> HL_IMPERATIVE
@@ -293,7 +299,7 @@ template <typename numType> HL_IMPERATIVE
 math::mat4_t<numType> math::perspective( numType fov, numType aspect, numType zNear, numType zFar ) {
 	numType top( tan(HL_DEG2RAD(fov) / numType(2)) * zNear );
 	numType bottom( -top );
-	numType xMin( -bottom * aspect );
+	numType xMin( bottom * aspect );
 	numType xMax( top * aspect );
 	numType zDelta( zFar - zNear );
 

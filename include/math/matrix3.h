@@ -24,7 +24,7 @@ namespace math {
 template <typename numType>
 struct mat3_t {
 	numType m[3][3];
-	numType	&xx, &xy, xz,
+	numType	&xx, &xy, &xz,
 			&yx, &yy, &yz,
 			&zx, &zy, &zz;
 
@@ -111,8 +111,8 @@ mat3_t<numType>::mat3_t(const mat3_t<numType>& input) :
 
 template <typename numType> HL_IMPERATIVE
 mat3_t<numType>::mat3_t(	numType inXX, numType inXY, numType inXZ,
-						numType inYX, numType inYY, numType inYZ,
-						numType inZX, numType inZY, numType inZZ) :
+							numType inYX, numType inYY, numType inYZ,
+							numType inZX, numType inZY, numType inZZ ) :
 	m{
 		{ inXX, inXY, inXZ },
 		{ inYX, inYY, inYZ },
@@ -350,10 +350,11 @@ mat3_t<numType> mat3_t<numType>::operator * (numType input) const {
 
 template <typename numType> HL_IMPERATIVE
 mat3_t<numType> mat3_t<numType>::operator / (numType input) const {
+	input = numType( 1 ) / input;
 	return mat3_t<numType>(
-		m[0][0] / input, m[0][1] / input, m[0][2] / input,
-		m[1][0] / input, m[1][1] / input, m[1][2] / input,
-		m[2][0] / input, m[2][1] / input, m[2][2] / input
+		m[0][0] * input, m[0][1] * input, m[0][2] * input,
+		m[1][0] * input, m[1][1] * input, m[1][2] * input,
+		m[2][0] * input, m[2][1] * input, m[2][2] * input
 	);
 }
 

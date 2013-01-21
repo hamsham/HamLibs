@@ -69,20 +69,20 @@ template <typename numType> HL_IMPERATIVE numType			angleBetween( const vec3_t<n
 //-----------------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 numType math::dot( const vec2_t<numType>& v1, const vec2_t<numType>& v2 ) {
-	return (v1.x*v2.x) + (v1.y*v2.y);
+	return (v1.v[0]*v2.v[0]) + (v1.v[1]*v2.v[1]);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::vec2_t<numType> math::normalize( const vec2_t<numType>& v ) {
 	numType magInv(
 		numType(1) / HL_SQRT(
-			(v.x * v.x)+
-			(v.y * v.y)
+			(v.v[0] * v.v[0])+
+			(v.v[1] * v.v[1])
 		)
 	);
 	return vec2_t<numType>(
-		v.x*magInv,
-		v.y*magInv
+		v.v[0]*magInv,
+		v.v[1]*magInv
 	);
 }
 
@@ -90,8 +90,8 @@ template <typename numType> HL_IMPERATIVE
 numType math::magnitude( const vec2_t<numType>& v ) {
 	return numType(
 		HL_SQRT(
-			(v.x * v.x) +
-			(v.y * v.y)
+			(v.v[0] * v.v[0]) +
+			(v.v[1] * v.v[1])
 		)
 	);
 }
@@ -102,8 +102,8 @@ math::vec2_t<numType> math::rotate( const vec2_t<numType>& v, numType angle ) {
 	numType c = cos(angle);
 
 	return vec2_t<numType>(
-		(v.x*c) - (v.y*s),
-		(v.x*s) + (v.y*c)
+		(v.v[0]*c) - (v.v[1]*s),
+		(v.v[0]*s) + (v.v[1]*c)
 	);
 }
 
@@ -126,15 +126,15 @@ numType math::angleBetween( const vec2_t<numType>& v1, const vec2_t<numType>& v2
 //-----------------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 numType math::dot( const vec3_t<numType>& v1, const vec3_t<numType>& v2 ) {
-	return	(v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+	return	(v1.v[0] * v2.v[0]) + (v1.v[1] * v2.v[1]) + (v1.v[2] * v2.v[2]);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::vec3_t<numType> math::cross( const vec3_t<numType>& v1, const vec3_t<numType>& v2 ) {
 	return vec3_t<numType>(
-		(v1.y*v2.z) - (v1.z*v2.y),
-		(v1.z*v2.x) - (v1.x*v2.z),
-		(v1.x*v2.y) - (v1.y*v2.x)
+		(v1.v[1]*v2.v[2]) - (v1.v[2]*v2.v[1]),
+		(v1.v[2]*v2.v[0]) - (v1.v[0]*v2.v[2]),
+		(v1.v[0]*v2.v[1]) - (v1.v[1]*v2.v[0])
 	);
 }
 
@@ -142,15 +142,15 @@ template <typename numType> HL_IMPERATIVE
 math::vec3_t<numType> math::normalize( const vec3_t<numType>& v ) {
 	numType magInv(
 		numType(1) / HL_SQRT(
-			(v.x * v.x) +
-			(v.y * v.y) +
-			(v.z * v.z)
+			(v.v[0] * v.v[0]) +
+			(v.v[1] * v.v[1]) +
+			(v.v[2] * v.v[2])
 		)
 	);
 	return vec3_t<numType>(
-		v.x*magInv,
-		v.y*magInv,
-		v.z*magInv
+		v.v[0]*magInv,
+		v.v[1]*magInv,
+		v.v[2]*magInv
 	);
 }
 
@@ -158,9 +158,9 @@ template <typename numType> HL_IMPERATIVE
 numType math::magnitude( const vec3_t<numType>& v ) {
 	return numType(
 		HL_SQRT(
-			(v.x * v.x) +
-			(v.y * v.y) +
-			(v.z * v.z)
+			(v.v[0] * v.v[0]) +
+			(v.v[1] * v.v[1]) +
+			(v.v[2] * v.v[2])
 		)
 	);
 }
@@ -220,24 +220,24 @@ numType math::angleBetween( const vec3_t<numType>& v1, const vec3_t<numType>& v2
 //-----------------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 numType math::dot( const vec4_t<numType>& v1, const vec4_t<numType>& v2 ) {
-	return	(v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+	return	(v1.v[0] * v2.v[0]) + (v1.v[1] * v2.v[1]) + (v1.v[2] * v2.v[2]) + (v1.v[3] * v2.v[3]);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::vec4_t<numType> math::normalize( const vec4_t<numType>& v ) {
 	numType magInv(
 		numType(1) / HL_SQRT(
-			(v.x * v.x) +
-			(v.y * v.y) +
-			(v.z * v.z) +
-			(v.w * v.w)
+			(v.v[0] * v.v[0]) +
+			(v.v[1] * v.v[1]) +
+			(v.v[2] * v.v[2]) +
+			(v.v[3] * v.v[3])
 		)
 	);
 	return vec4_t<numType>(
-		v.x*magInv,
-		v.y*magInv,
-		v.z*magInv,
-		v.w*magInv
+		v.v[0]*magInv,
+		v.v[1]*magInv,
+		v.v[2]*magInv,
+		v.v[3]*magInv
 	);
 }
 
@@ -245,10 +245,10 @@ template <typename numType> HL_IMPERATIVE
 numType math::magnitude( const vec4_t<numType>& v ) {
 	return numType(
 		HL_SQRT(
-			(v.x * v.x) +
-			(v.y * v.y) +
-			(v.z * v.z) +
-			(v.w * v.w)
+			(v.v[0] * v.v[0]) +
+			(v.v[1] * v.v[1]) +
+			(v.v[2] * v.v[2]) +
+			(v.v[3] * v.v[3])
 		)
 	);
 }

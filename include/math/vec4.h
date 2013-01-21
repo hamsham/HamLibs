@@ -20,8 +20,12 @@ namespace math {
 
 template <typename numType>
 struct vec4_t {
-	numType v[4];
-	numType &x, &y, &z, &w;
+	union {
+		numType v[4];
+		struct {
+			numType x, y, z, w;
+		} index;
+	};
 
 	//constructors
 	vec4_t			();
@@ -86,14 +90,13 @@ vec4_t<numType>::vec4_t() :
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>::vec4_t(const vec4_t<numType>& input) :
 	vec4_t(
-		input.x, input.y, input.z, input.w
+		input.v[0], input.v[1], input.v[2], input.v[3]
 	)
 {}
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>::vec4_t(numType inX, numType inY, numType inZ, numType inW) :
-	v{ inX, inY, inZ, inW },
-	x( v[0] ), y( v[1] ), z( v[2] ), w( v[3] )
+	v{ inX, inY, inZ, inW }
 {}
 
 //---------------------------------------------------------------------
@@ -116,56 +119,56 @@ numType& vec4_t<numType>::operator[](const int index) {
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator = (const vec4_t<numType>& input) {
-	x = input.x;
-	y = input.y;
-	z = input.z;
-	w = input.w;
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	v[2] = input.v[2];
+	v[3] = input.v[3];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator + (const vec4_t<numType>& input) const {
 	return vec4_t(
-		x + input.x,
-		y + input.y,
-		z + input.z,
-		w + input.w
+		v[0] + input.v[0],
+		v[1] + input.v[1],
+		v[2] + input.v[2],
+		v[3] + input.v[3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator - (const vec4_t<numType>& input) const {
 	return vec4_t(
-		x - input.x,
-		y - input.y,
-		z - input.z,
-		w - input.w
+		v[0] - input.v[0],
+		v[1] - input.v[1],
+		v[2] - input.v[2],
+		v[3] - input.v[3]
 	);
 }
 
 //for operations like "vectA = -vectB"
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator - () const {
-	return vec4_t<numType>(-x, -y, -z, -w);
+	return vec4_t<numType>(-v[0], -v[1], -v[2], -v[3]);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator * (const vec4_t<numType>& input) const {
 	return vec4_t<numType>(
-		x * input.x,
-		y * input.y,
-		z * input.z,
-		w * input.w
+		v[0] * input.v[0],
+		v[1] * input.v[1],
+		v[2] * input.v[2],
+		v[3] * input.v[3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator / (const vec4_t<numType>& input) const {
 	return vec4_t<numType>(
-		x / input.x,
-		y / input.y,
-		z / input.z,
-		w / input.w
+		v[0] / input.v[0],
+		v[1] / input.v[1],
+		v[2] / input.v[2],
+		v[3] / input.v[3]
 	);
 }
 
@@ -196,18 +199,18 @@ vec4_t<numType>& vec4_t<numType>::operator /= (const vec4_t<numType>& input) {
 // prefix operations
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator++ () {
-	++x;
-	++y;
-	++z;
-	++w;
+	++v[0];
+	++v[1];
+	++v[2];
+	++v[3];
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator-- () {
-	--x;
-	--y;
-	--z;
-	--w;
+	--v[0];
+	--v[1];
+	--v[2];
+	--v[3];
 	return *this;
 }
 
@@ -215,74 +218,74 @@ vec4_t<numType>& vec4_t<numType>::operator-- () {
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator++ (int) {
 	return vec4_t<numType>(
-		++x,
-		++y,
-		++z,
-		++w
+		++v[0],
+		++v[1],
+		++v[2],
+		++v[3]
 	);
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator-- (int) {
 	return vec4_t<numType>(
-		--x,
-		--y,
-		--z,
-		--w
+		--v[0],
+		--v[1],
+		--v[2],
+		--v[3]
 	);
 }
 
 //comparisons
 template <typename numType> HL_IMPERATIVE
 bool vec4_t<numType>::operator== (const vec4_t<numType>& compare) const {
-	return (	x == compare.x &&
-				y == compare.y &&
-				z == compare.z &&
-				w == compare.w
+	return (	v[0] == compare.v[0] &&
+				v[1] == compare.v[1] &&
+				v[2] == compare.v[2] &&
+				v[3] == compare.v[3]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec4_t<numType>::operator!= (const vec4_t<numType>& compare) const {
-	return (	x != compare.x &&
-				y != compare.y &&
-				z != compare.z &&
-				w != compare.w
+	return (	v[0] != compare.v[0] &&
+				v[1] != compare.v[1] &&
+				v[2] != compare.v[2] &&
+				v[3] != compare.v[3]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec4_t<numType>::operator< (const vec4_t<numType>& compare) const {
-	return (	x < compare.x &&
-				y < compare.y &&
-				z < compare.z &&
-				w < compare.w
+	return (	v[0] < compare.v[0] &&
+				v[1] < compare.v[1] &&
+				v[2] < compare.v[2] &&
+				v[3] < compare.v[3]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec4_t<numType>::operator> (const vec4_t<numType>& compare) const {
-	return (	x > compare.x &&
-				y > compare.y &&
-				z > compare.z &&
-				w > compare.w
+	return (	v[0] > compare.v[0] &&
+				v[1] > compare.v[1] &&
+				v[2] > compare.v[2] &&
+				v[3] > compare.v[3]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec4_t<numType>::operator<= (const vec4_t<numType>& compare) const {
-	return (	x <= compare.x &&
-				y <= compare.y &&
-				z <= compare.z &&
-				w <= compare.w
+	return (	v[0] <= compare.v[0] &&
+				v[1] <= compare.v[1] &&
+				v[2] <= compare.v[2] &&
+				v[3] <= compare.v[3]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec4_t<numType>::operator>= (const vec4_t<numType>& compare) const {
-	return (	x >= compare.x &&
-				y >= compare.y &&
-				z >= compare.z &&
-				w >= compare.w
+	return (	v[0] >= compare.v[0] &&
+				v[1] >= compare.v[1] &&
+				v[2] >= compare.v[2] &&
+				v[3] >= compare.v[3]
 			);
 }
 
@@ -292,30 +295,30 @@ bool vec4_t<numType>::operator>= (const vec4_t<numType>& compare) const {
 template <typename numType> HL_IMPERATIVE
 mat4_t<numType> vec4_t<numType>::operator + (const mat4_t<numType>& m) const {
 	return mat4_t<numType>(
-		x + m.xx, x + m.xy, x + m.xz, x + m.xw,
-		y + m.yx, y + m.yy, y + m.yz, y + m.yw,
-		z + m.zx, z + m.zy, z + m.zz, z + m.zw,
-		w + m.wx, w + m.wy, w + m.wz, w + m.ww
+		v[0] + m.m[0][0], v[0] + m.m[0][1], v[0] + m.m[0][2], v[0] + m.m[0][3],
+		v[1] + m.m[1][0], v[1] + m.m[1][1], v[1] + m.m[1][2], v[1] + m.m[1][3],
+		v[2] + m.m[2][0], v[2] + m.m[2][1], v[2] + m.m[2][2], v[2] + m.m[2][3],
+		v[3] + m.m[3][0], v[3] + m.m[3][1], v[3] + m.m[3][2], v[3] + m.m[3][3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 mat4_t<numType> vec4_t<numType>::operator - (const mat4_t<numType>& m) const {
 	return mat4_t<numType>(
-		x - m.xx, x - m.xy, x - m.xz, x - m.xw,
-		y - m.yx, y - m.yy, y - m.yz, y - m.yw,
-		z - m.zx, z - m.zy, z - m.zz, z - m.zw,
-		w - m.wx, w - m.wy, w - m.wz, w - m.ww
+		v[0] - m.m[0][0], v[0] - m.m[0][1], v[0] - m.m[0][2], v[0] - m.m[0][3],
+		v[1] - m.m[1][0], v[1] - m.m[1][1], v[1] - m.m[1][2], v[1] - m.m[1][3],
+		v[2] - m.m[2][0], v[2] - m.m[2][1], v[2] - m.m[2][2], v[2] - m.m[2][3],
+		v[3] - m.m[3][0], v[3] - m.m[3][1], v[3] - m.m[3][2], v[3] - m.m[3][3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator * (const mat4_t<numType>& m) const {
 	return vec4_t<numType>(
-		(m.xx * x) + (m.xy * y) + (m.xz * z) + (m.xw * w),
-		(m.yx * x) + (m.yy * y) + (m.yz * z) + (m.yw * w),
-		(m.zx * x) + (m.zy * y) + (m.zz * z) + (m.zw * w),
-		(m.wx * x) + (m.wy * y) + (m.wz * z) + (m.ww * w)
+		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]) + (m.m[0][2] * v[2]) + (m.m[0][3] * v[3]),
+		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1]) + (m.m[1][2] * v[2]) + (m.m[1][3] * v[3]),
+		(m.m[2][0] * v[0]) + (m.m[2][1] * v[1]) + (m.m[2][2] * v[2]) + (m.m[2][3] * v[3]),
+		(m.m[3][0] * v[0]) + (m.m[3][1] * v[1]) + (m.m[3][2] * v[2]) + (m.m[3][3] * v[3])
 	);
 }
 
@@ -330,46 +333,46 @@ vec4_t<numType>& vec4_t<numType>::operator *= (const mat4_t<numType>& m) {
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator = (numType input) {
-	x = input;
-	y = input;
-	z = input;
-	w = input;
+	v[0] = input;
+	v[1] = input;
+	v[2] = input;
+	v[3] = input;
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator + (numType input) const {
 	return vec4_t<numType>(
-		x + input,
-		y + input,
-		z + input,
-		w + input
+		v[0] + input,
+		v[1] + input,
+		v[2] + input,
+		v[3] + input
 	);
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator - (numType input) const {
 	return vec4_t<numType>(
-		x - input,
-		y - input,
-		z - input,
-		w - input
+		v[0] - input,
+		v[1] - input,
+		v[2] - input,
+		v[3] - input
 	);
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator * (numType input) const {
 	return vec4_t<numType>(
-		x * input,
-		y * input,
-		z * input,
-		w * input
+		v[0] * input,
+		v[1] * input,
+		v[2] * input,
+		v[3] * input
 	);
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> vec4_t<numType>::operator / (numType input) const {
 	return vec4_t<numType>(
-		x / input,
-		y / input,
-		z / input,
-		w / input
+		v[0] / input,
+		v[1] / input,
+		v[2] / input,
+		v[3] / input
 	);
 }
 template <typename numType> HL_IMPERATIVE

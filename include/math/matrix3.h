@@ -23,10 +23,14 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct mat3_t {
-	numType m[3][3];
-	numType	&xx, &xy, &xz,
-			&yx, &yy, &yz,
-			&zx, &zy, &zz;
+	union {
+		numType m[3][3];
+		struct {
+			numType	xx, xy, xz,
+					yx, yy, yz,
+					zx, zy, zz;
+		} index;
+	};
 
 	//hardhat construction
 	mat3_t();
@@ -117,10 +121,7 @@ mat3_t<numType>::mat3_t(	numType inXX, numType inXY, numType inXZ,
 		{ inXX, inXY, inXZ },
 		{ inYX, inYY, inYZ },
 		{ inZX, inZY, inZZ }
-	},
-	xx( m[0][0] ), xy( m[0][1] ), xz( m[0][2] ),
-	yx( m[1][0] ), yy( m[1][1] ), yz( m[1][2] ),
-	zx( m[2][0] ), zy( m[2][1] ), zz( m[2][2] )
+	}
 {}
 
 //---------------------------------------------------------------------
@@ -274,35 +275,35 @@ bool mat3_t<numType>::operator != (const mat3_t<numType>& compare) const {
 template <typename numType> HL_IMPERATIVE
 mat3_t<numType> mat3_t<numType>::operator + (const vec3_t<numType>& input) const {
 	return mat3_t(
-		m[0][0] + input.x, m[0][1] + input.y, m[0][2] + input.z,
-		m[1][0] + input.x, m[1][1] + input.y, m[1][2] + input.z,
-		m[2][0] + input.x, m[2][1] + input.y, m[2][2] + input.z
+		m[0][0] + input.v[0], m[0][1] + input.v[1], m[0][2] + input.v[2],
+		m[1][0] + input.v[0], m[1][1] + input.v[1], m[1][2] + input.v[2],
+		m[2][0] + input.v[0], m[2][1] + input.v[1], m[2][2] + input.v[2]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 mat3_t<numType> mat3_t<numType>::operator - (const vec3_t<numType>& input) const {
 	return mat3_t(
-		m[0][0] - input.x, m[0][1] - input.y, m[0][2] - input.z,
-		m[1][0] - input.x, m[1][1] - input.y, m[1][2] - input.z,
-		m[2][0] - input.x, m[2][1] - input.y, m[2][2] - input.z
+		m[0][0] - input.v[0], m[0][1] - input.v[1], m[0][2] - input.v[2],
+		m[1][0] - input.v[0], m[1][1] - input.v[1], m[1][2] - input.v[2],
+		m[2][0] - input.v[0], m[2][1] - input.v[1], m[2][2] - input.v[2]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec3_t<numType> mat3_t<numType>::operator * (const vec3_t<numType>& inVect) const {
 	return vec3_t<numType>(
-		(m[0][0] * inVect.x) + (m[0][1] * inVect.y) + (m[0][2] * inVect.z),
-		(m[1][0] * inVect.x) + (m[1][1] * inVect.y) + (m[1][2] * inVect.z),
-		(m[2][0] * inVect.x) + (m[2][1] * inVect.y) + (m[2][2] * inVect.z)
+		(m[0][0] * inVect.v[0]) + (m[0][1] * inVect.v[1]) + (m[0][2] * inVect.v[2]),
+		(m[1][0] * inVect.v[0]) + (m[1][1] * inVect.v[1]) + (m[1][2] * inVect.v[2]),
+		(m[2][0] * inVect.v[0]) + (m[2][1] * inVect.v[1]) + (m[2][2] * inVect.v[2])
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 mat3_t<numType>& mat3_t<numType>::operator = (const vec3_t<numType>& input) {
-	m[0][0] = input.x; m[0][1] = input.y; m[0][2] = input.z;
-	m[1][0] = input.x; m[1][1] = input.y; m[1][2] = input.z;
-	m[2][0] = input.x; m[2][1] = input.y; m[2][2] = input.z;
+	m[0][0] = input.v[0]; m[0][1] = input.v[1]; m[0][2] = input.v[2];
+	m[1][0] = input.v[0]; m[1][1] = input.v[1]; m[1][2] = input.v[2];
+	m[2][0] = input.v[0]; m[2][1] = input.v[1]; m[2][2] = input.v[2];
 	return *this;
 }
 

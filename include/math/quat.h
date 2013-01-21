@@ -21,8 +21,12 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct quat_t {
-	numType q[4];
-	numType &x, &y, &z, &w;
+	union {
+		numType q[4];
+		struct {
+			numType x, y, z, w;
+		} index;
+	};
 
 	//construction (all delegated)
 	quat_t			();
@@ -78,7 +82,7 @@ quat_t<numType>::quat_t() :
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>::quat_t(const quat_t<numType>& input) :
 	quat_t(
-		input.x, input.y, input.z, input.w
+		input.q[0], input.q[1], input.q[2], input.q[3]
 	)
 {}
 
@@ -86,8 +90,7 @@ template <typename numType> HL_IMPERATIVE
 quat_t<numType>::quat_t(numType inX, numType inY, numType inZ, numType inW) :
 	// all constructors are delegated to use this.
 	// make the references equal a value in the array
-	q{ inX, inY, inZ, inW },
-	x( q[0] ), y( q[1] ), z( q[2] ), w( q[3] )
+	q{ inX, inY, inZ, inW }
 {}
 
 //---------------------------------------------------------------------
@@ -111,13 +114,13 @@ numType& quat_t<numType>::operator[](const int index) {
 // prefix operators
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator++ () {
-	++x; ++y; ++z; ++w;
+	++q[0]; ++q[1]; ++q[2]; ++q[3];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator-- () {
-	--x; --y; --z; --w;
+	--q[0]; --q[1]; --q[2]; --q[3];
 	return *this;
 }
 
@@ -125,53 +128,53 @@ quat_t<numType>& quat_t<numType>::operator-- () {
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator++ (int) {
 	return quat_t<numType>(
-		++x, ++y, ++z, ++w
+		++q[0], ++q[1], ++q[2], ++q[3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator-- (int) {
 	return quat_t<numType>(
-		--x, --y, --z, --w
+		--q[0], --q[1], --q[2], --q[3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator + (const quat_t<numType>& input) const {
 	return quat_t<numType>(
-		x + input.x,
-		y + input.y,
-		z + input.z,
-		w + input.w
+		q[0] + input.q[0],
+		q[1] + input.q[1],
+		q[2] + input.q[2],
+		q[3] + input.q[3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator - (const quat_t<numType>& input) const {
 	return quat_t<numType>(
-		x - input.x,
-		y - input.y,
-		z - input.z,
-		w - input.w
+		q[0] - input.q[0],
+		q[1] - input.q[1],
+		q[2] - input.q[2],
+		q[3] - input.q[3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator * (const quat_t<numType>& input) const {
 	return quat_t<numType>(
-		(input.w*x) + (input.x*w) + (input.y*z) - (input.z*y),
-		(input.w*y) - (input.x*z) + (input.y*w) + (input.z*x),
-		(input.w*z) + (input.x*y) - (input.y*x) + (input.z*w),
-		(input.w*w) - (input.x*x) - (input.y*y) - (input.z*z)
+		(input.q[3]*q[0]) + (input.q[0]*q[3]) + (input.q[1]*q[2]) - (input.q[2]*q[1]),
+		(input.q[3]*q[1]) - (input.q[0]*q[2]) + (input.q[1]*q[3]) + (input.q[2]*q[0]),
+		(input.q[3]*q[2]) + (input.q[0]*q[1]) - (input.q[1]*q[0]) + (input.q[2]*q[3]),
+		(input.q[3]*q[3]) - (input.q[0]*q[0]) - (input.q[1]*q[1]) - (input.q[2]*q[2])
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator = (const quat_t<numType>& input) {
-	x = input.x;
-	y = input.y;
-	z = input.z;
-	w = input.w;
+	q[0] = input.q[0];
+	q[1] = input.q[1];
+	q[2] = input.q[2];
+	q[3] = input.q[3];
 	return *this;
 }
 
@@ -196,20 +199,20 @@ quat_t<numType>& quat_t<numType>::operator *= (const quat_t<numType>& input) {
 template <typename numType> HL_IMPERATIVE
 bool quat_t<numType>::operator == (const quat_t<numType>& compare) const {
 	return	(
-				x == compare.x &&
-				y == compare.y &&
-				z == compare.z &&
-				w == compare.w
+				q[0] == compare.q[0] &&
+				q[1] == compare.q[1] &&
+				q[2] == compare.q[2] &&
+				q[3] == compare.q[3]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool quat_t<numType>::operator != (const quat_t<numType>& compare) const {
 	return	(
-				x != compare.x &&
-				y != compare.y &&
-				z != compare.z &&
-				w != compare.w
+				q[0] != compare.q[0] &&
+				q[1] != compare.q[1] &&
+				q[2] != compare.q[2] &&
+				q[3] != compare.q[3]
 			);
 }
 
@@ -219,49 +222,49 @@ bool quat_t<numType>::operator != (const quat_t<numType>& compare) const {
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator + (numType input) const {
 	return quat_t<numType>(
-		x + input,
-		y + input,
-		z + input,
-		w + input
+		q[0] + input,
+		q[1] + input,
+		q[2] + input,
+		q[3] + input
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator - (numType input) const {
 	return quat_t<numType>(
-		x - input,
-		y - input,
-		z - input,
-		w - input
+		q[0] - input,
+		q[1] - input,
+		q[2] - input,
+		q[3] - input
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator * (numType input) const {
 	return quat_t<numType>(
-		x * input,
-		y * input,
-		z * input,
-		w * input
+		q[0] * input,
+		q[1] * input,
+		q[2] * input,
+		q[3] * input
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType> quat_t<numType>::operator / (numType input) const {
 	return quat_t<numType>(
-		x / input,
-		y / input,
-		z / input,
-		w / input
+		q[0] / input,
+		q[1] / input,
+		q[2] / input,
+		q[3] / input
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator = (numType input) {
-	x = input;
-	y = input;
-	z = input;
-	w = input;
+	q[0] = input;
+	q[1] = input;
+	q[2] = input;
+	q[3] = input;
 	return *this;
 }
 

@@ -22,9 +22,13 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct mat2_t {
-	numType	m[2][2];
-	numType	&xx, &xy,
-			&yx, &yy; // these references are attached to the array above during construction
+	union {
+		numType	m[2][2];
+		struct {
+			numType	xx, xy,
+					yx, yy; // these references are attached to the array above during construction
+		} index;
+	};
 
 	//hardhat construction
 	mat2_t();
@@ -109,9 +113,7 @@ mat2_t<numType>::mat2_t(	numType inXX, numType inXY,
 	m{
 		{ inXX, inXY },
 		{ inYX, inYY }
-	},
-	xx( m[0][0] ), xy( m[0][1] ),
-	yx( m[1][0] ), yy( m[1][1] )
+	}
 {}
 
 //---------------------------------------------------------------------
@@ -247,31 +249,31 @@ bool mat2_t<numType>::operator != (const mat2_t<numType>& compare) const {
 template <typename numType> HL_IMPERATIVE
 mat2_t<numType> mat2_t<numType>::operator + (const vec2_t<numType>& input) const {
 	return mat2_t(
-		m[0][0] + input.x, m[0][1] + input.y,
-		m[1][0] + input.x, m[1][1] + input.y
+		m[0][0] + input.v[0], m[0][1] + input.v[1],
+		m[1][0] + input.v[0], m[1][1] + input.v[1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 mat2_t<numType> mat2_t<numType>::operator - (const vec2_t<numType>& input) const {
 	return mat2_t(
-		m[0][0] - input.x, m[0][1] - input.y,
-		m[1][0] - input.x, m[1][1] - input.y
+		m[0][0] - input.v[0], m[0][1] - input.v[1],
+		m[1][0] - input.v[0], m[1][1] - input.v[1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> mat2_t<numType>::operator * (const vec2_t<numType>& inVec) const {
 	return vec2_t<numType>(
-		(m[0][0] * inVec.x) + (m[0][1] * inVec.y),
-		(m[1][0] * inVec.x) + (m[1][1] * inVec.y)
+		(m[0][0] * inVec.v[0]) + (m[0][1] * inVec.v[1]),
+		(m[1][0] * inVec.v[0]) + (m[1][1] * inVec.v[1])
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 mat2_t<numType>& mat2_t<numType>::operator = (const vec2_t<numType>& input) {
-	m[0][0] = input.x; m[0][1] = input.x;
-	m[1][0] = input.y; m[1][1] = input.y;
+	m[0][0] = input.v[0]; m[0][1] = input.v[0];
+	m[1][0] = input.v[1]; m[1][1] = input.v[1];
 	return *this;
 }
 

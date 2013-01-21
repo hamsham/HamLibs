@@ -23,11 +23,15 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct mat4_t {
-	numType m[4][4];
-	numType	&xx, &xy, &xz, &xw,
-			&yx, &yy, &yz, &yw,
-			&zx, &zy, &zz, &zw,
-			&wx, &wy, &wz, &ww;
+	union {
+		numType m[4][4];
+		struct {
+			numType	xx, xy, xz, xw,
+					yx, yy, yz, yw,
+					zx, zy, zz, zw,
+					wx, wy, wz, ww;
+		} index;
+	};
 
 	//hardhat construction
 	mat4_t();
@@ -135,11 +139,7 @@ mat4_t<numType>::mat4_t(	numType inXX, numType inXY, numType inXZ, numType inXW,
 		{ inYX, inYY, inYZ, inYW },
 		{ inZX, inZY, inZZ, inZW },
 		{ inWX, inWY, inWZ, inWW }
-	},
-	xx( m[0][0] ), xy( m[0][1] ), xz( m[0][2] ), xw( m[0][3] ),
-	yx( m[1][0] ), yy( m[1][1] ), yz( m[1][2] ), yw( m[1][3] ),
-	zx( m[2][0] ), zy( m[2][1] ), zz( m[2][2] ), zw( m[2][3] ),
-	wx( m[3][0] ), wy( m[3][1] ), wz( m[3][2] ), ww( m[3][3] )
+	}
 {}
 
 //---------------------------------------------------------------------
@@ -236,19 +236,16 @@ mat4_t<numType> mat4_t<numType>::operator * (const mat4_t<numType>& input) const
 		(m[0][0]*input.m[0][1]) + (m[0][1]*input.m[1][1]) + (m[0][2]*input.m[2][1]) + (m[0][3]*input.m[3][1]),
 		(m[0][0]*input.m[0][2]) + (m[0][1]*input.m[1][2]) + (m[0][2]*input.m[2][2]) + (m[0][3]*input.m[3][2]),
 		(m[0][0]*input.m[0][3]) + (m[0][1]*input.m[1][3]) + (m[0][2]*input.m[2][3]) + (m[0][3]*input.m[3][3]),
-		
 	//Y
 		(m[1][0]*input.m[0][0]) + (m[1][1]*input.m[1][0]) + (m[1][2]*input.m[2][0]) + (m[1][3]*input.m[3][0]),
 		(m[1][0]*input.m[0][1]) + (m[1][1]*input.m[1][1]) + (m[1][2]*input.m[2][1]) + (m[1][3]*input.m[3][1]),
 		(m[1][0]*input.m[0][2]) + (m[1][1]*input.m[1][2]) + (m[1][2]*input.m[2][2]) + (m[1][3]*input.m[3][2]),
 		(m[1][0]*input.m[0][3]) + (m[1][1]*input.m[1][3]) + (m[1][2]*input.m[2][3]) + (m[1][3]*input.m[3][3]),
-		
 	//Z
 		(m[2][0]*input.m[0][0]) + (m[2][1]*input.m[1][0]) + (m[2][2]*input.m[2][0]) + (m[2][3]*input.m[3][0]),
 		(m[2][0]*input.m[0][1]) + (m[2][1]*input.m[1][1]) + (m[2][2]*input.m[2][1]) + (m[2][3]*input.m[3][1]),
 		(m[2][0]*input.m[0][2]) + (m[2][1]*input.m[1][2]) + (m[2][2]*input.m[2][2]) + (m[2][3]*input.m[3][2]),
 		(m[2][0]*input.m[0][3]) + (m[2][1]*input.m[1][3]) + (m[2][2]*input.m[2][3]) + (m[2][3]*input.m[3][3]),
-		
 	//W
 		(m[3][0]*input.m[0][0]) + (m[3][1]*input.m[1][0]) + (m[3][2]*input.m[2][0]) + (m[3][3]*input.m[3][0]),
 		(m[3][0]*input.m[0][1]) + (m[3][1]*input.m[1][1]) + (m[3][2]*input.m[2][1]) + (m[3][3]*input.m[3][1]),
@@ -311,39 +308,39 @@ bool mat4_t<numType>::operator != (const mat4_t<numType>& compare) const {
 template <typename numType> HL_IMPERATIVE
 mat4_t<numType> mat4_t<numType>::operator + (const vec4_t<numType>& input) const {
 	return mat4_t(
-		m[0][0] + input.x, m[0][1] + input.y, m[0][2] + input.z, m[0][3] + input.w,
-		m[1][0] + input.x, m[1][1] + input.y, m[1][2] + input.z, m[1][3] + input.w,
-		m[2][0] + input.x, m[2][1] + input.y, m[2][2] + input.z, m[2][3] + input.w,
-		m[3][0] + input.x, m[3][1] + input.y, m[3][2] + input.z, m[3][3] + input.w
+		m[0][0] + input.v[0], m[0][1] + input.v[1], m[0][2] + input.v[2], m[0][3] + input.v[3],
+		m[1][0] + input.v[0], m[1][1] + input.v[1], m[1][2] + input.v[2], m[1][3] + input.v[3],
+		m[2][0] + input.v[0], m[2][1] + input.v[1], m[2][2] + input.v[2], m[2][3] + input.v[3],
+		m[3][0] + input.v[0], m[3][1] + input.v[1], m[3][2] + input.v[2], m[3][3] + input.v[3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 mat4_t<numType> mat4_t<numType>::operator - (const vec4_t<numType>& input) const {
 	return mat4_t(
-		m[0][0] - input.x, m[0][1] - input.y, m[0][2] - input.z, m[0][3] - input.w,
-		m[1][0] - input.x, m[1][1] - input.y, m[1][2] - input.z, m[1][3] - input.w,
-		m[2][0] - input.x, m[2][1] - input.y, m[2][2] - input.z, m[2][3] - input.w,
-		m[3][0] - input.x, m[3][1] - input.y, m[3][2] - input.z, m[3][3] - input.w
+		m[0][0] - input.v[0], m[0][1] - input.v[1], m[0][2] - input.v[2], m[0][3] - input.v[3],
+		m[1][0] - input.v[0], m[1][1] - input.v[1], m[1][2] - input.v[2], m[1][3] - input.v[3],
+		m[2][0] - input.v[0], m[2][1] - input.v[1], m[2][2] - input.v[2], m[2][3] - input.v[3],
+		m[3][0] - input.v[0], m[3][1] - input.v[1], m[3][2] - input.v[2], m[3][3] - input.v[3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType> mat4_t<numType>::operator * (const vec4_t<numType>& inVect) const {
 	return vec4_t<numType>(
-		(m[0][0] * inVect.x) + (m[0][1] * inVect.y) + (m[0][2] * inVect.z) + (m[0][3] * inVect.w),
-		(m[1][0] * inVect.x) + (m[1][1] * inVect.y) + (m[1][2] * inVect.z) + (m[1][3] * inVect.w),
-		(m[2][0] * inVect.x) + (m[2][1] * inVect.y) + (m[2][2] * inVect.z) + (m[2][3] * inVect.w),
-		(m[3][0] * inVect.x) + (m[3][1] * inVect.y) + (m[3][2] * inVect.z) + (m[3][3] * inVect.w)
+		(m[0][0] * inVect.v[0]) + (m[0][1] * inVect.v[1]) + (m[0][2] * inVect.v[2]) + (m[0][3] * inVect.v[3]),
+		(m[1][0] * inVect.v[0]) + (m[1][1] * inVect.v[1]) + (m[1][2] * inVect.v[2]) + (m[1][3] * inVect.v[3]),
+		(m[2][0] * inVect.v[0]) + (m[2][1] * inVect.v[1]) + (m[2][2] * inVect.v[2]) + (m[2][3] * inVect.v[3]),
+		(m[3][0] * inVect.v[0]) + (m[3][1] * inVect.v[1]) + (m[3][2] * inVect.v[2]) + (m[3][3] * inVect.v[3])
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 mat4_t<numType>& mat4_t<numType>::operator = (const vec4_t<numType>& input) {
-	m[0][0] = input.x; m[0][1] = input.y; m[0][2] = input.z; m[0][3] = input.w;
-	m[1][0] = input.x; m[1][1] = input.y; m[1][2] = input.z; m[1][3] = input.w;
-	m[2][0] = input.x; m[2][1] = input.y; m[2][2] = input.z; m[2][3] = input.w;
-	m[3][0] = input.x; m[3][1] = input.y; m[3][2] = input.z; m[3][3] = input.w;
+	m[0][0] = input.v[0]; m[0][1] = input.v[1]; m[0][2] = input.v[2]; m[0][3] = input.v[3];
+	m[1][0] = input.v[0]; m[1][1] = input.v[1]; m[1][2] = input.v[2]; m[1][3] = input.v[3];
+	m[2][0] = input.v[0]; m[2][1] = input.v[1]; m[2][2] = input.v[2]; m[2][3] = input.v[3];
+	m[3][0] = input.v[0]; m[3][1] = input.v[1]; m[3][2] = input.v[2]; m[3][3] = input.v[3];
 	return *this;
 }
 

@@ -59,6 +59,8 @@ template <typename numType> HL_IMPERATIVE mat4_t<numType>	translate( const mat4_
 
 template <typename numType> HL_IMPERATIVE mat4_t<numType>	perspective( numType fov, numType aspect, numType zNear, numType zFar );
 
+template <typename numType> HL_IMPERATIVE mat4_t<numType>	infinitePerspective( numType fov, numType aspect, numType zNear );
+
 template <typename numType> HL_IMPERATIVE mat4_t<numType>	ortho( numType left, numType right, numType top, numType bottom );
 
 template <typename numType> HL_IMPERATIVE mat4_t<numType>	frustum( numType left, numType right, numType top, numType bottom, numType near, numType far );
@@ -74,26 +76,26 @@ template <typename numType> HL_IMPERATIVE mat4_t<numType>	lookAt( const vec3_t<n
 //-----------------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 numType math::determinant( const mat2_t<numType>& m ) {
-	return (m.xx*m.yy) - (m.xy*m.yx);
+	return (m.m[0][0]*m.m[1][1]) - (m.m[0][1]*m.m[1][0]);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::mat2_t<numType> math::inverse( const mat2_t<numType>& m ) {
 	numType determinantInv(
-		numType( 1 ) / ( (m.xx * m.yy) - (m.xy * m.yx) )
+		numType( 1 ) / ( (m.m[0][0] * m.m[1][1]) - (m.m[0][1] * m.m[1][0]) )
 	);
 	
 	return mat2_t<numType>(
-		m.yy * determinantInv, m.xy * determinantInv,
-		m.yx * determinantInv, m.xx * determinantInv
+		m.m[1][1] * determinantInv, m.m[0][1] * determinantInv,
+		m.m[1][0] * determinantInv, m.m[0][0] * determinantInv
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::mat2_t<numType> math::transpose( const mat2_t<numType>& m ) {
 	return mat2_t<numType>(
-		m.xx, m.yx,
-		m.xy, m.yy
+		m.m[0][0], m.m[1][0],
+		m.m[0][1], m.m[1][1]
 	);
 }
 
@@ -110,8 +112,8 @@ math::mat2_t<numType> math::rotate( const mat2_t<numType>& m, numType angle ) {
 template <typename numType> HL_IMPERATIVE
 math::mat2_t<numType> math::scale( const mat2_t<numType>& m, const vec2_t<numType>& amount ) {
 	return mat2_t<numType>(
-		m.xx*amount.x, m.xy,
-		m.yx, m.yy*amount.y
+		m.m[0][0]*amount.v[0], m.m[0][1],
+		m.m[1][0], m.m[1][1]*amount.v[1]
 	);
 }
 	
@@ -121,12 +123,12 @@ math::mat2_t<numType> math::scale( const mat2_t<numType>& m, const vec2_t<numTyp
 template <typename numType> HL_IMPERATIVE
 numType math::determinant( const mat3_t<numType>& m ) {
 	return
-		(m.xx*m.yy*m.zz) +
-		(m.xy*m.yz*m.zx) +
-		(m.xz*m.yx*m.zy) -
-		(m.xz*m.yy*m.zx) -
-		(m.xy*m.yx*m.zz) -
-		(m.xx*m.yz*m.zy);
+		(m.m[0][0]*m.m[1][1]*m.m[2][2]) +
+		(m.m[0][1]*m.m[1][2]*m.m[2][0]) +
+		(m.m[0][2]*m.m[1][0]*m.m[2][1]) -
+		(m.m[0][2]*m.m[1][1]*m.m[2][0]) -
+		(m.m[0][1]*m.m[1][0]*m.m[2][2]) -
+		(m.m[0][0]*m.m[1][2]*m.m[2][1]);
 }
 
 template <typename numType> HL_IMPERATIVE
@@ -134,17 +136,17 @@ math::mat3_t<numType> math::inverse( const mat3_t<numType>& m ) {
 	numType detInv( numType(1) / determinant( m ) );
 	return
 	mat3_t<numType>(
-		m.xx * detInv, m.yx * detInv, m.zx * detInv,
-		m.xy * detInv, m.yy * detInv, m.zy * detInv,
-		m.xz * detInv, m.yz * detInv, m.zz * detInv );
+		m.m[0][0] * detInv, m.m[1][0] * detInv, m.m[2][0] * detInv,
+		m.m[0][1] * detInv, m.m[1][1] * detInv, m.m[2][1] * detInv,
+		m.m[0][2] * detInv, m.m[1][2] * detInv, m.m[2][2] * detInv );
 }
 
 template <typename numType> HL_IMPERATIVE
 math::mat3_t<numType> math::transpose( const mat3_t<numType>& m ) {
 	return mat3_t<numType>(
-		m.xx, m.yx, m.zx,
-		m.xy, m.yy, m.zy,
-		m.xz, m.yz, m.zz
+		m.m[0][0], m.m[1][0], m.m[2][0],
+		m.m[0][1], m.m[1][1], m.m[2][1],
+		m.m[0][2], m.m[1][2], m.m[2][2]
 	);
 }
 
@@ -154,24 +156,24 @@ math::mat3_t<numType> math::rotate( const mat3_t<numType>& m, const vec3_t<numTy
 	numType			s( std::sin(angle) );
 	vec3_t<numType>	a( normalize<numType>(axis) );
 	numType			omc( numType(1) - c );
-	numType			xy( (a.x*a.y)*omc );
-	numType			yz( (a.y*a.z)*omc );
-	numType			zx( (a.z*a.x)*omc );
-	numType			sx( s*a.x ), sy( s*a.y ), sz( s*a.z );
+	numType			xy( (a.v[0]*a.v[1])*omc );
+	numType			yz( (a.v[1]*a.v[2])*omc );
+	numType			zx( (a.v[2]*a.v[0])*omc );
+	numType			sx( s*a.v[0] ), sy( s*a.v[1] ), sz( s*a.v[2] );
 	
 	return m * mat3_t<numType>(
-		c+((a.x*a.x) * omc),	xy + sz,				zx - sy,
-		xy - sz,				c+((a.y*a.y) * omc),	yz + sx,
-		zx + sy,				yz - sx,				c+((a.z*a.z) * omc)
+		c+((a.v[0]*a.v[0]) * omc),	xy + sz,				zx - sy,
+		xy - sz,				c+((a.v[1]*a.v[1]) * omc),	yz + sx,
+		zx + sy,				yz - sx,				c+((a.v[2]*a.v[2]) * omc)
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::mat3_t<numType> math::scale( const mat3_t<numType>& m, const vec3_t<numType>& scale ) {
 	return mat3_t<numType>(
-		m.xx*scale.x, m.xy, m.xz,
-		m.yx, m.yy*scale.y, m.yz,
-		m.zx, m.zy, m.zz*scale.z
+		m.m[0][0]*scale.v[0], m.m[0][1], m.m[0][2],
+		m.m[1][0], m.m[1][1]*scale.v[1], m.m[1][2],
+		m.m[2][0], m.m[2][1], m.m[2][2]*scale.v[2]
 	);
 }
 	
@@ -181,12 +183,12 @@ math::mat3_t<numType> math::scale( const mat3_t<numType>& m, const vec3_t<numTyp
 template <typename numType> HL_IMPERATIVE
 numType math::determinant( const mat4_t<numType>& m ) {
 	return numType(
-		( m.xw*m.yz*m.zy*m.wx ) - ( m.xz*m.yw*m.zy*m.wx ) - ( m.xw*m.yy*m.zz*m.wx ) + ( m.xy*m.yw*m.zz*m.wx ) +
-		( m.xz*m.yy*m.zw*m.wx ) - ( m.xy*m.yz*m.zw*m.wx ) - ( m.xw*m.yz*m.zx*m.wy ) + ( m.xz*m.yw*m.zx*m.wy ) +
-		( m.xw*m.yx*m.zz*m.wy ) - ( m.xx*m.yw*m.zz*m.wy ) - ( m.xz*m.yx*m.zw*m.wy ) + ( m.xx*m.yz*m.zw*m.wy ) +
-		( m.xw*m.yy*m.zx*m.wz ) - ( m.xy*m.yw*m.zx*m.wz ) - ( m.xw*m.yx*m.zy*m.wz ) + ( m.xx*m.yw*m.zy*m.wz ) +
-		( m.xy*m.yx*m.zw*m.wz ) - ( m.xx*m.yy*m.zw*m.wz ) - ( m.xz*m.yy*m.zx*m.ww ) + ( m.xy*m.yz*m.zx*m.ww ) +
-		( m.xz*m.yx*m.zy*m.ww ) - ( m.xx*m.yz*m.zy*m.ww ) - ( m.xy*m.yx*m.zz*m.ww ) + ( m.xx*m.yy*m.zz*m.ww )
+		( m.m[0][3]*m.m[1][2]*m.m[2][1]*m.m[3][0] ) - ( m.m[0][2]*m.m[1][3]*m.m[2][1]*m.m[3][0] ) - ( m.m[0][3]*m.m[1][1]*m.m[2][2]*m.m[3][0] ) + ( m.m[0][1]*m.m[1][3]*m.m[2][2]*m.m[3][0] ) +
+		( m.m[0][2]*m.m[1][1]*m.m[2][3]*m.m[3][0] ) - ( m.m[0][1]*m.m[1][2]*m.m[2][3]*m.m[3][0] ) - ( m.m[0][3]*m.m[1][2]*m.m[2][0]*m.m[3][1] ) + ( m.m[0][2]*m.m[1][3]*m.m[2][0]*m.m[3][1] ) +
+		( m.m[0][3]*m.m[1][0]*m.m[2][2]*m.m[3][1] ) - ( m.m[0][0]*m.m[1][3]*m.m[2][2]*m.m[3][1] ) - ( m.m[0][2]*m.m[1][0]*m.m[2][3]*m.m[3][1] ) + ( m.m[0][0]*m.m[1][2]*m.m[2][3]*m.m[3][1] ) +
+		( m.m[0][3]*m.m[1][1]*m.m[2][0]*m.m[3][2] ) - ( m.m[0][1]*m.m[1][3]*m.m[2][0]*m.m[3][2] ) - ( m.m[0][3]*m.m[1][0]*m.m[2][1]*m.m[3][2] ) + ( m.m[0][0]*m.m[1][3]*m.m[2][1]*m.m[3][2] ) +
+		( m.m[0][1]*m.m[1][0]*m.m[2][3]*m.m[3][2] ) - ( m.m[0][0]*m.m[1][1]*m.m[2][3]*m.m[3][2] ) - ( m.m[0][2]*m.m[1][1]*m.m[2][0]*m.m[3][3] ) + ( m.m[0][1]*m.m[1][2]*m.m[2][0]*m.m[3][3] ) +
+		( m.m[0][2]*m.m[1][0]*m.m[2][1]*m.m[3][3] ) - ( m.m[0][0]*m.m[1][2]*m.m[2][1]*m.m[3][3] ) - ( m.m[0][1]*m.m[1][0]*m.m[2][2]*m.m[3][3] ) + ( m.m[0][0]*m.m[1][1]*m.m[2][2]*m.m[3][3] )
 	);
 	//umm... wow
 }
@@ -195,54 +197,54 @@ template <typename numType> HL_IMPERATIVE
 math::mat4_t<numType> math::inverse( const mat4_t<numType>& m ) {
 	
 	//these operations appear only 2 times in the return value
-	numType zwwx( m.zw * m.wx );
+	numType zwwx( m.m[2][3] * m.m[3][0] );
 	
 	//these operations appear 3 times in the return value
-	numType xxyy( m.xx * m.yy );
-	numType xxyz( m.xx * m.yz );
-	numType xzyy( m.xz * m.yy );
-	numType xyyz( m.xy * m.yz );
-	numType zwwy( m.zw * m.wy );
-	numType zwwz( m.zw * m.wz );
+	numType xxyy( m.m[0][0] * m.m[1][1] );
+	numType xxyz( m.m[0][0] * m.m[1][2] );
+	numType xzyy( m.m[0][2] * m.m[1][1] );
+	numType xyyz( m.m[0][1] * m.m[1][2] );
+	numType zwwy( m.m[2][3] * m.m[3][1] );
+	numType zwwz( m.m[2][3] * m.m[3][2] );
 	
 	//these operations appear 4 times in the return value
-	numType xxyw( m.xx * m.yw );
-	numType xyyx( m.xy * m.yx );
-	numType xyyw( m.xy * m.yw );
-	numType xzyx( m.xz * m.yx );
-	numType xzyw( m.xz * m.yw );
-	numType xwyx( m.xw * m.yx );
-	numType xwyy( m.xw * m.yy );
-	numType xwyz( m.xw * m.yz );
-	numType yyzw( m.yy * m.zw );
-	numType yzzw( m.yz * m.zw );
-	numType zxwy( m.zx * m.wy );
-	numType zxwz( m.zx * m.wz );
-	numType zxww( m.zx * m.ww );
-	numType zywx( m.zy * m.wx );
-	numType zywz( m.zy * m.wz );
-	numType zyww( m.zy * m.ww );
-	numType zzwx( m.zz * m.wx );
-	numType zzwy( m.zz * m.wy );
-	numType zzww( m.zz * m.ww );
+	numType xxyw( m.m[0][0] * m.m[1][3] );
+	numType xyyx( m.m[0][1] * m.m[1][0] );
+	numType xyyw( m.m[0][1] * m.m[1][3] );
+	numType xzyx( m.m[0][2] * m.m[1][0] );
+	numType xzyw( m.m[0][2] * m.m[1][3] );
+	numType xwyx( m.m[0][3] * m.m[1][0] );
+	numType xwyy( m.m[0][3] * m.m[1][1] );
+	numType xwyz( m.m[0][3] * m.m[1][2] );
+	numType yyzw( m.m[1][1] * m.m[2][3] );
+	numType yzzw( m.m[1][2] * m.m[2][3] );
+	numType zxwy( m.m[2][0] * m.m[3][1] );
+	numType zxwz( m.m[2][0] * m.m[3][2] );
+	numType zxww( m.m[2][0] * m.m[3][3] );
+	numType zywx( m.m[2][1] * m.m[3][0] );
+	numType zywz( m.m[2][1] * m.m[3][2] );
+	numType zyww( m.m[2][1] * m.m[3][3] );
+	numType zzwx( m.m[2][2] * m.m[3][0] );
+	numType zzwy( m.m[2][2] * m.m[3][1] );
+	numType zzww( m.m[2][2] * m.m[3][3] );
 	
 	return mat4_t<numType>(
-		( yzzw*m.wy ) - ( m.yw*zzwy ) + ( m.yw*zywz ) - ( yyzw*m.wz ) - ( m.yz*zyww ) + ( m.yy*zzww ),
-		( m.xw*zzwy ) - ( m.xz*zwwy ) - ( m.xw*zywz ) + ( m.xy*zwwz ) + ( m.xz*zyww ) - ( m.xy*zzww ),
-		( xzyw*m.wy ) - ( xwyz*m.wy ) + ( xwyy*m.wz ) - ( xyyw*m.wz ) - ( xzyy*m.ww ) + ( xyyz*m.ww ),
-		( xwyz*m.zy ) - ( xzyw*m.zy ) - ( xwyy*m.zz ) + ( xyyw*m.zz ) + ( m.xz*yyzw ) - ( m.xy*yzzw ),
-		( m.yw*zzwx ) - ( yzzw*m.wx ) - ( m.yw*zxwz ) + ( m.yx*zwwz ) + ( m.yz*zxww ) - ( m.yx*zzww ),
-		( m.xz*zwwx ) - ( m.xw*zzwx ) + ( m.xw*zxwz ) - ( m.xx*zwwz ) - ( m.xz*zxww ) + ( m.xx*zzww ),
-		( xwyz*m.wx ) - ( xzyw*m.wx ) - ( xwyx*m.wz ) + ( xxyw*m.wz ) + ( xzyx*m.ww ) - ( xxyz*m.ww ),
-		( xzyw*m.zx ) - ( xwyz*m.zx ) + ( xwyx*m.zz ) - ( xxyw*m.zz ) - ( xzyx*m.zw ) + ( m.xx*yzzw ),
-		( yyzw*m.wx ) - ( m.yw*zywx ) + ( m.yw*zxwy ) - ( m.yx*zwwy ) - ( m.yy*zxww ) + ( m.yx*zyww ),
-		( m.xw*zywx ) - ( m.xy*zwwx ) - ( m.xw*zxwy ) + ( m.xx*zwwy ) + ( m.xy*zxww ) - ( m.xx*zyww ),
-		( xyyw*m.wx ) - ( xwyy*m.wx ) + ( xwyx*m.wy ) - ( xxyw*m.wy ) - ( xyyx*m.ww ) + ( xxyy*m.ww ),
-		( xwyy*m.zx ) - ( xyyw*m.zx ) - ( xwyx*m.zy ) + ( xxyw*m.zy ) + ( xyyx*m.zw ) - ( m.xx*yyzw ),
-		( m.yz*zywx ) - ( m.yy*zzwx ) - ( m.yz*zxwy ) + ( m.yx*zzwy ) + ( m.yy*zxwz ) - ( m.yx*zywz ),
-		( m.xy*zzwx ) - ( m.xz*zywx ) + ( m.xz*zxwy ) - ( m.xx*zzwy ) - ( m.xy*zxwz ) + ( m.xx*zywz ),
-		( xzyy*m.wx ) - ( xyyz*m.wx ) - ( xzyx*m.wy ) + ( xxyz*m.wy ) + ( xyyx*m.wz ) - ( xxyy*m.wz ),
-		( xyyz*m.zx ) - ( xzyy*m.zx ) + ( xzyx*m.zy ) - ( xxyz*m.zy ) - ( xyyx*m.zz ) + ( xxyy*m.zz )
+		( yzzw*m.m[3][1] ) - ( m.m[1][3]*zzwy ) + ( m.m[1][3]*zywz ) - ( yyzw*m.m[3][2] ) - ( m.m[1][2]*zyww ) + ( m.m[1][1]*zzww ),
+		( m.m[0][3]*zzwy ) - ( m.m[0][2]*zwwy ) - ( m.m[0][3]*zywz ) + ( m.m[0][1]*zwwz ) + ( m.m[0][2]*zyww ) - ( m.m[0][1]*zzww ),
+		( xzyw*m.m[3][1] ) - ( xwyz*m.m[3][1] ) + ( xwyy*m.m[3][2] ) - ( xyyw*m.m[3][2] ) - ( xzyy*m.m[3][3] ) + ( xyyz*m.m[3][3] ),
+		( xwyz*m.m[2][1] ) - ( xzyw*m.m[2][1] ) - ( xwyy*m.m[2][2] ) + ( xyyw*m.m[2][2] ) + ( m.m[0][2]*yyzw ) - ( m.m[0][1]*yzzw ),
+		( m.m[1][3]*zzwx ) - ( yzzw*m.m[3][0] ) - ( m.m[1][3]*zxwz ) + ( m.m[1][0]*zwwz ) + ( m.m[1][2]*zxww ) - ( m.m[1][0]*zzww ),
+		( m.m[0][2]*zwwx ) - ( m.m[0][3]*zzwx ) + ( m.m[0][3]*zxwz ) - ( m.m[0][0]*zwwz ) - ( m.m[0][2]*zxww ) + ( m.m[0][0]*zzww ),
+		( xwyz*m.m[3][0] ) - ( xzyw*m.m[3][0] ) - ( xwyx*m.m[3][2] ) + ( xxyw*m.m[3][2] ) + ( xzyx*m.m[3][3] ) - ( xxyz*m.m[3][3] ),
+		( xzyw*m.m[2][0] ) - ( xwyz*m.m[2][0] ) + ( xwyx*m.m[2][2] ) - ( xxyw*m.m[2][2] ) - ( xzyx*m.m[2][3] ) + ( m.m[0][0]*yzzw ),
+		( yyzw*m.m[3][0] ) - ( m.m[1][3]*zywx ) + ( m.m[1][3]*zxwy ) - ( m.m[1][0]*zwwy ) - ( m.m[1][1]*zxww ) + ( m.m[1][0]*zyww ),
+		( m.m[0][3]*zywx ) - ( m.m[0][1]*zwwx ) - ( m.m[0][3]*zxwy ) + ( m.m[0][0]*zwwy ) + ( m.m[0][1]*zxww ) - ( m.m[0][0]*zyww ),
+		( xyyw*m.m[3][0] ) - ( xwyy*m.m[3][0] ) + ( xwyx*m.m[3][1] ) - ( xxyw*m.m[3][1] ) - ( xyyx*m.m[3][3] ) + ( xxyy*m.m[3][3] ),
+		( xwyy*m.m[2][0] ) - ( xyyw*m.m[2][0] ) - ( xwyx*m.m[2][1] ) + ( xxyw*m.m[2][1] ) + ( xyyx*m.m[2][3] ) - ( m.m[0][0]*yyzw ),
+		( m.m[1][2]*zywx ) - ( m.m[1][1]*zzwx ) - ( m.m[1][2]*zxwy ) + ( m.m[1][0]*zzwy ) + ( m.m[1][1]*zxwz ) - ( m.m[1][0]*zywz ),
+		( m.m[0][1]*zzwx ) - ( m.m[0][2]*zywx ) + ( m.m[0][2]*zxwy ) - ( m.m[0][0]*zzwy ) - ( m.m[0][1]*zxwz ) + ( m.m[0][0]*zywz ),
+		( xzyy*m.m[3][0] ) - ( xyyz*m.m[3][0] ) - ( xzyx*m.m[3][1] ) + ( xxyz*m.m[3][1] ) + ( xyyx*m.m[3][2] ) - ( xxyy*m.m[3][2] ),
+		( xyyz*m.m[2][0] ) - ( xzyy*m.m[2][0] ) + ( xzyx*m.m[2][1] ) - ( xxyz*m.m[2][1] ) - ( xyyx*m.m[2][2] ) + ( xxyy*m.m[2][2] )
 	) * numType(1) / determinant(m);
 	// FML
 }
@@ -250,10 +252,10 @@ math::mat4_t<numType> math::inverse( const mat4_t<numType>& m ) {
 template <typename numType> HL_IMPERATIVE
 math::mat4_t<numType> math::transpose( const mat4_t<numType>& m ) {
 	return mat4_t<numType>(
-		m.xx, m.yx, m.zx, m.wx,
-		m.xy, m.yy, m.zy, m.wy,
-		m.xz, m.yz, m.zz, m.wz,
-		m.xw, m.yw, m.zw, m.ww );
+		m.m[0][0], m.m[1][0], m.m[2][0], m.m[3][0],
+		m.m[0][1], m.m[1][1], m.m[2][1], m.m[3][1],
+		m.m[0][2], m.m[1][2], m.m[2][2], m.m[3][2],
+		m.m[0][3], m.m[1][3], m.m[2][3], m.m[3][3] );
 }
 
 template <typename numType> HL_IMPERATIVE
@@ -262,15 +264,15 @@ math::mat4_t<numType> math::rotate( const mat4_t<numType>& m, const vec3_t<numTy
 	numType			s( std::sin(angle) );
 	vec3_t<numType>	a( normalize<numType>(axis) );
 	numType			omc( numType(1) - c );
-	numType			xy( (a.x*a.y)*omc );
-	numType			yz( (a.y*a.z)*omc );
-	numType			zx( (a.z*a.x)*omc );
-	numType			sx( s*a.x ), sy( s*a.y ), sz( s*a.z );
+	numType			xy( (a.v[0]*a.v[1])*omc );
+	numType			yz( (a.v[1]*a.v[2])*omc );
+	numType			zx( (a.v[2]*a.v[0])*omc );
+	numType			sx( s*a.v[0] ), sy( s*a.v[1] ), sz( s*a.v[2] );
 	
 	return m * mat4_t<numType>(
-		c+((a.x*a.x) * omc),	xy + sz,				zx - sy,				numType( 0 ),
-		xy - sz,				c+((a.y*a.y) * omc),	yz + sx,				numType( 0 ),
-		zx + sy,				yz - sx,				c+((a.z*a.z) * omc),	numType( 0 ),
+		c+((a.v[0]*a.v[0]) * omc),	xy + sz,				zx - sy,				numType( 0 ),
+		xy - sz,				c+((a.v[1]*a.v[1]) * omc),	yz + sx,				numType( 0 ),
+		zx + sy,				yz - sx,				c+((a.v[2]*a.v[2]) * omc),	numType( 0 ),
 		numType( 0 ),			numType( 0 ),			numType( 0 ),			numType( 1 )
 	);
 }
@@ -278,20 +280,20 @@ math::mat4_t<numType> math::rotate( const mat4_t<numType>& m, const vec3_t<numTy
 template <typename numType> HL_IMPERATIVE
 math::mat4_t<numType> math::scale( const mat4_t<numType>& m, const vec3_t<numType>& scale ) {
 	return mat4_t<numType>(
-		m.xx*scale.x, m.xy, m.xz, m.xw,
-		m.yx, m.yy*scale.y, m.yz, m.yw,
-		m.zx, m.zy, m.zz*scale.z, m.zw,
-		m.wx, m.wy, m.wz, m.ww
+		m.m[0][0]*scale.v[0], m.m[0][1], m.m[0][2], m.m[0][3],
+		m.m[1][0], m.m[1][1]*scale.v[1], m.m[1][2], m.m[1][3],
+		m.m[2][0], m.m[2][1], m.m[2][2]*scale.v[2], m.m[2][3],
+		m.m[3][0], m.m[3][1], m.m[3][2], m.m[3][3]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::mat4_t<numType> math::translate( const mat4_t<numType>& m, const vec3_t<numType>& t ) {
 	return mat4_t<numType>(
-		m.xx, m.xy, m.xz, m.xw,
-		m.yx, m.yy, m.yz, m.yw,
-		m.zx, m.zy, m.zz, m.zw,
-		m.wx+t.x, m.wy+t.y, m.wz+t.z, m.ww
+		m.m[0][0], m.m[0][1], m.m[0][2], m.m[0][3],
+		m.m[1][0], m.m[1][1], m.m[1][2], m.m[1][3],
+		m.m[2][0], m.m[2][1], m.m[2][2], m.m[2][3],
+		m.m[3][0]+t.v[0], m.m[3][1]+t.v[1], m.m[3][2]+t.v[2], m.m[3][3]
 	);
 }
 
@@ -308,6 +310,21 @@ math::mat4_t<numType> math::perspective( numType fov, numType aspect, numType zN
 		numType(0), (numType(2) * zNear) / (top - bottom), numType(0), numType(0),
 		numType(0), numType(0), -(zFar + zNear) / zDelta, numType(-1),
 		numType(0), numType(0), (numType(-2) * zFar * zNear) / zDelta, numType(0)
+	);
+}
+
+template <typename numType> HL_IMPERATIVE
+math::mat4_t<numType> math::infinitePerspective( numType fov, numType aspect, numType zNear ) {
+	numType top( tan(HL_DEG2RAD(fov) / numType(2)) * zNear );
+	numType bottom( -top );
+	numType xMin( bottom * aspect );
+	numType xMax( top * aspect );
+
+	return mat4_t<numType>(
+		(numType(2) * zNear) / (xMax - xMin), numType(0), numType(0), numType(0),
+		numType(0), (numType(2) * zNear) / (top - bottom), numType(0), numType(0),
+		numType(0), numType(0), numType(-1), numType(-1),
+		numType(0), numType(0), numType(-2) * zNear, numType(0)
 	);
 }
 
@@ -345,9 +362,9 @@ math::mat4_t<numType> math::lookAt( const vec3_t<numType>& pos, const vec3_t<num
 	vec3_t<numType> yAxis( normalize( cross( zAxis, xAxis ) ) );
 	
 	return mat4_t<numType>(
-		xAxis.x, yAxis.x, zAxis.x, numType(0),
-		xAxis.y, yAxis.y, zAxis.y, numType(0),
-		xAxis.z, yAxis.z, zAxis.z, numType(0),
+		xAxis.v[0], yAxis.v[0], zAxis.v[0], numType(0),
+		xAxis.v[1], yAxis.v[1], zAxis.v[1], numType(0),
+		xAxis.v[2], yAxis.v[2], zAxis.v[2], numType(0),
 		-dot( xAxis, pos ), -dot( yAxis, pos ), -dot( zAxis, pos ), numType(1)
 	);
 }

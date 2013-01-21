@@ -18,8 +18,12 @@ namespace math {
 
 template <typename numType>
 struct vec2_t {
-	numType v[2];
-	numType	&x, &y;
+	union {
+		numType v[2];
+		struct {
+			numType	x, y;
+		} index;
+	};
 
 	//constructors
 	vec2_t			();
@@ -84,14 +88,13 @@ vec2_t<numType>::vec2_t() :
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>::vec2_t(const vec2_t<numType>& input) :
 	vec2_t(
-		input.x, input.y
+		input.v[0], input.v[1]
 	)
 {}
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>::vec2_t(numType inX, numType inY) :
-	v{ inX, inY },
-	x( v[0] ), y( v[1] )
+	v{ inX, inY }
 {}
 
 //---------------------------------------------------------------------
@@ -114,46 +117,46 @@ numType& vec2_t<numType>::operator[](const int index) {
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator = (const vec2_t<numType>& input) {
-	x = input.x;
-	y = input.y;
+	v[0] = input.v[0];
+	v[1] = input.v[1];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator + (const vec2_t<numType>& input) const {
 	return vec2_t<numType>(
-		x + input.x,
-		y + input.y
+		v[0] + input.v[0],
+		v[1] + input.v[1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator - (const vec2_t<numType>& input) const {
 	return vec2_t<numType>(
-		x - input.x,
-		y - input.y
+		v[0] - input.v[0],
+		v[1] - input.v[1]
 	);
 }
 
 //for operations like "vectA = -vectB"
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator - () const {
-	return vec2_t<numType>(-x, -y);
+	return vec2_t<numType>(-v[0], -v[1]);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator * (const vec2_t<numType>& input) const {
 	return vec2_t<numType>(
-		x * input.x,
-		y * input.y
+		v[0] * input.v[0],
+		v[1] * input.v[1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator / (const vec2_t<numType>& input) const {
 	return vec2_t<numType>(
-		x / input.x,
-		y / input.y
+		v[0] / input.v[0],
+		v[1] / input.v[1]
 	);
 }
 
@@ -184,72 +187,72 @@ vec2_t<numType>& vec2_t<numType>::operator /= (const vec2_t<numType>& input) {
 // prefix operations
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator++ () {
-	++x;
-	++y;
+	++v[0];
+	++v[1];
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator-- () {
-	--x;
-	--y;
+	--v[0];
+	--v[1];
 	return *this;
 }
 //postfix operations
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator++ (int) {
 	return vec2_t<numType>(
-		++x,
-		++y
+		++v[0],
+		++v[1]
 	);
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator-- (int) {
 	return vec2_t<numType>(
-		--x,
-		--y
+		--v[0],
+		--v[1]
 	);
 }
 
 //comparisons
 template <typename numType> HL_IMPERATIVE
 bool vec2_t<numType>::operator== (const vec2_t<numType>& compare) const {
-	return (	x == compare.x &&
-				y == compare.y
+	return (	v[0] == compare.v[0] &&
+				v[1] == compare.v[1]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec2_t<numType>::operator!= (const vec2_t<numType>& compare) const {
-	return (	x != compare.x &&
-				y != compare.y
+	return (	v[0] != compare.v[0] &&
+				v[1] != compare.v[1]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec2_t<numType>::operator< (const vec2_t<numType>& compare) const {
-	return (	x < compare.x &&
-				y < compare.y
+	return (	v[0] < compare.v[0] &&
+				v[1] < compare.v[1]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec2_t<numType>::operator> (const vec2_t<numType>& compare) const {
-	return (	x > compare.x &&
-				y > compare.y
+	return (	v[0] > compare.v[0] &&
+				v[1] > compare.v[1]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec2_t<numType>::operator<= (const vec2_t<numType>& compare) const {
-	return (	x <= compare.x &&
-				y <= compare.y
+	return (	v[0] <= compare.v[0] &&
+				v[1] <= compare.v[1]
 			);
 }
 
 template <typename numType> HL_IMPERATIVE
 bool vec2_t<numType>::operator>= (const vec2_t<numType>& compare) const {
-	return (	x >= compare.x &&
-				y >= compare.y
+	return (	v[0] >= compare.v[0] &&
+				v[1] >= compare.v[1]
 			);
 }
 
@@ -259,24 +262,24 @@ bool vec2_t<numType>::operator>= (const vec2_t<numType>& compare) const {
 template <typename numType> HL_IMPERATIVE
 mat2_t<numType> vec2_t<numType>::operator + (const mat2_t<numType>& m) const {
 	return mat2_t<numType>(
-		x + m.xx, x + m.xy,
-		y + m.yx, y + m.yy
+		v[0] + m.m[0][0], v[0] + m.m[0][1],
+		v[1] + m.m[1][0], v[1] + m.m[1][1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 mat2_t<numType> vec2_t<numType>::operator - (const mat2_t<numType>& m) const {
 	return mat2_t<numType>(
-		x - m.xx, x - m.xy,
-		y - m.yx, y - m.yy
+		v[0] - m.m[0][0], v[0] - m.m[0][1],
+		v[1] - m.m[1][0], v[1] - m.m[1][1]
 	);
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator * (const mat2_t<numType>& m) const {
 	return vec2_t<numType>(
-		(m.xx * x) + (m.xy * y),
-		(m.yx * x) + (m.yy * y)
+		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]),
+		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1])
 	);
 }
 
@@ -291,36 +294,36 @@ vec2_t<numType>& vec2_t<numType>::operator *= (const mat2_t<numType>& m) {
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator = (numType input) {
-	x = input;
-	y = input;
+	v[0] = input;
+	v[1] = input;
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator + (numType input) const {
 	return vec2_t<numType>(
-		x + input,
-		y + input
+		v[0] + input,
+		v[1] + input
 	);
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator - (numType input) const {
 	return vec2_t<numType>(
-		x - input,
-		y - input
+		v[0] - input,
+		v[1] - input
 	);
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator * (numType input) const {
 	return vec2_t<numType>(
-		x * input,
-		y * input
+		v[0] * input,
+		v[1] * input
 	);
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType> vec2_t<numType>::operator / (numType input) const {
 	return vec2_t<numType>(
-		x / input,
-		y / input
+		v[0] / input,
+		v[1] / input
 	);
 }
 template <typename numType> HL_IMPERATIVE

@@ -73,7 +73,7 @@ namespace math {
 	//				Definitions
 	//-------------------------------------------------------------
 	/* Fast inverse square root method adopted for regular square rooting.
-	 * his method was found at:
+	 * this method was found at:
 	 *		http://rrrola.wz.cz/inv_sqrt.html
 	 * and:
 	 *		http://jheriko-rtw.blogspot.com/2009/04/understanding-and-improving-fast.html

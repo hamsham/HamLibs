@@ -156,11 +156,10 @@
 
 /* Windows */
 #if defined (_WIN32) || defined (_WIN64) || defined (__WINDOWS__) || defined (__WIN32__)
-	#define HL_OS_WINDOWS 1
-	#define HL_OS_WIN32 1
-	
 	#if defined (_WIN64)
-		#define HL_OS_WIN64 1
+		#define HL_OS_WINDOWS 64
+	#else 
+		#define HL_OS_WINDOWS 32
 	#endif
 #endif
 
@@ -186,10 +185,23 @@
 	#define HL_FASTCALL
 #endif
 
-#ifdef HL_ARCH_X68
+#ifndef HL_IMPERATIVE
 	#define HL_IMPERATIVE HL_INLINE HL_FASTCALL
+#endif
+
+/*
+ * Dynamic Library Support
+ */
+#ifdef HL_API_DYNAMIC
+	#if defined (HL_BUILD_DYNAMIC) && defined (HL_OS_WINDOWS)
+			#define HL_API __declspec( dllexport )
+	#elif !defined (HL_BUILD_DYNAMIC) && defined (HL_OS_WINDOWS)
+			#define HL_API __declspec( dllimport )
+	#else
+		#define HL_API
+	#endif
 #else
-	#define HL_IMPERATIVE HL_INLINE
+	#define HL_API
 #endif
 
 #endif	/* __HL_SETUP_H__ */

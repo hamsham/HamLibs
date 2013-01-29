@@ -11,7 +11,7 @@
 namespace hamLibs {
 namespace containers {
 
-class string {
+class HL_API string {
 	private:
 		static const int nPos;
 		

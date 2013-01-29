@@ -8,7 +8,7 @@ namespace hamLibs {
 namespace containers {
 
 template <class type>
-class queue {
+class HL_API queue {
 	private:
 		struct node {
 			type data;

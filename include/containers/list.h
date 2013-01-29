@@ -29,7 +29,7 @@ namespace hamLibs {
 namespace containers {
 
 template <class type>
-class list {
+class HL_API list {
 	private:
 		struct node {
 			type	data;

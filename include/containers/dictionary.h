@@ -16,7 +16,7 @@ namespace containers {
 typedef const char* const cstr;
 
 template <typename type>
-class dictionary {
+class HL_API dictionary {
 	private:
 		struct node {
 			type*	definition;

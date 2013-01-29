@@ -11,7 +11,7 @@ namespace hamLibs {
 namespace containers {
 
 template <typename type>
-class array {
+class HL_API array {
 	private:
 		type* Array;
 		hlSize_t Size;

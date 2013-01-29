@@ -8,7 +8,7 @@ namespace hamLibs {
 namespace containers {
 
 template <class type>
-class stack {
+class HL_API stack {
 	private:
 		struct node {
 			type *data;

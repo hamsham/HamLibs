@@ -7,7 +7,7 @@
 namespace hamLibs {
 namespace utils {
 
-class logger {
+class HL_API logger {
 	private:
 		std::ostream* logFile;
 		bool isLogging;

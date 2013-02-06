@@ -28,6 +28,7 @@ struct vec3_t {
 
 	//constructors
 	vec3_t			();
+	vec3_t			( numType n );
 	vec3_t			(const vec3_t<numType>& invect);
 	vec3_t			(numType inX, numType inY, numType inZ);
 	~vec3_t			(){}
@@ -84,6 +85,10 @@ vec3_t<numType>::vec3_t() :
 	vec3_t(
 		numType(0), numType(0), numType(0)
 	)
+{}
+template <typename numType> HL_IMPERATIVE
+vec3_t<numType>::vec3_t( numType n ) :
+	vec3_t( n, n, n )
 {}
 
 template <typename numType> HL_IMPERATIVE

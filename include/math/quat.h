@@ -30,6 +30,7 @@ struct quat_t {
 
 	//construction (all delegated)
 	quat_t			();
+	quat_t			( numType n );
 	quat_t			(const quat_t<numType>& input);
 	quat_t			(	numType inX, numType inY, numType inZ, numType inW );
 	~quat_t()		{}
@@ -76,6 +77,12 @@ template <typename numType> HL_IMPERATIVE
 quat_t<numType>::quat_t() :
 	quat_t(
 		numType(0), numType(0), numType(0), numType(1)
+	)
+{}
+template <typename numType> HL_IMPERATIVE
+quat_t<numType>::quat_t( numType n ) :
+	quat_t(
+		n, n, n, numType(1)
 	)
 {}
 

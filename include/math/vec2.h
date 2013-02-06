@@ -27,6 +27,7 @@ struct vec2_t {
 
 	//constructors
 	vec2_t			();
+	vec2_t			( numType n );
 	vec2_t			(const vec2_t<numType>& invect);
 	vec2_t			(numType inX, numType inY);
 	~vec2_t			() {}
@@ -83,6 +84,10 @@ vec2_t<numType>::vec2_t() :
 	vec2_t(
 		numType(0), numType(0)
 	)
+{}
+template <typename numType> HL_IMPERATIVE
+vec2_t<numType>::vec2_t( numType n ) :
+	vec2_t( n, n )
 {}
 
 template <typename numType> HL_IMPERATIVE

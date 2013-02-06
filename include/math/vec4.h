@@ -29,6 +29,7 @@ struct vec4_t {
 
 	//constructors
 	vec4_t			();
+	vec4_t			( numType n );
 	vec4_t			(const vec4_t<numType>& invect);
 	vec4_t			(numType inX, numType inY, numType inZ, numType inW);
 	~vec4_t			(){}
@@ -85,6 +86,10 @@ vec4_t<numType>::vec4_t() :
 	vec4_t(
 		numType(0), numType(0), numType(0), numType(0)
 	)
+{}
+template <typename numType> HL_IMPERATIVE
+vec4_t<numType>::vec4_t( numType n ) :
+	vec4_t( n, n, n, n )
 {}
 
 template <typename numType> HL_IMPERATIVE

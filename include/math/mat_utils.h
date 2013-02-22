@@ -63,6 +63,8 @@ template <typename numType> HL_IMPERATIVE mat4_t<numType>	infinitePerspective( n
 
 template <typename numType> HL_IMPERATIVE mat4_t<numType>	ortho( numType left, numType right, numType top, numType bottom );
 
+template <typename numType> HL_IMPERATIVE mat4_t<numType>	ortho( numType left, numType right, numType top, numType bottom, numType near, numType far );
+
 template <typename numType> HL_IMPERATIVE mat4_t<numType>	frustum( numType left, numType right, numType top, numType bottom, numType near, numType far );
 
 template <typename numType> HL_IMPERATIVE mat4_t<numType>	lookAt( const vec3_t<numType>& pos, const vec3_t<numType>& target, const vec3_t<numType>& up );
@@ -338,6 +340,20 @@ math::mat4_t<numType> math::ortho( numType left, numType right, numType top, num
 		numType(0), numType(2) / h, numType(0), numType(0),
 		numType(0), numType(0), numType(-1), numType(0),
 		-(right + left) / w, -(top + bottom) / h, numType(0), numType(1)
+	);
+}
+
+template <typename numType> HL_IMPERATIVE
+math::mat4_t<numType> math::ortho( numType left, numType right, numType top, numType bottom, numType near, numType far ) {
+	numType w( right - left );
+	numType h( bottom - top );
+	numType z( far - near );
+	
+	return mat4_t<numType>(
+		numType(2) / w, numType(0), numType(0), numType(0),
+		numType(0), numType(2) / h, numType(0), numType(0),
+		numType(0), numType(0), numType(-2) / z, numType(0),
+		-(right + left) / w, -(top + bottom) / h, -(far+near) / z, numType(1)
 	);
 }
 

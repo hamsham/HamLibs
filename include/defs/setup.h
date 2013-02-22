@@ -178,7 +178,11 @@
 #elif defined (HL_COMPILER_GNU)
 	#define HL_INLINE inline __attribute__((always_inline))
 	#ifdef HL_ARCH_X86
-		#define HL_FASTCALL __attribute__((__fastcall__))
+		#if HL_ARCH_X86 == 32
+			#define HL_FASTCALL __attribute__((__fastcall__))
+		#else
+			#define HL_FASTCALL
+		#endif
 	#endif
 #else
 	#define HL_INLINE inline
@@ -192,14 +196,10 @@
 /*
  * Dynamic Library Support
  */
-#ifdef HL_API_DYNAMIC
-	#if defined (HL_BUILD_DYNAMIC) && defined (HL_OS_WINDOWS)
-			#define HL_API __declspec( dllexport )
-	#elif !defined (HL_BUILD_DYNAMIC) && defined (HL_OS_WINDOWS)
-			#define HL_API __declspec( dllimport )
-	#else
-		#define HL_API
-	#endif
+#if defined (HL_BUILD_DYNAMIC) && defined (HL_OS_WINDOWS)
+		#define HL_API __declspec( dllexport )
+#elif defined (HL_API_DYNAMIC) && defined (HL_OS_WINDOWS)
+		#define HL_API __declspec( dllimport )
 #else
 	#define HL_API
 #endif

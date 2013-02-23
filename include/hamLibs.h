@@ -30,7 +30,8 @@
 
 #include "math/math.h"
 
-#include "logger.h"
+#include "utils/logger.h"
+#include "utils/hash.h"
 //#include "filesystem.h"
 //#include "stringUtils.h"
 //#include "config.h"

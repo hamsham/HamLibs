@@ -40,4 +40,9 @@
 #define HL_SQRT( x ) std::sqrt( x )
 //#define HL_SQRT( x ) hamLibs::math::fastSqrt( x )
 
+/*
+ * Preprocessor Stringify
+ */
+#define HL_STRINGIFY( x ) #x
+
 #endif /* __HL_PREPROCESSOR_H__ */

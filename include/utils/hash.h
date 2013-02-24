@@ -8,6 +8,8 @@
 #ifndef __HL_HASH_H__
 #define	__HL_HASH_H__
 
+#include <string>
+
 namespace hamLibs {
 namespace utils {
 	

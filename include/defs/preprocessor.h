@@ -5,6 +5,7 @@
 #define __HL_PREPROCESSOR_H__
 
 #include "setup.h"
+#include "endian.h"
 
 /******************************************************************************
 		HamLibs Macros
@@ -43,8 +44,8 @@
 /*
  * Preprocessor Stringify
  */
-#ifndef STRINGIFY
-	#define STRINGIFY( x ) #x
-#endif /* STRINGIFY */
+#ifndef HL_STRINGIFY
+	#define HL_STRINGIFY( x ) #x
+#endif /* HL_STRINGIFY */
 
 #endif /* __HL_PREPROCESSOR_H__ */

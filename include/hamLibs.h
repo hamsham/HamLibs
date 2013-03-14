@@ -9,18 +9,22 @@
 #define	__HAMLIBS_H__
 
 //---------------------------------------------------------------------
-//				Preprocessor Wizardry
+//              Preprocessor Wizardry
 //---------------------------------------------------------------------
 #include "defs/preprocessor.h"
 
 //---------------------------------------------------------------------
-//				Forward Declarations
+//              Forward Declarations
 //---------------------------------------------------------------------
 #include "defs/types.h"
 
 //---------------------------------------------------------------------
-//				Meat & Potatoes
+//              Meat & Potatoes
 //---------------------------------------------------------------------
+#include "utils/logger.h"
+#include "utils/hash.h"
+#include "utils/assert.h"
+
 #include "containers/list.h"
 #include "containers/stack.h"
 #include "containers/queue.h"
@@ -30,8 +34,6 @@
 
 #include "math/math.h"
 
-#include "utils/logger.h"
-#include "utils/hash.h"
 //#include "filesystem.h"
 //#include "stringUtils.h"
 //#include "config.h"

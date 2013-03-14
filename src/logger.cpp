@@ -7,15 +7,15 @@ namespace hamLibs {
 namespace utils {
 
 logger::logger() :
-	logFile(0)
+	logFile(nullptr)
 {}
 	
 logger::logger(std::ostream* streamToLogWith) :
 	logFile(streamToLogWith)
 {}
 
-logger::~logger() {
-	logFile = 0;
+void logger::setLogStream(std::ostream* streamToUse) {
+	logFile = streamToUse;
 }
 
 bool logger::getLogState() const {

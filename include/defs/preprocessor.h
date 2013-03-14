@@ -13,8 +13,8 @@
  * Debug Mode
  */
 #ifdef HL_DEBUG
-	#include <cassert>
-	#define HL_ASSERT(x) assert(x)
+	#include "../utils/assert.h"
+	#define HL_ASSERT(x) ASSERT(x)
 #else
 	#define HL_ASSERT(x)
 #endif
@@ -43,6 +43,8 @@
 /*
  * Preprocessor Stringify
  */
-#define HL_STRINGIFY( x ) #x
+#ifndef STRINGIFY
+	#define STRINGIFY( x ) #x
+#endif /* STRINGIFY */
 
 #endif /* __HL_PREPROCESSOR_H__ */

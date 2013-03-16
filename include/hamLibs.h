@@ -24,6 +24,7 @@
 #include "utils/logger.h"
 #include "utils/hash.h"
 #include "utils/assert.h"
+#include "utils/randomNum.h"
 
 #include "containers/list.h"
 #include "containers/stack.h"

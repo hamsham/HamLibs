@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include "../include/utils/assert.h"
+#include "../include/hamLibs.h"
 
 void hamLibs::utils::assert_runtime( bool condition, errorType type, const char* msg ) {
 	if ( condition ) return;

@@ -17,19 +17,19 @@ enum e_endianness : int {
     HL_PDP_ENDIAN      = 2
 };
 
-union value {
+union endianValue {
     uint8_t     lsBit[ sizeof( uint32_t ) ] = {0,1,2,3};
     uint32_t    byteOrder;
 };
 
 constexpr int checkEndianness() {
-    return ( value().byteOrder == 0x03020100 )		// If Little Endian Byte Order,
+    return ( endianValue().byteOrder == 0x03020100 )	// If Little Endian Byte Order,
         ? HL_LITTLE_ENDIAN                          	// return 0 for little endian.
-        : ( value().byteOrder == 0x00010203 )       // Else if Big Endian Byte Order,
+        : ( endianValue().byteOrder == 0x00010203 )     // Else if Big Endian Byte Order,
             ? HL_BIG_ENDIAN                         	// return 1 for big endian.
-            : ( value().byteOrder == 0x01000302 )   // Else if PDP Endian Byte Order,
-                ? HL_PDP_ENDIAN                        // return 2 for pdp endian.
-                : HL_UNKNOWN_ENDIAN;                // Else return -1 for wtf endian.
+            : ( endianValue().byteOrder == 0x01000302 ) // Else if PDP Endian Byte Order,
+                ? HL_PDP_ENDIAN                         // return 2 for pdp endian.
+                : HL_UNKNOWN_ENDIAN;                    // Else return -1 for wtf endian.
 }
 
 const int HL_ENDIANNESS_CHECK = checkEndianness();

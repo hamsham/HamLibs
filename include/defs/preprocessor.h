@@ -11,6 +11,13 @@
 		HamLibs Macros
 ******************************************************************************/
 /*
+ * Preprocessor Stringify
+ */
+#ifndef HL_STRINGIFY
+	#define HL_STRINGIFY( x ) #x
+#endif /* HL_STRINGIFY */
+
+/*
  * Debug Mode
  */
 #ifdef HL_DEBUG
@@ -40,12 +47,5 @@
 
 #define HL_SQRT( x ) std::sqrt( x )
 //#define HL_SQRT( x ) hamLibs::math::fastSqrt( x )
-
-/*
- * Preprocessor Stringify
- */
-#ifndef HL_STRINGIFY
-	#define HL_STRINGIFY( x ) #x
-#endif /* HL_STRINGIFY */
 
 #endif /* __HL_PREPROCESSOR_H__ */

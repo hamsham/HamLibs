@@ -52,4 +52,9 @@ const int HL_ENDIANNESS_CHECK = checkEndianness();
 	
 #endif
 
+// remove compiler warning about a variable being set but not used
+inline int hlGetEndianness() {
+    return HL_ENDIANNESS_CHECK;
+}
+
 #endif /* __HL_ENDIAN_H__ */

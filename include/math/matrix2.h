@@ -33,7 +33,8 @@ struct mat2_t {
 	//hardhat construction
 	mat2_t();
 	mat2_t(numType n);
-	mat2_t(const mat2_t<numType>& input);
+	mat2_t(const mat2_t<numType>&);
+	mat2_t(mat2_t<numType>&&);
 	//delegated constructor
 	mat2_t(	numType inXX, numType inXY,
 			numType inYX, numType inYY
@@ -54,6 +55,7 @@ struct mat2_t {
 	mat2_t			operator	-		() const;
 	mat2_t			operator	*		(const mat2_t<numType>& input) const;
 	mat2_t&			operator	=		(const mat2_t<numType>& input);
+	mat2_t&			operator	=		(mat2_t<numType>&& input);
 	mat2_t&			operator	+=		(const mat2_t<numType>& input);
 	mat2_t&			operator	-=		(const mat2_t<numType>& input);
 	mat2_t&			operator	*=		(const mat2_t<numType>& input);
@@ -101,6 +103,14 @@ mat2_t<numType>::mat2_t(numType n) :
 
 template <typename numType> HL_IMPERATIVE
 mat2_t<numType>::mat2_t(const mat2_t<numType>& input) :
+	mat2_t(
+		input.m[0][0], input.m[0][1],
+		input.m[1][0], input.m[1][1]
+	)
+{}
+
+template <typename numType> HL_IMPERATIVE
+mat2_t<numType>::mat2_t(mat2_t<numType>&& input) :
 	mat2_t(
 		input.m[0][0], input.m[0][1],
 		input.m[1][0], input.m[1][1]
@@ -204,6 +214,13 @@ mat2_t<numType> mat2_t<numType>::operator * (const mat2_t<numType>& input) const
 
 template <typename numType> HL_IMPERATIVE
 mat2_t<numType>& mat2_t<numType>::operator = (const mat2_t<numType>& input) {
+	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1];
+	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1];
+	return *this;
+}
+
+template <typename numType> HL_IMPERATIVE
+mat2_t<numType>& mat2_t<numType>::operator = (mat2_t<numType>&& input) {
 	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1];
 	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1];
 	return *this;

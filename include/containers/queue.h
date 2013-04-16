@@ -4,11 +4,15 @@
 
 #ifndef __HL_QUEUE__
 #define __HL_QUEUE__
+
+#include "../defs/preprocessor.h"
+#include "../defs/types.h"
+
 namespace hamLibs {
 namespace containers {
 
-template <class type>
-class HL_API queue {
+template <typename type>
+class queue {
 	private:
 		struct node {
 			type data;
@@ -41,14 +45,14 @@ class HL_API queue {
 //-----------------------------------------------------------------------------
 //			Construction & Destruction
 //-----------------------------------------------------------------------------
-template <class type> HL_INLINE
+template <typename type> HL_INLINE
 queue<type>::queue() :
 	first( HL_NULL ),
 	last( HL_NULL ),
 	numNodes( 0 )
 {}
 
-template <class type> HL_INLINE
+template <typename type> HL_INLINE
 queue<type>::~queue() {
 	clear();
 }
@@ -56,19 +60,19 @@ queue<type>::~queue() {
 //-----------------------------------------------------------------------------
 //			Data Acquisition
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 type* queue<type>::front() const {
 	return (first) ? (&first->data) : HL_NULL;
 }
 
-template <class type>
+template <typename type>
 type* queue<type>::peekNext() const {
 	if (first && first->next)
 		return &(first->next->data);
 	return HL_NULL;
 }
 
-template <class type>
+template <typename type>
 type* queue<type>::back() const {
 	return (last) ? &(last->data) : HL_NULL;
 }
@@ -76,7 +80,7 @@ type* queue<type>::back() const {
 //-----------------------------------------------------------------------------
 //			Insertion
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 void queue<type>::push(const type& object) {
 	node* temp = new node;
 	temp->data = object;
@@ -91,7 +95,7 @@ void queue<type>::push(const type& object) {
 //-----------------------------------------------------------------------------
 //			Deletion
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 void queue<type>::pop() {
 	if (first == HL_NULL)
 		return;
@@ -105,7 +109,7 @@ void queue<type>::pop() {
 		last = HL_NULL;
 }
 
-template <class type>
+template <typename type>
 void queue<type>::clear() {
 	while (first != HL_NULL) {
 		pop();
@@ -115,12 +119,12 @@ void queue<type>::clear() {
 //-----------------------------------------------------------------------------
 //			Miscellaneous
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 hlSize_t queue<type>::size() const {
 	return numNodes;
 }
 
-template <class type>
+template <typename type>
 bool queue<type>::empty() const {
 	return (first == HL_NULL) ? true : false;
 }

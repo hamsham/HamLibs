@@ -29,7 +29,8 @@ struct vec3_t {
 	//constructors
 	vec3_t			();
 	vec3_t			( numType n );
-	vec3_t			(const vec3_t<numType>& invect);
+	vec3_t			(const vec3_t<numType>&);
+	vec3_t			(vec3_t<numType>&&);
 	vec3_t			(numType inX, numType inY, numType inZ);
 	~vec3_t			(){}
 
@@ -39,6 +40,7 @@ struct vec3_t {
 
 	//vector-vector operators
 	vec3_t&			operator		= 		(const vec3_t<numType>&);
+	vec3_t&			operator		= 		(vec3_t<numType>&&);
 	vec3_t			operator 		+ 		(const vec3_t<numType>&) const;
 	vec3_t			operator 		- 		(const vec3_t<numType>&) const;
 	vec3_t			operator 		- 		() const;
@@ -99,6 +101,13 @@ vec3_t<numType>::vec3_t(const vec3_t<numType>& input) :
 {}
 
 template <typename numType> HL_IMPERATIVE
+vec3_t<numType>::vec3_t(vec3_t<numType>&& input) :
+	vec3_t(
+		input.v[0], input.v[1], input.v[2]
+	)
+{}
+
+template <typename numType> HL_IMPERATIVE
 vec3_t<numType>::vec3_t(numType inX, numType inY, numType inZ) :
 	v{ inX, inY, inZ }
 {}
@@ -123,6 +132,14 @@ numType& vec3_t<numType>::operator[](const int index) {
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 vec3_t<numType>& vec3_t<numType>::operator = (const vec3_t<numType>& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	v[2] = input.v[2];
+	return *this;
+}
+
+template <typename numType> HL_IMPERATIVE
+vec3_t<numType>& vec3_t<numType>::operator = (vec3_t<numType>&& input) {
 	v[0] = input.v[0];
 	v[1] = input.v[1];
 	v[2] = input.v[2];

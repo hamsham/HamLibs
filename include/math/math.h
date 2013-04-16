@@ -20,13 +20,13 @@
 namespace hamLibs {
 namespace math {
 
-	const float HL_PI			( 3.14159265358979323846f );
-	const float HL_TWO_PI		( 6.28318530717958647693f );
-	const float HL_PI_OVR2		( 1.57079632679489661923f );
-	const float HL_PI_OVR4		( 0.78539816339744830962f );
-	const float HL_PI_INV		( 0.31830988618379067153f ); // 1 / pi
-	const float HL_E			( 2.71828182845904523536f );
-	const float HL_EPSILON		( 1.0e-5f );
+	#define     HL_PI			3.14159265358979323846f
+	#define     HL_TWO_PI		6.28318530717958647693f
+	#define     HL_PI_OVR2		1.57079632679489661923f
+	#define     HL_PI_OVR4		0.78539816339744830962f
+	#define     HL_PI_INV		0.31830988618379067153f // 1 / pi
+	#define     HL_E			2.71828182845904523536f
+	#define     HL_EPSILON		1.0e-5f
 
 	//-------------------------------------------------------------
 	//				Prototypes & Declarations
@@ -66,8 +66,8 @@ namespace math {
 		
 	template <typename numType>	numType fastSqrt(numType);
 	template <typename numType>	numType fastInvSqrt(numType);
-	template <typename numType>	numType degToRad(numType);
-	template <typename numType>	numType radToDeg(numType);
+	template <typename numType>	constexpr numType degToRad(numType);
+	template <typename numType>	constexpr numType radToDeg(numType);
 
 	//-------------------------------------------------------------
 	//				Definitions
@@ -96,13 +96,13 @@ namespace math {
 
 	//-----------------------------------------------------------------
 	template <typename numType> HL_IMPERATIVE
-	numType degToRad(numType input) {
+	constexpr numType degToRad(numType input) {
 		return HL_DEG2RAD(input);
 	}
 
 	//-----------------------------------------------------------------
 	template <typename numType> HL_IMPERATIVE
-	numType radToDeg(numType input) {
+	constexpr numType radToDeg(numType input) {
 		return HL_RAD2DEG(input);
 	}
 

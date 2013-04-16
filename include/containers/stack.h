@@ -4,11 +4,15 @@
 
 #ifndef __HL_STACK__
 #define __HL_STACK__
+
+#include "../defs/preprocessor.h"
+#include "../defs/types.h"
+
 namespace hamLibs {
 namespace containers {
 
-template <class type>
-class HL_API stack {
+template <typename type>
+class stack {
 	private:
 		struct node {
 			type *data;
@@ -40,16 +44,16 @@ class HL_API stack {
 //-----------------------------------------------------------------------------
 //			Construction & Destruction
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 const typename stack<type>::node stack<type>::bottom = {HL_NULL, HL_NULL};
 
-template <class type>
+template <typename type>
 stack<type>::stack() {
 	iter = const_cast<type*>(&bottom);
 	numNodes = 0;
 }
 
-template <class type>
+template <typename type>
 stack<type>::~stack() {
 	clear();
 }
@@ -57,12 +61,12 @@ stack<type>::~stack() {
 //-----------------------------------------------------------------------------
 //			Data Acquisition
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 type* stack<type>::top() const {
 	return iter->data;
 }
 
-template <class type>
+template <typename type>
 type* stack<type>::peekNext() const {
 	return (iter->next) ? iter->next->data : HL_NULL;
 }
@@ -70,7 +74,7 @@ type* stack<type>::peekNext() const {
 //-----------------------------------------------------------------------------
 //			Insertion
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 void stack<type>::push(const type& object) {
 	node* temp = new node;
 	*temp->data = object;
@@ -84,17 +88,17 @@ void stack<type>::push(const type& object) {
 //-----------------------------------------------------------------------------
 //			Deletion
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 void stack<type>::pop() {
 	if (iter != &bottom) {
-		node* temp = iter;
+		const node* temp = iter;
 		iter = iter->next;
 		delete temp;
 		--numNodes;
 	}
 }
 
-template <class type>
+template <typename type>
 void stack<type>::clear() {
 	while (iter->data != HL_NULL) {
 		pop();
@@ -104,14 +108,14 @@ void stack<type>::clear() {
 //-----------------------------------------------------------------------------
 //			Miscellaneous
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 hlSize_t stack<type>::size() const {
 	return numNodes;
 }
 
-template <class type>
+template <typename type>
 bool stack<type>::empty() const {
-	return (iter == &bottom) ? true : false;
+	return iter == &bottom;
 }
 
 } //end containers namespace

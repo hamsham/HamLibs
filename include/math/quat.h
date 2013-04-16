@@ -31,8 +31,9 @@ struct quat_t {
 	//construction (all delegated)
 	quat_t			();
 	quat_t			( numType n );
-	quat_t			(const quat_t<numType>& input);
-	quat_t			(	numType inX, numType inY, numType inZ, numType inW );
+	quat_t			(const quat_t<numType>&);
+	quat_t			(quat_t<numType>&&);
+	quat_t			( numType inX, numType inY, numType inZ, numType inW );
 	~quat_t()		{}
 
 	//array operators
@@ -48,6 +49,7 @@ struct quat_t {
 	quat_t			operator	-	(const quat_t<numType>& input) const;
 	quat_t			operator	*	(const quat_t<numType>& input) const;
 	quat_t&			operator	=	(const quat_t<numType>& input);
+	quat_t&			operator	=	(quat_t<numType>&& input);
 	quat_t&			operator	+=	(const quat_t<numType>& input);
 	quat_t&			operator	-=	(const quat_t<numType>& input);
 	quat_t&			operator	*=	(const quat_t<numType>& input);
@@ -88,6 +90,13 @@ quat_t<numType>::quat_t( numType n ) :
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>::quat_t(const quat_t<numType>& input) :
+	quat_t(
+		input.q[0], input.q[1], input.q[2], input.q[3]
+	)
+{}
+
+template <typename numType> HL_IMPERATIVE
+quat_t<numType>::quat_t(quat_t<numType>&& input) :
 	quat_t(
 		input.q[0], input.q[1], input.q[2], input.q[3]
 	)
@@ -178,6 +187,15 @@ quat_t<numType> quat_t<numType>::operator * (const quat_t<numType>& input) const
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator = (const quat_t<numType>& input) {
+	q[0] = input.q[0];
+	q[1] = input.q[1];
+	q[2] = input.q[2];
+	q[3] = input.q[3];
+	return *this;
+}
+
+template <typename numType> HL_IMPERATIVE
+quat_t<numType>& quat_t<numType>::operator = (quat_t<numType>&& input) {
 	q[0] = input.q[0];
 	q[1] = input.q[1];
 	q[2] = input.q[2];

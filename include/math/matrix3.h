@@ -35,7 +35,8 @@ struct mat3_t {
 	//hardhat construction
 	mat3_t();
 	mat3_t(numType n);
-	mat3_t(const mat3_t<numType>& input);
+	mat3_t(const mat3_t<numType>&);
+	mat3_t(mat3_t<numType>&&);
 	//delegatoed constructor
 	mat3_t(	numType inXX, numType inXY, numType inXZ,
 			numType inYX, numType inYY, numType inYZ,
@@ -56,6 +57,7 @@ struct mat3_t {
 	mat3_t			operator	-		() const;
 	mat3_t			operator	*		(const mat3_t<numType>& input) const;
 	mat3_t&			operator	=		(const mat3_t<numType>& input);
+	mat3_t&			operator	=		(mat3_t<numType>&& input);
 	mat3_t&			operator	+=		(const mat3_t<numType>& input);
 	mat3_t&			operator	-=		(const mat3_t<numType>& input);
 	mat3_t&			operator	*=		(const mat3_t<numType>& input);
@@ -106,6 +108,15 @@ mat3_t<numType>::mat3_t(numType n) :
 
 template <typename numType> HL_IMPERATIVE
 mat3_t<numType>::mat3_t(const mat3_t<numType>& input) :
+	mat3_t(
+		input.m[0][0], input.m[0][1], input.m[0][2],
+		input.m[1][0], input.m[1][1], input.m[1][2],
+		input.m[2][0], input.m[2][1], input.m[2][2]
+	)
+{}
+
+template <typename numType> HL_IMPERATIVE
+mat3_t<numType>::mat3_t(mat3_t<numType>&& input) :
 	mat3_t(
 		input.m[0][0], input.m[0][1], input.m[0][2],
 		input.m[1][0], input.m[1][1], input.m[1][2],
@@ -227,6 +238,14 @@ mat3_t<numType> mat3_t<numType>::operator * (const mat3_t<numType>& input) const
 
 template <typename numType> HL_IMPERATIVE
 mat3_t<numType>& mat3_t<numType>::operator = (const mat3_t<numType>& input) {
+	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2];
+	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2];
+	m[2][0] = input.m[2][0]; m[2][1] = input.m[2][1]; m[2][2] = input.m[2][2];
+	return *this;
+}
+
+template <typename numType> HL_IMPERATIVE
+mat3_t<numType>& mat3_t<numType>::operator = (mat3_t<numType>&& input) {
 	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2];
 	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2];
 	m[2][0] = input.m[2][0]; m[2][1] = input.m[2][1]; m[2][2] = input.m[2][2];

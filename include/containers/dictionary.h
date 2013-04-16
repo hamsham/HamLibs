@@ -10,13 +10,16 @@
 
 #include <string>
 
+#include "../defs/preprocessor.h"
+#include "../defs/types.h"
+
 namespace hamLibs {
 namespace containers {
 
 typedef const char* const cstr;
 
 template <typename type>
-class HL_API dictionary {
+class dictionary {
 	private:
 		struct node {
 			type*	definition;

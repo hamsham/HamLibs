@@ -30,7 +30,8 @@ struct vec4_t {
 	//constructors
 	vec4_t			();
 	vec4_t			( numType n );
-	vec4_t			(const vec4_t<numType>& invect);
+	vec4_t			(const vec4_t<numType>&);
+	vec4_t			(vec4_t<numType>&&);
 	vec4_t			(numType inX, numType inY, numType inZ, numType inW);
 	~vec4_t			(){}
 
@@ -40,6 +41,7 @@ struct vec4_t {
 
 	//vector-vector operators
 	vec4_t&			operator		= 		(const vec4_t<numType>&);
+	vec4_t&			operator		= 		(vec4_t<numType>&&);
 	vec4_t			operator 		+ 		(const vec4_t<numType>&) const;
 	vec4_t			operator 		- 		(const vec4_t<numType>&) const;
 	vec4_t			operator 		- 		() const;
@@ -100,6 +102,13 @@ vec4_t<numType>::vec4_t(const vec4_t<numType>& input) :
 {}
 
 template <typename numType> HL_IMPERATIVE
+vec4_t<numType>::vec4_t(vec4_t<numType>&& input) :
+	vec4_t(
+		input.v[0], input.v[1], input.v[2], input.v[3]
+	)
+{}
+
+template <typename numType> HL_IMPERATIVE
 vec4_t<numType>::vec4_t(numType inX, numType inY, numType inZ, numType inW) :
 	v{ inX, inY, inZ, inW }
 {}
@@ -124,6 +133,15 @@ numType& vec4_t<numType>::operator[](const int index) {
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator = (const vec4_t<numType>& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	v[2] = input.v[2];
+	v[3] = input.v[3];
+	return *this;
+}
+
+template <typename numType> HL_IMPERATIVE
+vec4_t<numType>& vec4_t<numType>::operator = (vec4_t<numType>&& input) {
 	v[0] = input.v[0];
 	v[1] = input.v[1];
 	v[2] = input.v[2];

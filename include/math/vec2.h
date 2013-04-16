@@ -28,7 +28,8 @@ struct vec2_t {
 	//constructors
 	vec2_t			();
 	vec2_t			( numType n );
-	vec2_t			(const vec2_t<numType>& invect);
+	vec2_t			(const vec2_t<numType>&);
+	vec2_t			(vec2_t<numType>&&);
 	vec2_t			(numType inX, numType inY);
 	~vec2_t			() {}
 
@@ -38,6 +39,7 @@ struct vec2_t {
 
 	//vector-vector operators
 	vec2_t&			operator		= 		(const vec2_t<numType>&);
+	vec2_t&			operator		= 		(vec2_t<numType>&&);
 	vec2_t			operator 		+ 		(const vec2_t<numType>&) const;
 	vec2_t			operator 		- 		(const vec2_t<numType>&) const;
 	vec2_t			operator 		- 		() const;
@@ -98,6 +100,13 @@ vec2_t<numType>::vec2_t(const vec2_t<numType>& input) :
 {}
 
 template <typename numType> HL_IMPERATIVE
+vec2_t<numType>::vec2_t(vec2_t<numType>&& input) :
+	vec2_t(
+		input.v[0], input.v[1]
+	)
+{}
+
+template <typename numType> HL_IMPERATIVE
 vec2_t<numType>::vec2_t(numType inX, numType inY) :
 	v{ inX, inY }
 {}
@@ -122,6 +131,13 @@ numType& vec2_t<numType>::operator[](const int index) {
 //---------------------------------------------------------------------
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator = (const vec2_t<numType>& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	return *this;
+}
+
+template <typename numType> HL_IMPERATIVE
+vec2_t<numType>& vec2_t<numType>::operator = (vec2_t<numType>&& input) {
 	v[0] = input.v[0];
 	v[1] = input.v[1];
 	return *this;

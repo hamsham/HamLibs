@@ -5,11 +5,11 @@
  * I really feel like shit for writing this code the way I did, but I did it to
  * make the implementation as easy and efficient as I know how.
  * 
- * The linked list is actually implemented as a "looped" list.
- * This means that the start and endpoints of the list are linked together.
+ * The linked list is actually implemented as a "looped" list so that the start
+ * and endpoints of the list are linked together.
  * In order to avoid problems with this kind of implementation, and to ease in
  * node navigation, I inserted a spacer in between the first and last nodes.
- * This was unfortunately necessary, but actually turned into a happy accident.
+ * This was necessary, but actually turned into a happy accident.
  * --------------------------------------------------------------------
  * 
  * NOTES:
@@ -25,11 +25,15 @@
 
 #ifndef __HL_LINKEDLIST__
 #define __HL_LINKEDLIST__
+
+#include "../defs/preprocessor.h"
+#include "../defs/types.h"
+
 namespace hamLibs {
 namespace containers {
 
-template <class type>
-class HL_API list {
+template <typename type>
+class list {
 	private:
 		struct node {
 			type	data;
@@ -83,14 +87,14 @@ class HL_API list {
 //-----------------------------------------------------------------------------
 //			Construction & Destruction
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 list<type>::node::node() :
 	data(),
 	next(HL_NULL),
 	prev(HL_NULL)
 {}
 
-template <class type>
+template <typename type>
 list<type>::list() :
 	mainNode(),
 	iter(&mainNode),
@@ -100,17 +104,17 @@ list<type>::list() :
 	iter->prev = iter;
 }
 
-template <class type>
+template <typename type>
 list<type>::list(const list& listCopy) {
 	*this = listCopy;
 }
 
-template <class type>
+template <typename type>
 list<type>::~list() {
 	clear();
 }
 
-template <class type>
+template <typename type>
 list<type>& list<type>::operator =(const list& listCopy) {
 	const node* iterPos = iter; //preserve the iteration position
 	hlSize_t iterating(size);
@@ -127,24 +131,24 @@ list<type>& list<type>::operator =(const list& listCopy) {
 //-----------------------------------------------------------------------------
 //			Link Navigation
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 void list<type>::goToFront() {
 	iter = mainNode.next;
 }
 
-template <class type>
+template <typename type>
 void list<type>::goToBack() {
 	iter = mainNode.prev;
 }
 
-template <class type>
+template <typename type>
 void list<type>::goToNext() {
 	if (iter->next != &mainNode) {
 		iter = iter->next;
 	}
 }
 
-template <class type>
+template <typename type>
 void list<type>::goToPrev() {
 	if (iter->prev != &mainNode) {
 		iter = iter->prev;
@@ -154,20 +158,20 @@ void list<type>::goToPrev() {
 //-----------------------------------------------------------------------------
 //			Data Acquisition
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 type* list<type>::getFirst() const {
 	return &(mainNode.next->data);
 }
-template <class type>
+template <typename type>
 type* list<type>::getLast() const {
 	return &(mainNode.prev->data);
 }
-template <class type>
+template <typename type>
 type* list<type>::getCurrent() const {
 	return &(iter->data);
 }
 
-template <class type>
+template <typename type>
 type* list<type>::getNext() const {
 	if (iter->next != &mainNode) {
 		iter = iter->next;
@@ -178,7 +182,7 @@ type* list<type>::getNext() const {
 	}
 }
 
-template <class type>
+template <typename type>
 type* list<type>::getPrev() const {
 	if (iter->prev != &mainNode) {
 		iter = iter->prev;
@@ -189,12 +193,12 @@ type* list<type>::getPrev() const {
 	}
 }
 
-template <class type>
+template <typename type>
 type* list<type>::peekNext() const {
 	return &(iter->next->data);
 }
 
-template <class type>
+template <typename type>
 type* list<type>::peekPrev() const {
 	return &(iter->prev->data);
 }
@@ -202,19 +206,19 @@ type* list<type>::peekPrev() const {
 //-----------------------------------------------------------------------------
 //			Insertion
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 void list<type>::pushFront(const type& object) {
 	iter = mainNode.next;
 	pushBefore(object);
 }
 
-template <class type>
+template <typename type>
 void list<type>::pushBack(const type& object) {
 	iter = &mainNode;
 	pushBefore(object);
 }
 
-template <class type>
+template <typename type>
 void list<type>::pushBefore(const type& object) {
 	node* temp = new node;
 	temp->data = object;
@@ -228,7 +232,7 @@ void list<type>::pushBefore(const type& object) {
 	++numNodes;
 }
 
-template <class type>
+template <typename type>
 void list<type>::pushAfter(const type& object) {
 	iter = iter->next;
 	pushBefore(object);
@@ -237,7 +241,7 @@ void list<type>::pushAfter(const type& object) {
 //-----------------------------------------------------------------------------
 //			Deletion
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 void list<type>::popnode() {
 	//make sure that there's actually something to delete
 	if (iter == &mainNode) return;
@@ -252,19 +256,19 @@ void list<type>::popnode() {
 	--numNodes;
 }
 
-template <class type>
+template <typename type>
 void list<type>::popFront() {
 	iter = mainNode.next;
 	popnode();
 }
 
-template <class type>
+template <typename type>
 void list<type>::popBack() {
 	iter = mainNode.prev;
 	popnode();
 }
 
-template <class type>
+template <typename type>
 void list<type>::clear() {
 	iter = mainNode.next;
 	while (iter != &mainNode) {
@@ -275,12 +279,12 @@ void list<type>::clear() {
 //-----------------------------------------------------------------------------
 //			Miscellaneous
 //-----------------------------------------------------------------------------
-template <class type>
+template <typename type>
 hlSize_t list<type>::size() const {
 	return numNodes;
 }
 
-template <class type>
+template <typename type>
 bool list<type>::empty() const {
 	return (mainNode.next != &mainNode) ? false : true;
 }

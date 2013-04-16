@@ -7,11 +7,14 @@
 #ifndef __HL_DYNAMIC_ARRAY_H__
 #define __HL_DYNAMIC_ARRAY_H__
 
+#include "../defs/preprocessor.h"
+#include "../defs/types.h"
+
 namespace hamLibs {
 namespace containers {
 
 template <typename type>
-class HL_API array {
+class array {
 	private:
 		type* Array;
 		hlSize_t Size;

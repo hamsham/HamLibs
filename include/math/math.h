@@ -20,13 +20,13 @@
 namespace hamLibs {
 namespace math {
 
-	#define     HL_PI			3.14159265358979323846f
-	#define     HL_TWO_PI		6.28318530717958647693f
-	#define     HL_PI_OVR2		1.57079632679489661923f
-	#define     HL_PI_OVR4		0.78539816339744830962f
-	#define     HL_PI_INV		0.31830988618379067153f // 1 / pi
-	#define     HL_E			2.71828182845904523536f
-	#define     HL_EPSILON		1.0e-5f
+	#define HL_PI		3.14159265358979323846f
+	#define HL_TWO_PI	6.28318530717958647693f
+	#define HL_PI_OVR2	1.57079632679489661923f
+	#define HL_PI_OVR4	0.78539816339744830962f
+	#define HL_PI_INV	0.31830988618379067153f // 1 / pi
+	#define HL_E		2.71828182845904523536f
+	#define HL_EPSILON  1.0e-5f
 
 	//-------------------------------------------------------------
 	//				Prototypes & Declarations
@@ -63,11 +63,19 @@ namespace math {
 	typedef mat2_t	<HL_FLOAT>	mat2;
 	typedef mat3_t	<HL_FLOAT>	mat3;
 	typedef mat4_t	<HL_FLOAT>	mat4;
-		
-	template <typename numType>	numType fastSqrt(numType);
-	template <typename numType>	numType fastInvSqrt(numType);
-	template <typename numType>	constexpr numType degToRad(numType);
-	template <typename numType>	constexpr numType radToDeg(numType);
+	
+	template <typename numType>	inline      numType fastSqrt(numType);
+	template <typename numType>	inline      numType fastInvSqrt(numType);
+	template <>                 inline      float   fastSqrt< float >(float);
+	template <>                 inline      float   fastInvSqrt< float >(float);
+    
+	template <typename numType>	constexpr   numType degToRad(numType);
+	template <typename numType>	constexpr   numType radToDeg(numType);
+    
+    template <typename numType> inline      numType fastLog2( numType );
+    template <>                 inline      float   fastLog2< float >( float );
+    template <typename numType> inline      numType fastLog( numType );
+    template <typename numType> inline      numType fastLogBase( numType base, numType );
 
 	//-------------------------------------------------------------
 	//				Definitions
@@ -77,7 +85,7 @@ namespace math {
 	 *		http://rrrola.wz.cz/inv_sqrt.html
 	 * and:
 	 *		http://jheriko-rtw.blogspot.com/2009/04/understanding-and-improving-fast.html
-	*/
+	 */
 	template <typename numType> HL_IMPERATIVE
 	numType fastInvSqrt(numType input) {
 		float x = static_cast<float>(input);
@@ -86,12 +94,24 @@ namespace math {
 		return numType(0.703952253f * y.f * (2.38924456f - x * y.f * y.f));
 	}
 
+	//-----------------------------------------------------------------
 	template <typename numType> HL_IMPERATIVE
 	numType fastSqrt(numType input) {
-		float x = static_cast<float>(input);
+		return numType( 1.0f/fastInvSqrt( input ) );
+	}
+
+	//-----------------------------------------------------------------
+	template <> HL_IMPERATIVE
+	float fastInvSqrt< float >( float x ) {
 		union { float f; unsigned int u; } y = {x};
 		y.u = 0x5F1FFFF9ul - (y.u >> 1);
-		return numType(1.0f/(0.703952253f * y.f * (2.38924456f - x * y.f * y.f)));
+		return 0.703952253f * y.f * (2.38924456f - x * y.f * y.f);
+	}
+
+	//-----------------------------------------------------------------
+	template <> HL_IMPERATIVE
+	float fastSqrt< float >(float input) {
+		return float( 1.0f/fastInvSqrt( input ) );
 	}
 
 	//-----------------------------------------------------------------
@@ -105,6 +125,58 @@ namespace math {
 	constexpr numType radToDeg(numType input) {
 		return HL_RAD2DEG(input);
 	}
+    
+	//-----------------------------------------------------------------
+    /*
+     * Fast Approximate logarithms
+     * This method was found on flipcode:
+     * http://www.flipcode.com/archives/Fast_log_Function.shtml
+     * 
+     * Accurate to within 5 decimal places
+     */
+    template < typename numType > HL_IMPERATIVE
+    numType fastLog2( numType n ) {
+        float val = (float)n;
+        int* const exp = reinterpret_cast< int* >( &val );
+        int x = *exp;
+
+        const int log2 = ( (x >> 23) & 255 ) - 128;
+
+        x &= ~(255 << 23);
+        x += 127 << 23;
+
+        *exp = x;
+        val = ((-1.f/3.f) * val+2.f) * val - 2.f / 3.f;
+        return (numType)val + log2;
+    }
+    
+	//-----------------------------------------------------------------
+    template <> HL_IMPERATIVE
+    float fastLog2< float >( float n ) {
+        int* const exp = reinterpret_cast< int* >( &n );
+        int x = *exp;
+
+        const int log2 = ( (x >> 23) & 255 ) - 128;
+
+        x &= ~(255 << 23);
+        x += 127 << 23;
+
+        *exp = x;
+        n = ((-1.f/3.f) * n+2.f) * n - 2.f / 3.f;
+        return n + log2;
+    }
+
+	//-----------------------------------------------------------------
+    template < typename numType > HL_IMPERATIVE
+    numType fastLog( numType n ) {
+        return fastLog2( n ) * 0.693147181f; // ln( 2 )
+    }
+    
+	//-----------------------------------------------------------------
+    template < typename numType > HL_IMPERATIVE
+    numType fastLogBase( numType base, numType n ) {
+        return fastLog2( n ) / fastLog2( base );
+    }
 
 }//end math namespace
 }//end hamlibs namespace

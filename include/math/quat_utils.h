@@ -251,27 +251,41 @@ math::vec3_t<numType> math::toEuler( const quat_t<numType>& q ) {
 }
 
 template <typename numType> HL_IMPERATIVE
-math::quat_t<numType> math::fromEuler( const vec3_t<numType>& angles ) {
-	const vec3_t<numType> xAxis( numType(1), numType(0), numType(0) );
-	const vec3_t<numType> yAxis( numType(0), numType(1), numType(0) );
-	const vec3_t<numType> zAxis( numType(0), numType(0), numType(1) );
+math::quat_t<numType> math::fromEuler( const math::vec3_t<numType>& angles ) {
+	numType cp ( cos( angles.v[0] * numType(0.5) ) );
+	numType sp ( sin( angles.v[0] * numType(0.5) ) );
 	
-	return
-		fromAxisAngle( zAxis, angles.v[2] ) *
-		fromAxisAngle( yAxis, angles.v[1] ) *
-		fromAxisAngle( xAxis, angles.v[0] );
+	numType cy ( cos( angles.v[1] * numType(0.5) ) );
+	numType sy ( sin( angles.v[1] * numType(0.5) ) );
+	
+	numType cr ( cos( angles.v[2] * numType(0.5) ) );
+	numType sr ( sin( angles.v[2] * numType(0.5) ) );
+	
+	return math::quat_t<numType>(
+		(sp*cy*cr) - (cp*sy*sr),
+		(cp*sy*cr) + (sp*cy*sr),
+		(cp*cy*sr) - (sp*sy*cr),
+		(cp*cy*cr) + (sp*sy*sr)
+	);
 }
 
 template <typename numType> HL_IMPERATIVE
 math::quat_t<numType> math::fromEuler( numType pitch, numType yaw, numType roll ) {
-	const vec3_t<numType> xAxis( numType(1), numType(0), numType(0) );
-	const vec3_t<numType> yAxis( numType(0), numType(1), numType(0) );
-	const vec3_t<numType> zAxis( numType(0), numType(0), numType(1) );
+	numType cp ( cos( pitch * numType(0.5) ) );
+	numType sp ( sin( pitch * numType(0.5) ) );
 	
-	return
-		fromAxisAngle( zAxis, roll ) *
-		fromAxisAngle( yAxis, yaw ) *
-		fromAxisAngle( xAxis, pitch );
+	numType cy ( cos( yaw * numType(0.5) ) );
+	numType sy ( sin( yaw * numType(0.5) ) );
+	
+	numType cr ( cos( roll * numType(0.5) ) );
+	numType sr ( sin( roll * numType(0.5) ) );
+	
+	return math::quat_t<numType>(
+		(sp*cy*cr) - (cp*sy*sr),
+		(cp*sy*cr) + (sp*cy*sr),
+		(cp*cy*sr) - (sp*sy*cr),
+		(cp*cy*cr) + (sp*sy*sr)
+	);
 }
 
 template <typename numType> HL_IMPERATIVE

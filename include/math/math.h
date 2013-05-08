@@ -23,7 +23,9 @@ namespace math {
 	#define HL_PI		3.14159265358979323846f
 	#define HL_TWO_PI	6.28318530717958647693f
 	#define HL_PI_OVR2	1.57079632679489661923f
+	#define HL_PI_OVR3	1.04719755119659774615f
 	#define HL_PI_OVR4	0.78539816339744830962f
+	#define HL_PI_OVR6	0.52359877559829887307f
 	#define HL_PI_INV	0.31830988618379067153f // 1 / pi
 	#define HL_E		2.71828182845904523536f
 	#define HL_EPSILON  1.0e-5f
@@ -43,18 +45,25 @@ namespace math {
 	//[Hopefully] Useful Typedefs
 	typedef quat_t	<float>		quatf;		//Quaternions
 	typedef quat_t	<double>	quatd;
+	typedef quat_t	<int>       quati;
 	typedef vec2_t	<float>		vec2f;		//2D vectors
 	typedef vec2_t	<double>	vec2d;
+	typedef vec2_t	<int>       vec2i;
 	typedef vec3_t	<float>		vec3f;		//3D vectors
 	typedef vec3_t	<double>	vec3d;
+	typedef vec3_t	<int>       vec3i;
 	typedef vec4_t	<float>		vec4f;		//4D vectors
 	typedef vec4_t	<double>	vec4d;
+	typedef vec4_t	<int>       vec4i;
 	typedef mat2_t	<float>		mat2f;		//2x2 matrices
 	typedef mat2_t	<double>	mat2d;
+	typedef mat2_t	<int>       mat2i;
 	typedef mat3_t	<float>		mat3f;		//3x3 matrices
 	typedef mat3_t	<double>	mat3d;
+	typedef mat3_t	<int>       mat3i;
 	typedef mat4_t	<float>		mat4f;		//4x4 matrices
 	typedef mat4_t	<double>	mat4d;
+	typedef mat4_t	<int>       mat4i;
 
 	typedef quat_t	<HL_FLOAT>	quat;
 	typedef vec2_t	<HL_FLOAT>	vec2;
@@ -132,7 +141,8 @@ namespace math {
      * This method was found on flipcode:
      * http://www.flipcode.com/archives/Fast_log_Function.shtml
      * 
-     * Accurate to within 5 decimal places
+     * Accurate to within 5 decimal places.
+     * This method relies on the IEEE floating point specification
      */
     template < typename numType > HL_IMPERATIVE
     numType fastLog2( numType n ) {

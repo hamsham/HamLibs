@@ -13,12 +13,15 @@ enum errorType : int {
 
 void HL_API assert_runtime( bool condition, errorType type, const char* msg );
 
+} /* End Utils namespace */
+} /* End HamLibs namespace */
+
 /*
  * Basic Assertion Template
  */
 #ifndef assert_basic
 	#define assert_basic( x, fileName, lineNum, type )\
-		assert_runtime(\
+		hamLibs::utils::assert_runtime(\
 			x, type,\
 			"Assertion failed"\
             " on line " HL_STRINGIFY( lineNum )\
@@ -29,7 +32,7 @@ void HL_API assert_runtime( bool condition, errorType type, const char* msg );
 
 /* Assertion Types */
 #ifndef ASSERT
-	#define ASSERT( x ) assert_basic( x, __FILE__, __LINE__, utils::ERROR )
+	#define ASSERT( x ) assert_basic( x, __FILE__, __LINE__, hamLibs::utils::ERROR )
 #endif /* ASSERT */
 
 #ifndef ASSERT_FATAL
@@ -43,8 +46,5 @@ void HL_API assert_runtime( bool condition, errorType type, const char* msg );
 #ifndef ASSERT_ALERT
 	#define ASSERT_ALERT( x ) assert_basic( x, __FILE__, __LINE__, utils::ALERT )
 #endif /* ASSERT_ALERT */
-
-} /* End Utils namespace */
-} /* End HamLibs namespace */
 
 #endif /* __HL_ASSERT_H__ */

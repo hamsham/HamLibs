@@ -11,6 +11,7 @@
  */
 
 #include <cmath>
+#include <cstdint>
 #include "../defs/preprocessor.h"
 
 #define HL_ROUND(x)		(std::floor(x + 0.5f))
@@ -33,45 +34,52 @@ namespace math {
 	//-------------------------------------------------------------
 	//				Prototypes & Declarations
 	//-------------------------------------------------------------
+    // Fixed-point numbers
+    template <typename fixedBase, unsigned fracDigits> class fixed_t;
+    
 	//Multidimensional math classes
-	template <class numType> class mat2_t;
-	template <class numType> class mat3_t;
-	template <class numType> class mat4_t;
-	template <class numType> class quat_t;
-	template <class numType> class vec2_t;
-	template <class numType> class vec3_t;
-	template <class numType> class vec4_t;
+	template <class numType>        class mat2_t;
+	template <class numType>        class mat3_t;
+	template <class numType>        class mat4_t;
+	template <class numType>        class quat_t;
+	template <class numType>        class vec2_t;
+	template <class numType>        class vec3_t;
+	template <class numType>        class vec4_t;
 
 	//[Hopefully] Useful Typedefs
-	typedef quat_t	<float>		quatf;		//Quaternions
-	typedef quat_t	<double>	quatd;
-	typedef quat_t	<int>       quati;
-	typedef vec2_t	<float>		vec2f;		//2D vectors
-	typedef vec2_t	<double>	vec2d;
-	typedef vec2_t	<int>       vec2i;
-	typedef vec3_t	<float>		vec3f;		//3D vectors
-	typedef vec3_t	<double>	vec3d;
-	typedef vec3_t	<int>       vec3i;
-	typedef vec4_t	<float>		vec4f;		//4D vectors
-	typedef vec4_t	<double>	vec4d;
-	typedef vec4_t	<int>       vec4i;
-	typedef mat2_t	<float>		mat2f;		//2x2 matrices
-	typedef mat2_t	<double>	mat2d;
-	typedef mat2_t	<int>       mat2i;
-	typedef mat3_t	<float>		mat3f;		//3x3 matrices
-	typedef mat3_t	<double>	mat3d;
-	typedef mat3_t	<int>       mat3i;
-	typedef mat4_t	<float>		mat4f;		//4x4 matrices
-	typedef mat4_t	<double>	mat4d;
-	typedef mat4_t	<int>       mat4i;
+    typedef fixed_t<int32_t, 8>     lowp_t;     // 24.8
+    typedef fixed_t<int32_t, 16>    medp_t;     // 16.16
+    typedef fixed_t<int32_t, 24>    highp_t;    // 8.24
+    
+	typedef quat_t	<float>         quatf;		//Quaternions
+	typedef quat_t	<double>        quatd;
+	typedef quat_t	<int>           quati;
+	typedef vec2_t	<float>         vec2f;		//2D vectors
+	typedef vec2_t	<double>        vec2d;
+	typedef vec2_t	<int>           vec2i;
+	typedef vec3_t	<float>         vec3f;		//3D vectors
+	typedef vec3_t	<double>        vec3d;
+	typedef vec3_t	<int>           vec3i;
+	typedef vec4_t	<float>         vec4f;		//4D vectors
+	typedef vec4_t	<double>        vec4d;
+	typedef vec4_t	<int>           vec4i;
+	typedef mat2_t	<float>         mat2f;		//2x2 matrices
+	typedef mat2_t	<double>        mat2d;
+	typedef mat2_t	<int>           mat2i;
+	typedef mat3_t	<float>         mat3f;		//3x3 matrices
+	typedef mat3_t	<double>        mat3d;
+	typedef mat3_t	<int>           mat3i;
+	typedef mat4_t	<float>         mat4f;		//4x4 matrices
+	typedef mat4_t	<double>        mat4d;
+	typedef mat4_t	<int>           mat4i;
 
-	typedef quat_t	<HL_FLOAT>	quat;
-	typedef vec2_t	<HL_FLOAT>	vec2;
-	typedef vec3_t	<HL_FLOAT>	vec3;
-	typedef vec4_t	<HL_FLOAT>	vec4;
-	typedef mat2_t	<HL_FLOAT>	mat2;
-	typedef mat3_t	<HL_FLOAT>	mat3;
-	typedef mat4_t	<HL_FLOAT>	mat4;
+	typedef quat_t	<HL_FLOAT>      quat;
+	typedef vec2_t	<HL_FLOAT>      vec2;
+	typedef vec3_t	<HL_FLOAT>      vec3;
+	typedef vec4_t	<HL_FLOAT>      vec4;
+	typedef mat2_t	<HL_FLOAT>      mat2;
+	typedef mat3_t	<HL_FLOAT>      mat3;
+	typedef mat4_t	<HL_FLOAT>      mat4;
 	
 	template <typename numType>	inline      numType fastSqrt(numType);
 	template <typename numType>	inline      numType fastInvSqrt(numType);
@@ -191,7 +199,7 @@ namespace math {
 }//end math namespace
 }//end hamlibs namespace
 
-//#include "math/fixed.h"
+#include "fixed.h"
 #include "matrix2.h"
 #include "matrix3.h"
 #include "matrix4.h"

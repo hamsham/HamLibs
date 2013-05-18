@@ -38,13 +38,6 @@
  */
 #define HL_NULL nullptr
 
-/*
- * Floating Point Values & Precision
- */
-#ifndef HL_FLOAT
-	#define HL_FLOAT float
-#endif
-
 #define HL_SQRT( x ) std::sqrt( x )
 //#define HL_SQRT( x ) hamLibs::math::fastSqrt( x )
 

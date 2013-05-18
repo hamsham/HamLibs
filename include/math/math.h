@@ -14,22 +14,48 @@
 #include <cstdint>
 #include "../defs/preprocessor.h"
 
-#define HL_ROUND(x)		(std::floor(x + 0.5f))
-#define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
-#define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
+/*
+ * Floating Point Values & Precision
+ */
+#ifdef HL_HIGH_PRECISION
+	#define HL_FLOAT        double
+    #define HL_INT          int64_t
+
+    #define HL_ROUND(x)		(std::floor(x + 0.5))
+    #define HL_DEG2RAD(x)	(x * 0.01745329251994329577) // x * (PI / 180)
+    #define HL_RAD2DEG(x)	(x * 57.2957795130823208768) // x * (180 / PI)
+
+    #define HL_PI           3.14159265358979323846
+    #define HL_TWO_PI       6.28318530717958647693
+    #define HL_PI_OVR2      1.57079632679489661923
+    #define HL_PI_OVR3      1.04719755119659774615
+    #define HL_PI_OVR4      0.78539816339744830962
+    #define HL_PI_OVR6      0.52359877559829887307
+    #define HL_PI_INV       0.31830988618379067153 // 1 / pi
+    #define HL_E            2.71828182845904523536
+    #define HL_EPSILON      1.0e-9
+
+#else
+	#define HL_FLOAT        float
+    #define HL_INT          int32_t
+
+    #define HL_ROUND(x)		(std::floor(x + 0.5f))
+    #define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
+    #define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
+
+    #define HL_PI           3.14159265358979323846f
+    #define HL_TWO_PI       6.28318530717958647693f
+    #define HL_PI_OVR2      1.57079632679489661923f
+    #define HL_PI_OVR3      1.04719755119659774615f
+    #define HL_PI_OVR4      0.78539816339744830962f
+    #define HL_PI_OVR6      0.52359877559829887307f
+    #define HL_PI_INV       0.31830988618379067153f // 1 / pi
+    #define HL_E            2.71828182845904523536f
+    #define HL_EPSILON      1.0e-5f
+#endif
 
 namespace hamLibs {
 namespace math {
-
-	#define HL_PI		3.14159265358979323846f
-	#define HL_TWO_PI	6.28318530717958647693f
-	#define HL_PI_OVR2	1.57079632679489661923f
-	#define HL_PI_OVR3	1.04719755119659774615f
-	#define HL_PI_OVR4	0.78539816339744830962f
-	#define HL_PI_OVR6	0.52359877559829887307f
-	#define HL_PI_INV	0.31830988618379067153f // 1 / pi
-	#define HL_E		2.71828182845904523536f
-	#define HL_EPSILON  1.0e-5f
 
 	//-------------------------------------------------------------
 	//				Prototypes & Declarations
@@ -47,13 +73,13 @@ namespace math {
 	template <class numType>        class vec4_t;
 
 	//[Hopefully] Useful Typedefs
-    typedef fixed_t<int32_t, 8>     lowp_t;     // 24.8
-    typedef fixed_t<int32_t, 16>    medp_t;     // 16.16
-    typedef fixed_t<int32_t, 24>    highp_t;    // 8.24
+    typedef fixed_t<int32_t, 7>     lowp_t;         // 24.7 (-1 for the sign-bit)
+    typedef fixed_t<int32_t, 15>    medp_t;         // 16.15
+    typedef fixed_t<int32_t, 23>    highp_t;        // 8.23
     
-    typedef fixed_t<int64_t, 16>    long_lowp_t;    // 48.16
-    typedef fixed_t<int64_t, 32>    long_medp_t;    // 32.32
-    typedef fixed_t<int64_t, 48>    long_highp_t;   // 16.48
+    typedef fixed_t<int64_t, 15>    long_lowp_t;    // 48.16
+    typedef fixed_t<int64_t, 31>    long_medp_t;    // 32.32
+    typedef fixed_t<int64_t, 47>    long_highp_t;   // 16.48
     
 	typedef quat_t	<float>         quatf;		//Quaternions
 	typedef quat_t	<double>        quatd;
@@ -83,7 +109,11 @@ namespace math {
 	typedef mat4_t	<double>        mat4d;
 	typedef mat4_t	<int>           mat4i;
 	typedef mat4_t	<medp_t>        mat4Fixed;
-
+    
+    typedef fixed_t <HL_INT, 7>     lowp;       // 24.7 (-1 for the sign-bit)
+    typedef fixed_t <HL_INT, 15>    medp;       // 16.15
+    typedef fixed_t <HL_INT, 23>    highp;      // 8.23
+    
 	typedef quat_t	<HL_FLOAT>      quat;
 	typedef vec2_t	<HL_FLOAT>      vec2;
 	typedef vec3_t	<HL_FLOAT>      vec3;

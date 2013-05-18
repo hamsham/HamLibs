@@ -7,41 +7,39 @@ namespace containers {
 //---------------------------------------------------------------------
 //			Misc functions not intended for external use
 //---------------------------------------------------------------------
-namespace {
-	inline hlSize_t getStrLen(const char* str) {
-		if (!str) return 0;
-		register hlSize_t iter = 0;
-		while (str[iter]) ++iter;
-		return iter;
-	}
-	
-	inline void copyStr(char* dest, const char* src, hlSize_t size) {
-		while (size--) dest[size] = src[size];
-	}
-	
-	inline void copyStr(char* dest, const char* src, hlSize_t size, hlSize_t destOffset) {
-		while (size--) dest[size] = src[size+destOffset];
-	}
-	
-	//forward-iterating comparisons
-	inline bool cmpStr(const char* str1, hlSize_t offset, const char* str2, hlSize_t size) {
-		hlSize_t pos(0);
-		while (pos != size) {
-			if (str1[pos+offset] ^ str2[pos]) return false;
-			++pos;
-		}
-		return true;
-	}
-	
-	//reverse-iterating comparisons
-	bool rCmpStr (const char* haystack, hlSize_t offset, const char* needle, hlSize_t nSize) {
-		while (nSize) {
-			--nSize;
-			if (haystack[offset--] ^ needle[nSize]) return false;
-		}
-		return true;
-	}
-} //end anonymous namespace
+inline hlSize_t getStrLen(const char* str) {
+    if (!str) return 0;
+    register hlSize_t iter = 0;
+    while (str[iter]) ++iter;
+    return iter;
+}
+
+inline void copyStr(char* dest, const char* src, hlSize_t size) {
+    while (size--) dest[size] = src[size];
+}
+
+inline void copyStr(char* dest, const char* src, hlSize_t size, hlSize_t destOffset) {
+    while (size--) dest[size] = src[size+destOffset];
+}
+
+//forward-iterating comparisons
+inline bool cmpStr(const char* str1, hlSize_t offset, const char* str2, hlSize_t size) {
+    hlSize_t pos(0);
+    while (pos != size) {
+        if (str1[pos+offset] ^ str2[pos]) return false;
+        ++pos;
+    }
+    return true;
+}
+
+//reverse-iterating comparisons
+bool rCmpStr (const char* haystack, hlSize_t offset, const char* needle, hlSize_t nSize) {
+    while (nSize) {
+        --nSize;
+        if (haystack[offset--] ^ needle[nSize]) return false;
+    }
+    return true;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //					HamString Class

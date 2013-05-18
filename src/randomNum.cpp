@@ -2,11 +2,7 @@
 #include <ctime>
 #include "../include/hamLibs.h"
 
-namespace {
-    inline constexpr unsigned long getMaxULong() {
-        return 0UL - 1;
-    }
-}
+constexpr unsigned long getMaxULong() { return 0UL - 1; }
 
 namespace hamLibs {
 namespace utils {

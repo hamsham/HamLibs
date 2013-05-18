@@ -16,10 +16,11 @@
 namespace hamLibs {
 namespace containers {
 
-typedef const char* const cstr;
-
 template <typename type>
 class dictionary {
+
+    typedef const char* const cstr;
+    
 	private:
 		struct node {
 			type*	definition;

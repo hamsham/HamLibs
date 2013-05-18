@@ -51,27 +51,38 @@ namespace math {
     typedef fixed_t<int32_t, 16>    medp_t;     // 16.16
     typedef fixed_t<int32_t, 24>    highp_t;    // 8.24
     
+    typedef fixed_t<int64_t, 16>    long_lowp_t;    // 48.16
+    typedef fixed_t<int64_t, 32>    long_medp_t;    // 32.32
+    typedef fixed_t<int64_t, 48>    long_highp_t;   // 16.48
+    
 	typedef quat_t	<float>         quatf;		//Quaternions
 	typedef quat_t	<double>        quatd;
 	typedef quat_t	<int>           quati;
+	typedef quat_t	<medp_t>        quatFixed;
 	typedef vec2_t	<float>         vec2f;		//2D vectors
 	typedef vec2_t	<double>        vec2d;
 	typedef vec2_t	<int>           vec2i;
+	typedef vec2_t	<medp_t>        vec2Fixed;
 	typedef vec3_t	<float>         vec3f;		//3D vectors
 	typedef vec3_t	<double>        vec3d;
 	typedef vec3_t	<int>           vec3i;
+	typedef vec3_t	<medp_t>        vec3Fixed;
 	typedef vec4_t	<float>         vec4f;		//4D vectors
 	typedef vec4_t	<double>        vec4d;
 	typedef vec4_t	<int>           vec4i;
+	typedef vec4_t	<medp_t>        vec4Fixed;
 	typedef mat2_t	<float>         mat2f;		//2x2 matrices
 	typedef mat2_t	<double>        mat2d;
 	typedef mat2_t	<int>           mat2i;
+	typedef mat2_t	<medp_t>        mat2Fixed;
 	typedef mat3_t	<float>         mat3f;		//3x3 matrices
 	typedef mat3_t	<double>        mat3d;
 	typedef mat3_t	<int>           mat3i;
+	typedef mat3_t	<medp_t>        mat3Fixed;
 	typedef mat4_t	<float>         mat4f;		//4x4 matrices
 	typedef mat4_t	<double>        mat4d;
 	typedef mat4_t	<int>           mat4i;
+	typedef mat4_t	<medp_t>        mat4Fixed;
 
 	typedef quat_t	<HL_FLOAT>      quat;
 	typedef vec2_t	<HL_FLOAT>      vec2;

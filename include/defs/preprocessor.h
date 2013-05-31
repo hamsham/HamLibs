@@ -33,12 +33,4 @@
 #define HL_MAX( x, y ) (( x > y) ? x : y )
 #define HL_MIN( x, y ) (( x < y) ? x : y )
 
-/*
- * Pointer Handling
- */
-#define HL_NULL nullptr
-
-#define HL_SQRT( x ) std::sqrt( x )
-//#define HL_SQRT( x ) hamLibs::math::fastSqrt( x )
-
 #endif /* __HL_PREPROCESSOR_H__ */

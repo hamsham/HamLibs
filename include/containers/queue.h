@@ -16,10 +16,10 @@ class queue {
 	private:
 		struct node {
 			type data;
-			node *next = HL_NULL;
+			node *next = nullptr;
 		};
-		node		*first = HL_NULL;		//List navigation
-		node		*last = HL_NULL;
+		node		*first = nullptr;		//List navigation
+		node		*last = nullptr;
 		hlSize_t	numNodes;
 		
 		
@@ -47,8 +47,8 @@ class queue {
 //-----------------------------------------------------------------------------
 template <typename type> HL_INLINE
 queue<type>::queue() :
-	first( HL_NULL ),
-	last( HL_NULL ),
+	first( nullptr ),
+	last( nullptr ),
 	numNodes( 0 )
 {}
 
@@ -62,19 +62,19 @@ queue<type>::~queue() {
 //-----------------------------------------------------------------------------
 template <typename type>
 type* queue<type>::front() const {
-	return (first) ? (&first->data) : HL_NULL;
+	return (first) ? (&first->data) : nullptr;
 }
 
 template <typename type>
 type* queue<type>::peekNext() const {
 	if (first && first->next)
 		return &(first->next->data);
-	return HL_NULL;
+	return nullptr;
 }
 
 template <typename type>
 type* queue<type>::back() const {
-	return (last) ? &(last->data) : HL_NULL;
+	return (last) ? &(last->data) : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -97,7 +97,7 @@ void queue<type>::push(const type& object) {
 //-----------------------------------------------------------------------------
 template <typename type>
 void queue<type>::pop() {
-	if (first == HL_NULL)
+	if (first == nullptr)
 		return;
 	
 	node* temp( first->next );
@@ -105,13 +105,13 @@ void queue<type>::pop() {
 	--numNodes;
 	
 	first = temp;	
-	if (first == HL_NULL)
-		last = HL_NULL;
+	if (first == nullptr)
+		last = nullptr;
 }
 
 template <typename type>
 void queue<type>::clear() {
-	while (first != HL_NULL) {
+	while (first != nullptr) {
 		pop();
 	}
 }
@@ -126,7 +126,7 @@ hlSize_t queue<type>::size() const {
 
 template <typename type>
 bool queue<type>::empty() const {
-	return (first == HL_NULL) ? true : false;
+	return (first == nullptr) ? true : false;
 }
 
 } //end containers namespace

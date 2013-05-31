@@ -183,25 +183,29 @@ vec2_t<numType> vec2_t<numType>::operator / (const vec2_t<numType>& input) const
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator += (const vec2_t<numType>& input) {
-	*this = *this + input;
+	v[0] += input.v[0];
+	v[1] += input.v[1];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator -= (const vec2_t<numType>& input) {
-	*this = *this - input;
+	v[0] -= input.v[0];
+	v[1] -= input.v[1];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator *= (const vec2_t<numType>& input) {
-	*this = *this * input;
+	v[0] *= input.v[0];
+	v[1] *= input.v[1];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator /= (const vec2_t<numType>& input) {
-	*this = *this / input;
+	v[0] /= input.v[0];
+	v[1] /= input.v[1];
 	return *this;
 }
 
@@ -349,22 +353,26 @@ vec2_t<numType> vec2_t<numType>::operator / (numType input) const {
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator += (numType input) {
-	*this = *this + input;
+    v[0] += input;
+    v[1] += input;
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator -= (numType input) {
-	*this = *this - input;
+    v[0] -= input;
+    v[1] -= input;
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator *= (numType input) {
-	*this = *this * input;
+    v[0] *= input;
+    v[1] *= input;
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec2_t<numType>& vec2_t<numType>::operator /= (numType input) {
-	*this = *this / input;
+    v[0] /= input;
+    v[1] /= input;
 	return *this;
 }
 

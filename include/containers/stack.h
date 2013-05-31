@@ -45,7 +45,7 @@ class stack {
 //			Construction & Destruction
 //-----------------------------------------------------------------------------
 template <typename type>
-const typename stack<type>::node stack<type>::bottom = {HL_NULL, HL_NULL};
+const typename stack<type>::node stack<type>::bottom = {nullptr, nullptr};
 
 template <typename type>
 stack<type>::stack() {
@@ -68,7 +68,7 @@ type* stack<type>::top() const {
 
 template <typename type>
 type* stack<type>::peekNext() const {
-	return (iter->next) ? iter->next->data : HL_NULL;
+	return (iter->next) ? iter->next->data : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -100,7 +100,7 @@ void stack<type>::pop() {
 
 template <typename type>
 void stack<type>::clear() {
-	while (iter->data != HL_NULL) {
+	while (iter->data != nullptr) {
 		pop();
 	}
 }

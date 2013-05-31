@@ -27,7 +27,7 @@ void logger::setLogState(bool state) {
 }
 
 void logger::log(const char* info2Log, ...) {
-	if (logFile == HL_NULL || isLogging == false) return;
+	if (logFile == nullptr || isLogging == false) return;
 	std::ostream& output = *logFile;
 	
 	va_list args;

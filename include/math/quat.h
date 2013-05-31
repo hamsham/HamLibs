@@ -205,20 +205,25 @@ quat_t<numType>& quat_t<numType>::operator = (quat_t<numType>&& input) {
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator += (const quat_t<numType>& input) {
-	*this = *this + input;
+	q[0] += input.q[0];
+	q[1] += input.q[1];
+	q[2] += input.q[2];
+	q[3] += input.q[3];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator -= (const quat_t<numType>& input) {
-	*this = *this - input;
+	q[0] -= input.q[0];
+	q[1] -= input.q[1];
+	q[2] -= input.q[2];
+	q[3] -= input.q[3];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator *= (const quat_t<numType>& input) {
-	*this = *this * input;
-	return *this;
+	return *this = *this * input;
 }
 
 template <typename numType> HL_IMPERATIVE
@@ -295,59 +300,39 @@ quat_t<numType>& quat_t<numType>::operator = (numType input) {
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator += (numType input) {
-	*this = *this + input;
+	q[0] += input;
+	q[1] += input;
+	q[2] += input;
+	q[3] += input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator -= (numType input) {
-	*this = *this - input;
+	q[0] -= input;
+	q[1] -= input;
+	q[2] -= input;
+	q[3] -= input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator *= (numType input) {
-	*this = *this * input;
+	q[0] *= input;
+	q[1] *= input;
+	q[2] *= input;
+	q[3] *= input;
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 quat_t<numType>& quat_t<numType>::operator /= (numType input) {
-	*this = *this / input;
+	q[0] /= input;
+	q[1] /= input;
+	q[2] /= input;
+	q[3] /= input;
 	return *this;
 }
-
-/*
-//more code found on:
-//http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
-template <typename numType> HL_IMPERATIVE
-void quat_t<numType>::toEuler(numType& yaw, numType& pitch, numType& roll) const {
-	numType sqw = w*w;
-	numType sqx = x*x;
-	numType sqy = y*y;
-	numType sqz = z*z;
-	numType unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
-	numType test = x*y + z*w;
-	
-	if (test > HL_EPSILON*unit) { // singularity at north pole
-		pitch = numType(2) * atan2(x,w);
-		yaw = HL_PI_OVR2;
-		roll = 0;
-		return;
-	}
-	else if (test < -HL_EPSILON*unit) { // singularity at south pole
-		pitch = numType(-2) * atan2(x,w);
-		yaw = -HL_PI_OVR2;
-		roll = numType(0);
-		return;
-	}
-	else {
-		pitch = atan2((numType(2)*(y*w))-(numType(2)*(x*z)), sqx - sqy - sqz + sqw);
-		yaw = asin(numType(2)*test/unit);
-		roll = atan2((numType(2)*(x*w))-(numType(2)*(w*z)), -sqx + sqy - sqz + sqw);
-	}
-}
-*/
 
 } //end math namespace
 } //end hamlibs namespace

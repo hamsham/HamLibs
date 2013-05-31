@@ -190,7 +190,7 @@
 #endif
 
 #ifndef HL_IMPERATIVE
-	#define HL_IMPERATIVE HL_INLINE HL_FASTCALL
+	#define HL_IMPERATIVE inline /* HL_FASTCALL*/
 #endif
 
 /*

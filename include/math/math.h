@@ -24,6 +24,7 @@
     #define HL_ROUND(x)		(std::floor(x + 0.5))
     #define HL_DEG2RAD(x)	(x * 0.01745329251994329577) // x * (PI / 180)
     #define HL_RAD2DEG(x)	(x * 57.2957795130823208768) // x * (180 / PI)
+    #define HL_SQRT( x )    sqrt( x )
 
     #define HL_PI           3.14159265358979323846
     #define HL_TWO_PI       6.28318530717958647693
@@ -42,6 +43,7 @@
     #define HL_ROUND(x)		(std::floor(x + 0.5f))
     #define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
     #define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
+    #define HL_SQRT( x )    sqrtf( x )
 
     #define HL_PI           3.14159265358979323846f
     #define HL_TWO_PI       6.28318530717958647693f

@@ -197,25 +197,37 @@ vec4_t<numType> vec4_t<numType>::operator / (const vec4_t<numType>& input) const
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator += (const vec4_t<numType>& input) {
-	*this = *this + input;
+    v[0] += input.v[0];
+    v[1] += input.v[1];
+    v[2] += input.v[2];
+    v[3] += input.v[3];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator -= (const vec4_t<numType>& input) {
-	*this = *this - input;
+    v[0] -= input.v[0];
+    v[1] -= input.v[1];
+    v[2] -= input.v[2];
+    v[3] -= input.v[3];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator *= (const vec4_t<numType>& input) {
-	*this = *this * input;
+    v[0] *= input.v[0];
+    v[1] *= input.v[1];
+    v[2] *= input.v[2];
+    v[3] *= input.v[3];
 	return *this;
 }
 
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator /= (const vec4_t<numType>& input) {
-	*this = *this / input;
+    v[0] /= input.v[0];
+    v[1] /= input.v[1];
+    v[2] /= input.v[2];
+    v[3] /= input.v[3];
 	return *this;
 }
 
@@ -400,22 +412,34 @@ vec4_t<numType> vec4_t<numType>::operator / (numType input) const {
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator += (numType input) {
-	*this = *this + input;
+    v[0] += input.v[0];
+    v[1] += input.v[1];
+    v[2] += input.v[2];
+    v[3] += input.v[3];
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator -= (numType input) {
-	*this = *this - input;
+    v[0] -= input.v[0];
+    v[1] -= input.v[1];
+    v[2] -= input.v[2];
+    v[3] -= input.v[3];
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator *= (numType input) {
-	*this = *this * input;
+    v[0] *= input.v[0];
+    v[1] *= input.v[1];
+    v[2] *= input.v[2];
+    v[3] *= input.v[3];
 	return *this;
 }
 template <typename numType> HL_IMPERATIVE
 vec4_t<numType>& vec4_t<numType>::operator /= (numType input) {
-	*this = *this / input;
+    v[0] /= input.v[0];
+    v[1] /= input.v[1];
+    v[2] /= input.v[2];
+    v[3] /= input.v[3];
 	return *this;
 }
 

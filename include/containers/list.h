@@ -59,11 +59,11 @@ class list {
 		void		goToPrev	();			//move iter to the previous node in the list if it's not at the beginning
 
 		//data acquisition
-		type*		getFirst	() const;		//get the first item. returns HL_NULL if no objects exist within the list. Does not move the iterator
-		type*		getLast		() const;		//get the last item. returns HL_NULL if no objects exist within the list. Does not move the iterator.
-		type*		getCurrent	() const;		//get currently selected item. returns HL_NULL if no objects exist within the list
-		type*		getNext		() const;		//increment selection ("iter") pointer, return its data (returns HL_NULL if at the end of the list)
-		type*		getPrev		() const;		//decrement selection ("iter") pointer, return its data (returns HL_NULL if at the end of the list)
+		type*		getFirst	() const;		//get the first item. returns nullptr if no objects exist within the list. Does not move the iterator
+		type*		getLast		() const;		//get the last item. returns nullptr if no objects exist within the list. Does not move the iterator.
+		type*		getCurrent	() const;		//get currently selected item. returns nullptr if no objects exist within the list
+		type*		getNext		() const;		//increment selection ("iter") pointer, return its data (returns nullptr if at the end of the list)
+		type*		getPrev		() const;		//decrement selection ("iter") pointer, return its data (returns nullptr if at the end of the list)
 		type*		peekNext	() const;		//get the next item in the list without incrementing the "iter" pointer
 		type*		peekPrev	() const;
 
@@ -90,8 +90,8 @@ class list {
 template <typename type>
 list<type>::node::node() :
 	data(),
-	next(HL_NULL),
-	prev(HL_NULL)
+	next(nullptr),
+	prev(nullptr)
 {}
 
 template <typename type>
@@ -178,7 +178,7 @@ type* list<type>::getNext() const {
 		return &(iter->data);
 	}
 	else {
-		return HL_NULL;
+		return nullptr;
 	}
 }
 
@@ -189,7 +189,7 @@ type* list<type>::getPrev() const {
 		return &(iter->data);
 	}
 	else {
-		return HL_NULL;
+		return nullptr;
 	}
 }
 

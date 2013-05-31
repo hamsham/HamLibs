@@ -262,10 +262,10 @@ math::quat_t<numType> math::fromEuler( const math::vec3_t<numType>& angles ) {
 	numType sr ( sin( angles.v[2] * numType(0.5) ) );
 	
 	return math::quat_t<numType>(
-		(sp*cy*cr) - (cp*sy*sr),
-		(cp*sy*cr) + (sp*cy*sr),
-		(cp*cy*sr) - (sp*sy*cr),
-		(cp*cy*cr) + (sp*sy*sr)
+		(sy*cp*cr) - (cy*sp*sr),
+		(cy*sp*cr) + (sy*cp*sr),
+		(cy*cp*sr) - (sy*sp*cr),
+		(cy*cp*cr) + (sy*sp*sr)
 	);
 }
 
@@ -281,10 +281,10 @@ math::quat_t<numType> math::fromEuler( numType pitch, numType yaw, numType roll 
 	numType sr ( sin( roll * numType(0.5) ) );
 	
 	return math::quat_t<numType>(
-		(sp*cy*cr) - (cp*sy*sr),
-		(cp*sy*cr) + (sp*cy*sr),
-		(cp*cy*sr) - (sp*sy*cr),
-		(cp*cy*cr) + (sp*sy*sr)
+		(sy*cp*cr) - (cy*sp*sr),
+		(cy*sp*cr) + (sy*cp*sr),
+		(cy*cp*sr) - (sy*sp*cr),
+		(cy*cp*cr) + (sy*sp*sr)
 	);
 }
 

@@ -42,6 +42,10 @@ template <typename numType> HL_IMPERATIVE quat_t<numType>	matToQuat( const mat4_
 //-----------------------------------------------------------------------------
 //		Quaternions & Euler Angles
 //-----------------------------------------------------------------------------
+template <typename numType> HL_IMPERATIVE vec3_t<numType>   getAxisX( const quat_t<numType>& ); // Right-Vector
+template <typename numType> HL_IMPERATIVE vec3_t<numType>   getAxisY( const quat_t<numType>& ); // Up-Vector
+template <typename numType> HL_IMPERATIVE vec3_t<numType>   getAxisZ( const quat_t<numType>& ); // Forwards Vector
+
 template <typename numType> HL_IMPERATIVE numType			getAngle( const quat_t<numType>& );
 
 template <typename numType> HL_IMPERATIVE vec3_t<numType>	toEuler( const quat_t<numType>& );
@@ -220,6 +224,33 @@ math::quat_t<numType> math::matToQuat( const mat4_t<numType>& m ) {
 //-----------------------------------------------------------------------------
 //		quat_t<numType>s & Euler Angles
 //-----------------------------------------------------------------------------
+template <typename numType> HL_IMPERATIVE
+math::vec3_t<numType> getAxisX( const math::quat_t<numType>& q ) {
+    return math::vec3_t<numType>(
+        numType(1) - numType(2) * (q[1] * q[1] + q[2] * q[2]),
+        numType(2) * (q[0] * q[1] + q[3] * q[2]),
+        numType(2) * (q[0] * q[2] - q[3] * q[1])
+    );
+}
+
+template <typename numType> HL_IMPERATIVE
+math::vec3_t<numType> getAxisY( const math::quat_t<numType>& q ) {
+    return math::vec3_t<numType>(
+        numType(2) * (q[0] * q[1] - q[3] * q[2]),
+        numType(1) - numType(2) * (q[0] * q[0] + q[2] * q[2]),
+        numType(2) * (q[1] * q[2] + q[3] * q[0])
+    );
+}
+
+template <typename numType> HL_IMPERATIVE
+math::vec3_t<numType> getAxisZ( const math::quat_t<numType>& q ) {
+    return math::vec3_t<numType>(
+        numType(2) * (q[0] * q[2] + q[3] * q[1]),
+        numType(2) * (q[1] * q[0] - q[3] * q[0]),
+        numType(1) - numType(2) * (q[0] * q[0] + q[1] * q[1])
+    );
+}
+
 template <typename numType> HL_IMPERATIVE
 numType math::getAngle( const quat_t<numType>& q ) {
 	return numType( std::acos( q.q[3] * numType(2) ) );

@@ -2,6 +2,8 @@
 #ifndef __HL_ASSERT_H__
 #define __HL_ASSERT_H__
 
+#include "../defs/preprocessor.h"
+
 namespace hamLibs {
 namespace utils {
 
@@ -11,7 +13,7 @@ enum errorType : int {
 	ERROR // prints to std::cerr, throws an exception of type int
 };
 
-void HL_API assert_runtime( bool condition, errorType type, const char* msg );
+void assert_runtime( bool condition, errorType type, const char* msg );
 
 } /* End Utils namespace */
 } /* End HamLibs namespace */
@@ -31,20 +33,16 @@ void HL_API assert_runtime( bool condition, errorType type, const char* msg );
 #endif /* assert_basic */
 
 /* Assertion Types */
-#ifndef ASSERT
-	#define ASSERT( x ) assert_basic( x, __FILE__, __LINE__, hamLibs::utils::ERROR )
+#ifndef HL_ASSERT
+	#define HL_ASSERT( x ) assert_basic( x, __FILE__, __LINE__, hamLibs::utils::ERROR )
 #endif /* ASSERT */
 
-#ifndef ASSERT_FATAL
-	#define ASSERT_FATAL( x ) ASSERT( x )
-#endif /* ASSERT_FATAL */
-
-#ifndef ASSERT_WARN
-	#define ASSERT_WARN( x ) assert_basic( x, __FILE__, __LINE__, utils::WARNING )
+#ifndef HL_WARN
+	#define HL_WARN( x ) assert_basic( x, __FILE__, __LINE__, utils::WARNING )
 #endif /* ASSERT_WARN */
 
-#ifndef ASSERT_ALERT
-	#define ASSERT_ALERT( x ) assert_basic( x, __FILE__, __LINE__, utils::ALERT )
+#ifndef HL_ALERT
+	#define HL_ALERT( x ) assert_basic( x, __FILE__, __LINE__, utils::ALERT )
 #endif /* ASSERT_ALERT */
 
 #endif /* __HL_ASSERT_H__ */

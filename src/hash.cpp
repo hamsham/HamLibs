@@ -1,6 +1,6 @@
 
 #include <locale>
-#include "../include/hamLibs.h"
+#include "../include/utils/hash.h"
 
 namespace hamLibs {
 namespace utils {

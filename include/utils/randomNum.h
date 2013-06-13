@@ -11,7 +11,7 @@
 namespace hamLibs {
 namespace utils {
 
-class HL_API randomNum {
+class randomNum {
     private:
         unsigned long state[ 16 ];
         unsigned int index;

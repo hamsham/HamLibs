@@ -7,8 +7,7 @@
 #ifndef __HL_DYNAMIC_ARRAY_H__
 #define __HL_DYNAMIC_ARRAY_H__
 
-#include "../defs/preprocessor.h"
-#include "../defs/types.h"
+#include "../utils/assert.h"
 
 namespace hamLibs {
 namespace containers {
@@ -17,13 +16,13 @@ template <typename type>
 class array {
 	private:
 		type* Array;
-		hlSize_t Size;
+		int Size;
 
 	public:
 		array				();
-		array				(hlSize_t numItems);
+		array				(int numItems);
 		array				(const type& data);
-		array				(const type& data, hlSize_t numCopies);
+		array				(const type& data, int numCopies);
 		array				(const array& copy);
 		~array				();
 
@@ -33,19 +32,19 @@ class array {
 		array	operator +	(const array& input) const;
 		bool		operator ==	(const array& compare) const;
 		bool		operator !=	(const array& compare) const;
-		type&		operator []	(hlSize_t);
-		type		operator []	(hlSize_t) const;
+		type&		operator []	(int);
+		type		operator []	(int) const;
 
 		//deletion
 		void		popFront	();
 		void		popBack		();
-		void		pop			(hlSize_t index);
+		void		pop			(int index);
 
 		//insertion
 		void		pushFront	(const type& data);
 		void		pushBack	(const type& data);
-		void		push		(hlSize_t index, const type& data);
-		void		pushAfter	(hlSize_t index, const type& data);
+		void		push		(int index, const type& data);
+		void		pushAfter	(int index, const type& data);
 
 		//traversal
 		type&		front		();
@@ -54,10 +53,10 @@ class array {
 		//miscellaneous
 		static void	copy		(array& dest, const array& source);
 		static void	append		(array& dest, const array& source);
-		void		resize		(hlSize_t newSize);
+		void		resize		(int newSize);
 		void		clear		();
 		bool		empty		() const;
-		hlSize_t	size		() const;
+		int	size		() const;
 		type*		data		() const;
 };
 
@@ -71,7 +70,7 @@ array<type>::array() {
 }
 
 template <typename type>
-array<type>::array(hlSize_t numItems) {
+array<type>::array(int numItems) {
 	Size = numItems;
 	Array = new type[numItems];
 }
@@ -94,7 +93,7 @@ array<type>::array(const type& data) {
 }
 
 template <typename type>
-array<type>::array(const type& data, hlSize_t numCopies) {
+array<type>::array(const type& data, int numCopies) {
 	Array = new type[numCopies];
 	Size = 0;
 	while (Size < numCopies) {
@@ -133,7 +132,7 @@ array<type> array<type>::operator + (const array& input) const {
 template <typename type>
 bool array<type>::operator == (const array& compare) const {
 	if (Size != compare.Size) return false;
-	hlSize_t iter = 0;
+	int iter = 0;
 	while (iter < Size) {
 		if (Array[iter] != compare.Array[iter])
 			return false;
@@ -145,7 +144,7 @@ bool array<type>::operator == (const array& compare) const {
 template <typename type>
 bool array<type>::operator != (const array& compare) const {
 	if (Size != compare.Size) return true;
-	hlSize_t iter = 0;
+	int iter = 0;
 	while (iter < Size) {
 		if (Array[iter] != compare.Array[iter])
 			return true;
@@ -155,13 +154,13 @@ bool array<type>::operator != (const array& compare) const {
 }
 
 template <typename type>
-type& array<type>::operator [] (hlSize_t index) {
+type& array<type>::operator [] (int index) {
 	HL_ASSERT(index >= 0);
 	return Array[index];
 }
 
 template <typename type>
-type array<type>::operator [] (hlSize_t index) const {
+type array<type>::operator [] (int index) const {
 	HL_ASSERT(index >= 0);
 	return Array[index];
 }
@@ -172,7 +171,7 @@ type array<type>::operator [] (hlSize_t index) const {
 template <typename type>
 void array<type>::popFront() {
 	if (!Size) return;
-	hlSize_t i = 0;
+	int i = 0;
 	--Size;
 	type* temp = new type[Size];
 	while (i < Size) {
@@ -187,7 +186,7 @@ template <typename type>
 void array<type>::popBack() {
 	if (!Size) return;
 	--Size;
-	hlSize_t i = 0;
+	int i = 0;
 	type* temp = new type[Size];
 	while (i < Size) {
 		temp[i] = Array[i];
@@ -198,12 +197,12 @@ void array<type>::popBack() {
 }
 
 template <typename type>
-void array<type>::pop(hlSize_t index) {
+void array<type>::pop(int index) {
 	if (Size == 0 || index >= Size) return;
 	
 	--Size;
-	hlSize_t i = 0;
-	hlSize_t j = 0;
+	int i = 0;
+	int j = 0;
 	type* temp = new type[Size];
 	while (i < Size) {
 		temp[i] = (i != index) ? Array[j] : Array[++j];
@@ -221,7 +220,7 @@ void array<type>::pushFront(const type& data) {
 	++Size;
 	type* temp = new type[Size];
 	temp[0] = data;
-	hlSize_t i = 1;
+	int i = 1;
 	while (i < Size) {
 		temp[i] = Array[i-1];
 		++i;
@@ -233,7 +232,7 @@ void array<type>::pushFront(const type& data) {
 template <typename type>
 void array<type>::pushBack(const type& data) {
 	type* temp = new type[Size+1];
-	hlSize_t i = 0;
+	int i = 0;
 	while (i < Size) {
 		temp[i] = Array[i];
 		++i;
@@ -245,7 +244,7 @@ void array<type>::pushBack(const type& data) {
 }
 
 template <typename type>
-void array<type>:: push(hlSize_t index, const type& data) {
+void array<type>:: push(int index, const type& data) {
 	//Resize if trying to access an out-of-bounds element
 	if (index >= Size) {
 		pushBack(data);
@@ -253,8 +252,8 @@ void array<type>:: push(hlSize_t index, const type& data) {
 	}
 	
 	++Size;
-	hlSize_t i = 0;
-	hlSize_t j = 0;
+	int i = 0;
+	int j = 0;
 	type* temp = new type[Size];
 	
 	while (i < Size) {
@@ -272,7 +271,7 @@ void array<type>:: push(hlSize_t index, const type& data) {
 }
 
 template <typename type>
-void array<type>::pushAfter(hlSize_t index, const type& data) {
+void array<type>::pushAfter(int index, const type& data) {
 	push(++index, data);
 }
 
@@ -297,7 +296,7 @@ void array<type>::copy(array& dest, const array& source) {
 	delete [] dest.Array;
 	dest.Array = new type[source.Size];
 	
-	hlSize_t iter = dest.Size = source.Size;
+	int iter = dest.Size = source.Size;
 	while (iter--) {
 		dest.Array[iter] = source.Array[iter];
 	}
@@ -305,9 +304,9 @@ void array<type>::copy(array& dest, const array& source) {
 
 template <typename type>
 void array<type>::append(array& dest, const array& source) {
-	hlSize_t firstHalf= 0;
-	hlSize_t secondHalf = source.Size;
-	hlSize_t newSize = dest.Size + source.Size;
+	int firstHalf= 0;
+	int secondHalf = source.Size;
+	int newSize = dest.Size + source.Size;
 	type* temp = new type[newSize];
 	
 	while (firstHalf < dest.Size) {
@@ -326,7 +325,7 @@ void array<type>::append(array& dest, const array& source) {
 }
 
 template <typename type>
-void array<type>::resize(hlSize_t newSize) {
+void array<type>::resize(int newSize) {
 	//this function may leave uninitialized variables if newSize > Size
 	if (newSize == Size) return;
 	else if (!newSize) {
@@ -335,7 +334,7 @@ void array<type>::resize(hlSize_t newSize) {
 	}
 	
 	type* temp = new type[newSize];
-	hlSize_t iter = (newSize > Size) ? Size : newSize;
+	int iter = (newSize > Size) ? Size : newSize;
 	while (iter--) { //insures only preexisting variables are copied
 		temp[iter] = Array[iter];
 	}
@@ -357,7 +356,7 @@ bool array<type>::empty() const {
 }
 
 template <typename type>
-hlSize_t array<type>::size() const {
+int array<type>::size() const {
 	return Size;
 }
 

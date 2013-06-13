@@ -1,6 +1,7 @@
 
 #include <ctime>
-#include "../include/hamLibs.h"
+#include "../include/utils/randomNum.h"
+#include "../include/utils/assert.h"
 
 constexpr unsigned long getMaxULong() { return 0UL - 1; }
 

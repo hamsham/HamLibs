@@ -10,9 +10,6 @@
 
 #include <string>
 
-#include "../defs/preprocessor.h"
-#include "../defs/types.h"
-
 namespace hamLibs {
 namespace containers {
 

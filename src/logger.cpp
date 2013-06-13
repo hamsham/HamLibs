@@ -1,7 +1,8 @@
 
 #include <ctime>
 #include <cstdarg>
-#include "../include/hamLibs.h"
+
+#include "../include/utils/logger.h"
 
 namespace hamLibs {
 namespace utils {

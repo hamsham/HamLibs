@@ -5,9 +5,6 @@
 #ifndef __HL_STACK__
 #define __HL_STACK__
 
-#include "../defs/preprocessor.h"
-#include "../defs/types.h"
-
 namespace hamLibs {
 namespace containers {
 
@@ -20,7 +17,7 @@ class stack {
 		};
 		
 		node *iter;		//List navigation
-		hlSize_t numNodes;
+		int numNodes;
 		static const node bottom;
 		
 	public:
@@ -37,7 +34,7 @@ class stack {
 		void		clear		();
 
 		//miscellaneous
-		hlSize_t	size		() const;
+		int	size		() const;
 		bool		empty		() const;
 };
 
@@ -109,7 +106,7 @@ void stack<type>::clear() {
 //			Miscellaneous
 //-----------------------------------------------------------------------------
 template <typename type>
-hlSize_t stack<type>::size() const {
+int stack<type>::size() const {
 	return numNodes;
 }
 

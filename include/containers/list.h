@@ -26,9 +26,6 @@
 #ifndef __HL_LINKEDLIST__
 #define __HL_LINKEDLIST__
 
-#include "../defs/preprocessor.h"
-#include "../defs/types.h"
-
 namespace hamLibs {
 namespace containers {
 
@@ -44,7 +41,7 @@ class list {
 		
 		node		mainNode;	//mainNode serves as the list's beginning and end
 		node		*iter;		//List navigation pointer
-		hlSize_t	numNodes;
+		int	numNodes;
 		
 	public:
 		list	();
@@ -80,7 +77,7 @@ class list {
 		void		clear		();				//delete all elements in the list
 
 		//miscellaneous
-		hlSize_t	size		() const;
+		int	size		() const;
 		bool		empty		() const;		//check if the list is empty
 };
 
@@ -117,7 +114,7 @@ list<type>::~list() {
 template <typename type>
 list<type>& list<type>::operator =(const list& listCopy) {
 	const node* iterPos = iter; //preserve the iteration position
-	hlSize_t iterating(size);
+	int iterating(size);
 	
 	listCopy.clear();
 	this->goToFront();
@@ -280,7 +277,7 @@ void list<type>::clear() {
 //			Miscellaneous
 //-----------------------------------------------------------------------------
 template <typename type>
-hlSize_t list<type>::size() const {
+int list<type>::size() const {
 	return numNodes;
 }
 

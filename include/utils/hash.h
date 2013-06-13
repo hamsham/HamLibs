@@ -35,7 +35,7 @@ constexpr unsigned int constHash( const char* str ) {
 //-----------------------------------------------------------------------------
 // Basic Hashing using the C++ Standard Library <locale>
 //-----------------------------------------------------------------------------
-long int HL_API runtimeHash( const std::string& s );
+long int runtimeHash( const std::string& s );
 
 } // end utils namespace
 } // end hamlibs namespace

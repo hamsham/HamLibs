@@ -5,9 +5,6 @@
 #ifndef __HL_QUEUE__
 #define __HL_QUEUE__
 
-#include "../defs/preprocessor.h"
-#include "../defs/types.h"
-
 namespace hamLibs {
 namespace containers {
 
@@ -20,7 +17,7 @@ class queue {
 		};
 		node		*first = nullptr;		//List navigation
 		node		*last = nullptr;
-		hlSize_t	numNodes;
+		int	numNodes;
 		
 		
 	public:
@@ -38,21 +35,21 @@ class queue {
 		void		clear		();
 
 		//miscellaneous
-		hlSize_t	size		() const;
+		int	size		() const;
 		bool		empty		() const;
 };
 
 //-----------------------------------------------------------------------------
 //			Construction & Destruction
 //-----------------------------------------------------------------------------
-template <typename type> HL_INLINE
+template <typename type>
 queue<type>::queue() :
 	first( nullptr ),
 	last( nullptr ),
 	numNodes( 0 )
 {}
 
-template <typename type> HL_INLINE
+template <typename type>
 queue<type>::~queue() {
 	clear();
 }
@@ -120,7 +117,7 @@ void queue<type>::clear() {
 //			Miscellaneous
 //-----------------------------------------------------------------------------
 template <typename type>
-hlSize_t queue<type>::size() const {
+int queue<type>::size() const {
 	return numNodes;
 }
 

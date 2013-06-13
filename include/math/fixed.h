@@ -8,6 +8,13 @@
 #ifndef __HL_FIXED_H__
 #define	__HL_FIXED_H__
 
+/*
+ * NOTE:
+ *      The fixed-point number class is still very experimental.
+ *      In it's current state, it's very prone to overflows.
+ *      Use at your own risk!
+ */
+
 namespace hamLibs {
 namespace math {
 
@@ -24,11 +31,11 @@ class fixed_t {
         constexpr fixed_t       ( float f )            : number( (fixedBase(1) << fracDigits) * f ) {}
         ~fixed_t                () = default;
         
-        fixed_t&    operator    ++  ()                                      { return *this = fixed_t( ++number ); }
-        fixed_t&    operator    --  ()                                      { return *this = fixed_t( --number ); }
+        inline      fixed_t&    operator    ++  ()                          { return *this = fixed_t( ++number ); }
+        inline      fixed_t&    operator    --  ()                          { return *this = fixed_t( --number ); }
         
-        fixed_t     operator    ++  ( int )                                 { return fixed_t( ++number ); }
-        fixed_t     operator    --  ( int )                                 { return fixed_t( --number ); }
+        inline      fixed_t     operator    ++  ( int )                     { return fixed_t( ++number ); }
+        inline      fixed_t     operator    --  ( int )                     { return fixed_t( --number ); }
         
         constexpr   bool        operator    !   () const                    { return !number; }
         
@@ -53,16 +60,16 @@ class fixed_t {
         constexpr   fixed_t     operator    <<  ( const fixed_t& f ) const  { return fixed_t( number << f.number ); }
         
         constexpr   fixed_t&    operator    =    ( const fixed_t& f )       { number = f.number; return *this; }
-        fixed_t&                operator    +=   ( const fixed_t& f )       { number += f.number; return *this; }
-        fixed_t&                operator    -=   ( const fixed_t& f )       { number -= f.number; return *this; }
-        fixed_t&                operator    *=   ( const fixed_t& f )       { number *= f.number; return *this; }
-        fixed_t&                operator    /=   ( const fixed_t& f )       { number /= f.number; return *this; }
-        fixed_t&                operator    %=   ( const fixed_t& f )       { number %= f.number; return *this; }
-        fixed_t&                operator    &=   ( const fixed_t& f )       { number &= f.number; return *this; }
-        fixed_t&                operator    |=   ( const fixed_t& f )       { number |= f.number; return *this; }
-        fixed_t&                operator    ^=   ( const fixed_t& f )       { number ^= f.number; return *this; }
-        fixed_t&                operator    >>=  ( const fixed_t& f )       { number >>= f.number; return *this; }
-        fixed_t&                operator    <<=  ( const fixed_t& f )       { number <<= f.number; return *this; }
+        inline      fixed_t&    operator    +=   ( const fixed_t& f )       { number += f.number; return *this; }
+        inline      fixed_t&    operator    -=   ( const fixed_t& f )       { number -= f.number; return *this; }
+        inline      fixed_t&    operator    *=   ( const fixed_t& f )       { number *= f.number; return *this; }
+        inline      fixed_t&    operator    /=   ( const fixed_t& f )       { number /= f.number; return *this; }
+        inline      fixed_t&    operator    %=   ( const fixed_t& f )       { number %= f.number; return *this; }
+        inline      fixed_t&    operator    &=   ( const fixed_t& f )       { number &= f.number; return *this; }
+        inline      fixed_t&    operator    |=   ( const fixed_t& f )       { number |= f.number; return *this; }
+        inline      fixed_t&    operator    ^=   ( const fixed_t& f )       { number ^= f.number; return *this; }
+        inline      fixed_t&    operator    >>=  ( const fixed_t& f )       { number >>= f.number; return *this; }
+        inline      fixed_t&    operator    <<=  ( const fixed_t& f )       { number <<= f.number; return *this; }
         
         constexpr   operator    float       ()          { return float(1.f / (fixedBase(1) << fracDigits)) * number; }
         constexpr   fixed_t&    operator =  ( float f ) { return *this = fixed_t( f ); }

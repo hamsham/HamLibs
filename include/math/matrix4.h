@@ -92,7 +92,7 @@ struct mat4_t {
 //	4x4 Matrix Constructors (mostly delegated)
 //---------------------------------------------------------------------
 //all constructions use list-initializations and Delegations
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>::mat4_t() :
 	mat4_t(
 		numType(0), numType(0), numType(0), numType(0),
@@ -102,7 +102,7 @@ mat4_t<numType>::mat4_t() :
 	)
 {}
 //all constructions use list-initializations and Delegations
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>::mat4_t(numType n) :
 	mat4_t(
 		n, numType(0), numType(0), numType(0),
@@ -112,7 +112,7 @@ mat4_t<numType>::mat4_t(numType n) :
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>::mat4_t(const mat3_t<numType>& input) :
 	mat4_t(
 		input.m[0][0], input.m[0][1], input.m[0][2], numType(0),
@@ -122,7 +122,7 @@ mat4_t<numType>::mat4_t(const mat3_t<numType>& input) :
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>::mat4_t(const mat4_t<numType>& input) :
 	mat4_t(
 		input.m[0][0], input.m[0][1], input.m[0][2], input.m[0][3],
@@ -132,7 +132,7 @@ mat4_t<numType>::mat4_t(const mat4_t<numType>& input) :
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>::mat4_t(mat3_t<numType>&& input) :
 	mat4_t(
 		input.m[0][0], input.m[0][1], input.m[0][2], numType(0),
@@ -142,7 +142,7 @@ mat4_t<numType>::mat4_t(mat3_t<numType>&& input) :
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>::mat4_t(mat4_t<numType>&& input) :
 	mat4_t(
 		input.m[0][0], input.m[0][1], input.m[0][2], input.m[0][3],
@@ -152,7 +152,7 @@ mat4_t<numType>::mat4_t(mat4_t<numType>&& input) :
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>::mat4_t(	numType inXX, numType inXY, numType inXZ, numType inXW,
 						numType inYX, numType inYY, numType inYZ, numType inYW,
 						numType inZX, numType inZY, numType inZZ, numType inZW,
@@ -168,12 +168,12 @@ mat4_t<numType>::mat4_t(	numType inXX, numType inXY, numType inXZ, numType inXW,
 //---------------------------------------------------------------------
 //	Array Operators
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 numType* mat4_t<numType>::operator[](const int index) {
 	HL_ASSERT((index >= 0) && (index < 4));
 	return m[ index ];
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 const numType* mat4_t<numType>::operator[](const int index) const {
 	HL_ASSERT((index >= 0) && (index < 4));
 	return m[ index ];
@@ -183,7 +183,7 @@ const numType* mat4_t<numType>::operator[](const int index) const {
 //	Matrix-Matrix Operators
 //---------------------------------------------------------------------
 // prefix operators
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator++ () {
 	++m[0][0]; ++m[0][1]; ++m[0][2]; ++m[0][3];
 	++m[1][0]; ++m[1][1]; ++m[1][2]; ++m[1][3];
@@ -192,7 +192,7 @@ mat4_t<numType>& mat4_t<numType>::operator++ () {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator-- () {
 	--m[0][0]; --m[0][1]; --m[0][2]; --m[0][3];
 	--m[1][0]; --m[1][1]; --m[1][2]; --m[1][3];
@@ -202,7 +202,7 @@ mat4_t<numType>& mat4_t<numType>::operator-- () {
 }
 
 //postfix operators
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator++ (int) {
 	return mat4_t<numType>(
 		++m[0][0], ++m[0][1], ++m[0][2], ++m[0][3],
@@ -212,7 +212,7 @@ mat4_t<numType> mat4_t<numType>::operator++ (int) {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator-- (int) {
 	return mat4_t<numType>(
 		--m[0][0], --m[0][1], --m[0][2], --m[0][3],
@@ -222,7 +222,7 @@ mat4_t<numType> mat4_t<numType>::operator-- (int) {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator + (const mat4_t<numType>& input) const {
 	return mat4_t<numType>(
 		m[0][0] + input.m[0][0], m[0][1] + input.m[0][1], m[0][2] + input.m[0][2], m[0][3] + input.m[0][3],
@@ -232,7 +232,7 @@ mat4_t<numType> mat4_t<numType>::operator + (const mat4_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator - (const mat4_t<numType>& input) const {
 	return mat4_t<numType>(
 		m[0][0] - input.m[0][0], m[0][1] - input.m[0][1], m[0][2] - input.m[0][2], m[0][3] - input.m[0][3],
@@ -243,7 +243,7 @@ mat4_t<numType> mat4_t<numType>::operator - (const mat4_t<numType>& input) const
 }
 
 //for operations like "matrix4a = -matrix4b"
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator - () const {
 	return mat4_t<numType>(	-m[0][0], -m[0][1], -m[0][2], -m[0][3],
 							-m[1][0], -m[1][1], -m[1][2], -m[1][3],
@@ -251,7 +251,7 @@ mat4_t<numType> mat4_t<numType>::operator - () const {
 							-m[3][0], -m[3][1], -m[3][2], -m[3][3]);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator * (const mat4_t<numType>& input) const {
 	return mat4_t<numType>(
 	//X
@@ -278,7 +278,7 @@ mat4_t<numType> mat4_t<numType>::operator * (const mat4_t<numType>& input) const
 	//if this is wrong, fuck you
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator = (const mat4_t<numType>& input) {
 	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2]; m[0][3] = input.m[0][3];
 	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2]; m[1][3] = input.m[1][3];
@@ -287,7 +287,7 @@ mat4_t<numType>& mat4_t<numType>::operator = (const mat4_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator = (mat4_t<numType>&& input) {
 	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2]; m[0][3] = input.m[0][3];
 	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2]; m[1][3] = input.m[1][3];
@@ -296,7 +296,7 @@ mat4_t<numType>& mat4_t<numType>::operator = (mat4_t<numType>&& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator += (const mat4_t<numType>& input) {
 	m[0][0] += input.m[0][0]; m[0][1] += input.m[0][1]; m[0][2] += input.m[0][2]; m[0][3] += input.m[0][3];
 	m[1][0] += input.m[1][0]; m[1][1] += input.m[1][1]; m[1][2] += input.m[1][2]; m[1][3] += input.m[1][3];
@@ -305,7 +305,7 @@ mat4_t<numType>& mat4_t<numType>::operator += (const mat4_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator -= (const mat4_t<numType>& input) {
 	m[0][0] -= input.m[0][0]; m[0][1] -= input.m[0][1]; m[0][2] -= input.m[0][2]; m[0][3] -= input.m[0][3];
 	m[1][0] -= input.m[1][0]; m[1][1] -= input.m[1][1]; m[1][2] -= input.m[1][2]; m[1][3] -= input.m[1][3];
@@ -314,12 +314,12 @@ mat4_t<numType>& mat4_t<numType>::operator -= (const mat4_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator *= (const mat4_t<numType>& input) {
 	return *this = *this * input;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool mat4_t<numType>::operator == (const mat4_t<numType>& compare) const {
 	return	(
 				m[0][0] == compare.m[0][0] && m[0][1] == compare.m[0][1] && m[0][2] == compare.m[0][2] && m[0][3] == compare.m[0][3] &&
@@ -329,7 +329,7 @@ bool mat4_t<numType>::operator == (const mat4_t<numType>& compare) const {
 			);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool mat4_t<numType>::operator != (const mat4_t<numType>& compare) const {
 	return	(
 				m[0][0] != compare.m[0][0] && m[0][1] != compare.m[0][1] && m[0][2] != compare.m[0][2] && m[0][3] != compare.m[0][3] &&
@@ -342,7 +342,7 @@ bool mat4_t<numType>::operator != (const mat4_t<numType>& compare) const {
 //---------------------------------------------------------------------
 //	Matrix-Vector Operators
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator + (const vec4_t<numType>& input) const {
 	return mat4_t(
 		m[0][0] + input.v[0], m[0][1] + input.v[1], m[0][2] + input.v[2], m[0][3] + input.v[3],
@@ -352,7 +352,7 @@ mat4_t<numType> mat4_t<numType>::operator + (const vec4_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator - (const vec4_t<numType>& input) const {
 	return mat4_t(
 		m[0][0] - input.v[0], m[0][1] - input.v[1], m[0][2] - input.v[2], m[0][3] - input.v[3],
@@ -362,7 +362,7 @@ mat4_t<numType> mat4_t<numType>::operator - (const vec4_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec4_t<numType> mat4_t<numType>::operator * (const vec4_t<numType>& inVect) const {
 	return vec4_t<numType>(
 		(m[0][0] * inVect.v[0]) + (m[0][1] * inVect.v[1]) + (m[0][2] * inVect.v[2]) + (m[0][3] * inVect.v[3]),
@@ -372,7 +372,7 @@ vec4_t<numType> mat4_t<numType>::operator * (const vec4_t<numType>& inVect) cons
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator = (const vec4_t<numType>& input) {
 	m[0][0] = input.v[0]; m[0][1] = input.v[1]; m[0][2] = input.v[2]; m[0][3] = input.v[3];
 	m[1][0] = input.v[0]; m[1][1] = input.v[1]; m[1][2] = input.v[2]; m[1][3] = input.v[3];
@@ -381,7 +381,7 @@ mat4_t<numType>& mat4_t<numType>::operator = (const vec4_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator += (const vec4_t<numType>& input) {
 	m[0][0] += input.v[0]; m[0][1] += input.v[1]; m[0][2] += input.v[2]; m[0][3] += input.v[3];
 	m[1][0] += input.v[0]; m[1][1] += input.v[1]; m[1][2] += input.v[2]; m[1][3] += input.v[3];
@@ -390,7 +390,7 @@ mat4_t<numType>& mat4_t<numType>::operator += (const vec4_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator -= (const vec4_t<numType>& input) {
 	m[0][0] -= input.v[0]; m[0][1] -= input.v[1]; m[0][2] -= input.v[2]; m[0][3] -= input.v[3];
 	m[1][0] -= input.v[0]; m[1][1] -= input.v[1]; m[1][2] -= input.v[2]; m[1][3] -= input.v[3];
@@ -402,7 +402,7 @@ mat4_t<numType>& mat4_t<numType>::operator -= (const vec4_t<numType>& input) {
 //---------------------------------------------------------------------
 //	Matrix-Scalar Operators
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator + (numType input) const {
 	return mat4_t<numType>(
 		m[0][0] + input, m[0][1] + input, m[0][2] + input, m[0][3] + input,
@@ -412,7 +412,7 @@ mat4_t<numType> mat4_t<numType>::operator + (numType input) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator - (numType input) const {
 	return mat4_t<numType>(
 		m[0][0] - input, m[0][1] - input, m[0][2] - input, m[0][3] - input,
@@ -422,7 +422,7 @@ mat4_t<numType> mat4_t<numType>::operator - (numType input) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator * (numType input) const {
 	return mat4_t<numType>(
 		m[0][0] * input, m[0][1] * input, m[0][2] * input, m[0][3] * input,
@@ -432,7 +432,7 @@ mat4_t<numType> mat4_t<numType>::operator * (numType input) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator / (numType input) const {
 	return mat4_t<numType>(
 		m[0][0] / input, m[0][1] / input, m[0][2] / input, m[0][3] / input,
@@ -442,7 +442,7 @@ mat4_t<numType> mat4_t<numType>::operator / (numType input) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator = (numType input) {
 	m[0][0] = input; m[0][1] = input; m[0][2] = input; m[0][3] = input;
 	m[1][0] = input; m[1][1] = input; m[1][2] = input; m[1][3] = input;
@@ -451,7 +451,7 @@ mat4_t<numType>& mat4_t<numType>::operator = (numType input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator += (numType input) {
 	m[0][0] += input; m[0][1] += input; m[0][2] += input; m[0][3] += input;
 	m[1][0] += input; m[1][1] += input; m[1][2] += input; m[1][3] += input;
@@ -460,7 +460,7 @@ mat4_t<numType>& mat4_t<numType>::operator += (numType input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator -= (numType input) {
 	m[0][0] -= input; m[0][1] -= input; m[0][2] -= input; m[0][3] -= input;
 	m[1][0] -= input; m[1][1] -= input; m[1][2] -= input; m[1][3] -= input;
@@ -469,7 +469,7 @@ mat4_t<numType>& mat4_t<numType>::operator -= (numType input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator *= (numType input) {
 	m[0][0] *= input; m[0][1] *= input; m[0][2] *= input; m[0][3] *= input;
 	m[1][0] *= input; m[1][1] *= input; m[1][2] *= input; m[1][3] *= input;
@@ -478,7 +478,7 @@ mat4_t<numType>& mat4_t<numType>::operator *= (numType input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat4_t<numType>& mat4_t<numType>::operator /= (numType input) {
 	m[0][0] /= input; m[0][1] /= input; m[0][2] /= input; m[0][3] /= input;
 	m[1][0] /= input; m[1][1] /= input; m[1][2] /= input; m[1][3] /= input;

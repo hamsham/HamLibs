@@ -89,7 +89,7 @@ struct mat3_t {
 //---------------------------------------------------------------------
 //construct all matricies as identity matricies unless stated otherwise
 //all constructions use list-initializations and Delegations
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>::mat3_t() :
 	mat3_t(
 		numType(0), numType(0), numType(0),
@@ -97,7 +97,7 @@ mat3_t<numType>::mat3_t() :
 		numType(0), numType(0), numType(0)
 	)
 {}
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>::mat3_t(numType n) :
 	mat3_t(
 		n, numType(0), numType(0),
@@ -106,7 +106,7 @@ mat3_t<numType>::mat3_t(numType n) :
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>::mat3_t(const mat3_t<numType>& input) :
 	mat3_t(
 		input.m[0][0], input.m[0][1], input.m[0][2],
@@ -115,7 +115,7 @@ mat3_t<numType>::mat3_t(const mat3_t<numType>& input) :
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>::mat3_t(mat3_t<numType>&& input) :
 	mat3_t(
 		input.m[0][0], input.m[0][1], input.m[0][2],
@@ -124,7 +124,7 @@ mat3_t<numType>::mat3_t(mat3_t<numType>&& input) :
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>::mat3_t(	numType inXX, numType inXY, numType inXZ,
 							numType inYX, numType inYY, numType inYZ,
 							numType inZX, numType inZY, numType inZZ ) :
@@ -138,13 +138,13 @@ mat3_t<numType>::mat3_t(	numType inXX, numType inXY, numType inXZ,
 //---------------------------------------------------------------------
 //	Array Operators
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 numType* mat3_t<numType>::operator[](const int index) {
 	HL_ASSERT((index >= 0) && (index < 3));
 	return m[ index ];
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 const numType* mat3_t<numType>::operator[](const int index) const {
 	HL_ASSERT((index >= 0) && (index < 3));
 	return m[ index ];
@@ -154,7 +154,7 @@ const numType* mat3_t<numType>::operator[](const int index) const {
 //	Matrix-Matrix Operators
 //---------------------------------------------------------------------
 // prefix operators
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator++ () {
 	++m[0][0]; ++m[0][1]; ++m[0][2];
 	++m[1][0]; ++m[1][1]; ++m[1][2];
@@ -162,7 +162,7 @@ mat3_t<numType>& mat3_t<numType>::operator++ () {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator-- () {
 	--m[0][0]; --m[0][1]; --m[0][2];
 	--m[1][0]; --m[1][1]; --m[1][2];
@@ -171,7 +171,7 @@ mat3_t<numType>& mat3_t<numType>::operator-- () {
 }
 
 //postfix operators
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator++ (int) {
 	return mat3_t<numType>(
 		++m[0][0], ++m[0][1], ++m[0][2],
@@ -180,7 +180,7 @@ mat3_t<numType> mat3_t<numType>::operator++ (int) {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator-- (int) {
 	return mat3_t<numType>(
 		--m[0][0], --m[0][1], --m[0][2],
@@ -189,7 +189,7 @@ mat3_t<numType> mat3_t<numType>::operator-- (int) {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator + (const mat3_t<numType>& input) const {
 	return mat3_t<numType>(
 		m[0][0] + input.m[0][0], m[0][1] + input.m[0][1], m[0][2] + input.m[0][2],
@@ -198,7 +198,7 @@ mat3_t<numType> mat3_t<numType>::operator + (const mat3_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator - (const mat3_t<numType>& input) const {
 	return mat3_t<numType>(
 		m[0][0] - input.m[0][0], m[0][1] - input.m[0][1], m[0][2] - input.m[0][2],
@@ -208,14 +208,14 @@ mat3_t<numType> mat3_t<numType>::operator - (const mat3_t<numType>& input) const
 }
 
 //for operations like "matrix3a = -matrix3b"
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator - () const {
 	return mat3_t<numType>(	-m[0][0], -m[0][1], -m[0][2],
 							-m[1][0], -m[1][1], -m[1][2],
 							-m[2][0], -m[2][1], -m[2][2]);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator * (const mat3_t<numType>& input) const {
 	return mat3_t<numType>(
 	//X
@@ -236,7 +236,7 @@ mat3_t<numType> mat3_t<numType>::operator * (const mat3_t<numType>& input) const
 	//if this is wrong, fuck you
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator = (const mat3_t<numType>& input) {
 	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2];
 	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2];
@@ -244,7 +244,7 @@ mat3_t<numType>& mat3_t<numType>::operator = (const mat3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator = (mat3_t<numType>&& input) {
 	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2];
 	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2];
@@ -252,7 +252,7 @@ mat3_t<numType>& mat3_t<numType>::operator = (mat3_t<numType>&& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator += (const mat3_t<numType>& input) {
 	m[0][0] += input.m[0][0]; m[0][1] += input.m[0][1]; m[0][2] += input.m[0][2];
 	m[1][0] += input.m[1][0]; m[1][1] += input.m[1][1]; m[1][2] += input.m[1][2];
@@ -260,7 +260,7 @@ mat3_t<numType>& mat3_t<numType>::operator += (const mat3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator -= (const mat3_t<numType>& input) {
 	m[0][0] -= input.m[0][0]; m[0][1] -= input.m[0][1]; m[0][2] -= input.m[0][2];
 	m[1][0] -= input.m[1][0]; m[1][1] -= input.m[1][1]; m[1][2] -= input.m[1][2];
@@ -268,12 +268,12 @@ mat3_t<numType>& mat3_t<numType>::operator -= (const mat3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator *= (const mat3_t<numType>& input) {
 	return *this = *this * input;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool mat3_t<numType>::operator == (const mat3_t<numType>& compare) const {
 	return	(
 				m[0][0] == compare.m[0][0] && m[0][1] == compare.m[0][1] && m[0][2] == compare.m[0][2] &&
@@ -282,7 +282,7 @@ bool mat3_t<numType>::operator == (const mat3_t<numType>& compare) const {
 			);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool mat3_t<numType>::operator != (const mat3_t<numType>& compare) const {
 	return	(
 				m[0][0] != compare.m[0][0] && m[0][1] != compare.m[0][1] && m[0][2] != compare.m[0][2] &&
@@ -294,7 +294,7 @@ bool mat3_t<numType>::operator != (const mat3_t<numType>& compare) const {
 //---------------------------------------------------------------------
 //	Matrix-Vector Operators
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator + (const vec3_t<numType>& input) const {
 	return mat3_t(
 		m[0][0] + input.v[0], m[0][1] + input.v[1], m[0][2] + input.v[2],
@@ -303,7 +303,7 @@ mat3_t<numType> mat3_t<numType>::operator + (const vec3_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator - (const vec3_t<numType>& input) const {
 	return mat3_t(
 		m[0][0] - input.v[0], m[0][1] - input.v[1], m[0][2] - input.v[2],
@@ -312,7 +312,7 @@ mat3_t<numType> mat3_t<numType>::operator - (const vec3_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> mat3_t<numType>::operator * (const vec3_t<numType>& inVect) const {
 	return vec3_t<numType>(
 		(m[0][0] * inVect.v[0]) + (m[0][1] * inVect.v[1]) + (m[0][2] * inVect.v[2]),
@@ -321,7 +321,7 @@ vec3_t<numType> mat3_t<numType>::operator * (const vec3_t<numType>& inVect) cons
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator = (const vec3_t<numType>& input) {
 	m[0][0] = input.v[0]; m[0][1] = input.v[1]; m[0][2] = input.v[2];
 	m[1][0] = input.v[0]; m[1][1] = input.v[1]; m[1][2] = input.v[2];
@@ -329,7 +329,7 @@ mat3_t<numType>& mat3_t<numType>::operator = (const vec3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator += (const vec3_t<numType>& input) {
 	m[0][0] += input.v[0]; m[0][1] += input.v[1]; m[0][2] += input.v[2];
 	m[1][0] += input.v[0]; m[1][1] += input.v[1]; m[1][2] += input.v[2];
@@ -337,7 +337,7 @@ mat3_t<numType>& mat3_t<numType>::operator += (const vec3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator -= (const vec3_t<numType>& input) {
 	m[0][0] -= input.v[0]; m[0][1] -= input.v[1]; m[0][2] -= input.v[2];
 	m[1][0] -= input.v[0]; m[1][1] -= input.v[1]; m[1][2] -= input.v[2];
@@ -348,7 +348,7 @@ mat3_t<numType>& mat3_t<numType>::operator -= (const vec3_t<numType>& input) {
 //---------------------------------------------------------------------
 //	Matrix-Scalar Operators
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator + (numType input) const {
 	return mat3_t<numType>(
 		m[0][0] + input, m[0][1] + input, m[0][2] + input,
@@ -357,7 +357,7 @@ mat3_t<numType> mat3_t<numType>::operator + (numType input) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator - (numType input) const {
 	return mat3_t<numType>(
 		m[0][0] - input, m[0][1] - input, m[0][2] - input,
@@ -366,7 +366,7 @@ mat3_t<numType> mat3_t<numType>::operator - (numType input) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator * (numType input) const {
 	return mat3_t<numType>(
 		m[0][0] * input, m[0][1] * input, m[0][2] * input,
@@ -375,7 +375,7 @@ mat3_t<numType> mat3_t<numType>::operator * (numType input) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> mat3_t<numType>::operator / (numType input) const {
 	input = numType( 1 ) / input;
 	return mat3_t<numType>(
@@ -385,7 +385,7 @@ mat3_t<numType> mat3_t<numType>::operator / (numType input) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator = (numType input) {
 	m[0][0] = input; m[0][1] = input; m[0][2] = input;
 	m[1][0] = input; m[1][1] = input; m[1][2] = input;
@@ -393,7 +393,7 @@ mat3_t<numType>& mat3_t<numType>::operator = (numType input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator += (numType input) {
 	m[0][0] += input; m[0][1] += input; m[0][2] += input;
 	m[1][0] += input; m[1][1] += input; m[1][2] += input;
@@ -401,7 +401,7 @@ mat3_t<numType>& mat3_t<numType>::operator += (numType input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator -= (numType input) {
 	m[0][0] -= input; m[0][1] -= input; m[0][2] -= input;
 	m[1][0] -= input; m[1][1] -= input; m[1][2] -= input;
@@ -409,7 +409,7 @@ mat3_t<numType>& mat3_t<numType>::operator -= (numType input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator *= (numType input) {
 	m[0][0] *= input; m[0][1] *= input; m[0][2] *= input;
 	m[1][0] *= input; m[1][1] *= input; m[1][2] *= input;
@@ -417,7 +417,7 @@ mat3_t<numType>& mat3_t<numType>::operator *= (numType input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType>& mat3_t<numType>::operator /= (numType input) {
 	m[0][0] /= input; m[0][1] /= input; m[0][2] /= input;
 	m[1][0] /= input; m[1][1] /= input; m[1][2] /= input;

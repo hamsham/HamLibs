@@ -82,32 +82,32 @@ struct vec3_t {
 //---------------------------------------------------------------------
 //	Vector Constructors
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>::vec3_t() :
 	vec3_t(
 		numType(0), numType(0), numType(0)
 	)
 {}
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>::vec3_t( numType n ) :
 	vec3_t( n, n, n )
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>::vec3_t(const vec3_t<numType>& input) :
 	vec3_t(
 		input.v[0], input.v[1], input.v[2]
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>::vec3_t(vec3_t<numType>&& input) :
 	vec3_t(
 		input.v[0], input.v[1], input.v[2]
 	)
 {}
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>::vec3_t(numType inX, numType inY, numType inZ) :
 	v{ inX, inY, inZ }
 {}
@@ -115,13 +115,13 @@ vec3_t<numType>::vec3_t(numType inX, numType inY, numType inZ) :
 //---------------------------------------------------------------------
 //	Array Operators
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 numType vec3_t<numType>::operator[](const int index) const {
 	HL_ASSERT((index >= 0) && (index < 3));
 	return v[ index ];
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 numType& vec3_t<numType>::operator[](const int index) {
 	HL_ASSERT((index >= 0) && (index < 3));
 	return v[ index ];
@@ -130,7 +130,7 @@ numType& vec3_t<numType>::operator[](const int index) {
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator = (const vec3_t<numType>& input) {
 	v[0] = input.v[0];
 	v[1] = input.v[1];
@@ -138,7 +138,7 @@ vec3_t<numType>& vec3_t<numType>::operator = (const vec3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator = (vec3_t<numType>&& input) {
 	v[0] = input.v[0];
 	v[1] = input.v[1];
@@ -146,7 +146,7 @@ vec3_t<numType>& vec3_t<numType>::operator = (vec3_t<numType>&& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator + (const vec3_t<numType>& input) const {
 	return vec3_t<numType>(
 		v[0] + input.v[0],
@@ -155,7 +155,7 @@ vec3_t<numType> vec3_t<numType>::operator + (const vec3_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator - (const vec3_t<numType>& input) const {
 	return vec3_t<numType>(
 		v[0] - input.v[0],
@@ -165,12 +165,12 @@ vec3_t<numType> vec3_t<numType>::operator - (const vec3_t<numType>& input) const
 }
 
 //for operations like "vectA = -vectB"
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator - () const {
 	return vec3_t<numType>(-v[0], -v[1], -v[2]);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator * (const vec3_t<numType>& input) const {
 	return vec3_t<numType>(
 		v[0] * input.v[0],
@@ -179,7 +179,7 @@ vec3_t<numType> vec3_t<numType>::operator * (const vec3_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator / (const vec3_t<numType>& input) const {
 	return vec3_t<numType>(
 		v[0] / input.v[0],
@@ -188,7 +188,7 @@ vec3_t<numType> vec3_t<numType>::operator / (const vec3_t<numType>& input) const
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator += (const vec3_t<numType>& input) {
 	v[0] += input.v[0];
 	v[1] += input.v[1];
@@ -196,7 +196,7 @@ vec3_t<numType>& vec3_t<numType>::operator += (const vec3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator -= (const vec3_t<numType>& input) {
 	v[0] -= input.v[0];
 	v[1] -= input.v[1];
@@ -204,7 +204,7 @@ vec3_t<numType>& vec3_t<numType>::operator -= (const vec3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator *= (const vec3_t<numType>& input) {
 	v[0] *= input.v[0];
 	v[1] *= input.v[1];
@@ -212,7 +212,7 @@ vec3_t<numType>& vec3_t<numType>::operator *= (const vec3_t<numType>& input) {
 	return *this;
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator /= (const vec3_t<numType>& input) {
 	v[0] /= input.v[0];
 	v[1] /= input.v[1];
@@ -221,14 +221,14 @@ vec3_t<numType>& vec3_t<numType>::operator /= (const vec3_t<numType>& input) {
 }
 
 // prefix operations
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator++ () {
 	++v[0];
 	++v[1];
 	++v[2];
 	return *this;
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator-- () {
 	--v[0];
 	--v[1];
@@ -236,7 +236,7 @@ vec3_t<numType>& vec3_t<numType>::operator-- () {
 	return *this;
 }
 //postfix operations
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator++ (int) {
 	return vec3_t<numType>(
 		++v[0],
@@ -244,7 +244,7 @@ vec3_t<numType> vec3_t<numType>::operator++ (int) {
 		++v[2]
 	);
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator-- (int) {
 	return vec3_t<numType>(
 		--v[0],
@@ -254,7 +254,7 @@ vec3_t<numType> vec3_t<numType>::operator-- (int) {
 }
 
 //comparisons
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool vec3_t<numType>::operator== (const vec3_t<numType>& compare) const {
 	return (	v[0] == compare.v[0] &&
 				v[1] == compare.v[1] &&
@@ -262,7 +262,7 @@ bool vec3_t<numType>::operator== (const vec3_t<numType>& compare) const {
 			);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool vec3_t<numType>::operator!= (const vec3_t<numType>& compare) const {
 	return (	v[0] != compare.v[0] &&
 				v[1] != compare.v[1] &&
@@ -270,7 +270,7 @@ bool vec3_t<numType>::operator!= (const vec3_t<numType>& compare) const {
 			);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool vec3_t<numType>::operator< (const vec3_t<numType>& compare) const {
 	return (	v[0] < compare.v[0] &&
 				v[1] < compare.v[1] &&
@@ -278,7 +278,7 @@ bool vec3_t<numType>::operator< (const vec3_t<numType>& compare) const {
 			);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool vec3_t<numType>::operator> (const vec3_t<numType>& compare) const {
 	return (	v[0] > compare.v[0] &&
 				v[1] > compare.v[1] &&
@@ -286,7 +286,7 @@ bool vec3_t<numType>::operator> (const vec3_t<numType>& compare) const {
 			);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool vec3_t<numType>::operator<= (const vec3_t<numType>& compare) const {
 	return (	v[0] <= compare.v[0] &&
 				v[1] <= compare.v[1] &&
@@ -294,7 +294,7 @@ bool vec3_t<numType>::operator<= (const vec3_t<numType>& compare) const {
 			);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 bool vec3_t<numType>::operator>= (const vec3_t<numType>& compare) const {
 	return (	v[0] >= compare.v[0] &&
 				v[1] >= compare.v[1] &&
@@ -305,7 +305,7 @@ bool vec3_t<numType>::operator>= (const vec3_t<numType>& compare) const {
 //---------------------------------------------------------------------
 //	Vector-Matrix Math Operations
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> vec3_t<numType>::operator + (const mat3_t<numType>& m) const {
 	return mat3_t<numType>(
 		v[0] + m.m[0][0], v[0] + m.m[0][1], v[0] + m.m[0][2],
@@ -314,7 +314,7 @@ mat3_t<numType> vec3_t<numType>::operator + (const mat3_t<numType>& m) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 mat3_t<numType> vec3_t<numType>::operator - (const mat3_t<numType>& m) const {
 	return mat3_t<numType>(
 		v[0] - m.m[0][0], v[0] - m.m[0][1], v[0] - m.m[0][2],
@@ -323,7 +323,7 @@ mat3_t<numType> vec3_t<numType>::operator - (const mat3_t<numType>& m) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator * (const mat3_t<numType>& m) const {
 	return vec3_t<numType>(
 		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]) + (m.m[0][2] * v[2]),
@@ -332,7 +332,7 @@ vec3_t<numType> vec3_t<numType>::operator * (const mat3_t<numType>& m) const {
 	);
 }
 
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator *= (const mat3_t<numType>& m) {
 	*this = *this * m;
 	return *this;
@@ -341,14 +341,14 @@ vec3_t<numType>& vec3_t<numType>::operator *= (const mat3_t<numType>& m) {
 //---------------------------------------------------------------------
 //	Vector-Scalar Math Operations
 //---------------------------------------------------------------------
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator = (numType input) {
 	v[0] = input;
 	v[1] = input;
 	v[2] = input;
 	return *this;
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator + (numType input) const {
 	return vec3_t<numType>(
 		v[0] + input,
@@ -356,7 +356,7 @@ vec3_t<numType> vec3_t<numType>::operator + (numType input) const {
 		v[2] + input
 	);
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator - (numType input) const {
 	return vec3_t<numType>(
 		v[0] - input,
@@ -364,7 +364,7 @@ vec3_t<numType> vec3_t<numType>::operator - (numType input) const {
 		v[2] - input
 	);
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator * (numType input) const {
 	return vec3_t<numType>(
 		v[0] * input,
@@ -372,7 +372,7 @@ vec3_t<numType> vec3_t<numType>::operator * (numType input) const {
 		v[2] * input
 	);
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator / (numType input) const {
 	return vec3_t<numType>(
 		v[0] / input,
@@ -380,28 +380,28 @@ vec3_t<numType> vec3_t<numType>::operator / (numType input) const {
 		v[2] / input
 	);
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator += (numType input) {
 	v[0] += input;
 	v[1] += input;
 	v[2] += input;
 	return *this;
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator -= (numType input) {
 	v[0] -= input;
 	v[1] -= input;
 	v[2] -= input;
 	return *this;
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator *= (numType input) {
 	v[0] *= input;
 	v[1] *= input;
 	v[2] *= input;
 	return *this;
 }
-template <typename numType> HL_IMPERATIVE
+template <typename numType> inline
 vec3_t<numType>& vec3_t<numType>::operator /= (numType input) {
 	v[0] /= input;
 	v[1] /= input;

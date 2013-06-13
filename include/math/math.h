@@ -146,7 +146,7 @@ namespace math {
 	 * and:
 	 *		http://jheriko-rtw.blogspot.com/2009/04/understanding-and-improving-fast.html
 	 */
-	template <typename numType> HL_IMPERATIVE
+	template <typename numType> inline
 	numType fastInvSqrt(numType input) {
 		float x = static_cast<float>(input);
 		union { float f; unsigned int u; } y = {x};
@@ -155,13 +155,13 @@ namespace math {
 	}
 
 	//-----------------------------------------------------------------
-	template <typename numType> HL_IMPERATIVE
+	template <typename numType> inline
 	numType fastSqrt(numType input) {
 		return numType( 1.0f/fastInvSqrt( input ) );
 	}
 
 	//-----------------------------------------------------------------
-	template <> HL_IMPERATIVE
+	template <> inline
 	float fastInvSqrt< float >( float x ) {
 		union { float f; unsigned int u; } y = {x};
 		y.u = 0x5F1FFFF9ul - (y.u >> 1);
@@ -169,19 +169,19 @@ namespace math {
 	}
 
 	//-----------------------------------------------------------------
-	template <> HL_IMPERATIVE
+	template <> inline
 	float fastSqrt< float >(float input) {
 		return float( 1.0f/fastInvSqrt( input ) );
 	}
 
 	//-----------------------------------------------------------------
-	template <typename numType> HL_IMPERATIVE
+	template <typename numType> inline
 	constexpr numType degToRad(numType input) {
 		return HL_DEG2RAD(input);
 	}
 
 	//-----------------------------------------------------------------
-	template <typename numType> HL_IMPERATIVE
+	template <typename numType> inline
 	constexpr numType radToDeg(numType input) {
 		return HL_RAD2DEG(input);
 	}
@@ -195,7 +195,7 @@ namespace math {
      * Accurate to within 5 decimal places.
      * This method relies on the IEEE floating point specification
      */
-    template < typename numType > HL_IMPERATIVE
+    template < typename numType > inline
     numType fastLog2( numType n ) {
         float val = (float)n;
         int* const exp = reinterpret_cast< int* >( &val );
@@ -212,7 +212,7 @@ namespace math {
     }
     
 	//-----------------------------------------------------------------
-    template <> HL_IMPERATIVE
+    template <> inline
     float fastLog2< float >( float n ) {
         int* const exp = reinterpret_cast< int* >( &n );
         int x = *exp;
@@ -228,13 +228,13 @@ namespace math {
     }
 
 	//-----------------------------------------------------------------
-    template < typename numType > HL_IMPERATIVE
+    template < typename numType > inline
     numType fastLog( numType n ) {
         return fastLog2( n ) * 0.693147181f; // ln( 2 )
     }
     
 	//-----------------------------------------------------------------
-    template < typename numType > HL_IMPERATIVE
+    template < typename numType > inline
     numType fastLogBase( numType base, numType n ) {
         return fastLog2( n ) / fastLog2( base );
     }

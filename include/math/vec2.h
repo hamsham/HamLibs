@@ -13,6 +13,8 @@
 #ifndef __HL_MATH_VEC2_H__
 #define __HL_MATH_VEC2_H__
 
+#include "../utils/assert.h"
+
 namespace hamLibs {
 namespace math {
 
@@ -116,13 +118,13 @@ vec2_t<numType>::vec2_t(numType inX, numType inY) :
 //---------------------------------------------------------------------
 template <typename numType> inline
 numType vec2_t<numType>::operator[](const int index) const {
-	HL_ASSERT((index == 0) || (index == 1));
+	HL_DEBUG_ASSERT((index == 0) || (index == 1));
 	return v[ index ];
 }
 
 template <typename numType> inline
 numType& vec2_t<numType>::operator[](const int index) {
-	HL_ASSERT((index == 0) || (index == 1));
+	HL_DEBUG_ASSERT((index == 0) || (index == 1));
 	return v[ index ];
 }
 

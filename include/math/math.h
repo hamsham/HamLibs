@@ -12,7 +12,6 @@
 
 #include <cmath>
 #include <cstdint>
-#include "../defs/preprocessor.h"
 
 /*
  * Floating Point Values & Precision

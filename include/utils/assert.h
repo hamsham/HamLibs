@@ -37,6 +37,14 @@ void assert_runtime( bool condition, errorType type, const char* msg );
 	#define HL_ASSERT( x ) assert_basic( x, __FILE__, __LINE__, hamLibs::utils::ERROR )
 #endif /* ASSERT */
 
+#ifdef HL_DEBUG
+    #ifndef HL_DEBUG_ASSERT
+    	#define HL_DEBUG_ASSERT( x ) HL_ASSERT( x )
+    #endif
+#else
+    #define HL_DEBUG_ASSERT
+#endif /* DEBUG */
+
 #ifndef HL_WARN
 	#define HL_WARN( x ) assert_basic( x, __FILE__, __LINE__, utils::WARNING )
 #endif /* ASSERT_WARN */

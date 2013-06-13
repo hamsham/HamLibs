@@ -13,6 +13,8 @@ NOTES:
 #ifndef __HL_MATH_QUAT_H__
 #define __HL_MATH_QUAT_H__
 
+#include "../utils/assert.h"
+
 namespace hamLibs {
 namespace math {
 
@@ -114,13 +116,13 @@ quat_t<numType>::quat_t(numType inX, numType inY, numType inZ, numType inW) :
 //---------------------------------------------------------------------
 template <typename numType> inline
 numType quat_t<numType>::operator[](const int index) const {
-	HL_ASSERT((index >= 0) && (index < 4));
+	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
 	return q[ index ];
 }
 
 template <typename numType> inline
 numType& quat_t<numType>::operator[](const int index) {
-	HL_ASSERT((index >= 0) && (index < 4));
+	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
 	return q[ index ];
 }
 

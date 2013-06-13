@@ -15,6 +15,8 @@
 #ifndef __HL_MATH_MATRIX3_H__
 #define __HL_MATH_MATRIX3_H__
 
+#include "../utils/assert.h"
+
 namespace hamLibs {
 namespace math {
 
@@ -140,13 +142,13 @@ mat3_t<numType>::mat3_t(	numType inXX, numType inXY, numType inXZ,
 //---------------------------------------------------------------------
 template <typename numType> inline
 numType* mat3_t<numType>::operator[](const int index) {
-	HL_ASSERT((index >= 0) && (index < 3));
+	HL_DEBUG_ASSERT((index >= 0) && (index < 3));
 	return m[ index ];
 }
 
 template <typename numType> inline
 const numType* mat3_t<numType>::operator[](const int index) const {
-	HL_ASSERT((index >= 0) && (index < 3));
+	HL_DEBUG_ASSERT((index >= 0) && (index < 3));
 	return m[ index ];
 }
 

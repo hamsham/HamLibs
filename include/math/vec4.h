@@ -15,6 +15,8 @@
 #ifndef __HL_MATH_VEC4_H__
 #define __HL_MATH_VEC4_H__
 
+#include "../utils/assert.h"
+
 namespace hamLibs {
 namespace math {
 
@@ -118,13 +120,13 @@ vec4_t<numType>::vec4_t(numType inX, numType inY, numType inZ, numType inW) :
 //---------------------------------------------------------------------
 template <typename numType> inline
 numType vec4_t<numType>::operator[](const int index) const {
-	HL_ASSERT((index >= 0) && (index < 4));
+	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
 	return v[ index ];
 }
 
 template <typename numType> inline
 numType& vec4_t<numType>::operator[](const int index) {
-	HL_ASSERT((index >= 0) && (index < 4));
+	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
 	return v[ index ];
 }
 

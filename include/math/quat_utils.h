@@ -8,7 +8,7 @@
 #ifndef __HL_QUAT_UTILS_H__
 #define	__HL_QUAT_UTILS_H__
 
-#include "quat.h"
+#include "math.h"
 
 
 namespace hamLibs {

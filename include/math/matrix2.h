@@ -14,6 +14,8 @@
 #ifndef __HL_MATH_MATRIX2_H__
 #define __HL_MATH_MATRIX2_H__
 
+#include "../utils/assert.h"
+
 namespace hamLibs {
 namespace math {
 
@@ -131,13 +133,13 @@ mat2_t<numType>::mat2_t(	numType inXX, numType inXY,
 //---------------------------------------------------------------------
 template <typename numType> inline
 numType* mat2_t<numType>::operator[](const int index) {
-	HL_ASSERT((index >= 0) && (index < 2));
+	HL_DEBUG_ASSERT((index >= 0) && (index < 2));
 	return m[ index ];
 }
 
 template <typename numType> inline
 const numType* mat2_t<numType>::operator[](const int index) const {
-	HL_ASSERT((index >= 0) && (index < 2));
+	HL_DEBUG_ASSERT((index >= 0) && (index < 2));
 	return m[ index ];
 }
 

@@ -42,9 +42,9 @@ template <typename numType> inline quat_t<numType>	matToQuat( const mat4_t<numTy
 //-----------------------------------------------------------------------------
 //		Quaternions & Euler Angles
 //-----------------------------------------------------------------------------
-template <typename numType> inline vec3_t<numType>   getAxisX( const quat_t<numType>& ); // Right-Vector
-template <typename numType> inline vec3_t<numType>   getAxisY( const quat_t<numType>& ); // Up-Vector
-template <typename numType> inline vec3_t<numType>   getAxisZ( const quat_t<numType>& ); // Forwards Vector
+template <typename numType> inline vec3_t<numType>  getAxisX( const quat_t<numType>& ); // Right-Vector
+template <typename numType> inline vec3_t<numType>  getAxisY( const quat_t<numType>& ); // Up-Vector
+template <typename numType> inline vec3_t<numType>  getAxisZ( const quat_t<numType>& ); // Forwards Vector
 
 template <typename numType> inline numType			getAngle( const quat_t<numType>& );
 
@@ -225,7 +225,7 @@ math::quat_t<numType> math::matToQuat( const mat4_t<numType>& m ) {
 //		quat_t<numType>s & Euler Angles
 //-----------------------------------------------------------------------------
 template <typename numType> inline
-math::vec3_t<numType> getAxisX( const math::quat_t<numType>& q ) {
+math::vec3_t<numType> math::getAxisX( const math::quat_t<numType>& q ) {
     return math::vec3_t<numType>(
         numType(1) - numType(2) * (q[1] * q[1] + q[2] * q[2]),
         numType(2) * (q[0] * q[1] + q[3] * q[2]),
@@ -234,7 +234,7 @@ math::vec3_t<numType> getAxisX( const math::quat_t<numType>& q ) {
 }
 
 template <typename numType> inline
-math::vec3_t<numType> getAxisY( const math::quat_t<numType>& q ) {
+math::vec3_t<numType> math::getAxisY( const math::quat_t<numType>& q ) {
     return math::vec3_t<numType>(
         numType(2) * (q[0] * q[1] - q[3] * q[2]),
         numType(1) - numType(2) * (q[0] * q[0] + q[2] * q[2]),
@@ -243,7 +243,7 @@ math::vec3_t<numType> getAxisY( const math::quat_t<numType>& q ) {
 }
 
 template <typename numType> inline
-math::vec3_t<numType> getAxisZ( const math::quat_t<numType>& q ) {
+math::vec3_t<numType> math::getAxisZ( const math::quat_t<numType>& q ) {
     return math::vec3_t<numType>(
         numType(2) * (q[0] * q[2] + q[3] * q[1]),
         numType(2) * (q[1] * q[0] - q[3] * q[0]),

@@ -19,7 +19,7 @@ namespace utils {
 // http://nguillemot.blogspot.com/2012/06/side-story-compile-time-string-hashing.html
 //-----------------------------------------------------------------------------
 // this function is reserved for "constHash()" and should not be used
-constexpr unsigned int constHashRecursive( const char* str, unsigned int hashVal ) {
+constexpr unsigned long int constHashRecursive( const char* str, unsigned int hashVal ) {
 	return ( !*str )
 	? hashVal
 	: constHashRecursive( str+1, ((hashVal << 5) + hashVal) ^ *str );
@@ -28,7 +28,7 @@ constexpr unsigned int constHashRecursive( const char* str, unsigned int hashVal
 //-----------------------------------------------------------------------------
 // this function expects a NULL-Terminated string
 //-----------------------------------------------------------------------------
-constexpr unsigned int constHash( const char* str ) {
+constexpr unsigned long int constHash( const char* str ) {
 	return ( !str ) ? 0 : constHashRecursive( str, 5381 );
 }
 

@@ -15,6 +15,7 @@
 #define __HL_MATH_MATRIX2_H__
 
 #include "../utils/assert.h"
+#include "vec2.h"
 
 namespace hamLibs {
 namespace math {
@@ -30,6 +31,11 @@ struct mat2_t {
 			numType	xx, xy,
 					yx, yy; // these references are attached to the array above during construction
 		} index;
+        
+        struct {
+            vec2_t<numType> x;
+            vec2_t<numType> y;
+        } row;
 	};
 
 	//hardhat construction
@@ -37,6 +43,8 @@ struct mat2_t {
 	mat2_t(numType n);
 	mat2_t(const mat2_t<numType>&);
 	mat2_t(mat2_t<numType>&&);
+    mat2_t( const vec2_t<numType>&,
+            const vec2_t<numType>& );
 	//delegated constructor
 	mat2_t(	numType inXX, numType inXY,
 			numType inYX, numType inYY
@@ -117,6 +125,16 @@ mat2_t<numType>::mat2_t(mat2_t<numType>&& input) :
 		input.m[0][0], input.m[0][1],
 		input.m[1][0], input.m[1][1]
 	)
+{}
+
+template <typename numType> inline
+mat2_t<numType>::mat2_t(
+    const vec3_t<numType>& x,
+    const vec3_t<numType>& y
+) : mat3_t(
+        x.v[0], x.v[1],
+        y.v[0], y.v[1]
+    )
 {}
 
 template <typename numType> inline

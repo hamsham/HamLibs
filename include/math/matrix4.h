@@ -16,6 +16,7 @@
 #define __HL_MATH_MATRIX4_H__
 
 #include "../utils/assert.h"
+#include "vec4.h"
 
 namespace hamLibs {
 namespace math {
@@ -27,12 +28,20 @@ template <typename numType>
 struct mat4_t {
 	union {
 		numType m[4][4];
+        
 		struct {
 			numType	xx, xy, xz, xw,
 					yx, yy, yz, yw,
 					zx, zy, zz, zw,
 					wx, wy, wz, ww;
 		} index;
+        
+        struct {
+            vec4_t<numType> x;
+            vec4_t<numType> y;
+            vec4_t<numType> z;
+            vec4_t<numType> w;
+        } row;
 	};
 
 	//hardhat construction
@@ -42,6 +51,10 @@ struct mat4_t {
 	mat4_t(const mat4_t<numType>&);
 	mat4_t(mat3_t<numType>&&);
 	mat4_t(mat4_t<numType>&&);
+    mat4_t( const vec4_t<numType>&,
+            const vec4_t<numType>&,
+            const vec4_t<numType>&,
+            const vec4_t<numType>& );
 	//delegated constructor
 	mat4_t(	numType inXX, numType inX, numType inXZ, numType inXW,
 			numType inYX, numType inYY, numType inYZ, numType inYW,
@@ -155,10 +168,25 @@ mat4_t<numType>::mat4_t(mat4_t<numType>&& input) :
 {}
 
 template <typename numType> inline
-mat4_t<numType>::mat4_t(	numType inXX, numType inXY, numType inXZ, numType inXW,
-						numType inYX, numType inYY, numType inYZ, numType inYW,
-						numType inZX, numType inZY, numType inZZ, numType inZW,
-						numType inWX, numType inWY, numType inWZ, numType inWW) :
+mat4_t<numType>::mat4_t(
+    const vec4_t<numType>& x,
+    const vec4_t<numType>& y,
+    const vec4_t<numType>& z,
+    const vec4_t<numType>& w
+) : mat4_t(
+        x.v[0], x.v[1], x.v[2], x.v[3],
+        y.v[0], y.v[1], y.v[2], y.v[3],
+        z.v[0], z.v[1], z.v[2], z.v[3],
+        w.v[0], w.v[1], w.v[2], w.v[3]
+    )
+{}
+
+template <typename numType> inline
+mat4_t<numType>::mat4_t(
+    numType inXX, numType inXY, numType inXZ, numType inXW,
+    numType inYX, numType inYY, numType inYZ, numType inYW,
+    numType inZX, numType inZY, numType inZZ, numType inZW,
+    numType inWX, numType inWY, numType inWZ, numType inWW) :
 	m{
 		{ inXX, inXY, inXZ, inXW },
 		{ inYX, inYY, inYZ, inYW },

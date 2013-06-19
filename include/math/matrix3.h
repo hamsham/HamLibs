@@ -3,7 +3,7 @@
  * recommended for use with non-integral types
  * 
  * NOTES:
- * Matrix is Column-Major
+ * Matrix is Row-Major
  * orientation is as follows:
  * ---------------------
  *		XX	XY	XZ
@@ -16,6 +16,7 @@
 #define __HL_MATH_MATRIX3_H__
 
 #include "../utils/assert.h"
+#include "vec3.h"
 
 namespace hamLibs {
 namespace math {
@@ -27,11 +28,18 @@ template <typename numType>
 struct mat3_t {
 	union {
 		numType m[3][3];
+        
 		struct {
 			numType	xx, xy, xz,
 					yx, yy, yz,
 					zx, zy, zz;
 		} index;
+        
+        struct {
+            vec3_t<numType> x;
+            vec3_t<numType> y;
+            vec3_t<numType> z;
+        } row;
 	};
 
 	//hardhat construction
@@ -39,6 +47,9 @@ struct mat3_t {
 	mat3_t(numType n);
 	mat3_t(const mat3_t<numType>&);
 	mat3_t(mat3_t<numType>&&);
+    mat3_t( const vec3_t<numType>&,
+            const vec3_t<numType>&,
+            const vec3_t<numType>& );
 	//delegatoed constructor
 	mat3_t(	numType inXX, numType inXY, numType inXZ,
 			numType inYX, numType inYY, numType inYZ,
@@ -124,6 +135,18 @@ mat3_t<numType>::mat3_t(mat3_t<numType>&& input) :
 		input.m[1][0], input.m[1][1], input.m[1][2],
 		input.m[2][0], input.m[2][1], input.m[2][2]
 	)
+{}
+
+template <typename numType> inline
+mat3_t<numType>::mat3_t(
+    const vec3_t<numType>& x,
+    const vec3_t<numType>& y,
+    const vec3_t<numType>& z
+) : mat3_t(
+        x.v[0], x.v[1], x.v[2],
+        y.v[0], y.v[1], y.v[2],
+        z.v[0], z.v[1], z.v[2]
+    )
 {}
 
 template <typename numType> inline

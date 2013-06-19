@@ -21,8 +21,8 @@ void assert_runtime( bool condition, errorType type, const char* msg );
 /*
  * Basic Assertion Template
  */
-#ifndef assert_basic
-	#define assert_basic( x, fileName, lineNum, type )\
+#ifndef HL_ASSERT_BASIC
+	#define HL_ASSERT_BASIC( x, fileName, lineNum, type )\
 		hamLibs::utils::assert_runtime(\
 			x, type,\
 			"Assertion failed"\
@@ -30,11 +30,11 @@ void assert_runtime( bool condition, errorType type, const char* msg );
             " of " HL_STRINGIFY( fileName )\
             ": (" HL_STRINGIFY( x ) ")"\
 		)
-#endif /* assert_basic */
+#endif /* HL_ASSERT_BASIC */
 
 /* Assertion Types */
 #ifndef HL_ASSERT
-	#define HL_ASSERT( x ) assert_basic( x, __FILE__, __LINE__, hamLibs::utils::ERROR )
+	#define HL_ASSERT( x ) HL_ASSERT_BASIC( x, __FILE__, __LINE__, hamLibs::utils::ERROR )
 #endif /* ASSERT */
 
 #ifdef HL_DEBUG
@@ -46,11 +46,11 @@ void assert_runtime( bool condition, errorType type, const char* msg );
 #endif /* DEBUG */
 
 #ifndef HL_WARN
-	#define HL_WARN( x ) assert_basic( x, __FILE__, __LINE__, utils::WARNING )
+	#define HL_WARN( x ) HL_ASSERT_BASIC( x, __FILE__, __LINE__, hamLibs::utils::WARNING )
 #endif /* ASSERT_WARN */
 
 #ifndef HL_ALERT
-	#define HL_ALERT( x ) assert_basic( x, __FILE__, __LINE__, utils::ALERT )
+	#define HL_ALERT( x ) HL_ASSERT_BASIC( x, __FILE__, __LINE__, hamLibs::utils::ALERT )
 #endif /* ASSERT_ALERT */
 
 #endif /* __HL_ASSERT_H__ */

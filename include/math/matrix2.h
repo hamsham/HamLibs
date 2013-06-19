@@ -129,9 +129,9 @@ mat2_t<numType>::mat2_t(mat2_t<numType>&& input) :
 
 template <typename numType> inline
 mat2_t<numType>::mat2_t(
-    const vec3_t<numType>& x,
-    const vec3_t<numType>& y
-) : mat3_t(
+    const vec2_t<numType>& x,
+    const vec2_t<numType>& y
+) : mat2_t(
         x.v[0], x.v[1],
         y.v[0], y.v[1]
     )

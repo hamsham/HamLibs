@@ -132,8 +132,7 @@ class triTree : private treeTrunk {
         ~triTree        ()      {}
         
         // STL-Map behavior
-        const data_t&   operator [] ( const key_t& k ) const { return *(iterate( k, true )->data); }
-        data_t&         operator [] ( const key_t& k ) { return *(iterate( k, true )->data); }
+        data_t&         operator [] ( const key_t& k );
         
         void            push        ( const key_t& k, const data_t& d );
         void            pop         ( const key_t& k );
@@ -143,6 +142,21 @@ class triTree : private treeTrunk {
         void            clear       () { delete [] head.subNodes; delete head.data; }
 
 }; // end triTree class
+
+/*
+ * Tri-Tree -- Array Subscript operators
+ */
+template <typename key_t, typename data_t>
+data_t& triTree<key_t, data_t>::operator []( const key_t& k ) {
+    node* iter = iterate( k, true );
+    
+    if ( !iter->data ) {
+        iter->data = new data_t();
+        ++numNodes;
+    }
+    
+    return *iter->data;
+}
 
 /*
  * Tri-Tree -- Push
@@ -271,15 +285,25 @@ class triTree<const char*, data_t> : private treeTrunk  {
         ~triTree        ()      {}
         
         // STL-Map behavior
-        const data_t&   operator [] ( const char* str ) const { return *(iterate( str, true )->data); }
-        data_t&         operator [] ( const char* str ) { return *(iterate( str, true )->data); }
-        
+//        data_t&         operator [] ( const char* str );
+//        
 //        void            push        ( const char* str, const data_t& d );
 //        void            pop         ( const char* str );
 //        bool            hasData     ( const char* str ) const;
 //        const data_t*   getData     ( const char* str );
 //        int             size        () const { return numNodes; }
 //        void            clear       () { delete [] head.subNodes; delete head.data; }
+        
+        data_t& operator []( const char* str ) {
+            node* iter = iterate( str, true );
+
+            if ( !iter->data ) {
+                iter->data = new data_t();
+                ++numNodes;
+            }
+
+            return *iter->data;
+        }
 
         /*
          * Tri-Tree -- Push

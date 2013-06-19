@@ -55,7 +55,7 @@ class treeTrunk {
                     case 6 : return b7;
                     case 7 : return b8;
                 }
-                return 0;
+                return 0; // Avoiding a compiler error
             }
         };
 
@@ -151,8 +151,14 @@ class triTree : private treeTrunk {
 template <typename key_t, typename data_t>
 void triTree<key_t, data_t>::push( const key_t& k, const data_t& d ) {
     node* iter = iterate( k, true );
-    iter->data = new data_t( d );
-    ++numNodes;
+    
+    if ( !iter->data ) {
+        iter->data = new data_t( d );
+        ++numNodes;
+    }
+    else {
+        *iter->data = d;
+    }
 }
 
 /*
@@ -163,7 +169,7 @@ template <typename key_t, typename data_t>
 void triTree<key_t, data_t>::pop( const key_t& k ) {
     node* iter = iterate( k, false );
 
-    if ( !iter )
+    if ( !iter || iter->data )
         return;
 
     delete iter->data;
@@ -279,20 +285,26 @@ class triTree<const char*, data_t> : private treeTrunk  {
          * Tri-Tree -- Push
          * Push a data element to the tree using a key
          */
-        void push( const char* str, const data_t& d ) {
-            node* iter = iterate( str, true );
-            iter->data = new data_t( d );
-            ++numNodes;
+        void push( const key_t& k, const data_t& d ) {
+            node* iter = iterate( k, true );
+
+            if ( !iter->data ) {
+                iter->data = new data_t( d );
+                ++numNodes;
+            }
+            else {
+                *iter->data = d;
+            }
         }
 
         /*
          * Tri-Tree -- Pop
          * Remove whichever element lies at the key
          */
-        void pop( const char* str ) {
-            node* iter = iterate( str, false );
+        void pop( const key_t& k ) {
+            node* iter = iterate( k, false );
 
-            if ( !iter )
+            if ( !iter || iter->data )
                 return;
 
             delete iter->data;

@@ -1,19 +1,12 @@
 /* 
- * File:   tTree.h
+ * File:   bTree.h
  * Author: hammy
  *
  * Created on June 19, 2013, 12:25 AM
  */
 
-#ifndef __HL_TRI_TREE_H__
-#define	__HL_TRI_TREE_H__
-
-/*
- * The Tri-Tree is a simple structure which contains three leafs per node
- * Currently, no iterators exist (in progress).
- * Only fixed-sized keys are supported, but there is a class specialization for
- * C-style strings. Additional specializations will be added as needed.
- */
+#ifndef __HL_B_TREE_H__
+#define	__HL_B_TREE_H__
 
 #include "tree_common.h"
 
@@ -21,12 +14,11 @@ namespace hamLibs {
 namespace containers {
 
 template <typename data_t>
-struct tTreeNode {
-    bitMask     bits        = { 0,0,0,0,0,0,0,0 };
+struct bTreeNode {
     data_t*     data        = nullptr;
-    tTreeNode*  subNodes    = nullptr;
+    bTreeNode*  subNodes    = nullptr;
 
-    ~tTreeNode() {
+    ~bTreeNode() {
         delete data;
         delete [] subNodes;
         
@@ -36,26 +28,26 @@ struct tTreeNode {
 };
 
 /******************************************************************************
- *  Tri-Tree Structure Setup
+ *  Binary-Tree Structure Setup
 ******************************************************************************/
 template <typename key_t, typename data_t>
-class tTree: virtual public treeBase {
+class bTree : virtual public treeBase {
 
     enum node_dir : unsigned {
-        LEFT_NODE   = 0,
-        MID_NODE    = 1,
-        RIGHT_NODE  = 2,
-        MAX_NODE    = 3
+        BNODE_LEFT   = 0,
+        BNODE_RIGHT  = 1,
+        BNODE_MAX
     };
-    
+
     protected:
-        tTreeNode<data_t>   head;
+        bTreeNode<data_t>   head;
         unsigned            numNodes = 0;
         
-    public:
-        virtual ~tTree() {}
+    private:
+        bTreeNode<data_t>* iterate( const key_t* k, bool createNodes );
         
-        tTreeNode<data_t>* iterate( const void* key, bool createSubNodes );
+    public:
+        ~bTree() {}
         
         // STL-Map behavior
         data_t&         operator [] ( const key_t& k );
@@ -68,56 +60,49 @@ class tTree: virtual public treeBase {
         void            clear       ();
 };
 
+
 /*
- * Tri-Tree -- Iteration
- */
+ * Binary-Tree -- Element iteration
+ */ 
 template <typename key_t, typename data_t>
-tTreeNode<data_t>* tTree<key_t, data_t>::iterate( const void* k, bool createNodes ) {
+bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNodes ) {
     
     node_dir            dir;
     unsigned            iter        = 0;
-    tTreeNode<data_t>*  tNodeIter   = const_cast< tTreeNode<data_t>* >( &this->head );
+    bTreeNode<data_t>*  bNodeIter   = const_cast< bTreeNode<data_t>* >( &this->head );
     const bitMask*      bitIter     = nullptr;
 
     while ( bitIter = treeBase::getKeyByte( k, iter++ ) ) {
         
         unsigned j = HL_BITS_PER_BYTE;
         while ( j-- ) {
+            
             // compare the bits of each byte in k
-            if ( bitIter->operator[](j) < tNodeIter->bits[j] ) {
-                dir = LEFT_NODE;
-            }
-            else if ( bitIter->operator[](j) > tNodeIter->bits[j] ) {
-                dir = RIGHT_NODE;
-            }
-            else {
-                dir = MID_NODE;
-            }
+            dir = bitIter->operator [](j) ? BNODE_LEFT : BNODE_RIGHT;
 
-            // check to see if a new node needs to be made
-            if ( !tNodeIter->subNodes ) {
+            // check to see if a new bTreeNode needs to be made
+            if ( !bNodeIter->subNodes ) {
                 if ( createNodes ) {
-                    // create and initialize the upcoming sub node
-                    tNodeIter->subNodes = new tTreeNode<data_t>[ MAX_NODE ];
-                    tNodeIter->subNodes[ dir ].bits = *bitIter;
+                    // create and initialize the upcoming sub bTreeNode
+                    bNodeIter->subNodes = new bTreeNode<data_t>[ BNODE_MAX ];
                 }
                 else {
                     return nullptr;
                 }
             }
 
-            // move to the next node
-            tNodeIter = &(tNodeIter->subNodes[ dir ]);
+            // move to the next bTreeNode
+            bNodeIter = &(bNodeIter->subNodes[ dir ]);
         }
     }
-    return tNodeIter;
+    return bNodeIter;
 }
 
 /*
- * Tri-Tree -- Destructor
+ * Binary-Tree -- Destructor
  */
 template <typename key_t, typename data_t>
-void tTree<key_t, data_t>::clear() {
+void bTree<key_t, data_t>::clear() {
     delete head.data;
     delete [] head.subNodes;
     
@@ -127,11 +112,11 @@ void tTree<key_t, data_t>::clear() {
 }
 
 /*
- * Tri-Tree -- Array Subscript operators
+ * Binary-Tree -- Array Subscript operators
  */
 template <typename key_t, typename data_t>
-data_t& tTree<key_t, data_t>::operator []( const key_t& k ) {
-    tTreeNode<data_t>* iter = iterate( &k, true );
+data_t& bTree<key_t, data_t>::operator []( const key_t& k ) {
+    bTreeNode<data_t>* iter = iterate( &k, true );
     
     if ( !iter->data ) {
         iter->data = new data_t();
@@ -142,12 +127,12 @@ data_t& tTree<key_t, data_t>::operator []( const key_t& k ) {
 }
 
 /*
- * Tri-Tree -- Push
+ * Binary-Tree -- Push
  * Push a data element to the tree using a key
  */
 template <typename key_t, typename data_t>
-void tTree<key_t, data_t>::push( const key_t& k, const data_t& d ) {
-    tTreeNode<data_t>* iter = iterate( &k, true );
+void bTree<key_t, data_t>::push( const key_t& k, const data_t& d ) {
+    bTreeNode<data_t>* iter = iterate( &k, true );
     
     if ( !iter->data ) {
         iter->data = new data_t( d );
@@ -159,12 +144,12 @@ void tTree<key_t, data_t>::push( const key_t& k, const data_t& d ) {
 }
 
 /*
- * Tri-Tree -- Pop
+ * Binary-Tree -- Pop
  * Remove whichever element lies at the key
  */
 template <typename key_t, typename data_t>
-void tTree<key_t, data_t>::pop( const key_t& k ) {
-    tTreeNode<data_t>* iter = iterate( &k, false );
+void bTree<key_t, data_t>::pop( const key_t& k ) {
+    bTreeNode<data_t>* iter = iterate( &k, false );
 
     if ( !iter || !iter->data )
         return;
@@ -175,24 +160,24 @@ void tTree<key_t, data_t>::pop( const key_t& k ) {
 }
 
 /*
- * Tri-Tree -- Has Data
+ * Binary-Tree -- Has Data
  * Return true if there is a data element at the key
  */
 template <typename key_t, typename data_t>
-bool tTree<key_t, data_t>::hasData( const key_t& k ) const {
-    tTreeNode<data_t>* iter = iterate( &k, false );
+bool bTree<key_t, data_t>::hasData( const key_t& k ) const {
+    bTreeNode<data_t>* iter = iterate( &k, false );
 
     return iter && ( iter->data != nullptr );
 }
 
 /*
- * Tri-Tree -- Push
+ * Binary-Tree -- Push
  * Return a pointer to the data that lies at a key
  * Returns a nullptr if no data exists
  */
 template <typename key_t, typename data_t>
-const data_t* tTree<key_t, data_t>::getData( const key_t& k ) {
-    tTreeNode<data_t>* iter = iterate( &k, false );
+const data_t* bTree<key_t, data_t>::getData( const key_t& k ) {
+    bTreeNode<data_t>* iter = iterate( &k, false );
 
     if ( !iter )
         return nullptr;
@@ -203,5 +188,5 @@ const data_t* tTree<key_t, data_t>::getData( const key_t& k ) {
 } // end containers namespace
 } // end hamLibs namespace
 
-#endif	/* __HL_TRI_TREE_H__ */
+#endif	/* __HL_B_TREE_H__ */
 

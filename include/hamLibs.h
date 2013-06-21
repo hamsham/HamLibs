@@ -23,11 +23,13 @@
 #include "utils/randomNum.h"
 
 #include "containers/array.h"
+#include "containers/btree.h"
 #include "containers/dictionary.h"
 #include "containers/list.h"
 #include "containers/queue.h"
 #include "containers/stack.h"
 #include "containers/string.h"
+#include "containers/tree_common.h"
 #include "containers/tTree.h"
 
 #include "math/math.h"

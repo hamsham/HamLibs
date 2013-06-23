@@ -24,7 +24,6 @@
 
 #include "containers/array.h"
 #include "containers/btree.h"
-#include "containers/dictionary.h"
 #include "containers/list.h"
 #include "containers/queue.h"
 #include "containers/stack.h"

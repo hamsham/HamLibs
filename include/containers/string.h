@@ -14,9 +14,9 @@ namespace containers {
 template <typename charType>
 class string_t;
 
-typedef string<char>        string;
-typedef string<char16_t>    string16;
-typedef string<char32_t>    string32;
+typedef string_t<char>        string;
+typedef string_t<char16_t>    string16;
+typedef string_t<char32_t>    string32;
 
 /******************************************************************************
  * HamLibs string class
@@ -42,38 +42,38 @@ class string_t {
         string_t( int charCount, int totalChars, int grainSize, charType* charArray );
         ~string_t();
         
-        string_t      operator +      ( const string_t& ) const;
-        string_t&     operator +=     ( const string_t& );
-        string_t&     operator =      ( string_t&& );
-        string_t&     operator =      ( const string_t& s );
+        string_t        operator +      ( const string_t& ) const;
+        string_t&       operator +=     ( const string_t& );
+        string_t&       operator =      ( string_t&& );
+        string_t&       operator =      ( const string_t& s );
         
-        string_t      operator +      ( const charType* ) const;
-        string_t&     operator +=     ( const charType* );
-        string_t&     operator =      ( const charType* );
+        string_t        operator +      ( const charType* ) const;
+        string_t&       operator +=     ( const charType* );
+        string_t&       operator =      ( const charType* );
         
-        string_t      operator +      ( charType ) const;
-        string_t&     operator +=     ( charType );
-        string_t&     operator =      ( charType );
+        string_t        operator +      ( charType ) const;
+        string_t&       operator +=     ( charType );
+        string_t&       operator =      ( charType );
         
-        charType    operator []     ( int ) const;
-        charType&   operator []     ( int );
+        charType        operator []     ( int ) const;
+        charType&       operator []     ( int );
         
         // setting the reserve size takes effect on the next reallocation
-        void        setReserveSize  ( int r = DEFAULT_GRANULARITY );
-        int         getReserveSize  () const { return granularity; }
+        void            setReserveSize  ( int r = DEFAULT_GRANULARITY );
+        int             getReserveSize  () const                { return granularity; }
         
-        string_t&     append          ( const string_t& s ) { return operator+=( s ); }
-        string_t&     append          ( const charType* s ) { return operator+=( s ); }
-        string_t&     append          ( charType c ) { return operator+=( c ); }
+        string_t&       append          ( const string_t& s )   { return operator+=( s ); }
+        string_t&       append          ( const charType* s )   { return operator+=( s ); }
+        string_t&       append          ( charType c )          { return operator+=( c ); }
         
-        void        pushBack        ( charType c ) { operator+=( c ); }
+        void            pushBack        ( charType c )          { operator+=( c ); }
         
-        void        clear           ();
-        int         size            () const { return numUsed; }
-        int         capacity        () const { return numTotal; }
-        int         maxSize         () const { return INT_MAX - granularity; }
-        const charType* cStr        () const { return data; }
-        bool        empty           () const { return data[0] != '\0'; }
+        void            clear           ();
+        int             size            () const                { return numUsed; }
+        int             capacity        () const                { return numTotal; }
+        int             maxSize         () const                { return INT_MAX - granularity; }
+        const charType* cStr            () const                { return data; }
+        bool            empty           () const                { return data[0] != '\0'; }
         
 /* TODO */
 //        void        resize          ( int newSize );

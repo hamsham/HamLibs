@@ -54,6 +54,8 @@ class treeBase {
         
 };
 
+inline treeBase::~treeBase() {}
+
 template <typename key_t>
 const bitMask* treeBase::getKeyByte( const key_t* k, unsigned iter ) {
     return (iter < sizeof( key_t ))

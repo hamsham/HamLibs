@@ -53,7 +53,7 @@ class tTree: virtual public treeBase {
         unsigned            numNodes = 0;
         
     public:
-        virtual ~tTree() {}
+        ~tTree() {}
         
         tTreeNode<data_t>* iterate( const void* key, bool createSubNodes );
         

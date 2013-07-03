@@ -55,7 +55,7 @@ class tTree: virtual public treeBase {
     public:
         ~tTree() {}
         
-        tTreeNode<data_t>* iterate( const void* key, bool createSubNodes );
+        tTreeNode<data_t>* iterate( const key_t* key, bool createSubNodes );
         
         // STL-Map behavior
         data_t&         operator [] ( const key_t& k );
@@ -72,7 +72,7 @@ class tTree: virtual public treeBase {
  * Tri-Tree -- Iteration
  */
 template <typename key_t, typename data_t>
-tTreeNode<data_t>* tTree<key_t, data_t>::iterate( const void* k, bool createNodes ) {
+tTreeNode<data_t>* tTree<key_t, data_t>::iterate( const key_t* k, bool createNodes ) {
     
     node_dir            dir;
     unsigned            iter        = 0;

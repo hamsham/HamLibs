@@ -13,5 +13,26 @@ const bitMask* treeBase::getKeyByte( const char* str, unsigned iter ) {
         : nullptr;
 }
 
+template <>
+const bitMask* treeBase::getKeyByte( const wchar_t* str, unsigned iter ) {
+    return (str[ iter ] != '\0')
+        ? reinterpret_cast< const bitMask* >( str+iter )
+        : nullptr;
+}
+
+template <>
+const bitMask* treeBase::getKeyByte( const char16_t* str, unsigned iter ) {
+    return (str[ iter ] != '\0')
+        ? reinterpret_cast< const bitMask* >( str+iter )
+        : nullptr;
+}
+
+template <>
+const bitMask* treeBase::getKeyByte( const char32_t* str, unsigned iter ) {
+    return (str[ iter ] != '\0')
+        ? reinterpret_cast< const bitMask* >( str+iter )
+        : nullptr;
+}
+
     } // end containers namespace
 } // end hamLibs namespace

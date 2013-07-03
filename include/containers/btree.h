@@ -44,7 +44,7 @@ class bTree : virtual public treeBase {
         unsigned            numNodes = 0;
         
     private:
-        bTreeNode<data_t>* iterate( const key_t* k, bool createNodes );
+        bTreeNode<data_t>* iterate( const void* k, bool createNodes );
         
     public:
         ~bTree() {}
@@ -65,7 +65,7 @@ class bTree : virtual public treeBase {
  * Binary-Tree -- Element iteration
  */ 
 template <typename key_t, typename data_t>
-bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNodes ) {
+bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const void* k, bool createNodes ) {
     
     node_dir            dir;
     unsigned            iter        = 0;

@@ -8,10 +8,13 @@
 #ifndef __HL_TREE_COMMON_H__
 #define	__HL_TREE_COMMON_H__
 
-#ifndef HL_BITS_PER_BYTE
-    #define HL_BITS_PER_BYTE 8
-#endif /* NUM_BITS_PER_BYTE */
-
+#include <climits>
+#if CHAR_BIT != 8
+    #error "Error: The current architecture does not define the number of "\
+    "bits per byte as 8. Please adjust the bitMask structure below accordingly."
+#else
+    #define HL_BITS_PER_BYTE CHAR_BIT
+#endif
 
 namespace hamLibs {
     namespace containers {
@@ -54,8 +57,6 @@ class treeBase {
         
 };
 
-inline treeBase::~treeBase() {}
-
 template <typename key_t>
 const bitMask* treeBase::getKeyByte( const key_t* k, unsigned iter ) {
     return (iter < sizeof( key_t ))
@@ -65,6 +66,15 @@ const bitMask* treeBase::getKeyByte( const key_t* k, unsigned iter ) {
 
 template <>
 const bitMask* treeBase::getKeyByte( const char*, unsigned );
+
+template <>
+const bitMask* treeBase::getKeyByte( const wchar_t*, unsigned );
+
+template <>
+const bitMask* treeBase::getKeyByte( const char16_t*, unsigned );
+
+template <>
+const bitMask* treeBase::getKeyByte( const char32_t*, unsigned );
 
     } // end containers namespace
 } // end hamLibs namespace

@@ -8,7 +8,7 @@
 #ifndef __HL_B_TREE_H__
 #define	__HL_B_TREE_H__
 
-#include "tree_common.h"
+#include "tree_shared.h"
 
 namespace hamLibs {
 namespace containers {
@@ -31,7 +31,7 @@ struct bTreeNode {
  *  Binary-Tree Structure Setup
 ******************************************************************************/
 template <typename key_t, typename data_t>
-class bTree : virtual public treeBase {
+class bTree {
 
     enum node_dir : unsigned {
         BNODE_LEFT   = 0,
@@ -54,7 +54,7 @@ class bTree : virtual public treeBase {
         
         void            push        ( const key_t& k, const data_t& d );
         void            pop         ( const key_t& k );
-        bool            hasData     ( const key_t& k ) const;
+        bool            hasData     ( const key_t& k );
         const data_t*   getData     ( const key_t& k );
         unsigned        size        () const { return numNodes; }
         void            clear       ();
@@ -67,18 +67,19 @@ class bTree : virtual public treeBase {
 template <typename key_t, typename data_t>
 bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNodes ) {
     
-    node_dir            dir;
-    unsigned            iter        = 0;
-    bTreeNode<data_t>*  bNodeIter   = const_cast< bTreeNode<data_t>* >( &this->head );
-    const bitMask*      bitIter     = nullptr;
-
-    while ( bitIter = treeBase::getKeyByte( k, iter++ ) ) {
+    int                 dir         = BNODE_LEFT;
+    unsigned            bytePos     = 0;
+    bTreeNode<data_t>*  bNodeIter   = &head;
+    const bitMask*      byteIter    = nullptr;
+    int                 currBit     = 0;
+    
+    while ( byteIter = treeShared::getKeyByte< key_t >( k, bytePos++ ) ) {
         
-        unsigned j = HL_BITS_PER_BYTE;
-        while ( j-- ) {
+        currBit = HL_BITS_PER_BYTE;
+        while ( currBit-- ) {
             
             // compare the bits of each byte in k
-            dir = bitIter->operator [](j) ? BNODE_LEFT : BNODE_RIGHT;
+            dir = byteIter->operator []( currBit );
 
             // check to see if a new bTreeNode needs to be made
             if ( !bNodeIter->subNodes ) {
@@ -95,6 +96,7 @@ bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNod
             bNodeIter = &(bNodeIter->subNodes[ dir ]);
         }
     }
+    
     return bNodeIter;
 }
 
@@ -164,7 +166,7 @@ void bTree<key_t, data_t>::pop( const key_t& k ) {
  * Return true if there is a data element at the key
  */
 template <typename key_t, typename data_t>
-bool bTree<key_t, data_t>::hasData( const key_t& k ) const {
+bool bTree<key_t, data_t>::hasData( const key_t& k ) {
     bTreeNode<data_t>* iter = iterate( &k, false );
 
     return iter && ( iter->data != nullptr );

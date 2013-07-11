@@ -21,6 +21,7 @@
 #include "utils/hash.h"
 #include "utils/assert.h"
 #include "utils/randomNum.h"
+#include "utils/timeObject.h"
 
 #include "containers/array.h"
 #include "containers/btree.h"
@@ -28,14 +29,7 @@
 #include "containers/queue.h"
 #include "containers/stack.h"
 #include "containers/string.h"
-#include "containers/tree_shared.h"
-#include "containers/tTree.h"
 
 #include "math/math.h"
-
-//#include "filesystem.h"
-//#include "stringUtils.h"
-//#include "config.h"
-//#include "database.h"
 
 #endif	/* __HAMLIBS_H__ */

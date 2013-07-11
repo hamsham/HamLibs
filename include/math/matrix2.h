@@ -37,23 +37,80 @@ struct mat2_t {
             vec2_t<numType> y;
         } row;
 	};
-
-	//hardhat construction
-	mat2_t();
-	mat2_t(numType n);
-	mat2_t(const mat2_t<numType>&);
-	mat2_t(mat2_t<numType>&&);
-    mat2_t( const vec2_t<numType>&,
-            const vec2_t<numType>& );
-	//delegated constructor
-	mat2_t(	numType inXX, numType inXY,
-			numType inYX, numType inYY
-	);
-	~mat2_t() {};
+    
+    /*
+     * Delegated Constructors
+     * 
+     * mat2_t()
+     * mat2_t( numType n )
+     * mat2_t( numType n0, numType n1, numType n2, ..., numType n3 )
+     * mat2_t( vec2_t x, vec2_t y )
+     * mat2_t( const mat2_t& )
+     * mat2_t( mat2_t&& )
+     */
+	// Main Constructor
+    constexpr mat2_t(
+        numType inXX, numType inXY,
+        numType inYX, numType inYY) :
+        m{
+            { inXX, inXY },
+            { inYX, inYY },
+        }
+    {}
+    
+    constexpr mat2_t() :
+        mat2_t(
+            numType(0), numType(0),
+            numType(0), numType(0)
+        )
+    {}
+    
+    constexpr mat2_t(numType n) :
+        mat2_t(
+            n, numType(0),
+            numType(0), n
+        )
+    {}
+    
+    constexpr mat2_t(const mat2_t<numType>& input) :
+        mat2_t(
+            input.m[0][0], input.m[0][1],
+            input.m[1][0], input.m[1][1]
+        )
+    {}
+    
+    constexpr mat2_t(mat2_t<numType>&& input) :
+        mat2_t(
+            input.m[0][0], input.m[0][1],
+            input.m[1][0], input.m[1][1]
+        )
+    {}
+    
+    constexpr mat2_t(
+        const vec2_t<numType>& x,
+        const vec2_t<numType>& y
+    ) : mat2_t(
+            x.v[0], x.v[1],
+            y.v[0], y.v[1]
+        )
+    {}
+    
+	~mat2_t(){}
 
 	//array operators
-	numType*		operator	[]		(int);
-	const numType*	operator	[]		(int) const;
+#ifdef HL_DEBUG
+	numType*        operator        []      (int i) const {
+                                                HL_ASSERT( (i==0)||(i==1) );
+                                                return m[i];
+                                            }
+	numType*        operator        []      (int i) {
+                                                HL_ASSERT( (i==0)||(i==1) );
+                                                return m[i];
+                                            }
+#else
+	constexpr numType* operator []      (int i) const { return m[i]; }
+	inline numType* operator    []      (int i) { return m[i]; }
+#endif
 
 	//mat-mat operators
 	mat2_t&			operator	++		(); //prefix operators
@@ -91,75 +148,6 @@ struct mat2_t {
 	mat2_t&			operator	*=		(numType);
 	mat2_t&			operator	/=		(numType);
 };
-
-//---------------------------------------------------------------------
-//	2x2 Matrix Constructors (mostly delegated)
-//---------------------------------------------------------------------
-//all constructions use list-initializations and Delegations
-template <typename numType> inline
-mat2_t<numType>::mat2_t() :
-	mat2_t(
-		numType(0), numType(0),
-		numType(0), numType(0)
-	)
-{}
-template <typename numType> inline
-mat2_t<numType>::mat2_t(numType n) :
-	mat2_t(
-		n, numType(0),
-		numType(0), n
-	)
-{}
-
-template <typename numType> inline
-mat2_t<numType>::mat2_t(const mat2_t<numType>& input) :
-	mat2_t(
-		input.m[0][0], input.m[0][1],
-		input.m[1][0], input.m[1][1]
-	)
-{}
-
-template <typename numType> inline
-mat2_t<numType>::mat2_t(mat2_t<numType>&& input) :
-	mat2_t(
-		input.m[0][0], input.m[0][1],
-		input.m[1][0], input.m[1][1]
-	)
-{}
-
-template <typename numType> inline
-mat2_t<numType>::mat2_t(
-    const vec2_t<numType>& x,
-    const vec2_t<numType>& y
-) : mat2_t(
-        x.v[0], x.v[1],
-        y.v[0], y.v[1]
-    )
-{}
-
-template <typename numType> inline
-mat2_t<numType>::mat2_t(	numType inXX, numType inXY,
-						numType inYX, numType inYY) :
-	m{
-		{ inXX, inXY },
-		{ inYX, inYY }
-	}
-{}
-
-//---------------------------------------------------------------------
-//	Array Operators
-//---------------------------------------------------------------------
-template <typename numType> inline
-numType* mat2_t<numType>::operator[](const int index) {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 2));
-	return m[ index ];
-}
-
-template <typename numType> inline
-const numType* mat2_t<numType>::operator[](const int index) const {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 2));
-	return m[ index ];
-}
 
 //---------------------------------------------------------------------
 //	mat-mat Operators

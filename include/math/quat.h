@@ -29,18 +29,61 @@ struct quat_t {
 			numType x, y, z, w;
 		} index;
 	};
-
-	//construction (all delegated)
-	quat_t			();
-	quat_t			( numType n );
-	quat_t			(const quat_t<numType>&);
-	quat_t			(quat_t<numType>&&);
-	quat_t			( numType inX, numType inY, numType inZ, numType inW );
-	~quat_t()		{}
+    
+    /*
+     * Delegated Constructors
+     * 
+     * quat_t()
+     * quat_t( numType n )
+     * quat_t( numType x, numType y, numType z, numType w )
+     * quat_t( const quat_t& )
+     * quat_t( quat_t&& )
+     */
+	// Main Constructor
+	constexpr quat_t(numType inX, numType inY, numType inZ, numType inW) :
+    	q{ inX, inY, inZ, inW }
+    {}
+        
+	constexpr quat_t() :
+        quat_t(
+            numType(0), numType(0), numType(0), numType(1)
+        )
+    {}
+    
+	constexpr quat_t( numType n ) :
+        quat_t(
+            n, n, n, numType(1)
+        )
+    {}
+    
+	constexpr quat_t(const quat_t<numType>& input) :
+    	quat_t(
+    		input.q[0], input.q[1], input.q[2], input.q[3]
+    	)
+    {}
+    
+	constexpr quat_t(quat_t<numType>&& input) :
+    	quat_t(
+    		input.q[0], input.q[1], input.q[2], input.q[3]
+    	)
+    {}
+    
+	~quat_t() {}
 
 	//array operators
-	numType			operator	[]	(int) const;
-	numType&		operator	[]	(int);
+#ifdef HL_DEBUG
+	numType         operator        []      (int i) const {
+                                                HL_ASSERT( (i>=0)&&(i<4) );
+                                                return q[i];
+                                            }
+	numType&        operator        []      (int i) {
+                                                HL_ASSERT( (i>=0)&&(i<4) );
+                                                return q[i];
+                                            }
+#else
+	constexpr numType operator      []      (int i) const { return q[i]; }
+	inline numType& operator        []      (int i) { return q[i]; }
+#endif
 
 	//quaternion-quaternion operators
 	quat_t&			operator	++	(); //prefix operators
@@ -68,63 +111,7 @@ struct quat_t {
 	quat_t&			operator	-=	(numType);
 	quat_t&			operator	*=	(numType);
 	quat_t&			operator	/=	(numType);
-/*
-	void			toEuler			(numType& yaw, numType& pitch, numType& roll) const;
-	void			toEuler			(vec3_t<numType>& rotVector) const;
-*/
 };
-
-//---------------------------------------------------------------------
-//				Quaternion Constructors
-//---------------------------------------------------------------------
-template <typename numType> inline
-quat_t<numType>::quat_t() :
-	quat_t(
-		numType(0), numType(0), numType(0), numType(1)
-	)
-{}
-template <typename numType> inline
-quat_t<numType>::quat_t( numType n ) :
-	quat_t(
-		n, n, n, numType(1)
-	)
-{}
-
-template <typename numType> inline
-quat_t<numType>::quat_t(const quat_t<numType>& input) :
-	quat_t(
-		input.q[0], input.q[1], input.q[2], input.q[3]
-	)
-{}
-
-template <typename numType> inline
-quat_t<numType>::quat_t(quat_t<numType>&& input) :
-	quat_t(
-		input.q[0], input.q[1], input.q[2], input.q[3]
-	)
-{}
-
-template <typename numType> inline
-quat_t<numType>::quat_t(numType inX, numType inY, numType inZ, numType inW) :
-	// all constructors are delegated to use this.
-	// make the references equal a value in the array
-	q{ inX, inY, inZ, inW }
-{}
-
-//---------------------------------------------------------------------
-//					Array Operators
-//---------------------------------------------------------------------
-template <typename numType> inline
-numType quat_t<numType>::operator[](const int index) const {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
-	return q[ index ];
-}
-
-template <typename numType> inline
-numType& quat_t<numType>::operator[](const int index) {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
-	return q[ index ];
-}
 
 //---------------------------------------------------------------------
 //	Quaternion-Quaternion Operators

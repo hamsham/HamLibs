@@ -41,24 +41,88 @@ struct mat3_t {
             vec3_t<numType> z;
         } row;
 	};
-
-	//hardhat construction
-	mat3_t();
-	mat3_t(numType n);
-	mat3_t(const mat3_t<numType>&);
-	mat3_t(mat3_t<numType>&&);
-    mat3_t( const vec3_t<numType>&,
-            const vec3_t<numType>&,
-            const vec3_t<numType>& );
-	//delegatoed constructor
-	mat3_t(	numType inXX, numType inXY, numType inXZ,
-			numType inYX, numType inYY, numType inYZ,
-			numType inZX, numType inZY, numType inZZ);
+    
+    /*
+     * Delegated Constructors
+     * 
+     * mat3_t()
+     * mat3_t( numType n )
+     * mat3_t( numType n0, numType n1, numType n2, ..., numType n8 )
+     * mat3_t( vec3_t x, vec3_t y, vec3_t z )
+     * mat3_t( const mat3_t& )
+     * mat3_t( mat3_t&& )
+     */
+	// Main Constructor
+    constexpr mat3_t(
+        numType inXX, numType inXY, numType inXZ,
+        numType inYX, numType inYY, numType inYZ,
+        numType inZX, numType inZY, numType inZZ) :
+        m{
+            { inXX, inXY, inXZ },
+            { inYX, inYY, inYZ },
+            { inZX, inZY, inZZ }
+        }
+    {}
+    
+    constexpr mat3_t() :
+        mat3_t(
+            numType(0), numType(0), numType(0),
+            numType(0), numType(0), numType(0),
+            numType(0), numType(0), numType(0)
+        )
+    {}
+    
+    constexpr mat3_t(numType n) :
+        mat3_t(
+            n, numType(0), numType(0),
+            numType(0), n, numType(0),
+            numType(0), numType(0), n
+        )
+    {}
+    
+    constexpr mat3_t(const mat3_t<numType>& input) :
+        mat3_t(
+            input.m[0][0], input.m[0][1], input.m[0][2],
+            input.m[1][0], input.m[1][1], input.m[1][2],
+            input.m[2][0], input.m[2][1], input.m[2][2]
+        )
+    {}
+    
+    constexpr mat3_t(mat3_t<numType>&& input) :
+        mat3_t(
+            input.m[0][0], input.m[0][1], input.m[0][2],
+            input.m[1][0], input.m[1][1], input.m[1][2],
+            input.m[2][0], input.m[2][1], input.m[2][2]
+        )
+    {}
+    
+    constexpr mat3_t(
+        const vec3_t<numType>& x,
+        const vec3_t<numType>& y,
+        const vec3_t<numType>& z
+    ) : mat3_t(
+            x.v[0], x.v[1], x.v[2],
+            y.v[0], y.v[1], y.v[2],
+            z.v[0], z.v[1], z.v[2]
+        )
+    {}
+    
 	~mat3_t(){}
 
 	//array operators
-	numType*		operator	[]		(int);
-	const numType*	operator	[]		(int) const;
+#ifdef HL_DEBUG
+	numType*        operator        []      (int i) const {
+                                                HL_ASSERT( (i>=0)&&(i<3) );
+                                                return m[i];
+                                            }
+	numType*        operator        []      (int i) {
+                                                HL_ASSERT( (i>=0)&&(i<3) );
+                                                return m[i];
+                                            }
+#else
+	constexpr numType* operator []      (int i) const { return m[i]; }
+	inline numType* operator    []      (int i) { return m[i]; }
+#endif
 
 	//matrix-matrix operators
 	mat3_t&			operator	++		(); //prefix operators
@@ -96,84 +160,6 @@ struct mat3_t {
 	mat3_t&			operator	*=		(numType);
 	mat3_t&			operator	/=		(numType);
 };
-
-//---------------------------------------------------------------------
-//	3x3 Matrix Constructors (mostly delegated)
-//---------------------------------------------------------------------
-//construct all matricies as identity matricies unless stated otherwise
-//all constructions use list-initializations and Delegations
-template <typename numType> inline
-mat3_t<numType>::mat3_t() :
-	mat3_t(
-		numType(0), numType(0), numType(0),
-		numType(0), numType(0), numType(0),
-		numType(0), numType(0), numType(0)
-	)
-{}
-template <typename numType> inline
-mat3_t<numType>::mat3_t(numType n) :
-	mat3_t(
-		n, numType(0), numType(0),
-		numType(0), n, numType(0),
-		numType(0), numType(0), n
-	)
-{}
-
-template <typename numType> inline
-mat3_t<numType>::mat3_t(const mat3_t<numType>& input) :
-	mat3_t(
-		input.m[0][0], input.m[0][1], input.m[0][2],
-		input.m[1][0], input.m[1][1], input.m[1][2],
-		input.m[2][0], input.m[2][1], input.m[2][2]
-	)
-{}
-
-template <typename numType> inline
-mat3_t<numType>::mat3_t(mat3_t<numType>&& input) :
-	mat3_t(
-		input.m[0][0], input.m[0][1], input.m[0][2],
-		input.m[1][0], input.m[1][1], input.m[1][2],
-		input.m[2][0], input.m[2][1], input.m[2][2]
-	)
-{}
-
-template <typename numType> inline
-mat3_t<numType>::mat3_t(
-    const vec3_t<numType>& x,
-    const vec3_t<numType>& y,
-    const vec3_t<numType>& z
-) : mat3_t(
-        x.v[0], x.v[1], x.v[2],
-        y.v[0], y.v[1], y.v[2],
-        z.v[0], z.v[1], z.v[2]
-    )
-{}
-
-template <typename numType> inline
-mat3_t<numType>::mat3_t(	numType inXX, numType inXY, numType inXZ,
-							numType inYX, numType inYY, numType inYZ,
-							numType inZX, numType inZY, numType inZZ ) :
-	m{
-		{ inXX, inXY, inXZ },
-		{ inYX, inYY, inYZ },
-		{ inZX, inZY, inZZ }
-	}
-{}
-
-//---------------------------------------------------------------------
-//	Array Operators
-//---------------------------------------------------------------------
-template <typename numType> inline
-numType* mat3_t<numType>::operator[](const int index) {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 3));
-	return m[ index ];
-}
-
-template <typename numType> inline
-const numType* mat3_t<numType>::operator[](const int index) const {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 3));
-	return m[ index ];
-}
 
 //---------------------------------------------------------------------
 //	Matrix-Matrix Operators

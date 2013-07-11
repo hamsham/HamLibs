@@ -28,18 +28,61 @@ struct vec4_t {
 			numType x, y, z, w;
 		} index;
 	};
-
-	//constructors
-	vec4_t			();
-	vec4_t			( numType n );
-	vec4_t			(const vec4_t<numType>&);
-	vec4_t			(vec4_t<numType>&&);
-	vec4_t			(numType inX, numType inY, numType inZ, numType inW);
-	~vec4_t			(){}
+    
+    /*
+     * Delegated Constructors
+     * 
+     * vec4_t()
+     * vec4_t( numType n )
+     * vec4_t( numType x, numType y, numType z, numType w )
+     * vec4_t( const vec4_t& )
+     * vec4_t( vec4_t&& )
+     */
+	// Main Constructor
+	constexpr vec4_t(numType inX, numType inY, numType inZ, numType inW) :
+    	v{ inX, inY, inZ, inW }
+    {}
+        
+	constexpr vec4_t() :
+        vec4_t(
+            numType(0), numType(0), numType(0), numType(1)
+        )
+    {}
+    
+	constexpr vec4_t( numType n ) :
+        vec4_t(
+            n, n, n, numType(1)
+        )
+    {}
+    
+	constexpr vec4_t(const vec4_t<numType>& input) :
+    	vec4_t(
+    		input.v[0], input.v[1], input.v[2], input.v[3]
+    	)
+    {}
+    
+	constexpr vec4_t(vec4_t<numType>&& input) :
+    	vec4_t(
+    		input.v[0], input.v[1], input.v[2], input.v[3]
+    	)
+    {}
+    
+	~vec4_t() {}
 
 	//array operators
-	numType			operator		[]		(int) const;
-	numType&		operator		[]		(int);
+#ifdef HL_DEBUG
+	numType         operator        []      (int i) const {
+                                                HL_ASSERT( (i>=0)&&(i<4) );
+                                                return v[i];
+                                            }
+	numType&        operator        []      (int i) {
+                                                HL_ASSERT( (i>=0)&&(i<4) );
+                                                return v[i];
+                                            }
+#else
+	constexpr numType operator      []      (int i) const { return v[i]; }
+	inline numType& operator        []      (int i) { return v[i]; }
+#endif
 
 	//vector-vector operators
 	vec4_t&			operator		= 		(const vec4_t<numType>&);
@@ -81,54 +124,6 @@ struct vec4_t {
 	vec4_t&			operator 		*= 		(numType);
 	vec4_t&			operator 		/= 		(numType);
 };
-
-//---------------------------------------------------------------------
-//	Vector Constructors
-//---------------------------------------------------------------------
-template <typename numType> inline
-vec4_t<numType>::vec4_t() :
-	vec4_t(
-		numType(0), numType(0), numType(0), numType(0)
-	)
-{}
-template <typename numType> inline
-vec4_t<numType>::vec4_t( numType n ) :
-	vec4_t( n, n, n, n )
-{}
-
-template <typename numType> inline
-vec4_t<numType>::vec4_t(const vec4_t<numType>& input) :
-	vec4_t(
-		input.v[0], input.v[1], input.v[2], input.v[3]
-	)
-{}
-
-template <typename numType> inline
-vec4_t<numType>::vec4_t(vec4_t<numType>&& input) :
-	vec4_t(
-		input.v[0], input.v[1], input.v[2], input.v[3]
-	)
-{}
-
-template <typename numType> inline
-vec4_t<numType>::vec4_t(numType inX, numType inY, numType inZ, numType inW) :
-	v{ inX, inY, inZ, inW }
-{}
-
-//---------------------------------------------------------------------
-//	Array Operators
-//---------------------------------------------------------------------
-template <typename numType> inline
-numType vec4_t<numType>::operator[](const int index) const {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
-	return v[ index ];
-}
-
-template <typename numType> inline
-numType& vec4_t<numType>::operator[](const int index) {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
-	return v[ index ];
-}
 
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations

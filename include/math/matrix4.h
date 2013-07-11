@@ -43,28 +43,114 @@ struct mat4_t {
             vec4_t<numType> w;
         } row;
 	};
-
-	//hardhat construction
-	mat4_t();
-	mat4_t(numType n);
-	mat4_t(const mat3_t<numType>&);
-	mat4_t(const mat4_t<numType>&);
-	mat4_t(mat3_t<numType>&&);
-	mat4_t(mat4_t<numType>&&);
-    mat4_t( const vec4_t<numType>&,
-            const vec4_t<numType>&,
-            const vec4_t<numType>&,
-            const vec4_t<numType>& );
-	//delegated constructor
-	mat4_t(	numType inXX, numType inX, numType inXZ, numType inXW,
-			numType inYX, numType inYY, numType inYZ, numType inYW,
-			numType inZX, numType inZ, numType inZZ, numType inZW,
-			numType inWX, numType inWY, numType inWZ, numType inWW);
+    
+    /*
+     * Delegated Constructors
+     * 
+     * mat4_t()
+     * mat4_t( numType n )
+     * mat4_t( numType n0, numType n1, numType n2, ..., numType n15 )
+     * mat4_t( vec4_t x, vec4_t y, vec4_t z, vec4_t w )
+     * mat4_t( const mat4_t& )
+     * mat4_t( mat4_t&& )
+     */
+	// Main Constructor
+    constexpr mat4_t(
+        numType inXX, numType inXY, numType inXZ, numType inXW,
+        numType inYX, numType inYY, numType inYZ, numType inYW,
+        numType inZX, numType inZY, numType inZZ, numType inZW,
+        numType inWX, numType inWY, numType inWZ, numType inWW) :
+        m{
+            { inXX, inXY, inXZ, inXW },
+            { inYX, inYY, inYZ, inYW },
+            { inZX, inZY, inZZ, inZW },
+            { inWX, inWY, inWZ, inWW }
+        }
+    {}
+    
+    constexpr mat4_t() :
+        mat4_t(
+            numType(0), numType(0), numType(0), numType(0),
+            numType(0), numType(0), numType(0), numType(0),
+            numType(0), numType(0), numType(0), numType(0),
+            numType(0), numType(0), numType(0), numType(0)
+        )
+    {}
+    
+    constexpr mat4_t(numType n) :
+        mat4_t(
+            n, numType(0), numType(0), numType(0),
+            numType(0), n, numType(0), numType(0),
+            numType(0), numType(0), n, numType(0),
+            numType(0), numType(0), numType(0), n
+        )
+    {}
+    
+    constexpr mat4_t(const mat3_t<numType>& input) :
+        mat4_t(
+            input.m[0][0], input.m[0][1], input.m[0][2], numType(0),
+            input.m[1][0], input.m[1][1], input.m[1][2], numType(0),
+            input.m[2][0], input.m[2][1], input.m[2][2], numType(0),
+            numType(0), numType(0), numType(0), numType(1)
+        )
+    {}
+    
+    constexpr mat4_t(const mat4_t<numType>& input) :
+        mat4_t(
+            input.m[0][0], input.m[0][1], input.m[0][2], input.m[0][3],
+            input.m[1][0], input.m[1][1], input.m[1][2], input.m[1][3],
+            input.m[2][0], input.m[2][1], input.m[2][2], input.m[2][3],
+            input.m[3][0], input.m[3][1], input.m[3][2], input.m[3][3]
+        )
+    {}
+    
+    constexpr mat4_t(mat3_t<numType>&& input) :
+        mat4_t(
+            input.m[0][0], input.m[0][1], input.m[0][2], numType(0),
+            input.m[1][0], input.m[1][1], input.m[1][2], numType(0),
+            input.m[2][0], input.m[2][1], input.m[2][2], numType(0),
+            numType(0), numType(0), numType(0), numType(1)
+        )
+    {}
+    
+    constexpr mat4_t(mat4_t<numType>&& input) :
+        mat4_t(
+            input.m[0][0], input.m[0][1], input.m[0][2], input.m[0][3],
+            input.m[1][0], input.m[1][1], input.m[1][2], input.m[1][3],
+            input.m[2][0], input.m[2][1], input.m[2][2], input.m[2][3],
+            input.m[3][0], input.m[3][1], input.m[3][2], input.m[3][3]
+        )
+    {}
+    
+    constexpr mat4_t(
+        const vec4_t<numType>& x,
+        const vec4_t<numType>& y,
+        const vec4_t<numType>& z,
+        const vec4_t<numType>& w
+    ) : mat4_t(
+            x.v[0], x.v[1], x.v[2], x.v[3],
+            y.v[0], y.v[1], y.v[2], y.v[3],
+            z.v[0], z.v[1], z.v[2], z.v[3],
+            w.v[0], w.v[1], w.v[2], w.v[3]
+        )
+    {}
+    
 	~mat4_t(){}
 
 	//array operators
-	numType*		operator	[]		(int);
-	const numType*	operator	[]		(int) const;
+#ifdef HL_DEBUG
+	numType*        operator        []      (int i) const {
+                                                HL_ASSERT( (i>=0)&&(i<4) );
+                                                return m[i];
+                                            }
+	numType*        operator        []      (int i) {
+                                                HL_ASSERT( (i>=0)&&(i<4) );
+                                                return m[i];
+                                            }
+#else
+	constexpr numType* operator []      (int i) const { return m[i]; }
+	inline numType* operator    []      (int i) { return m[i]; }
+#endif
 
 	//matrix-matrix operators
 	mat4_t&			operator	++		(); //prefix operators
@@ -102,112 +188,6 @@ struct mat4_t {
 	mat4_t&			operator	*=		(numType);
 	mat4_t&			operator	/=		(numType);
 };
-
-//---------------------------------------------------------------------
-//	4x4 Matrix Constructors (mostly delegated)
-//---------------------------------------------------------------------
-//all constructions use list-initializations and Delegations
-template <typename numType> inline
-mat4_t<numType>::mat4_t() :
-	mat4_t(
-		numType(0), numType(0), numType(0), numType(0),
-		numType(0), numType(0), numType(0), numType(0),
-		numType(0), numType(0), numType(0), numType(0),
-		numType(0), numType(0), numType(0), numType(0)
-	)
-{}
-//all constructions use list-initializations and Delegations
-template <typename numType> inline
-mat4_t<numType>::mat4_t(numType n) :
-	mat4_t(
-		n, numType(0), numType(0), numType(0),
-		numType(0), n, numType(0), numType(0),
-		numType(0), numType(0), n, numType(0),
-		numType(0), numType(0), numType(0), n
-	)
-{}
-
-template <typename numType> inline
-mat4_t<numType>::mat4_t(const mat3_t<numType>& input) :
-	mat4_t(
-		input.m[0][0], input.m[0][1], input.m[0][2], numType(0),
-		input.m[1][0], input.m[1][1], input.m[1][2], numType(0),
-		input.m[2][0], input.m[2][1], input.m[2][2], numType(0),
-		numType(0), numType(0), numType(0), numType(1)
-	)
-{}
-
-template <typename numType> inline
-mat4_t<numType>::mat4_t(const mat4_t<numType>& input) :
-	mat4_t(
-		input.m[0][0], input.m[0][1], input.m[0][2], input.m[0][3],
-		input.m[1][0], input.m[1][1], input.m[1][2], input.m[1][3],
-		input.m[2][0], input.m[2][1], input.m[2][2], input.m[2][3],
-		input.m[3][0], input.m[3][1], input.m[3][2], input.m[3][3]
-	)
-{}
-
-template <typename numType> inline
-mat4_t<numType>::mat4_t(mat3_t<numType>&& input) :
-	mat4_t(
-		input.m[0][0], input.m[0][1], input.m[0][2], numType(0),
-		input.m[1][0], input.m[1][1], input.m[1][2], numType(0),
-		input.m[2][0], input.m[2][1], input.m[2][2], numType(0),
-		numType(0), numType(0), numType(0), numType(1)
-	)
-{}
-
-template <typename numType> inline
-mat4_t<numType>::mat4_t(mat4_t<numType>&& input) :
-	mat4_t(
-		input.m[0][0], input.m[0][1], input.m[0][2], input.m[0][3],
-		input.m[1][0], input.m[1][1], input.m[1][2], input.m[1][3],
-		input.m[2][0], input.m[2][1], input.m[2][2], input.m[2][3],
-		input.m[3][0], input.m[3][1], input.m[3][2], input.m[3][3]
-	)
-{}
-
-template <typename numType> inline
-mat4_t<numType>::mat4_t(
-    const vec4_t<numType>& x,
-    const vec4_t<numType>& y,
-    const vec4_t<numType>& z,
-    const vec4_t<numType>& w
-) : mat4_t(
-        x.v[0], x.v[1], x.v[2], x.v[3],
-        y.v[0], y.v[1], y.v[2], y.v[3],
-        z.v[0], z.v[1], z.v[2], z.v[3],
-        w.v[0], w.v[1], w.v[2], w.v[3]
-    )
-{}
-
-template <typename numType> inline
-mat4_t<numType>::mat4_t(
-    numType inXX, numType inXY, numType inXZ, numType inXW,
-    numType inYX, numType inYY, numType inYZ, numType inYW,
-    numType inZX, numType inZY, numType inZZ, numType inZW,
-    numType inWX, numType inWY, numType inWZ, numType inWW) :
-	m{
-		{ inXX, inXY, inXZ, inXW },
-		{ inYX, inYY, inYZ, inYW },
-		{ inZX, inZY, inZZ, inZW },
-		{ inWX, inWY, inWZ, inWW }
-	}
-{}
-
-//---------------------------------------------------------------------
-//	Array Operators
-//---------------------------------------------------------------------
-template <typename numType> inline
-numType* mat4_t<numType>::operator[](const int index) {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
-	return m[ index ];
-}
-template <typename numType> inline
-const numType* mat4_t<numType>::operator[](const int index) const {
-	HL_DEBUG_ASSERT((index >= 0) && (index < 4));
-	return m[ index ];
-}
 
 //---------------------------------------------------------------------
 //	Matrix-Matrix Operators

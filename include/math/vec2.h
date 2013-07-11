@@ -26,19 +26,62 @@ struct vec2_t {
 			numType	x, y;
 		} index;
 	};
-
-	//constructors
-	vec2_t			();
-	vec2_t			( numType n );
-	vec2_t			(const vec2_t<numType>&);
-	vec2_t			(vec2_t<numType>&&);
-	vec2_t			(numType inX, numType inY);
-	~vec2_t			() {}
+    
+    /*
+     * Delegated Constructors
+     * 
+     * vec2_t()
+     * vec2_t( numType n )
+     * vec2_t( numType x, numType y )
+     * vec2_t( const vec2_t& )
+     * vec2_t( vec2_t&& )
+     */
+	// Main Constructor
+	constexpr vec2_t(numType inX, numType inY) :
+    	v{ inX, inY }
+    {}
+        
+	constexpr vec2_t() :
+        vec2_t(
+            numType(0), numType(0)
+        )
+    {}
+    
+	constexpr vec2_t( numType n ) :
+        vec2_t(
+            n, n
+        )
+    {}
+    
+	constexpr vec2_t(const vec2_t<numType>& input) :
+    	vec2_t(
+    		input.v[0], input.v[1]
+    	)
+    {}
+    
+	constexpr vec2_t(vec2_t<numType>&& input) :
+    	vec2_t(
+    		input.v[0], input.v[1]
+    	)
+    {}
+    
+	~vec2_t() {}
 
 	//array operators
-	numType			operator		[]		(int) const;
-	numType&		operator		[]		(int);
-
+#ifdef HL_DEBUG
+	numType         operator        []      (int i) const {
+                                                HL_ASSERT( (i==0)||(i==1) );
+                                                return v[i];
+                                            }
+	numType&        operator        []      (int i) {
+                                                HL_ASSERT( (i==0)||(i==1) );
+                                                return v[i];
+                                            }
+#else
+	constexpr numType operator      []      (int i) const { return v[i]; }
+	inline numType& operator        []      (int i) { return v[i]; }
+#endif
+    
 	//vector-vector operators
 	vec2_t&			operator		= 		(const vec2_t<numType>&);
 	vec2_t&			operator		= 		(vec2_t<numType>&&);
@@ -79,54 +122,6 @@ struct vec2_t {
 	vec2_t&			operator 		*= 		(numType);
 	vec2_t&			operator 		/= 		(numType);
 };
-
-//---------------------------------------------------------------------
-//	Vector Constructors
-//---------------------------------------------------------------------
-template <typename numType> inline
-vec2_t<numType>::vec2_t() :
-	vec2_t(
-		numType(0), numType(0)
-	)
-{}
-template <typename numType> inline
-vec2_t<numType>::vec2_t( numType n ) :
-	vec2_t( n, n )
-{}
-
-template <typename numType> inline
-vec2_t<numType>::vec2_t(const vec2_t<numType>& input) :
-	vec2_t(
-		input.v[0], input.v[1]
-	)
-{}
-
-template <typename numType> inline
-vec2_t<numType>::vec2_t(vec2_t<numType>&& input) :
-	vec2_t(
-		input.v[0], input.v[1]
-	)
-{}
-
-template <typename numType> inline
-vec2_t<numType>::vec2_t(numType inX, numType inY) :
-	v{ inX, inY }
-{}
-
-//---------------------------------------------------------------------
-//	Array Operators
-//---------------------------------------------------------------------
-template <typename numType> inline
-numType vec2_t<numType>::operator[](const int index) const {
-	HL_DEBUG_ASSERT((index == 0) || (index == 1));
-	return v[ index ];
-}
-
-template <typename numType> inline
-numType& vec2_t<numType>::operator[](const int index) {
-	HL_DEBUG_ASSERT((index == 0) || (index == 1));
-	return v[ index ];
-}
 
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations

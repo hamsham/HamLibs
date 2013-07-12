@@ -68,7 +68,7 @@ struct quat_t {
     	)
     {}
     
-	~quat_t() {}
+	~quat_t() = default;
 
 	//array operators
 #ifdef HL_DEBUG

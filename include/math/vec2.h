@@ -65,7 +65,7 @@ struct vec2_t {
     	)
     {}
     
-	~vec2_t() {}
+	~vec2_t() = default;
 
 	//array operators
 #ifdef HL_DEBUG

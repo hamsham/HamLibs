@@ -135,7 +135,7 @@ struct mat4_t {
         )
     {}
     
-	~mat4_t(){}
+	~mat4_t() = default;
 
 	//array operators
 #ifdef HL_DEBUG

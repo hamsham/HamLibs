@@ -107,7 +107,7 @@ struct mat3_t {
         )
     {}
     
-	~mat3_t(){}
+	~mat3_t() = default;
 
 	//array operators
 #ifdef HL_DEBUG

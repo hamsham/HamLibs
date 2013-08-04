@@ -14,7 +14,7 @@ namespace utils {
 class randomNum {
     private:
         unsigned long state[ 16 ];
-        unsigned int index;
+        unsigned int index = 0;
         
     public:
         ~randomNum() {}

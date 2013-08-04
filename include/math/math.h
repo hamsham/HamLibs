@@ -12,6 +12,7 @@
 
 #include <cmath>
 #include <cstdint>
+#include "../defs/preprocessor.h"
 
 /*
  * Floating Point Values & Precision
@@ -122,6 +123,9 @@ namespace math {
 	typedef mat2_t	<HL_FLOAT>      mat2;
 	typedef mat3_t	<HL_FLOAT>      mat3;
 	typedef mat4_t	<HL_FLOAT>      mat4;
+    
+    template <typename numType> inline      numType min(numType, numType);
+    template <typename numType> inline      numType max(numType, numType);
 	
 	template <typename numType>	inline      numType fastSqrt(numType);
 	template <typename numType>	inline      numType fastInvSqrt(numType);
@@ -139,6 +143,17 @@ namespace math {
 	//-------------------------------------------------------------
 	//				Definitions
 	//-------------------------------------------------------------
+    template <typename numType> HL_IMPERATIVE
+    numType min(numType a, numType b) {
+        return (a < b) ? a : b;
+    }
+    
+    template <typename numType> HL_IMPERATIVE
+    numType max(numType a, numType b) {
+        return (a > b) ? a : b;
+    }
+
+	//-----------------------------------------------------------------
 	/* Fast inverse square root method adopted for regular square rooting.
 	 * this method was found at:
 	 *		http://rrrola.wz.cz/inv_sqrt.html

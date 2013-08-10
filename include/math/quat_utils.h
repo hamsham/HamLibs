@@ -132,7 +132,7 @@ inline math::quat_t<numType> math::slerp(
     theta = (numType)std::acos(dotProd);
     
     if ( theta < numType(0) )
-        theta -= theta;
+        theta = -theta;
     
     st = (numType)std::sin(theta);
     sut = (numType)std::sin(lambda*theta);

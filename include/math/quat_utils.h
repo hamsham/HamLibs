@@ -30,6 +30,7 @@ template <typename numType> inline quat_t<numType>	conjugate( const quat_t<numTy
 
 template <typename numType> inline quat_t<numType>	normalize( const quat_t<numType>& );
 
+template <typename numType> inline quat_t<numType>  lerp( const quat_t<numType>&, const quat_t<numType>&, numType );
 template <typename numType> inline quat_t<numType>  slerp( const quat_t<numType>&, const quat_t<numType>&, numType );
 
 //-----------------------------------------------------------------------------
@@ -108,6 +109,11 @@ math::quat_t<numType> math::normalize( const quat_t<numType>& q ) {
 	);
 }
 
+template <typename numType> inline
+math::quat_t<numType> math::lerp( const quat_t<numType>& q1, const quat_t<numType>& q2, numType percent ) {
+    return quat_t<numType>( q1 + (percent*( q2 - q1 )) );
+}
+
 /**
  * SLERP
  *  This method has been adapted from the book
@@ -117,8 +123,8 @@ math::quat_t<numType> math::normalize( const quat_t<numType>& q ) {
  * 
  * Request from the author must be granted prior to use in commercial products.
 */
-template <typename numType>
-inline math::quat_t<numType> math::slerp(
+template <typename numType> inline
+math::quat_t<numType> math::slerp(
     const quat_t<numType>& q1,
     const quat_t<numType>& q2,
     numType lambda
@@ -140,12 +146,12 @@ inline math::quat_t<numType> math::slerp(
     coeff1 = sout / st;
     coeff2 = sut / st;
     
-    return normalize<numType>( quat_t<numType>(
+    return quat_t<numType>(
         (coeff1*q1.q[0]) + (coeff2*q2.q[0]),
         (coeff1*q1.q[1]) + (coeff2*q2.q[1]),
         (coeff1*q1.q[2]) + (coeff2*q2.q[2]),
         (coeff1*q1.q[3]) + (coeff2*q2.q[3])
-    ) );
+    );
 }
 
 //-----------------------------------------------------------------------------

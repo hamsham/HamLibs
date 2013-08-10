@@ -30,6 +30,8 @@ template <typename numType> inline quat_t<numType>	conjugate( const quat_t<numTy
 
 template <typename numType> inline quat_t<numType>	normalize( const quat_t<numType>& );
 
+template <typename numType> inline quat_t<numType>  slerp( const quat_t<numType>&, const quat_t<numType>&, numType );
+
 //-----------------------------------------------------------------------------
 //		Quaternions & Matrices
 //-----------------------------------------------------------------------------
@@ -104,6 +106,46 @@ math::quat_t<numType> math::normalize( const quat_t<numType>& q ) {
 		q.q[2] * magInv,
 		q.q[3] * magInv
 	);
+}
+
+/**
+ * SLERP
+ *  This method has been adapted from the book
+ * Visual Computing: Gometry, Graphics, and Vision
+ * http://www.sonycsl.co.jp/person/nielsen/visualcomputing/
+ * http://www.sonycsl.co.jp/person/nielsen/visualcomputing/programs/slerp.cpp
+ * 
+ * Request from the author must be granted prior to use in commercial products.
+*/
+template <typename numType>
+inline math::quat_t<numType> math::slerp(
+    const quat_t<numType>& q1,
+    const quat_t<numType>& q2,
+    numType lambda
+) {
+    
+    numType dotProd = (q1.q[0] * q1.q[0]) + (q1.q[1] * q1.q[1]) + (q1.q[2] * q1.q[2]) + (q1.q[3] * q1.q[3]);
+    numType theta, st, sut, sout, coeff1, coeff2;
+    
+    lambda /=numType(2);
+    
+    theta = (numType)std::acos(dotProd);
+    
+    if ( theta < numType(0) )
+        theta -= theta;
+    
+    st = (numType)std::sin(theta);
+    sut = (numType)std::sin(lambda*theta);
+    sout = (numType)std::sin((numType(1)-lambda)*theta);
+    coeff1 = sout / st;
+    coeff2 = sut / st;
+    
+    return normalize<numType>( quat_t<numType>(
+        (coeff1*q1.q[0]) + (coeff2*q2.q[0]),
+        (coeff1*q1.q[1]) + (coeff2*q2.q[1]),
+        (coeff1*q1.q[2]) + (coeff2*q2.q[2]),
+        (coeff1*q1.q[3]) + (coeff2*q2.q[3])
+    ) );
 }
 
 //-----------------------------------------------------------------------------

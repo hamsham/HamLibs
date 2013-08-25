@@ -7,6 +7,7 @@ libraries which could be used across several projects requiring non
 game-specific functionality.
 
 So far, it includes:
+    
     1.  A fully templated linear math library with 2D/3D/4D Vectors and
         Matrices, a quaternion class, and various helper functions. It also has
         a fixed-point number class with multiple compile-time operators.

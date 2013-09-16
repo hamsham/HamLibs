@@ -20,6 +20,13 @@
 namespace hamLibs {
 namespace math {
 
+/* 4x4 Matrix forward declaration */
+template <typename numType>
+class mat4_t;
+
+/******************************************************************************
+ * 4D Vector Class
+******************************************************************************/
 template <typename numType>
 struct vec4_t {
 	union {
@@ -107,7 +114,7 @@ struct vec4_t {
 	bool			operator		<=		(const vec4_t<numType>& compare) const;
 	bool			operator		>=		(const vec4_t<numType>& compare) const;
 
-	//vector-matrix operators
+	//vector-matrix operators (implementation in the matrix4 header)
 	mat4_t<numType>	operator		+		(const mat4_t<numType>&) const;
 	mat4_t<numType>	operator		-		(const mat4_t<numType>&) const;
 	vec4_t<numType>	operator		*		(const mat4_t<numType>&) const;
@@ -319,45 +326,6 @@ bool vec4_t<numType>::operator>= (const vec4_t<numType>& compare) const {
 				v[2] >= compare.v[2] &&
 				v[3] >= compare.v[3]
 			);
-}
-
-//---------------------------------------------------------------------
-//	Vector-Matrix Math Operations
-//---------------------------------------------------------------------
-template <typename numType> inline
-mat4_t<numType> vec4_t<numType>::operator + (const mat4_t<numType>& m) const {
-	return mat4_t<numType>(
-		v[0] + m.m[0][0], v[0] + m.m[0][1], v[0] + m.m[0][2], v[0] + m.m[0][3],
-		v[1] + m.m[1][0], v[1] + m.m[1][1], v[1] + m.m[1][2], v[1] + m.m[1][3],
-		v[2] + m.m[2][0], v[2] + m.m[2][1], v[2] + m.m[2][2], v[2] + m.m[2][3],
-		v[3] + m.m[3][0], v[3] + m.m[3][1], v[3] + m.m[3][2], v[3] + m.m[3][3]
-	);
-}
-
-template <typename numType> inline
-mat4_t<numType> vec4_t<numType>::operator - (const mat4_t<numType>& m) const {
-	return mat4_t<numType>(
-		v[0] - m.m[0][0], v[0] - m.m[0][1], v[0] - m.m[0][2], v[0] - m.m[0][3],
-		v[1] - m.m[1][0], v[1] - m.m[1][1], v[1] - m.m[1][2], v[1] - m.m[1][3],
-		v[2] - m.m[2][0], v[2] - m.m[2][1], v[2] - m.m[2][2], v[2] - m.m[2][3],
-		v[3] - m.m[3][0], v[3] - m.m[3][1], v[3] - m.m[3][2], v[3] - m.m[3][3]
-	);
-}
-
-template <typename numType> inline
-vec4_t<numType> vec4_t<numType>::operator * (const mat4_t<numType>& m) const {
-	return vec4_t<numType>(
-		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]) + (m.m[0][2] * v[2]) + (m.m[0][3] * v[3]),
-		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1]) + (m.m[1][2] * v[2]) + (m.m[1][3] * v[3]),
-		(m.m[2][0] * v[0]) + (m.m[2][1] * v[1]) + (m.m[2][2] * v[2]) + (m.m[2][3] * v[3]),
-		(m.m[3][0] * v[0]) + (m.m[3][1] * v[1]) + (m.m[3][2] * v[2]) + (m.m[3][3] * v[3])
-	);
-}
-
-template <typename numType> inline
-vec4_t<numType>& vec4_t<numType>::operator *= (const mat4_t<numType>& m) {
-	*this = *this * m;
-	return *this;
 }
 
 //---------------------------------------------------------------------

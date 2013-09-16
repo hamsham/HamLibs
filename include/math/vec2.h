@@ -18,6 +18,13 @@
 namespace hamLibs {
 namespace math {
 
+/* 2x2 Matrix forward declaration */
+template <typename numType>
+class mat2_t;
+
+/******************************************************************************
+ * 2D Vector Class
+******************************************************************************/
 template <typename numType>
 struct vec2_t {
 	union {
@@ -105,7 +112,7 @@ struct vec2_t {
 	bool			operator		<=		(const vec2_t<numType>& compare) const;
 	bool			operator		>=		(const vec2_t<numType>& compare) const;
 
-	//vector-matrix operators
+	//vector-matrix operators (implementation in the matrix2 header)
 	mat2_t<numType>	operator		+		(const mat2_t<numType>&) const;
 	mat2_t<numType>	operator		-		(const mat2_t<numType>&) const;
 	vec2_t<numType>	operator		*		(const mat2_t<numType>&) const;
@@ -276,39 +283,6 @@ bool vec2_t<numType>::operator>= (const vec2_t<numType>& compare) const {
 	return (	v[0] >= compare.v[0] &&
 				v[1] >= compare.v[1]
 			);
-}
-
-//---------------------------------------------------------------------
-//	Vector-Matrix Math Operations
-//---------------------------------------------------------------------
-template <typename numType> inline
-mat2_t<numType> vec2_t<numType>::operator + (const mat2_t<numType>& m) const {
-	return mat2_t<numType>(
-		v[0] + m.m[0][0], v[0] + m.m[0][1],
-		v[1] + m.m[1][0], v[1] + m.m[1][1]
-	);
-}
-
-template <typename numType> inline
-mat2_t<numType> vec2_t<numType>::operator - (const mat2_t<numType>& m) const {
-	return mat2_t<numType>(
-		v[0] - m.m[0][0], v[0] - m.m[0][1],
-		v[1] - m.m[1][0], v[1] - m.m[1][1]
-	);
-}
-
-template <typename numType> inline
-vec2_t<numType> vec2_t<numType>::operator * (const mat2_t<numType>& m) const {
-	return vec2_t<numType>(
-		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]),
-		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1])
-	);
-}
-
-template <typename numType> inline
-vec2_t<numType>& vec2_t<numType>::operator *= (const mat2_t<numType>& m) {
-	*this = *this * m;
-	return *this;
 }
 
 //---------------------------------------------------------------------

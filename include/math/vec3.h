@@ -19,6 +19,13 @@
 namespace hamLibs {
 namespace math {
 
+/* 3x3 Matrix forward declaration */
+template <typename numType>
+class mat3_t;
+
+/******************************************************************************
+ * 3D Vector Class
+******************************************************************************/
 template <typename numType>
 struct vec3_t {
 	union {
@@ -106,7 +113,7 @@ struct vec3_t {
 	bool			operator		<=		(const vec3_t<numType>& compare) const;
 	bool			operator		>=		(const vec3_t<numType>& compare) const;
 
-	//vector-matrix operators
+	//vector-matrix operators (implementation in the matrix3 header)
 	mat3_t<numType>	operator		+		(const mat3_t<numType>&) const;
 	mat3_t<numType>	operator		-		(const mat3_t<numType>&) const;
 	vec3_t<numType>	operator		*		(const mat3_t<numType>&) const;
@@ -297,42 +304,6 @@ bool vec3_t<numType>::operator>= (const vec3_t<numType>& compare) const {
 				v[1] >= compare.v[1] &&
 				v[2] >= compare.v[2]
 			);
-}
-
-//---------------------------------------------------------------------
-//	Vector-Matrix Math Operations
-//---------------------------------------------------------------------
-template <typename numType> inline
-mat3_t<numType> vec3_t<numType>::operator + (const mat3_t<numType>& m) const {
-	return mat3_t<numType>(
-		v[0] + m.m[0][0], v[0] + m.m[0][1], v[0] + m.m[0][2],
-		v[1] + m.m[1][0], v[1] + m.m[1][1], v[1] + m.m[1][2],
-		v[2] + m.m[2][0], v[2] + m.m[2][1], v[2] + m.m[2][2]
-	);
-}
-
-template <typename numType> inline
-mat3_t<numType> vec3_t<numType>::operator - (const mat3_t<numType>& m) const {
-	return mat3_t<numType>(
-		v[0] - m.m[0][0], v[0] - m.m[0][1], v[0] - m.m[0][2],
-		v[1] - m.m[1][0], v[1] - m.m[1][1], v[1] - m.m[1][2],
-		v[2] - m.m[2][0], v[2] - m.m[2][1], v[2] - m.m[2][2]
-	);
-}
-
-template <typename numType> inline
-vec3_t<numType> vec3_t<numType>::operator * (const mat3_t<numType>& m) const {
-	return vec3_t<numType>(
-		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]) + (m.m[0][2] * v[2]),
-		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1]) + (m.m[1][2] * v[2]),
-		(m.m[2][0] * v[0]) + (m.m[2][1] * v[1]) + (m.m[2][2] * v[2])
-	);
-}
-
-template <typename numType> inline
-vec3_t<numType>& vec3_t<numType>::operator *= (const mat3_t<numType>& m) {
-	*this = *this * m;
-	return *this;
 }
 
 //---------------------------------------------------------------------

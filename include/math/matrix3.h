@@ -303,6 +303,42 @@ bool mat3_t<numType>::operator != (const mat3_t<numType>& compare) const {
 }
 
 //---------------------------------------------------------------------
+//	Vector-Matrix Math Operations (Declared in the 3D Vector header)
+//---------------------------------------------------------------------
+template <typename numType> inline
+mat3_t<numType> vec3_t<numType>::operator + (const mat3_t<numType>& m) const {
+	return mat3_t<numType>(
+		v[0] + m.m[0][0], v[0] + m.m[0][1], v[0] + m.m[0][2],
+		v[1] + m.m[1][0], v[1] + m.m[1][1], v[1] + m.m[1][2],
+		v[2] + m.m[2][0], v[2] + m.m[2][1], v[2] + m.m[2][2]
+	);
+}
+
+template <typename numType> inline
+mat3_t<numType> vec3_t<numType>::operator - (const mat3_t<numType>& m) const {
+	return mat3_t<numType>(
+		v[0] - m.m[0][0], v[0] - m.m[0][1], v[0] - m.m[0][2],
+		v[1] - m.m[1][0], v[1] - m.m[1][1], v[1] - m.m[1][2],
+		v[2] - m.m[2][0], v[2] - m.m[2][1], v[2] - m.m[2][2]
+	);
+}
+
+template <typename numType> inline
+vec3_t<numType> vec3_t<numType>::operator * (const mat3_t<numType>& m) const {
+	return vec3_t<numType>(
+		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]) + (m.m[0][2] * v[2]),
+		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1]) + (m.m[1][2] * v[2]),
+		(m.m[2][0] * v[0]) + (m.m[2][1] * v[1]) + (m.m[2][2] * v[2])
+	);
+}
+
+template <typename numType> inline
+vec3_t<numType>& vec3_t<numType>::operator *= (const mat3_t<numType>& m) {
+	*this = *this * m;
+	return *this;
+}
+
+//---------------------------------------------------------------------
 //	Matrix-Vector Operators
 //---------------------------------------------------------------------
 template <typename numType> inline

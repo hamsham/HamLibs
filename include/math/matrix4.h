@@ -12,6 +12,7 @@
  *		WX	WY	WZ	WW
  * ---------------------
 */
+
 #ifndef __HL_MATH_MATRIX4_H__
 #define __HL_MATH_MATRIX4_H__
 
@@ -347,6 +348,45 @@ bool mat4_t<numType>::operator != (const mat4_t<numType>& compare) const {
 				m[2][0] != compare.m[2][0] && m[2][1] != compare.m[2][1] && m[2][2] != compare.m[2][2] && m[2][3] != compare.m[2][3] &&
 				m[3][0] != compare.m[3][0] && m[3][1] != compare.m[3][1] && m[3][2] != compare.m[3][2] && m[3][3] != compare.m[3][3]
 			);
+}
+
+//---------------------------------------------------------------------
+//	Vector-Matrix Math Operations (Declared in the 4D Vector header)
+//---------------------------------------------------------------------
+template <typename numType> inline
+mat4_t<numType> vec4_t<numType>::operator + (const mat4_t<numType>& m) const {
+	return mat4_t<numType>(
+		v[0] + m.m[0][0], v[0] + m.m[0][1], v[0] + m.m[0][2], v[0] + m.m[0][3],
+		v[1] + m.m[1][0], v[1] + m.m[1][1], v[1] + m.m[1][2], v[1] + m.m[1][3],
+		v[2] + m.m[2][0], v[2] + m.m[2][1], v[2] + m.m[2][2], v[2] + m.m[2][3],
+		v[3] + m.m[3][0], v[3] + m.m[3][1], v[3] + m.m[3][2], v[3] + m.m[3][3]
+	);
+}
+
+template <typename numType> inline
+mat4_t<numType> vec4_t<numType>::operator - (const mat4_t<numType>& m) const {
+	return mat4_t<numType>(
+		v[0] - m.m[0][0], v[0] - m.m[0][1], v[0] - m.m[0][2], v[0] - m.m[0][3],
+		v[1] - m.m[1][0], v[1] - m.m[1][1], v[1] - m.m[1][2], v[1] - m.m[1][3],
+		v[2] - m.m[2][0], v[2] - m.m[2][1], v[2] - m.m[2][2], v[2] - m.m[2][3],
+		v[3] - m.m[3][0], v[3] - m.m[3][1], v[3] - m.m[3][2], v[3] - m.m[3][3]
+	);
+}
+
+template <typename numType> inline
+vec4_t<numType> vec4_t<numType>::operator * (const mat4_t<numType>& m) const {
+	return vec4_t<numType>(
+		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]) + (m.m[0][2] * v[2]) + (m.m[0][3] * v[3]),
+		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1]) + (m.m[1][2] * v[2]) + (m.m[1][3] * v[3]),
+		(m.m[2][0] * v[0]) + (m.m[2][1] * v[1]) + (m.m[2][2] * v[2]) + (m.m[2][3] * v[3]),
+		(m.m[3][0] * v[0]) + (m.m[3][1] * v[1]) + (m.m[3][2] * v[2]) + (m.m[3][3] * v[3])
+	);
+}
+
+template <typename numType> inline
+vec4_t<numType>& vec4_t<numType>::operator *= (const mat4_t<numType>& m) {
+	*this = *this * m;
+	return *this;
 }
 
 //---------------------------------------------------------------------

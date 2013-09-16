@@ -29,7 +29,7 @@ struct mat2_t {
 		numType	m[2][2];
 		struct {
 			numType	xx, xy,
-					yx, yy; // these references are attached to the array above during construction
+					yx, yy;
 		} index;
         
         struct {
@@ -270,7 +270,40 @@ bool mat2_t<numType>::operator != (const mat2_t<numType>& compare) const {
 }
 
 //---------------------------------------------------------------------
-//	mat-vector Operators
+//	Vector-Matrix Math Operations (Declared in the vector header)
+//---------------------------------------------------------------------
+template <typename numType> inline
+mat2_t<numType> vec2_t<numType>::operator + (const mat2_t<numType>& m) const {
+	return mat2_t<numType>(
+		v[0] + m.m[0][0], v[0] + m.m[0][1],
+		v[1] + m.m[1][0], v[1] + m.m[1][1]
+	);
+}
+
+template <typename numType> inline
+mat2_t<numType> vec2_t<numType>::operator - (const mat2_t<numType>& m) const {
+	return mat2_t<numType>(
+		v[0] - m.m[0][0], v[0] - m.m[0][1],
+		v[1] - m.m[1][0], v[1] - m.m[1][1]
+	);
+}
+
+template <typename numType> inline
+vec2_t<numType> vec2_t<numType>::operator * (const mat2_t<numType>& m) const {
+	return vec2_t<numType>(
+		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]),
+		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1])
+	);
+}
+
+template <typename numType> inline
+vec2_t<numType>& vec2_t<numType>::operator *= (const mat2_t<numType>& m) {
+	*this = *this * m;
+	return *this;
+}
+
+//---------------------------------------------------------------------
+//	matrix-vector Operators
 //---------------------------------------------------------------------
 template <typename numType> inline
 mat2_t<numType> mat2_t<numType>::operator + (const vec2_t<numType>& input) const {

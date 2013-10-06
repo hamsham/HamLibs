@@ -67,19 +67,13 @@ class bTree {
 template <typename key_t, typename data_t>
 bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNodes ) {
     
-    int                 dir         = BNODE_LEFT;
     unsigned            bytePos     = 0;
     bTreeNode<data_t>*  bNodeIter   = &head;
     const bitMask*      byteIter    = nullptr;
-    int                 currBit     = 0;
     
     while ( byteIter = treeShared::getKeyByte< key_t >( k, bytePos++ ) ) {
         
-        currBit = HL_BITS_PER_BYTE;
-        while ( currBit-- ) {
-            
-            // compare the bits of each byte in k
-            dir = byteIter->operator []( currBit );
+        for ( unsigned currBit = HL_BITS_PER_BYTE; currBit--; ) {
 
             // check to see if a new bTreeNode needs to be made
             if ( !bNodeIter->subNodes ) {
@@ -91,8 +85,9 @@ bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNod
                     return nullptr;
                 }
             }
-
+            
             // move to the next bTreeNode
+            int dir = byteIter->operator []( currBit );
             bNodeIter = &(bNodeIter->subNodes[ dir ]);
         }
     }

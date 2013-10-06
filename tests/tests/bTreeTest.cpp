@@ -19,7 +19,8 @@ Curabitur lobortis, sem at cursus cursus, felis lacus venenatis sapien, euismod 
 
 namespace chrono = std::chrono;
 
-typedef chrono::steady_clock::time_point hr_time;
+typedef chrono::steady_clock hr_clock;
+typedef hr_clock::time_point hr_time;
 typedef chrono::milliseconds hr_prec;
 
 void nativeBench() {
@@ -29,7 +30,7 @@ void nativeBench() {
     std::map< int, int > testTree;
     hr_time t1, t2;
     unsigned numRuns = 0;
-    t1 = chrono::steady_clock::now();
+    t1 = hr_clock::now();
     
     while ( numRuns < NUM_ITERATIONS ) {
         for ( int i = 0; i < NUM_TESTS; ++i ) {
@@ -38,7 +39,7 @@ void nativeBench() {
         ++numRuns;
     }
     
-    t2 = chrono::steady_clock::now();
+    t2 = hr_clock::now();
     std::cout.precision( std::numeric_limits<double>::digits10 );
     std::cout
         << "STL Map operation " << numRuns
@@ -54,7 +55,7 @@ void bTreeBench() {
     hamLibs::containers::bTree< int, int > testTree;
     hr_time t1, t2;
     unsigned numRuns = 0;
-    t1 = chrono::steady_clock::now();
+    t1 = hr_clock::now();
     
     while ( numRuns < NUM_ITERATIONS ) {
         for ( int i = 0; i < NUM_TESTS; ++i ) {
@@ -63,7 +64,7 @@ void bTreeBench() {
         ++numRuns;
     }
     
-    t2 = chrono::steady_clock::now();
+    t2 = hr_clock::now();
     std::cout.precision( std::numeric_limits<double>::digits10 );
     std::cout
         << "bTree operation " << numRuns
@@ -88,6 +89,6 @@ int main() {
     std::cout << strTree["One, Two, Three"] << "\n";
     //std::cout << strTree[loremIpsum];
     
-    return 0;
+    return std::cin.get();
 }
 

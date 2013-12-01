@@ -6,9 +6,9 @@
  */
 
 #ifndef __HL_B_TREE_H__
-#define	__HL_B_TREE_H__
+#define __HL_B_TREE_H__
 
-#include "tree_shared.h"
+#include "../utils/bits.h"
 
 namespace hamLibs {
 namespace containers {
@@ -29,6 +29,8 @@ struct bTreeNode {
 
 /******************************************************************************
  *  Binary-Tree Structure Setup
+ * 
+ * TODO Add iterators
 ******************************************************************************/
 template <typename key_t, typename data_t>
 class bTree {
@@ -69,9 +71,9 @@ bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNod
     
     unsigned            bytePos     = 0;
     bTreeNode<data_t>*  bNodeIter   = &head;
-    const bitMask*      byteIter    = nullptr;
+    const utils::bitMask* byteIter  = nullptr;
     
-    while ( byteIter = treeShared::getKeyByte< key_t >( k, bytePos++ ) ) {
+    while ( byteIter = hamLibs::utils::getByte< key_t >( k, bytePos++ ) ) {
         
         for ( unsigned currBit = HL_BITS_PER_BYTE; currBit--; ) {
 
@@ -87,7 +89,7 @@ bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNod
             }
             
             // move to the next bTreeNode
-            int dir = byteIter->operator []( currBit );
+            const int dir = byteIter->get( currBit );
             bNodeIter = &(bNodeIter->subNodes[ dir ]);
         }
     }
@@ -185,5 +187,5 @@ const data_t* bTree<key_t, data_t>::getData( const key_t& k ) {
 } // end containers namespace
 } // end hamLibs namespace
 
-#endif	/* __HL_B_TREE_H__ */
+#endif  /* __HL_B_TREE_H__ */
 

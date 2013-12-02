@@ -165,22 +165,6 @@ class bTree {
         const data_t*   getData     ( const key_t& k );
         unsigned        size        () const { return numNodes; }
         void            clear       ();
-        
-        /*
-         * Iterator
-         */
-        class iterator {
-            private:
-            protected:
-                iterator();
-                iterator( const iterator& );
-                iterator( iterator&& );
-                
-                ~iterator() {}
-                
-                iterator& operator=( const iterator& );
-                iterator& operator=( iterator&& );
-        };
 };
 
 /*

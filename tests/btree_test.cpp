@@ -6,7 +6,6 @@
 #include <map>
 #include <chrono>
 #include <limits>
-#include <thread>
 #include <utility>
 
 #include "containers/btree.h"
@@ -166,8 +165,8 @@ void testMoveOp() {
 ******************************************************************************/
 int main() {
     // Benchmarks
-    //nativeBench();
-    //bTreeBench();
+    nativeBench();
+    bTreeBench();
     
     testCopyCtor();
     testCopyOp();

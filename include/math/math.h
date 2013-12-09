@@ -78,9 +78,17 @@ namespace hamLibs {
         typedef fixed_t<int32_t, 15> medp_t; // 16.15
         typedef fixed_t<int32_t, 23> highp_t; // 8.23
 
-        typedef fixed_t<int64_t, 15> long_lowp_t; // 48.16
-        typedef fixed_t<int64_t, 31> long_medp_t; // 32.32
-        typedef fixed_t<int64_t, 47> long_highp_t; // 16.48
+        typedef fixed_t<int64_t, 15> long_lowp_t; // 48.15
+        typedef fixed_t<int64_t, 31> long_medp_t; // 32.31
+        typedef fixed_t<int64_t, 47> long_highp_t; // 16.47
+
+        typedef fixed_t<uint32_t, 8> ulowp_t; // 24.8
+        typedef fixed_t<uint32_t, 16> umedp_t; // 16.16
+        typedef fixed_t<uint32_t, 24> uhighp_t; // 8.24
+
+        typedef fixed_t<uint64_t, 16> ulong_lowp_t; // 48.16
+        typedef fixed_t<uint64_t, 32> ulong_medp_t; // 32.32
+        typedef fixed_t<uint64_t, 48> ulong_highp_t; // 16.48
 
         typedef quat_t <float> quatf; //Quaternions
         typedef quat_t <double> quatd;

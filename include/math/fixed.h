@@ -59,7 +59,7 @@ class fixed_t {
         constexpr   fixed_t     operator    >>  ( const fixed_t& f ) const  { return fixed_t( number >> f.number ); }
         constexpr   fixed_t     operator    <<  ( const fixed_t& f ) const  { return fixed_t( number << f.number ); }
         
-        constexpr   fixed_t&    operator    =    ( const fixed_t& f )       { number = f.number; return *this; }
+        inline      fixed_t&    operator    =    ( const fixed_t& f )       { number = f.number; return *this; }
         inline      fixed_t&    operator    +=   ( const fixed_t& f )       { number += f.number; return *this; }
         inline      fixed_t&    operator    -=   ( const fixed_t& f )       { number -= f.number; return *this; }
         inline      fixed_t&    operator    *=   ( const fixed_t& f )       { number *= f.number; return *this; }

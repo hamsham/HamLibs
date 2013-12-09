@@ -6,6 +6,7 @@
 #include <map>
 #include <chrono>
 #include <limits>
+#include <thread>
 #include <utility>
 
 #include "containers/btree.h"
@@ -164,14 +165,17 @@ void testMoveOp() {
  * Main
 ******************************************************************************/
 int main() {
-    // Benchmarks
-    nativeBench();
-    bTreeBench();
-    
     testCopyCtor();
     testCopyOp();
     testMoveCtor();
     testMoveOp();
+    
+    // Multi-threaded benchmarks
+    std::thread bench1( nativeBench );
+    std::thread bench2( bTreeBench );
+    
+    bench1.join();
+    bench2.join();
     
     return std::cin.get();
 }

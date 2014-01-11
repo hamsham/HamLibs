@@ -231,7 +231,7 @@ bTreeNode<data_t>* bTree<key_t, data_t>::iterate( const key_t* k, bool createNod
     bTreeNode<data_t>*  bNodeIter   = &head;
     const utils::bitMask* byteIter  = nullptr;
     
-    while ( byteIter = hamLibs::utils::getByte< key_t >( k, bytePos++ ) ) {
+    while ( (byteIter = hamLibs::utils::getByte< key_t >( k, bytePos++ )) ) {
         
         for ( unsigned currBit = HL_BITS_PER_BYTE; currBit--; ) {
 

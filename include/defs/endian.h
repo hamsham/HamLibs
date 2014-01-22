@@ -54,7 +54,7 @@ static constexpr union {
     uint32_t byteOrder;
 } endianValue = {{0,1,2,3}};
 
-#define HL_ENDIAN_ORDER (endianValue.byteOrder)
+#define HL_ENDIAN_ORDER (hamLibs::utils::endianValue.byteOrder)
 
 } /* End Utils namespace */
 } /* End HamLibs namespace */

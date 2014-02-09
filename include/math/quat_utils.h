@@ -198,71 +198,78 @@ math::mat4_t<numType> math::quatToMat4( const quat_t<numType>& q ) {
 
 template <typename numType> inline
 math::quat_t<numType> math::matToQuat( const mat3_t<numType>& m ) {
-    const numType trace{ m.m[0][0] + m.m[1][1] + m.m[2][2] };
+    numType s( 0 );
+    numType trace( m.m[0][0] + m.m[1][1] + m.m[2][2] );
 	quat_t<numType> q;
 
-	if (trace > numType{0}) {
-        const int s1 = HL_SQRT(trace + numType(1));
-        q.q[3] = s1 * numType{0.5};
-        const int s2 = numType{0.5} / s1;
-        q.q[0] = (m.m[1][2] - m.m[2][1]) * s2;
-        q.q[1] = (m.m[2][0] - m.m[0][2]) * s2;
-        q.q[2] = (m.m[0][1] - m.m[1][0]) * s2;
+	if (trace > numType(0)) {
+        s = HL_SQRT(trace + numType(1));
+        q.q[3] = s * numType(0.5);
+        s = numType(0.5) / s;
+        q.q[0] = (m.m[1][2] - m.m[2][1]) * s;
+        q.q[1] = (m.m[2][0] - m.m[0][2]) * s;
+        q.q[2] = (m.m[0][1] - m.m[1][0]) * s;
     }
     else {
-        const int nxt[3] = {1, 2, 0};
-        const int i = (m.m[1][1] > m.m[0][0])
-                ? 1
-                : (m.m[2][2] > m.m[i][i])
-                    ? 2
-                    : 0;
+        int nxt[3] = {1, 2, 0};
+        int i(0), j(0), k(0);
 
-        const int j = nxt[i];
-        const int k = nxt[j];
-        const int s1 = HL_SQRT((m.m[i][i] - (m.m[j][j] + m.m[k][k])) + numType{1});
+        if (m.m[1][1] > m.m[0][0])
+            i = 1;
 
-        q[i] = s1 * numType{0.5};
-        const int s2 = numType{0.5} / s1;
-        q[3] = (m.m[j][k] - m.m[k][j]) * s2;
-        q[j] = (m.m[i][j] + m.m[j][i]) * s2;
-        q[k] = (m.m[i][k] + m.m[k][i]) * s2;
+        if (m.m[2][2] > m.m[i][i])
+            i = 2;
+
+        j = nxt[i];
+        k = nxt[j];
+        s = HL_SQRT((m.m[i][i] - (m.m[j][j] + m.m[k][k])) + numType(1));
+
+        q[i] = s * numType(0.5);
+        s = numType(0.5) / s;
+        q[3] = (m.m[j][k] - m.m[k][j]) * s;
+        q[j] = (m.m[i][j] + m.m[j][i]) * s;
+        q[k] = (m.m[i][k] + m.m[k][i]) * s;
     }
 	return q;
 }
 
 template <typename numType> inline
 math::quat_t<numType> math::matToQuat( const mat4_t<numType>& m ) {
-    const numType trace{ m.m[0][0] + m.m[1][1] + m.m[2][2] };
+    numType s( 0 );
+    numType trace( m.m[0][0] + m.m[1][1] + m.m[2][2] );
 	quat_t<numType> q;
 
-	if (trace > numType{0}) {
-        const int s1 = HL_SQRT(trace + numType(1));
-        q.q[3] = s1 * numType{0.5};
-        const int s2 = numType{0.5} / s1;
-        q.q[0] = (m.m[1][2] - m.m[2][1]) * s2;
-        q.q[1] = (m.m[2][0] - m.m[0][2]) * s2;
-        q.q[2] = (m.m[0][1] - m.m[1][0]) * s2;
+	if (trace > numType(0)) {
+        s = HL_SQRT(trace + numType(1));
+        q.q[3] = s * numType(0.5);
+        s = numType(0.5) / s;
+        q.q[0] = (m.m[1][2] - m.m[2][1]) * s;
+        q.q[1] = (m.m[2][0] - m.m[0][2]) * s;
+        q.q[2] = (m.m[0][1] - m.m[1][0]) * s;
     }
     else {
-        const int nxt[3] = {1, 2, 0};
-        const int i = (m.m[1][1] > m.m[0][0])
-                ? 1
-                : (m.m[2][2] > m.m[i][i])
-                    ? 2
-                    : 0;
+        int nxt[3] = {1, 2, 0};
+        int i(0), j(0), k(0);
 
-        const int j = nxt[i];
-        const int k = nxt[j];
-        const int s1 = HL_SQRT((m.m[i][i] - (m.m[j][j] + m.m[k][k])) + numType{1});
+        if (m.m[1][1] > m.m[0][0])
+            i = 1;
 
-        q[i] = s1 * numType{0.5};
-        const int s2 = numType{0.5} / s1;
-        q[3] = (m.m[j][k] - m.m[k][j]) * s2;
-        q[j] = (m.m[i][j] + m.m[j][i]) * s2;
-        q[k] = (m.m[i][k] + m.m[k][i]) * s2;
+        if (m.m[2][2] > m.m[i][i])
+            i = 2;
+
+        j = nxt[i];
+        k = nxt[j];
+        s = HL_SQRT((m.m[i][i] - (m.m[j][j] + m.m[k][k])) + numType(1));
+
+        q[i] = s * numType(0.5);
+        s = numType(0.5) / s;
+        q[3] = (m.m[j][k] - m.m[k][j]) * s;
+        q[j] = (m.m[i][j] + m.m[j][i]) * s;
+        q[k] = (m.m[i][k] + m.m[k][i]) * s;
     }
 	return q;
 }
+
 //-----------------------------------------------------------------------------
 //		quat_t<numType>s & Euler Angles
 //-----------------------------------------------------------------------------

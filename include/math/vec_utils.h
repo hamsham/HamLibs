@@ -74,7 +74,7 @@ numType math::dot( const vec2_t<numType>& v1, const vec2_t<numType>& v2 ) {
 
 template <typename numType> inline
 math::vec2_t<numType> math::normalize( const vec2_t<numType>& v ) {
-	numType magInv(
+	const numType magInv(
 		numType(1) / HL_SQRT(
 			(v.v[0] * v.v[0])+
 			(v.v[1] * v.v[1])
@@ -98,8 +98,8 @@ numType math::magnitude( const vec2_t<numType>& v ) {
 
 template <typename numType> inline
 math::vec2_t<numType> math::rotate( const vec2_t<numType>& v, numType angle ) {
-	numType s = sin(angle);
-	numType c = cos(angle);
+	const numType s = sin(angle);
+	const numType c = cos(angle);
 
 	return vec2_t<numType>(
 		(v.v[0]*c) - (v.v[1]*s),
@@ -140,7 +140,7 @@ math::vec3_t<numType> math::cross( const vec3_t<numType>& v1, const vec3_t<numTy
 
 template <typename numType> inline
 math::vec3_t<numType> math::normalize( const vec3_t<numType>& v ) {
-	numType magInv(
+	const numType magInv(
 		numType(1) / HL_SQRT(
 			(v.v[0] * v.v[0]) +
 			(v.v[1] * v.v[1]) +
@@ -167,8 +167,8 @@ numType math::magnitude( const vec3_t<numType>& v ) {
 
 template <typename numType> inline
 math::vec3_t<numType> math::xRotation( numType angle ) {
-	numType s = sin(angle);
-	numType c = cos(angle);
+	const numType s = sin(angle);
+	const numType c = cos(angle);
 
 	return vec3_t<numType>(
 		numType(1),
@@ -179,8 +179,8 @@ math::vec3_t<numType> math::xRotation( numType angle ) {
 
 template <typename numType> inline
 math::vec3_t<numType> math::yRotation( numType angle ) {
-	numType s = sin(angle);
-	numType c = cos(angle);
+	const numType s = sin(angle);
+	const numType c = cos(angle);
 
 	return vec3_t<numType>(
 		c - s,
@@ -191,8 +191,8 @@ math::vec3_t<numType> math::yRotation( numType angle ) {
 
 template <typename numType> inline
 math::vec3_t<numType> math::zRotation( numType angle ) {
-	numType s = sin(angle);
-	numType c = cos(angle);
+	const numType s = sin(angle);
+	const numType c = cos(angle);
 
 	return vec3_t<numType>(
 		c + s,
@@ -225,7 +225,7 @@ numType math::dot( const vec4_t<numType>& v1, const vec4_t<numType>& v2 ) {
 
 template <typename numType> inline
 math::vec4_t<numType> math::normalize( const vec4_t<numType>& v ) {
-	numType magInv(
+	const numType magInv(
 		numType(1) / HL_SQRT(
 			(v.v[0] * v.v[0]) +
 			(v.v[1] * v.v[1]) +

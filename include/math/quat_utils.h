@@ -116,41 +116,42 @@ math::quat_t<numType> math::lerp( const quat_t<numType>& q1, const quat_t<numTyp
 
 /**
  * SLERP
- *  This method has been adapted from the book
- * Visual Computing: Gometry, Graphics, and Vision
- * http://www.sonycsl.co.jp/person/nielsen/visualcomputing/
- * http://www.sonycsl.co.jp/person/nielsen/visualcomputing/programs/slerp.cpp
+ * This method has been adapted from Professor W. Randolph Franklin
+ * Rensselaer Polytechnic Institute
+ * http://www.ecse.rpi.edu/Homepages/wrf/pmwiki/pmwiki.php
+ * http://www.ecse.rpi.edu/~wrf/wiki/ComputerGraphicsFall2012/guha/Code/quaternionAnimation.cpp
  * 
  * Request from the author must be granted prior to use in commercial products.
 */
 template <typename numType> inline
-math::quat_t<numType> math::slerp(
-    const quat_t<numType>& q1,
-    const quat_t<numType>& q2,
-    numType lambda
-) {
-    
-    const numType dotProd = (q1.q[0] * q1.q[0]) + (q1.q[1] * q1.q[1]) + (q1.q[2] * q1.q[2]) + (q1.q[3] * q1.q[3]);
-    
-    lambda /=numType(2);
-    
-    numType theta = (numType)std::acos(dotProd);
-    
-    if ( theta < numType(0) ) {
-        theta = -theta;
+math::quat_t<numType> math::slerp( const quat_t<numType>& q1, const quat_t<numType>& q2, numType t ) {
+    numType dotProd = (q1.q[0]*q2.q[0]) + (q1.q[1]*q2.q[1]) + (q1.q[2]*q2.q[2]) + (q1.q[3]*q2.q[3]);
+
+    // Reverse the sign of q2 if q1.q2 < 0.
+    if (dotProd < numType(0)) {
+        dotProd = -dotProd;
     }
-    
-    const numType st = (numType)std::sin(theta);
-    const numType sut = (numType)std::sin(lambda*theta);
-    const numType sout = (numType)std::sin((numType(1)-lambda)*theta);
-    const numType coeff1 = sout / st;
-    const numType coeff2 = sut / st;
-    
+
+    const numType theta = acos(dotProd);
+    numType mult1, mult2;
+
+    if (theta >= HL_EPSILON) {
+        const numType st = (numType)std::sin(theta);
+        mult1 = std::sin((numType(1) - t)*theta) / st;
+        mult2 = std::sin(t*theta) / st;
+    }
+    else {
+        // To avoid division by 0 and by very small numbers the approximation of sin(angle)
+        // by angle is used when theta is small (0.000001 is chosen arbitrarily).
+        mult1 = numType(1) - t;
+        mult2 = t;
+    }
+   
     return quat_t<numType>{
-        (coeff1*q1.q[0]) + (coeff2*q2.q[0]),
-        (coeff1*q1.q[1]) + (coeff2*q2.q[1]),
-        (coeff1*q1.q[2]) + (coeff2*q2.q[2]),
-        (coeff1*q1.q[3]) + (coeff2*q2.q[3])
+        mult1*q1.q[0] + mult2*q2.q[0],
+        mult1*q1.q[1] + mult2*q2.q[1],
+        mult1*q1.q[2] + mult2*q2.q[2],
+        mult1*q1.q[3] + mult2*q2.q[3]
     };
 }
 

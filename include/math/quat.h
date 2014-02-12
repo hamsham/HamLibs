@@ -243,9 +243,9 @@ bool quat_t<numType>::operator == (const quat_t<numType>& compare) const {
 template <typename numType> inline
 bool quat_t<numType>::operator != (const quat_t<numType>& compare) const {
 	return	(
-				q[0] != compare.q[0] &&
-				q[1] != compare.q[1] &&
-				q[2] != compare.q[2] &&
+				q[0] != compare.q[0] ||
+				q[1] != compare.q[1] ||
+				q[2] != compare.q[2] ||
 				q[3] != compare.q[3]
 			);
 }

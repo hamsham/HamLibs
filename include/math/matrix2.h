@@ -279,8 +279,8 @@ bool mat2_t<numType>::operator == (const mat2_t<numType>& compare) const {
 template <typename numType> inline
 bool mat2_t<numType>::operator != (const mat2_t<numType>& compare) const {
 	return	(
-				m[0][0] != compare.m[0][0] && m[0][1] != compare.m[0][1] &&
-				m[1][0] != compare.m[1][0] && m[1][1] != compare.m[1][1]
+				m[0][0] != compare.m[0][0] || m[0][1] != compare.m[0][1] ||
+				m[1][0] != compare.m[1][0] || m[1][1] != compare.m[1][1]
 			);
 }
 

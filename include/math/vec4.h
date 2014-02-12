@@ -300,9 +300,9 @@ bool vec4_t<numType>::operator== (const vec4_t<numType>& compare) const {
 
 template <typename numType> inline
 bool vec4_t<numType>::operator!= (const vec4_t<numType>& compare) const {
-	return (	v[0] != compare.v[0] &&
-				v[1] != compare.v[1] &&
-				v[2] != compare.v[2] &&
+	return (	v[0] != compare.v[0] ||
+				v[1] != compare.v[1] ||
+				v[2] != compare.v[2] ||
 				v[3] != compare.v[3]
 			);
 }

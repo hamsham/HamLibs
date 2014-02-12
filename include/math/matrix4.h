@@ -358,10 +358,10 @@ bool mat4_t<numType>::operator == (const mat4_t<numType>& compare) const {
 template <typename numType> inline
 bool mat4_t<numType>::operator != (const mat4_t<numType>& compare) const {
 	return	(
-				m[0][0] != compare.m[0][0] && m[0][1] != compare.m[0][1] && m[0][2] != compare.m[0][2] && m[0][3] != compare.m[0][3] &&
-				m[1][0] != compare.m[1][0] && m[1][1] != compare.m[1][1] && m[1][2] != compare.m[1][2] && m[1][3] != compare.m[1][3] &&
-				m[2][0] != compare.m[2][0] && m[2][1] != compare.m[2][1] && m[2][2] != compare.m[2][2] && m[2][3] != compare.m[2][3] &&
-				m[3][0] != compare.m[3][0] && m[3][1] != compare.m[3][1] && m[3][2] != compare.m[3][2] && m[3][3] != compare.m[3][3]
+				m[0][0] != compare.m[0][0] || m[0][1] != compare.m[0][1] || m[0][2] != compare.m[0][2] || m[0][3] != compare.m[0][3] ||
+				m[1][0] != compare.m[1][0] || m[1][1] != compare.m[1][1] || m[1][2] != compare.m[1][2] || m[1][3] != compare.m[1][3] ||
+				m[2][0] != compare.m[2][0] || m[2][1] != compare.m[2][1] || m[2][2] != compare.m[2][2] || m[2][3] != compare.m[2][3] ||
+				m[3][0] != compare.m[3][0] || m[3][1] != compare.m[3][1] || m[3][2] != compare.m[3][2] || m[3][3] != compare.m[3][3]
 			);
 }
 

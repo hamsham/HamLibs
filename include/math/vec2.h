@@ -267,7 +267,7 @@ bool vec2_t<numType>::operator== (const vec2_t<numType>& compare) const {
 
 template <typename numType> inline
 bool vec2_t<numType>::operator!= (const vec2_t<numType>& compare) const {
-	return (	v[0] != compare.v[0] &&
+	return (	v[0] != compare.v[0] ||
 				v[1] != compare.v[1]
 			);
 }

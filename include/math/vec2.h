@@ -131,6 +131,21 @@ struct vec2_t {
 };
 
 //---------------------------------------------------------------------
+//  Non-Member Matrix-Scalar operations
+//---------------------------------------------------------------------
+template <typename numType> inline
+vec2_t<numType> operator + (numType n, const vec2_t<numType>& v);
+
+template <typename numType> inline
+vec2_t<numType> operator - (numType n, const vec2_t<numType>& v);
+
+template <typename numType> inline
+vec2_t<numType> operator * (numType n, const vec2_t<numType>& v);
+
+template <typename numType> inline
+vec2_t<numType> operator / (numType n, const vec2_t<numType>& v);
+
+//---------------------------------------------------------------------
 //	Vector-Vector Math Operations
 //---------------------------------------------------------------------
 template <typename numType> inline
@@ -345,6 +360,29 @@ vec2_t<numType>& vec2_t<numType>::operator /= (numType input) {
     v[0] /= input;
     v[1] /= input;
 	return *this;
+}
+
+//---------------------------------------------------------------------
+//  Non-Member Vector-Scalar operations
+//---------------------------------------------------------------------
+template <typename numType> inline
+vec2_t<numType> operator + (numType n, const vec2_t<numType>& v) {
+	return v + n;
+}
+
+template <typename numType> inline
+vec2_t<numType> operator - (numType n, const vec2_t<numType>& v) {
+	return v - n;
+}
+
+template <typename numType> inline
+vec2_t<numType> operator * (numType n, const vec2_t<numType>& v) {
+	return v * n;
+}
+
+template <typename numType> inline
+vec2_t<numType> operator / (numType n, const vec2_t<numType>& v) {
+	return v / n;
 }
 
 } //end math namespace

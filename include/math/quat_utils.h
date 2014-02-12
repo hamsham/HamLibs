@@ -215,11 +215,13 @@ math::quat_t<numType> math::matToQuat( const mat3_t<numType>& m ) {
         int nxt[3] = {1, 2, 0};
         int i(0), j(0), k(0);
 
-        if (m.m[1][1] > m.m[0][0])
+        if (m.m[1][1] > m.m[0][0]) {
             i = 1;
+        }
 
-        if (m.m[2][2] > m.m[i][i])
+        if (m.m[2][2] > m.m[i][i]) {
             i = 2;
+        }
 
         j = nxt[i];
         k = nxt[j];

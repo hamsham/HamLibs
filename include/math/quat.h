@@ -114,6 +114,21 @@ struct quat_t {
 };
 
 //---------------------------------------------------------------------
+//  Non-Member Quaternion-Scalar operations
+//---------------------------------------------------------------------
+template <typename numType> inline
+quat_t<numType> operator + (numType n, const quat_t<numType>& q);
+
+template <typename numType> inline
+quat_t<numType> operator - (numType n, const quat_t<numType>& q);
+
+template <typename numType> inline
+quat_t<numType> operator * (numType n, const quat_t<numType>& q);
+
+template <typename numType> inline
+quat_t<numType> operator / (numType n, const quat_t<numType>& q);
+
+//---------------------------------------------------------------------
 //	Quaternion-Quaternion Operators
 //---------------------------------------------------------------------
 // prefix operators
@@ -321,6 +336,29 @@ quat_t<numType>& quat_t<numType>::operator /= (numType input) {
 	q[2] /= input;
 	q[3] /= input;
 	return *this;
+}
+
+//---------------------------------------------------------------------
+//  Non-Member Quaternion-Scalar operations
+//---------------------------------------------------------------------
+template <typename numType> inline
+quat_t<numType> operator + (numType n, const quat_t<numType>& q) {
+	return q + n;
+}
+
+template <typename numType> inline
+quat_t<numType> operator - (numType n, const quat_t<numType>& q) {
+	return q - n;
+}
+
+template <typename numType> inline
+quat_t<numType> operator * (numType n, const quat_t<numType>& q) {
+	return q * n;
+}
+
+template <typename numType> inline
+quat_t<numType> operator / (numType n, const quat_t<numType>& q) {
+	return q / n;
 }
 
 } //end math namespace

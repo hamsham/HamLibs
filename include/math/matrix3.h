@@ -162,6 +162,21 @@ struct mat3_t {
 };
 
 //---------------------------------------------------------------------
+//  Non-Member Matrix-Scalar operations
+//---------------------------------------------------------------------
+template <typename numType> inline
+mat3_t<numType> operator + (numType n, const mat3_t<numType>& m);
+
+template <typename numType> inline
+mat3_t<numType> operator - (numType n, const mat3_t<numType>& m);
+
+template <typename numType> inline
+mat3_t<numType> operator * (numType n, const mat3_t<numType>& m);
+
+template <typename numType> inline
+mat3_t<numType> operator / (numType n, const mat3_t<numType>& m);
+
+//---------------------------------------------------------------------
 //	Matrix-Matrix Operators
 //---------------------------------------------------------------------
 // prefix operators
@@ -470,6 +485,29 @@ mat3_t<numType>& mat3_t<numType>::operator /= (numType input) {
 	m[1][0] /= input; m[1][1] /= input; m[1][2] /= input;
 	m[2][0] /= input; m[2][1] /= input; m[2][2] /= input;
 	return *this;
+}
+
+//---------------------------------------------------------------------
+//  Non-Member Matrix-Scalar operations
+//---------------------------------------------------------------------
+template <typename numType> inline
+mat3_t<numType> operator + (numType n, const mat3_t<numType>& m) {
+	return m + n;
+}
+
+template <typename numType> inline
+mat3_t<numType> operator - (numType n, const mat3_t<numType>& m) {
+	return m - n;
+}
+
+template <typename numType> inline
+mat3_t<numType> operator * (numType n, const mat3_t<numType>& m) {
+	return m * n;
+}
+
+template <typename numType> inline
+mat3_t<numType> operator / (numType n, const mat3_t<numType>& m) {
+	return m / n;
 }
 
 } //end math namespace

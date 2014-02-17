@@ -146,6 +146,10 @@ namespace hamLibs {
         template <> inline float                        fastLog2< float >(float);
         template <typename numType> inline numType      fastLog(numType);
         template <typename numType> inline numType      fastLogBase(numType base, numType);
+        
+        inline                      unsigned            nextPow2(unsigned);
+        inline                      unsigned            prevPow2(unsigned);
+        inline                      unsigned            nearPow2(unsigned);
 
         //-------------------------------------------------------------
         //				Definitions
@@ -259,6 +263,45 @@ namespace hamLibs {
         template < typename numType > inline
         numType fastLogBase(numType base, numType n) {
             return fastLog2<numType>(n) / fastLog2<numType>(base);
+        }
+        
+        //-----------------------------------------------------------------
+        
+        inline unsigned nextPow2(unsigned n) {
+            if (n == 0) {
+                return 0;
+            }
+
+            --n;
+            n |= n >> 1;
+            n |= n >> 2;
+            n |= n >> 4;
+            n |= n >> 8;
+            n |= n >> 16;
+            return ++n;
+        }
+
+        inline unsigned prevPow2(unsigned n) {
+            if (n == 0) {
+                return 0;
+            }
+
+            --n;
+            n |= n >> 1;
+            n |= n >> 2;
+            n |= n >> 4;
+            n |= n >> 8;
+            n |= n >> 16;
+            return n - (n >> 1);
+        }
+
+        inline unsigned nearPow2(unsigned n) {
+            const unsigned pp2 = prevPow2(n);
+            const unsigned np2 = nextPow2(n);
+            const unsigned lo = n - pp2;
+            const unsigned hi = np2 - n;
+
+            return lo < hi ? pp2 : np2;
         }
 
     }//end math namespace

@@ -16,6 +16,7 @@
 #define __HL_MATH_VEC4_H__
 
 #include "../utils/assert.h"
+#include "math/fixed.h"
 
 namespace hamLibs {
 namespace math {
@@ -75,21 +76,9 @@ struct vec4_t {
     {}
     
 	~vec4_t() = default;
-
-	//array operators
-#ifdef HL_DEBUG
-	numType         operator        []      (int i) const {
-                                                HL_ASSERT( (i>=0)&&(i<4) );
-                                                return v[i];
-                                            }
-	numType&        operator        []      (int i) {
-                                                HL_ASSERT( (i>=0)&&(i<4) );
-                                                return v[i];
-                                            }
-#else
+    
 	constexpr numType operator      []      (int i) const { return v[i]; }
 	inline numType& operator        []      (int i) { return v[i]; }
-#endif
 
 	//vector-vector operators
 	vec4_t&			operator		= 		(const vec4_t<numType>&);
@@ -131,6 +120,15 @@ struct vec4_t {
 	vec4_t&			operator 		*= 		(numType);
 	vec4_t&			operator 		/= 		(numType);
 };
+
+/*
+ * 4D Vector Specializations
+ */
+HL_DECLARE_CLASS_TYPE(vec4f, vec4_t, float);
+HL_DECLARE_CLASS_TYPE(vec4d, vec4_t, double);
+HL_DECLARE_CLASS_TYPE(vec4i, vec4_t, int);
+HL_DECLARE_CLASS_TYPE(vec4Fixed, vec4_t, medp_t);
+HL_DECLARE_CLASS_TYPE(vec4, vec4_t, HL_FLOAT);
 
 //---------------------------------------------------------------------
 //  Non-Member Vector-Scalar operations
@@ -392,34 +390,34 @@ vec4_t<numType> vec4_t<numType>::operator / (numType input) const {
 }
 template <typename numType> inline
 vec4_t<numType>& vec4_t<numType>::operator += (numType input) {
-    v[0] += input.v[0];
-    v[1] += input.v[1];
-    v[2] += input.v[2];
-    v[3] += input.v[3];
+    v[0] += input;
+    v[1] += input;
+    v[2] += input;
+    v[3] += input;
 	return *this;
 }
 template <typename numType> inline
 vec4_t<numType>& vec4_t<numType>::operator -= (numType input) {
-    v[0] -= input.v[0];
-    v[1] -= input.v[1];
-    v[2] -= input.v[2];
-    v[3] -= input.v[3];
+    v[0] -= input;
+    v[1] -= input;
+    v[2] -= input;
+    v[3] -= input;
 	return *this;
 }
 template <typename numType> inline
 vec4_t<numType>& vec4_t<numType>::operator *= (numType input) {
-    v[0] *= input.v[0];
-    v[1] *= input.v[1];
-    v[2] *= input.v[2];
-    v[3] *= input.v[3];
+    v[0] *= input;
+    v[1] *= input;
+    v[2] *= input;
+    v[3] *= input;
 	return *this;
 }
 template <typename numType> inline
 vec4_t<numType>& vec4_t<numType>::operator /= (numType input) {
-    v[0] /= input.v[0];
-    v[1] /= input.v[1];
-    v[2] /= input.v[2];
-    v[3] /= input.v[3];
+    v[0] /= input;
+    v[1] /= input;
+    v[2] /= input;
+    v[3] /= input;
 	return *this;
 }
 

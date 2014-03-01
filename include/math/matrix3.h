@@ -16,6 +16,7 @@
 #define __HL_MATH_MATRIX3_H__
 
 #include "../utils/assert.h"
+#include "math/fixed.h"
 #include "vec3.h"
 
 namespace hamLibs {
@@ -110,19 +111,8 @@ struct mat3_t {
 	~mat3_t() = default;
 
 	//array operators
-#ifdef HL_DEBUG
-	numType*        operator        []      (int i) const {
-                                                HL_ASSERT( (i>=0)&&(i<3) );
-                                                return m[i];
-                                            }
-	numType*        operator        []      (int i) {
-                                                HL_ASSERT( (i>=0)&&(i<3) );
-                                                return m[i];
-                                            }
-#else
-	constexpr numType* operator []      (int i) const { return m[i]; }
+	const numType*  operator    []      (int i) const { return m[i]; }
 	inline numType* operator    []      (int i) { return m[i]; }
-#endif
 
 	//matrix-matrix operators
 	mat3_t&			operator	++		(); //prefix operators
@@ -160,6 +150,15 @@ struct mat3_t {
 	mat3_t&			operator	*=		(numType);
 	mat3_t&			operator	/=		(numType);
 };
+
+/*
+ * 3x3 Matrix Specializations
+ */
+HL_DECLARE_CLASS_TYPE(mat3f, mat3_t, float);
+HL_DECLARE_CLASS_TYPE(mat3d, mat3_t, double);
+HL_DECLARE_CLASS_TYPE(mat3i, mat3_t, int);
+HL_DECLARE_CLASS_TYPE(mat3Fixed, mat3_t, medp_t);
+HL_DECLARE_CLASS_TYPE(mat3, mat3_t, HL_FLOAT);
 
 //---------------------------------------------------------------------
 //  Non-Member Matrix-Scalar operations
@@ -259,7 +258,6 @@ mat3_t<numType> mat3_t<numType>::operator * (const mat3_t<numType>& input) const
 		(m[2][0]*input.m[0][1]) + (m[2][1]*input.m[1][1]) + (m[2][2]*input.m[2][1]),
 		(m[2][0]*input.m[0][2]) + (m[2][1]*input.m[1][2]) + (m[2][2]*input.m[2][2])
 	);
-	//if this is wrong, fuck you
 }
 
 template <typename numType> inline

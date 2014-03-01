@@ -17,6 +17,7 @@
 #define __HL_MATH_MATRIX4_H__
 
 #include "../utils/assert.h"
+#include "math/fixed.h"
 #include "vec4.h"
 
 namespace hamLibs {
@@ -137,21 +138,9 @@ struct mat4_t {
     {}
     
 	~mat4_t() = default;
-
-	//array operators
-#ifdef HL_DEBUG
-	numType*        operator        []      (int i) const {
-                                                HL_ASSERT( (i>=0)&&(i<4) );
-                                                return m[i];
-                                            }
-	numType*        operator        []      (int i) {
-                                                HL_ASSERT( (i>=0)&&(i<4) );
-                                                return m[i];
-                                            }
-#else
-	constexpr numType* operator []      (int i) const { return m[i]; }
+    
+	const numType*  operator    []      (int i) const { return m[i]; }
 	inline numType* operator    []      (int i) { return m[i]; }
-#endif
 
 	//matrix-matrix operators
 	mat4_t&			operator	++		(); //prefix operators
@@ -189,6 +178,15 @@ struct mat4_t {
 	mat4_t&			operator	*=		(numType);
 	mat4_t&			operator	/=		(numType);
 };
+
+/*
+ * 4x4 Matrix Specializations
+ */
+HL_DECLARE_CLASS_TYPE(mat4f, mat4_t, float);
+HL_DECLARE_CLASS_TYPE(mat4d, mat4_t, double);
+HL_DECLARE_CLASS_TYPE(mat4i, mat4_t, int);
+HL_DECLARE_CLASS_TYPE(mat4Fixed, mat4_t, medp_t);
+HL_DECLARE_CLASS_TYPE(mat4, mat4_t, HL_FLOAT);
 
 //---------------------------------------------------------------------
 //  Non-Member Matrix-Scalar operations
@@ -301,7 +299,7 @@ mat4_t<numType> mat4_t<numType>::operator * (const mat4_t<numType>& input) const
 		(m[3][0]*input.m[0][2]) + (m[3][1]*input.m[1][2]) + (m[3][2]*input.m[2][2]) + (m[3][3]*input.m[3][2]),
 		(m[3][0]*input.m[0][3]) + (m[3][1]*input.m[1][3]) + (m[3][2]*input.m[2][3]) + (m[3][3]*input.m[3][3])
 	);
-	//if this is wrong, fuck you
+	// I really hope this is correct
 }
 
 template <typename numType> inline

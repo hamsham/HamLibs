@@ -207,17 +207,39 @@
 /******************************************************************************
 		HamLibs Macros
 ******************************************************************************/
-/*
+/**
  * Preprocessor Stringify
  */
 #ifndef HL_STRINGIFY
 	#define HL_STRINGIFY( x ) #x
 #endif /* HL_STRINGIFY */
 
-/*
- * Max/Min
+/**
+ * Minimum value
  */
-#define HL_MAX( x, y ) (( x > y) ? x : y )
+#ifndef HL_MIN
+    #define HL_MAX( x, y ) (( x > y) ? x : y )
+#endif
+
+/**
+ * Maxumum Value
+ */
 #define HL_MIN( x, y ) (( x < y) ? x : y )
+
+/**
+ * Class Template Declaration
+ */
+#ifndef HL_DECLARE_CLASS_TYPE
+    #define HL_DECLARE_CLASS_TYPE(nickName, name, ...)\
+        extern template class name <__VA_ARGS__>;\
+        typedef name<__VA_ARGS__> nickName
+#endif
+
+/**
+ * Class Template Definitions
+ */
+#ifndef HL_DEFINE_CLASS_TYPE
+    #define HL_DEFINE_CLASS_TYPE(name, ...) template class name<__VA_ARGS__>
+#endif
 
 #endif	/* __HL_PREPROCESSOR_H__ */

@@ -94,5 +94,5 @@ constexpr const bitMask* getByte( const char32_t* str, unsigned iter ) {
 } // end utils namespace
 } // end hamLibs namespace
 
-#endif	/* __HL_TREE_COMMON_H__ */
+#endif	/* __HL_BITS_H__ */
 

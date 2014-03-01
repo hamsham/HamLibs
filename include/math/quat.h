@@ -14,6 +14,7 @@ NOTES:
 #define __HL_MATH_QUAT_H__
 
 #include "../utils/assert.h"
+#include "math/fixed.h"
 
 namespace hamLibs {
 namespace math {
@@ -69,21 +70,9 @@ struct quat_t {
     {}
     
 	~quat_t() = default;
-
-	//array operators
-#ifdef HL_DEBUG
-	numType         operator        []      (int i) const {
-                                                HL_ASSERT( (i>=0)&&(i<4) );
-                                                return q[i];
-                                            }
-	numType&        operator        []      (int i) {
-                                                HL_ASSERT( (i>=0)&&(i<4) );
-                                                return q[i];
-                                            }
-#else
+    
 	constexpr numType operator      []      (int i) const { return q[i]; }
 	inline numType& operator        []      (int i) { return q[i]; }
-#endif
 
 	//quaternion-quaternion operators
 	quat_t&			operator	++	(); //prefix operators
@@ -112,6 +101,15 @@ struct quat_t {
 	quat_t&			operator	*=	(numType);
 	quat_t&			operator	/=	(numType);
 };
+
+/*
+ * Quaternion Specializations
+ */
+HL_DECLARE_CLASS_TYPE(quatf, quat_t, float);
+HL_DECLARE_CLASS_TYPE(quatd, quat_t, double);
+HL_DECLARE_CLASS_TYPE(quati, quat_t, int);
+HL_DECLARE_CLASS_TYPE(quatFixed, quat_t, medp_t);
+HL_DECLARE_CLASS_TYPE(quat, quat_t, HL_FLOAT);
 
 //---------------------------------------------------------------------
 //  Non-Member Quaternion-Scalar operations

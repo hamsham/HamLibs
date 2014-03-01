@@ -73,83 +73,25 @@ namespace hamLibs {
         template <class numType> class vec3_t;
         template <class numType> class vec4_t;
 
-        //[Hopefully] Useful Typedefs
-        typedef fixed_t<int32_t, 7> lowp_t; // 24.7 (-1 for the sign-bit)
-        typedef fixed_t<int32_t, 15> medp_t; // 16.15
-        typedef fixed_t<int32_t, 23> highp_t; // 8.23
+        template <typename numType> constexpr numType min(numType, numType);
+        template <typename numType> constexpr numType max(numType, numType);
 
-        typedef fixed_t<int64_t, 15> long_lowp_t; // 48.15
-        typedef fixed_t<int64_t, 31> long_medp_t; // 32.31
-        typedef fixed_t<int64_t, 47> long_highp_t; // 16.47
+        template <typename numType> inline numType fastSqrt(numType);
+        template <typename numType> inline numType fastInvSqrt(numType);
+        template <> inline float fastSqrt< float >(float);
+        template <> inline float fastInvSqrt< float >(float);
 
-        typedef fixed_t<uint32_t, 8> ulowp_t; // 24.8
-        typedef fixed_t<uint32_t, 16> umedp_t; // 16.16
-        typedef fixed_t<uint32_t, 24> uhighp_t; // 8.24
+        template <typename numType> constexpr numType degToRad(numType);
+        template <typename numType> constexpr numType radToDeg(numType);
 
-        typedef fixed_t<uint64_t, 16> ulong_lowp_t; // 48.16
-        typedef fixed_t<uint64_t, 32> ulong_medp_t; // 32.32
-        typedef fixed_t<uint64_t, 48> ulong_highp_t; // 16.48
+        template <typename numType> inline numType fastLog2(numType);
+        template <> inline float fastLog2< float >(float);
+        template <typename numType> inline numType fastLog(numType);
+        template <typename numType> inline numType fastLogBase(numType base, numType);
 
-        typedef quat_t <float> quatf; //Quaternions
-        typedef quat_t <double> quatd;
-        typedef quat_t <int> quati;
-        typedef quat_t <medp_t> quatFixed;
-        typedef vec2_t <float> vec2f; //2D vectors
-        typedef vec2_t <double> vec2d;
-        typedef vec2_t <int> vec2i;
-        typedef vec2_t <medp_t> vec2Fixed;
-        typedef vec3_t <float> vec3f; //3D vectors
-        typedef vec3_t <double> vec3d;
-        typedef vec3_t <int> vec3i;
-        typedef vec3_t <medp_t> vec3Fixed;
-        typedef vec4_t <float> vec4f; //4D vectors
-        typedef vec4_t <double> vec4d;
-        typedef vec4_t <int> vec4i;
-        typedef vec4_t <medp_t> vec4Fixed;
-        typedef mat2_t <float> mat2f; //2x2 matrices
-        typedef mat2_t <double> mat2d;
-        typedef mat2_t <int> mat2i;
-        typedef mat2_t <medp_t> mat2Fixed;
-        typedef mat3_t <float> mat3f; //3x3 matrices
-        typedef mat3_t <double> mat3d;
-        typedef mat3_t <int> mat3i;
-        typedef mat3_t <medp_t> mat3Fixed;
-        typedef mat4_t <float> mat4f; //4x4 matrices
-        typedef mat4_t <double> mat4d;
-        typedef mat4_t <int> mat4i;
-        typedef mat4_t <medp_t> mat4Fixed;
-
-        typedef fixed_t <HL_INT, 7> lowp; // 24.7 (-1 for the sign-bit)
-        typedef fixed_t <HL_INT, 15> medp; // 16.15
-        typedef fixed_t <HL_INT, 23> highp; // 8.23
-
-        typedef quat_t <HL_FLOAT> quat;
-        typedef vec2_t <HL_FLOAT> vec2;
-        typedef vec3_t <HL_FLOAT> vec3;
-        typedef vec4_t <HL_FLOAT> vec4;
-        typedef mat2_t <HL_FLOAT> mat2;
-        typedef mat3_t <HL_FLOAT> mat3;
-        typedef mat4_t <HL_FLOAT> mat4;
-
-        template <typename numType> constexpr numType   min(numType, numType);
-        template <typename numType> constexpr numType   max(numType, numType);
-
-        template <typename numType> inline numType      fastSqrt(numType);
-        template <typename numType> inline numType      fastInvSqrt(numType);
-        template <> inline float                        fastSqrt< float >(float);
-        template <> inline float                        fastInvSqrt< float >(float);
-
-        template <typename numType> constexpr numType   degToRad(numType);
-        template <typename numType> constexpr numType   radToDeg(numType);
-
-        template <typename numType> inline numType      fastLog2(numType);
-        template <> inline float                        fastLog2< float >(float);
-        template <typename numType> inline numType      fastLog(numType);
-        template <typename numType> inline numType      fastLogBase(numType base, numType);
-        
-        inline                      unsigned            nextPow2(unsigned);
-        inline                      unsigned            prevPow2(unsigned);
-        inline                      unsigned            nearPow2(unsigned);
+        inline unsigned nextPow2(unsigned);
+        inline unsigned prevPow2(unsigned);
+        inline unsigned nearPow2(unsigned);
 
         //-------------------------------------------------------------
         //				Definitions
@@ -175,7 +117,7 @@ namespace hamLibs {
          */
         template <typename numType> inline
         numType fastInvSqrt(numType input) {
-            return (numType)fastInvSqrt<float>((float)input);
+            return (numType) fastInvSqrt<float>((float) input);
         }
 
         //-----------------------------------------------------------------
@@ -231,7 +173,7 @@ namespace hamLibs {
          */
         template < typename numType > inline
         numType fastLog2(numType n) {
-            return (numType)fastLog2<float>((float)n);
+            return (numType) fastLog2<float>((float) n);
         }
 
         //-----------------------------------------------------------------
@@ -264,9 +206,9 @@ namespace hamLibs {
         numType fastLogBase(numType base, numType n) {
             return fastLog2<numType>(n) / fastLog2<numType>(base);
         }
-        
+
         //-----------------------------------------------------------------
-        
+
         inline unsigned nextPow2(unsigned n) {
             if (n == 0) {
                 return 0;

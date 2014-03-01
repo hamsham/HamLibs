@@ -14,6 +14,7 @@
 #define __HL_MATH_VEC2_H__
 
 #include "../utils/assert.h"
+#include "math/fixed.h"
 
 namespace hamLibs {
 namespace math {
@@ -74,20 +75,8 @@ struct vec2_t {
     
 	~vec2_t() = default;
 
-	//array operators
-#ifdef HL_DEBUG
-	numType         operator        []      (int i) const {
-                                                HL_ASSERT( (i==0)||(i==1) );
-                                                return v[i];
-                                            }
-	numType&        operator        []      (int i) {
-                                                HL_ASSERT( (i==0)||(i==1) );
-                                                return v[i];
-                                            }
-#else
 	constexpr numType operator      []      (int i) const { return v[i]; }
 	inline numType& operator        []      (int i) { return v[i]; }
-#endif
     
 	//vector-vector operators
 	vec2_t&			operator		= 		(const vec2_t<numType>&);
@@ -129,6 +118,15 @@ struct vec2_t {
 	vec2_t&			operator 		*= 		(numType);
 	vec2_t&			operator 		/= 		(numType);
 };
+
+/*
+ * 2D Vector Specializations
+ */
+HL_DECLARE_CLASS_TYPE(vec2f, vec2_t, float);
+HL_DECLARE_CLASS_TYPE(vec2d, vec2_t, double);
+HL_DECLARE_CLASS_TYPE(vec2i, vec2_t, int);
+HL_DECLARE_CLASS_TYPE(vec2Fixed, vec2_t, medp_t);
+HL_DECLARE_CLASS_TYPE(vec2, vec2_t, HL_FLOAT);
 
 //---------------------------------------------------------------------
 //  Non-Member Matrix-Scalar operations

@@ -9,109 +9,103 @@
 #define	__HL_QUAT_UTILS_H__
 
 #include "math.h"
-
+#include "vec3.h"
+#include "vec4.h"
+#include "matrix3.h"
+#include "matrix4.h"
+#include "quat.h"
 
 namespace hamLibs {
 
-///////////////////////////////////////////////////////////////////////////////
-//		Prototypes
-///////////////////////////////////////////////////////////////////////////////
-	namespace math {
-//-----------------------------------------------------------------------------
-//		Quaternion Functions
-//-----------------------------------------------------------------------------
-template <typename numType> inline numType			dot( const quat_t<numType>&, const quat_t<numType>& );
+/*
+ * Prototypes
+ */
+namespace math {
 
-template <typename numType> inline numType			magnitude( const quat_t<numType>& );
+/*
+ * Quaternion Functions
+ */
+template <typename numType> inline numType          dot(const quat_t<numType>&, const quat_t<numType>&);
+template <typename numType> inline numType          magnitude(const quat_t<numType>&);
+template <typename numType> inline quat_t<numType>  inverse(const quat_t<numType>&);
+template <typename numType> inline quat_t<numType>  conjugate(const quat_t<numType>&);
+template <typename numType> inline quat_t<numType>  normalize(const quat_t<numType>&);
+template <typename numType> inline quat_t<numType>  lerp(const quat_t<numType>&, const quat_t<numType>&, numType);
+template <typename numType> inline quat_t<numType>  slerp(const quat_t<numType>&, const quat_t<numType>&, numType);
 
-template <typename numType> inline quat_t<numType>	inverse( const quat_t<numType>& );
+/*
+ * Quaternions & Matrices
+ */
+template <typename numType> inline mat3_t<numType>  quatToMat3(const quat_t<numType>&);
+template <typename numType> inline mat4_t<numType>  quatToMat4(const quat_t<numType>&);
+template <typename numType> inline quat_t<numType>  matToQuat(const mat3_t<numType>&);
+template <typename numType> inline quat_t<numType>  matToQuat(const mat4_t<numType>&);
 
-template <typename numType> inline quat_t<numType>	conjugate( const quat_t<numType>& );
+/*
+ * Quaternions & Euler Angles
+ */
+template <typename numType> inline vec3_t<numType>  getAxisX(const quat_t<numType>&); // Right-Vector
+template <typename numType> inline vec3_t<numType>  getAxisY(const quat_t<numType>&); // Up-Vector
+template <typename numType> inline vec3_t<numType>  getAxisZ(const quat_t<numType>&); // Forwards Vector
+template <typename numType> inline numType          getAngle(const quat_t<numType>&);
+template <typename numType> inline vec3_t<numType>  toEuler(const quat_t<numType>&);
+template <typename numType> inline quat_t<numType>  fromEuler(const vec3_t<numType>&);
+template <typename numType> inline quat_t<numType>  fromEuler(numType, numType, numType);
+template <typename numType> inline void             toAxisAngle(const quat_t<numType>&, vec3_t<numType>&, numType&);
+template <typename numType> inline vec4_t<numType>  toAxisAngle(const quat_t<numType>&);
+template <typename numType> inline quat_t<numType>  fromAxisAngle(const vec3_t<numType>&, numType);
+template <typename numType> inline quat_t<numType>  fromAxisAngle(const vec4_t<numType>&);
 
-template <typename numType> inline quat_t<numType>	normalize( const quat_t<numType>& );
-
-template <typename numType> inline quat_t<numType>  lerp( const quat_t<numType>&, const quat_t<numType>&, numType );
-template <typename numType> inline quat_t<numType>  slerp( const quat_t<numType>&, const quat_t<numType>&, numType );
-
-//-----------------------------------------------------------------------------
-//		Quaternions & Matrices
-//-----------------------------------------------------------------------------
-template <typename numType> inline mat3_t<numType>	quatToMat3( const quat_t<numType>& );
-template <typename numType> inline mat4_t<numType>	quatToMat4( const quat_t<numType>& );
-
-template <typename numType> inline quat_t<numType>	matToQuat( const mat3_t<numType>& );
-template <typename numType> inline quat_t<numType>	matToQuat( const mat4_t<numType>& );
-
-//-----------------------------------------------------------------------------
-//		Quaternions & Euler Angles
-//-----------------------------------------------------------------------------
-template <typename numType> inline vec3_t<numType>  getAxisX( const quat_t<numType>& ); // Right-Vector
-template <typename numType> inline vec3_t<numType>  getAxisY( const quat_t<numType>& ); // Up-Vector
-template <typename numType> inline vec3_t<numType>  getAxisZ( const quat_t<numType>& ); // Forwards Vector
-
-template <typename numType> inline numType			getAngle( const quat_t<numType>& );
-
-template <typename numType> inline vec3_t<numType>	toEuler( const quat_t<numType>& );
-template <typename numType> inline quat_t<numType>	fromEuler( const vec3_t<numType>& );
-template <typename numType> inline quat_t<numType>	fromEuler( numType, numType, numType );
-
-template <typename numType> inline void				toAxisAngle( const quat_t<numType>&, vec3_t<numType>&, numType& );
-template <typename numType> inline vec4_t<numType>	toAxisAngle( const quat_t<numType>& );
-
-template <typename numType> inline quat_t<numType>	fromAxisAngle( const vec3_t<numType>&, numType );
-template <typename numType> inline quat_t<numType>	fromAxisAngle( const vec4_t<numType>& );
+} // end math namespace
 
 ///////////////////////////////////////////////////////////////////////////////
-//		Definitions
+// Quaternion Functions
 ///////////////////////////////////////////////////////////////////////////////
-	} // end math namespace
-//-----------------------------------------------------------------------------
-//		Quaternion Functions
-//-----------------------------------------------------------------------------
 template <typename numType> inline
-numType math::dot( const quat_t<numType>& q1, const quat_t<numType>& q2 ) {
-	return (q1.q[0]*q2.q[0]) + (q1.q[1]*q2.q[1]) + (q1.q[2]*q2.q[2]) + (q1.q[3]*q2.q[3]);
+numType math::dot(const quat_t<numType>& q1, const quat_t<numType>& q2) {
+    return (q1.q[0] * q2.q[0]) + (q1.q[1] * q2.q[1]) + (q1.q[2] * q2.q[2]) + (q1.q[3] * q2.q[3]);
 }
 
 template <typename numType> inline
-numType math::magnitude( const quat_t<numType>& q ) {
-	return HL_SQRT( (q.q[0]*q.q[0]) + (q.q[1]*q.q[1]) + (q.q[2]*q.q[2]) + (q.q[3]*q.q[3]) );
+numType math::magnitude(const quat_t<numType>& q) {
+    return HL_SQRT((q.q[0] * q.q[0]) + (q.q[1] * q.q[1]) + (q.q[2] * q.q[2]) + (q.q[3] * q.q[3]));
 }
 
 template <typename numType> inline
-math::quat_t<numType> math::inverse( const quat_t<numType>& q ) {
-	const numType dotInv{
-		numType(1) / ( (q.q[0]*q.q[0]) + (q.q[1]*q.q[1]) + (q.q[2]*q.q[2]) + (q.q[3]*q.q[3]) )
-	};
-	return quat_t<numType>{
-		-q.q[0] * dotInv,
-		-q.q[1] * dotInv,
-		-q.q[2] * dotInv,
-		q.q[3] * dotInv
-	};
+math::quat_t<numType> math::inverse(const quat_t<numType>& q) {
+    const numType dotInv{
+        numType(1) / ((q.q[0] * q.q[0]) + (q.q[1] * q.q[1]) + (q.q[2] * q.q[2]) + (q.q[3] * q.q[3]))
+    };
+    return quat_t<numType>{
+        -q.q[0] * dotInv,
+        -q.q[1] * dotInv,
+        -q.q[2] * dotInv,
+        q.q[3] * dotInv
+    };
 }
 
 template <typename numType> inline
-math::quat_t<numType> math::conjugate( const quat_t<numType>& q ) {
-	return quat_t<numType>{ -q.q[0], -q.q[1], -q.q[2], q.q[3] };
+math::quat_t<numType> math::conjugate(const quat_t<numType>& q) {
+    return quat_t<numType>{-q.q[0], -q.q[1], -q.q[2], q.q[3]};
 }
 
 template <typename numType> inline
-math::quat_t<numType> math::normalize( const quat_t<numType>& q ) {
-	const numType magInv{
-		numType(1) / HL_SQRT( (q.q[0]*q.q[0]) + (q.q[1]*q.q[1]) + (q.q[2]*q.q[2]) + (q.q[3]*q.q[3]) )
-	};
-	return quat_t<numType>{
-		q.q[0] * magInv,
-		q.q[1] * magInv,
-		q.q[2] * magInv,
-		q.q[3] * magInv
-	};
+math::quat_t<numType> math::normalize(const quat_t<numType>& q) {
+    const numType magInv{
+        numType(1) / HL_SQRT((q.q[0] * q.q[0]) + (q.q[1] * q.q[1]) + (q.q[2] * q.q[2]) + (q.q[3] * q.q[3]))
+    };
+    
+    return quat_t<numType>{
+        q.q[0] * magInv,
+        q.q[1] * magInv,
+        q.q[2] * magInv,
+        q.q[3] * magInv
+    };
 }
 
 template <typename numType> inline
-math::quat_t<numType> math::lerp( const quat_t<numType>& q1, const quat_t<numType>& q2, numType percent ) {
-    return quat_t<numType>{ q1 + (( q2 - q1 )*percent) };
+math::quat_t<numType> math::lerp(const quat_t<numType>& q1, const quat_t<numType>& q2, numType percent) {
+    return quat_t<numType>{q1 + ((q2 - q1) * percent)};
 }
 
 /**
@@ -122,10 +116,10 @@ math::quat_t<numType> math::lerp( const quat_t<numType>& q1, const quat_t<numTyp
  * http://www.ecse.rpi.edu/~wrf/wiki/ComputerGraphicsFall2012/guha/Code/quaternionAnimation.cpp
  * 
  * Request from the author must be granted prior to use in commercial products.
-*/
+ */
 template <typename numType> inline
-math::quat_t<numType> math::slerp( const quat_t<numType>& q1, const quat_t<numType>& q2, numType t ) {
-    numType dotProd = (q1.q[0]*q2.q[0]) + (q1.q[1]*q2.q[1]) + (q1.q[2]*q2.q[2]) + (q1.q[3]*q2.q[3]);
+math::quat_t<numType> math::slerp(const quat_t<numType>& q1, const quat_t<numType>& q2, numType t) {
+    numType dotProd = (q1.q[0] * q2.q[0]) + (q1.q[1] * q2.q[1]) + (q1.q[2] * q2.q[2]) + (q1.q[3] * q2.q[3]);
 
     // Reverse the sign of q2 if q1.q2 < 0.
     if (dotProd < numType(0)) {
@@ -136,9 +130,9 @@ math::quat_t<numType> math::slerp( const quat_t<numType>& q1, const quat_t<numTy
     numType mult1, mult2;
 
     if (theta >= HL_EPSILON) {
-        const numType st = (numType)std::sin(theta);
-        mult1 = std::sin((numType(1) - t)*theta) / st;
-        mult2 = std::sin(t*theta) / st;
+        const numType st = (numType) std::sin(theta);
+        mult1 = std::sin((numType(1) - t) * theta) / st;
+        mult2 = std::sin(t * theta) / st;
     }
     else {
         // To avoid division by 0 and by very small numbers the approximation of sin(angle)
@@ -146,64 +140,64 @@ math::quat_t<numType> math::slerp( const quat_t<numType>& q1, const quat_t<numTy
         mult1 = numType(1) - t;
         mult2 = t;
     }
-   
+
     return quat_t<numType>{
-        mult1*q1.q[0] + mult2*q2.q[0],
-        mult1*q1.q[1] + mult2*q2.q[1],
-        mult1*q1.q[2] + mult2*q2.q[2],
-        mult1*q1.q[3] + mult2*q2.q[3]
+        mult1 * q1.q[0] + mult2 * q2.q[0],
+        mult1 * q1.q[1] + mult2 * q2.q[1],
+        mult1 * q1.q[2] + mult2 * q2.q[2],
+        mult1 * q1.q[3] + mult2 * q2.q[3]
     };
 }
 
-//-----------------------------------------------------------------------------
-//		Quaternions & Matrices
-//-----------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////
+// Quaternions & Matrices
+///////////////////////////////////////////////////////////////////////////////
 template <typename numType> inline
-math::mat3_t<numType> math::quatToMat3( const quat_t<numType>& q ) {
-	const numType xx = q.q[0] * q.q[0] * numType(numType(2));
-	const numType yy = q.q[1] * q.q[1] * numType(numType(2));
-	const numType zz = q.q[2] * q.q[2] * numType(numType(2));
-	const numType xy = q.q[0] * q.q[1];
-	const numType xz = q.q[0] * q.q[2];
-	const numType xw = q.q[0] * q.q[3];
-	const numType yz = q.q[1] * q.q[2];
-	const numType yw = q.q[1] * q.q[3];
-	const numType zw = q.q[2] * q.q[3];
-	
-	return mat3_t<numType>{
-		numType(1)-(yy+zz),	numType(numType(2))*(xy+zw),	numType(numType(2))*(xz-yw),
-		numType(numType(2))*(xy-zw),	numType(1)-(xx+zz),	numType(numType(2))*(yz+xw),
-		numType(numType(2))*(xz+yw),	numType(numType(2))*(yz-xw),	numType(1)-(xx+yy)
-	};
+math::mat3_t<numType> math::quatToMat3(const quat_t<numType>& q) {
+    const numType xx = q.q[0] * q.q[0] * numType(numType(2));
+    const numType yy = q.q[1] * q.q[1] * numType(numType(2));
+    const numType zz = q.q[2] * q.q[2] * numType(numType(2));
+    const numType xy = q.q[0] * q.q[1];
+    const numType xz = q.q[0] * q.q[2];
+    const numType xw = q.q[0] * q.q[3];
+    const numType yz = q.q[1] * q.q[2];
+    const numType yw = q.q[1] * q.q[3];
+    const numType zw = q.q[2] * q.q[3];
+
+    return mat3_t<numType>{
+        numType(1)-(yy + zz), numType(numType(2))*(xy + zw), numType(numType(2))*(xz - yw),
+        numType(numType(2))*(xy - zw), numType(1)-(xx + zz), numType(numType(2))*(yz + xw),
+        numType(numType(2))*(xz + yw), numType(numType(2))*(yz - xw), numType(1)-(xx + yy)
+    };
 }
 
 template <typename numType> inline
-math::mat4_t<numType> math::quatToMat4( const quat_t<numType>& q ) {
-	const numType xx = q.q[0] * q.q[0] * numType(numType(2));
-	const numType yy = q.q[1] * q.q[1] * numType(numType(2));
-	const numType zz = q.q[2] * q.q[2] * numType(numType(2));
-	const numType xy = q.q[0] * q.q[1];
-	const numType xz = q.q[0] * q.q[2];
-	const numType xw = q.q[0] * q.q[3];
-	const numType yz = q.q[1] * q.q[2];
-	const numType yw = q.q[1] * q.q[3];
-	const numType zw = q.q[2] * q.q[3];
-	
-	return mat4_t<numType>{
-		numType(1)-(yy+zz),	numType(numType(2))*(xy+zw),	numType(numType(2))*(xz-yw), numType(0),
-		numType(numType(2))*(xy-zw),	numType(1)-(xx+zz),	numType(numType(2))*(yz+xw), numType(0),
-		numType(numType(2))*(xz+yw),	numType(numType(2))*(yz-xw),	numType(1)-(xx+yy), numType(0),
-		numType(0), numType(0), numType(0), numType(1)
-	};
+math::mat4_t<numType> math::quatToMat4(const quat_t<numType>& q) {
+    const numType xx = q.q[0] * q.q[0] * numType(numType(2));
+    const numType yy = q.q[1] * q.q[1] * numType(numType(2));
+    const numType zz = q.q[2] * q.q[2] * numType(numType(2));
+    const numType xy = q.q[0] * q.q[1];
+    const numType xz = q.q[0] * q.q[2];
+    const numType xw = q.q[0] * q.q[3];
+    const numType yz = q.q[1] * q.q[2];
+    const numType yw = q.q[1] * q.q[3];
+    const numType zw = q.q[2] * q.q[3];
+
+    return mat4_t<numType>{
+        numType(1)-(yy + zz), numType(numType(2))*(xy + zw), numType(numType(2))*(xz - yw), numType(0),
+        numType(numType(2))*(xy - zw), numType(1)-(xx + zz), numType(numType(2))*(yz + xw), numType(0),
+        numType(numType(2))*(xz + yw), numType(numType(2))*(yz - xw), numType(1)-(xx + yy), numType(0),
+        numType(0), numType(0), numType(0), numType(1)
+    };
 }
 
 template <typename numType> inline
-math::quat_t<numType> math::matToQuat( const mat3_t<numType>& m ) {
-    numType s( 0 );
-    numType trace( m.m[0][0] + m.m[1][1] + m.m[2][2] );
-	quat_t<numType> q;
+math::quat_t<numType> math::matToQuat(const mat3_t<numType>& m) {
+    numType s(0);
+    numType trace(m.m[0][0] + m.m[1][1] + m.m[2][2]);
+    quat_t<numType> q;
 
-	if (trace > numType(0)) {
+    if (trace > numType(0)) {
         s = HL_SQRT(trace + numType(1));
         q.q[3] = s * numType(0.5);
         s = numType(0.5) / s;
@@ -233,16 +227,17 @@ math::quat_t<numType> math::matToQuat( const mat3_t<numType>& m ) {
         q[j] = (m.m[i][j] + m.m[j][i]) * s;
         q[k] = (m.m[i][k] + m.m[k][i]) * s;
     }
-	return q;
+    
+    return q;
 }
 
 template <typename numType> inline
-math::quat_t<numType> math::matToQuat( const mat4_t<numType>& m ) {
-    numType s( 0 );
-    numType trace( m.m[0][0] + m.m[1][1] + m.m[2][2] );
-	quat_t<numType> q;
+math::quat_t<numType> math::matToQuat(const mat4_t<numType>& m) {
+    numType s(0);
+    numType trace(m.m[0][0] + m.m[1][1] + m.m[2][2]);
+    quat_t<numType> q;
 
-	if (trace > numType(0)) {
+    if (trace > numType(0)) {
         s = HL_SQRT(trace + numType(1));
         q.q[3] = s * numType(0.5);
         s = numType(0.5) / s;
@@ -254,11 +249,13 @@ math::quat_t<numType> math::matToQuat( const mat4_t<numType>& m ) {
         int nxt[3] = {1, 2, 0};
         int i(0), j(0), k(0);
 
-        if (m.m[1][1] > m.m[0][0])
+        if (m.m[1][1] > m.m[0][0]) {
             i = 1;
+        }
 
-        if (m.m[2][2] > m.m[i][i])
+        if (m.m[2][2] > m.m[i][i]) {
             i = 2;
+        }
 
         j = nxt[i];
         k = nxt[j];
@@ -270,14 +267,14 @@ math::quat_t<numType> math::matToQuat( const mat4_t<numType>& m ) {
         q[j] = (m.m[i][j] + m.m[j][i]) * s;
         q[k] = (m.m[i][k] + m.m[k][i]) * s;
     }
-	return q;
+    return q;
 }
 
-//-----------------------------------------------------------------------------
-//		quat_t<numType>s & Euler Angles
-//-----------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////
+// Quaternions & Euler Angles
+///////////////////////////////////////////////////////////////////////////////
 template <typename numType> inline
-math::vec3_t<numType> math::getAxisX( const math::quat_t<numType>& q ) {
+math::vec3_t<numType> math::getAxisX(const math::quat_t<numType>& q) {
     return math::vec3_t<numType>{
         numType(1) - numType(2) * (q[1] * q[1] + q[2] * q[2]),
         numType(2) * (q[0] * q[1] + q[3] * q[2]),
@@ -286,7 +283,7 @@ math::vec3_t<numType> math::getAxisX( const math::quat_t<numType>& q ) {
 }
 
 template <typename numType> inline
-math::vec3_t<numType> math::getAxisY( const math::quat_t<numType>& q ) {
+math::vec3_t<numType> math::getAxisY(const math::quat_t<numType>& q) {
     return math::vec3_t<numType>{
         numType(2) * (q[0] * q[1] - q[3] * q[2]),
         numType(1) - numType(2) * (q[0] * q[0] + q[2] * q[2]),
@@ -295,7 +292,7 @@ math::vec3_t<numType> math::getAxisY( const math::quat_t<numType>& q ) {
 }
 
 template <typename numType> inline
-math::vec3_t<numType> math::getAxisZ( const math::quat_t<numType>& q ) {
+math::vec3_t<numType> math::getAxisZ(const math::quat_t<numType>& q) {
     return math::vec3_t<numType>{
         numType(2) * (q[0] * q[2] + q[3] * q[1]),
         numType(2) * (q[1] * q[0] - q[3] * q[0]),
@@ -304,132 +301,132 @@ math::vec3_t<numType> math::getAxisZ( const math::quat_t<numType>& q ) {
 }
 
 template <typename numType> inline
-numType math::getAngle( const quat_t<numType>& q ) {
-	return numType{ std::acos( q.q[3] * numType(2) ) };
+numType math::getAngle(const quat_t<numType>& q) {
+    return numType{std::acos(q.q[3] * numType(2))};
 }
 
 template <typename numType> inline
-math::vec3_t<numType> math::toEuler( const quat_t<numType>& q ) {
-	const numType xx{ q.q[0] * q.q[0] };
-	const numType yy{ q.q[1] * q.q[1] };
-	const numType zz{ q.q[2] * q.q[2] };
-	const numType pitch{
-		std::atan2(
-			numType(2) * ((q.q[3]*q.q[0]) * (q.q[1]*q.q[2])),
-			numType(1) - (numType(2) * (xx+yy))
-		)
-	};
-	const numType yaw{
-		std::asin(
-			numType(2) * ((q.q[3]*q.q[1]) - (q.q[2]*q.q[0]))
-		)
-	};
-	const numType roll{
-		std::atan2(
-			numType(2) * ((q.q[3]*q.q[2]) + (q.q[0]*q.q[1])),
-			numType(1) - (numType(2) * (yy+zz))
-		)
-	};
-	return vec3_t<numType>( pitch, yaw, roll );
-}
-
-template <typename numType> inline
-math::quat_t<numType> math::fromEuler( const math::vec3_t<numType>& angles ) {
-	const numType cp { cos( angles.v[0] * numType(0.5) ) };
-	const numType sp { sin( angles.v[0] * numType(0.5) ) };
-	
-	const numType cy { cos( angles.v[1] * numType(0.5) ) };
-	const numType sy { sin( angles.v[1] * numType(0.5) ) };
-	
-	const numType cr { cos( angles.v[2] * numType(0.5) ) };
-	const numType sr { sin( angles.v[2] * numType(0.5) ) };
-	
-	return math::quat_t<numType>{
-		(sy*cp*cr) - (cy*sp*sr),
-		(cy*sp*cr) + (sy*cp*sr),
-		(cy*cp*sr) - (sy*sp*cr),
-		(cy*cp*cr) + (sy*sp*sr)
-	};
-}
-
-template <typename numType> inline
-math::quat_t<numType> math::fromEuler( numType pitch, numType yaw, numType roll ) {
-	const numType cp { cos( pitch * numType(0.5) ) };
-	const numType sp { sin( pitch * numType(0.5) ) };
-	
-	const numType cy { cos( yaw * numType(0.5) ) };
-	const numType sy { sin( yaw * numType(0.5) ) };
-	
-	const numType cr { cos( roll * numType(0.5) ) };
-	const numType sr { sin( roll * numType(0.5) ) };
-	
-	return math::quat_t<numType>{
-		(sy*cp*cr) - (cy*sp*sr),
-		(cy*sp*cr) + (sy*cp*sr),
-		(cy*cp*sr) - (sy*sp*cr),
-		(cy*cp*cr) + (sy*sp*sr)
-	};
-}
-
-template <typename numType> inline
-void math::toAxisAngle( const quat_t<numType>& q, vec3_t<numType>& v, numType& a ) {
-	numType s{ HL_SQRT( numType(1) - (q.q[3]*q.q[3])) };
-	
-	if (std::abs( s ) <= numType(0) ) {
-		s = numType(1);
-    }
-        
-	s = numType(1) / s;
-	
-	v.v[0] = q.q[0] * s,
-	v.v[1] = q.q[1] * s,
-	v.v[2] = q.q[2] * s,
-	a = std::acos( q.q[3] ) * numType(2);
-}
-
-template <typename numType> inline
-math::vec4_t<numType> math::toAxisAngle( const quat_t<numType>& q ) {
-	numType c{ q.q[3] };
-	numType s{ HL_SQRT( numType(1) - (q.q[3]*q.q[3])) };
-	
-	if (std::abs( s ) <= numType(0) ) {
-		s = numType(1);
-    }
+math::vec3_t<numType> math::toEuler(const quat_t<numType>& q) {
+    const numType xx{q.q[0] * q.q[0]};
+    const numType yy{q.q[1] * q.q[1]};
+    const numType zz{q.q[2] * q.q[2]};
     
-	s = numType(1) / s;
-	
-	return vec4_t<numType>(
-		q.q[0] * s,
-		q.q[1] * s,
-		q.q[2] * s,
-		std::acos( q.q[3] ) * numType(2)
-	);
+    const numType pitch{
+        std::atan2(
+        numType(2) * ((q.q[3] * q.q[0]) * (q.q[1] * q.q[2])),
+        numType(1) - (numType(2) * (xx + yy))
+        )
+    };
+    const numType yaw{
+        std::asin(
+        numType(2) * ((q.q[3] * q.q[1]) - (q.q[2] * q.q[0]))
+        )
+    };
+    const numType roll{
+        std::atan2(
+        numType(2) * ((q.q[3] * q.q[2]) + (q.q[0] * q.q[1])),
+        numType(1) - (numType(2) * (yy + zz))
+        )
+    };
+    return vec3_t<numType>(pitch, yaw, roll);
 }
 
 template <typename numType> inline
-math::quat_t<numType> math::fromAxisAngle( const vec3_t<numType>& axis, numType angle ) {
-	numType a{ angle * numType(0.5) };
-	numType s{ std::sin( a )};
-	return quat_t<numType>{
-			s * axis.v[0],
-			s * axis.v[1],
-			s * axis.v[2],
-			std::cos( a )
-	};
+math::quat_t<numType> math::fromEuler(const math::vec3_t<numType>& angles) {
+    const numType cp{cos(angles.v[0] * numType(0.5))};
+    const numType sp{sin(angles.v[0] * numType(0.5))};
+
+    const numType cy{cos(angles.v[1] * numType(0.5))};
+    const numType sy{sin(angles.v[1] * numType(0.5))};
+
+    const numType cr{cos(angles.v[2] * numType(0.5))};
+    const numType sr{sin(angles.v[2] * numType(0.5))};
+
+    return math::quat_t<numType>{
+        (sy * cp * cr) - (cy * sp * sr),
+        (cy * sp * cr) + (sy * cp * sr),
+        (cy * cp * sr) - (sy * sp * cr),
+        (cy * cp * cr) + (sy * sp * sr)
+    };
 }
 
 template <typename numType> inline
-math::quat_t<numType> math::fromAxisAngle( const vec4_t<numType>& v ) {
-	numType a{ v.v[3] * numType(0.5) };
-	numType s{ std::sin( a )};
-	return quat_t<numType>{
-			s * v.v[0],
-			s * v.v[1],
-			s * v.v[2],
-			std::cos( a )
-	};
+math::quat_t<numType> math::fromEuler(numType pitch, numType yaw, numType roll) {
+    const numType cp{cos(pitch * numType(0.5))};
+    const numType sp{sin(pitch * numType(0.5))};
+
+    const numType cy{cos(yaw * numType(0.5))};
+    const numType sy{sin(yaw * numType(0.5))};
+
+    const numType cr{cos(roll * numType(0.5))};
+    const numType sr{sin(roll * numType(0.5))};
+
+    return math::quat_t<numType>{
+        (sy * cp * cr) - (cy * sp * sr),
+        (cy * sp * cr) + (sy * cp * sr),
+        (cy * cp * sr) - (sy * sp * cr),
+        (cy * cp * cr) + (sy * sp * sr)
+    };
 }
 
+template <typename numType> inline
+void math::toAxisAngle(const quat_t<numType>& q, vec3_t<numType>& v, numType& a) {
+    numType s{HL_SQRT(numType(1) - (q.q[3] * q.q[3]))};
+
+    if (std::abs(s) <= numType(0)) {
+        s = numType(1);
+    }
+
+    s = numType(1) / s;
+
+    v.v[0] = q.q[0] * s,
+    v.v[1] = q.q[1] * s,
+    v.v[2] = q.q[2] * s,
+    a = std::acos(q.q[3]) * numType(2);
+}
+
+template <typename numType> inline
+math::vec4_t<numType> math::toAxisAngle(const quat_t<numType>& q) {
+    numType c{q.q[3]};
+    numType s{HL_SQRT(numType(1) - (q.q[3] * q.q[3]))};
+
+    if (std::abs(s) <= numType(0)) {
+        s = numType(1);
+    }
+
+    s = numType(1) / s;
+
+    return vec4_t<numType>(
+        q.q[0] * s,
+        q.q[1] * s,
+        q.q[2] * s,
+        std::acos(q.q[3]) * numType(2)
+    );
+}
+
+template <typename numType> inline
+math::quat_t<numType> math::fromAxisAngle(const vec3_t<numType>& axis, numType angle) {
+    numType a{angle * numType(0.5)};
+    numType s{std::sin(a)};
+    return quat_t<numType>{
+        s * axis.v[0],
+        s * axis.v[1],
+        s * axis.v[2],
+        std::cos(a)
+    };
+}
+
+template <typename numType> inline
+math::quat_t<numType> math::fromAxisAngle(const vec4_t<numType>& v) {
+    numType a{v.v[3] * numType(0.5)};
+    numType s{std::sin(a)};
+    return quat_t<numType>{
+        s * v.v[0],
+        s * v.v[1],
+        s * v.v[2],
+        std::cos(a)
+    };
+}
 
 } // hamLibs namespace
 

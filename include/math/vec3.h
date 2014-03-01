@@ -15,6 +15,7 @@
 #define __HL_MATH_VEC3_H__
 
 #include "../utils/assert.h"
+#include "math/fixed.h"
 
 namespace hamLibs {
 namespace math {
@@ -75,20 +76,8 @@ struct vec3_t {
     
 	~vec3_t() = default;
     
-	//array operators
-#ifdef HL_DEBUG
-	numType         operator        []      (int i) const {
-                                                HL_ASSERT( (i>=0)&&(i<3) );
-                                                return v[i];
-                                            }
-	numType&        operator        []      (int i) {
-                                                HL_ASSERT( (i>=0)&&(i<3) );
-                                                return v[i];
-                                            }
-#else
 	constexpr numType operator      []      (int i) const { return v[i]; }
 	inline numType& operator        []      (int i) { return v[i]; }
-#endif
 
 	//vector-vector operators
 	vec3_t&			operator		= 		(const vec3_t<numType>&);
@@ -130,6 +119,15 @@ struct vec3_t {
 	vec3_t&			operator 		*= 		(numType);
 	vec3_t&			operator 		/= 		(numType);
 };
+
+/*
+ * 3D Vector Specializations
+ */
+HL_DECLARE_CLASS_TYPE(vec3f, vec3_t, float);
+HL_DECLARE_CLASS_TYPE(vec3d, vec3_t, double);
+HL_DECLARE_CLASS_TYPE(vec3i, vec3_t, int);
+HL_DECLARE_CLASS_TYPE(vec3Fixed, vec3_t, medp_t);
+HL_DECLARE_CLASS_TYPE(vec3, vec3_t, HL_FLOAT);
 
 //---------------------------------------------------------------------
 //  Non-Member Vector-Scalar operations

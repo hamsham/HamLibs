@@ -23,43 +23,43 @@ namespace math {
 /*
  * 2x2 Matrices
  */
-template <typename numType> inline numType          determinant(const mat2_t<numType>&);
-template <typename numType> inline mat2_t<numType>  inverse(const mat2_t<numType>&);
-template <typename numType> inline mat2_t<numType>  transpose(const mat2_t<numType>&);
-template <typename numType> inline mat2_t<numType>  rotate(const mat2_t<numType>&, numType);
-template <typename numType> inline mat2_t<numType>  scale(const mat2_t<numType>&, const vec2_t<numType>&);
+template <typename N> constexpr N           determinant(const mat2_t<N>&);
+template <typename N> inline mat2_t<N>      inverse(const mat2_t<N>&);
+template <typename N> constexpr mat2_t<N>   transpose(const mat2_t<N>&);
+template <typename N> inline mat2_t<N>      rotate(const mat2_t<N>&, N);
+template <typename N> constexpr mat2_t<N>   scale(const mat2_t<N>&, const vec2_t<N>&);
 
 /*
  * 3x3 Matrices
  */
-template <typename numType> inline numType          determinant(const mat3_t<numType>&);
-template <typename numType> inline mat3_t<numType>  inverse(const mat3_t<numType>&);
-template <typename numType> inline mat3_t<numType>  transpose(const mat3_t<numType>&);
-template <typename numType> inline mat3_t<numType>  rotate(const mat3_t<numType>&, const vec3_t<numType>&, numType);
-template <typename numType> inline mat3_t<numType>  scale(const mat3_t<numType>&, const vec3_t<numType>&);
+template <typename N> constexpr N           determinant(const mat3_t<N>&);
+template <typename N> inline mat3_t<N>      inverse(const mat3_t<N>&);
+template <typename N> constexpr mat3_t<N>   transpose(const mat3_t<N>&);
+template <typename N> inline mat3_t<N>      rotate(const mat3_t<N>&, const vec3_t<N>&, N);
+template <typename N> constexpr mat3_t<N>   scale(const mat3_t<N>&, const vec3_t<N>&);
 
 /*
  * 4x4 Matrices
  */
-template <typename numType> inline numType          determinant(const mat4_t<numType>&);
-template <typename numType> inline mat4_t<numType>  inverse(const mat4_t<numType>&);
-template <typename numType> inline mat4_t<numType>  transpose(const mat4_t<numType>&);
-template <typename numType> inline mat4_t<numType>  rotate(const mat4_t<numType>&, const vec3_t<numType>&, numType);
-template <typename numType> inline mat4_t<numType>  scale(const mat4_t<numType>&, const vec3_t<numType>&);
-template <typename numType> inline mat4_t<numType>  translate(const mat4_t<numType>&, const vec3_t<numType>&);
-template <typename numType> inline mat4_t<numType>  perspective(numType fov, numType aspect, numType zNear, numType zFar);
-template <typename numType> inline mat4_t<numType>  infinitePerspective(numType fov, numType aspect, numType zNear);
-template <typename numType> inline mat4_t<numType>  ortho(numType left, numType right, numType top, numType bottom);
-template <typename numType> inline mat4_t<numType>  ortho(numType left, numType right, numType top, numType bottom, numType near, numType far);
-template <typename numType> inline mat4_t<numType>  frustum(numType left, numType right, numType top, numType bottom, numType near, numType far);
-template <typename numType> inline mat4_t<numType>  lookAt(const vec3_t<numType>& pos, const vec3_t<numType>& target, const vec3_t<numType>& up);
+template <typename N> constexpr N           determinant(const mat4_t<N>&);
+template <typename N> inline mat4_t<N>      inverse(const mat4_t<N>&);
+template <typename N> constexpr mat4_t<N>   transpose(const mat4_t<N>&);
+template <typename N> inline mat4_t<N>      rotate(const mat4_t<N>&, const vec3_t<N>&, N);
+template <typename N> constexpr mat4_t<N>   scale(const mat4_t<N>&, const vec3_t<N>&);
+template <typename N> constexpr mat4_t<N>   translate(const mat4_t<N>&, const vec3_t<N>&);
+template <typename N> inline mat4_t<N>      perspective(N fov, N aspect, N zNear, N zFar);
+template <typename N> inline mat4_t<N>      infinitePerspective(N fov, N aspect, N zNear);
+template <typename N> inline mat4_t<N>      ortho(N left, N right, N top, N bottom);
+template <typename N> inline mat4_t<N>      ortho(N left, N right, N top, N bottom, N near, N far);
+template <typename N> inline mat4_t<N>      frustum(N left, N right, N top, N bottom, N near, N far);
+template <typename N> inline mat4_t<N>      lookAt(const vec3_t<N>& pos, const vec3_t<N>& target, const vec3_t<N>& up);
 
 } // end math namespace
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2x2 Matrices
 ///////////////////////////////////////////////////////////////////////////////
-template <typename numType> inline
+template <typename numType> constexpr
 numType math::determinant(const mat2_t<numType>& m) {
     return (m.m[0][0] * m.m[1][1]) - (m.m[0][1] * m.m[1][0]);
 }
@@ -76,7 +76,7 @@ math::mat2_t<numType> math::inverse(const mat2_t<numType>& m) {
     );
 }
 
-template <typename numType> inline
+template <typename numType> constexpr
 math::mat2_t<numType> math::transpose(const mat2_t<numType>& m) {
     return mat2_t<numType>(
         m.m[0][0], m.m[1][0],
@@ -94,7 +94,7 @@ math::mat2_t<numType> math::rotate(const mat2_t<numType>& m, numType angle) {
     ) * m;
 }
 
-template <typename numType> inline
+template <typename numType> constexpr
 math::mat2_t<numType> math::scale(const mat2_t<numType>& m, const vec2_t<numType>& amount) {
     return mat2_t<numType>(
         m.m[0][0] * amount.v[0], m.m[0][1],
@@ -105,7 +105,7 @@ math::mat2_t<numType> math::scale(const mat2_t<numType>& m, const vec2_t<numType
 ///////////////////////////////////////////////////////////////////////////////
 // 3x3 Matrices
 ///////////////////////////////////////////////////////////////////////////////
-template <typename numType> inline
+template <typename numType> constexpr
 numType math::determinant(const mat3_t<numType>& m) {
     return
         (m.m[0][0] * m.m[1][1] * m.m[2][2]) +
@@ -119,15 +119,15 @@ numType math::determinant(const mat3_t<numType>& m) {
 template <typename numType> inline
 math::mat3_t<numType> math::inverse(const mat3_t<numType>& m) {
     const numType detInv(numType(1) / determinant(m));
-    return
-    mat3_t<numType>(
+    
+    return mat3_t<numType>(
         m.m[0][0] * detInv, m.m[1][0] * detInv, m.m[2][0] * detInv,
         m.m[0][1] * detInv, m.m[1][1] * detInv, m.m[2][1] * detInv,
         m.m[0][2] * detInv, m.m[1][2] * detInv, m.m[2][2] * detInv
     );
 }
 
-template <typename numType> inline
+template <typename numType> constexpr
 math::mat3_t<numType> math::transpose(const mat3_t<numType>& m) {
     return mat3_t<numType>(
         m.m[0][0], m.m[1][0], m.m[2][0],
@@ -154,7 +154,7 @@ math::mat3_t<numType> math::rotate(const mat3_t<numType>& m, const vec3_t<numTyp
     );
 }
 
-template <typename numType> inline
+template <typename numType> constexpr
 math::mat3_t<numType> math::scale(const mat3_t<numType>& m, const vec3_t<numType>& scale) {
     return mat3_t<numType>(
         m.m[0][0] * scale.v[0], m.m[0][1], m.m[0][2],
@@ -166,7 +166,7 @@ math::mat3_t<numType> math::scale(const mat3_t<numType>& m, const vec3_t<numType
 ///////////////////////////////////////////////////////////////////////////////
 // 4x4 Matrices
 ///////////////////////////////////////////////////////////////////////////////
-template <typename numType> inline
+template <typename numType> constexpr
 numType math::determinant(const mat4_t<numType>& m) {
     return numType(
         (m.m[0][3] * m.m[1][2] * m.m[2][1] * m.m[3][0]) - (m.m[0][2] * m.m[1][3] * m.m[2][1] * m.m[3][0]) - (m.m[0][3] * m.m[1][1] * m.m[2][2] * m.m[3][0]) + (m.m[0][1] * m.m[1][3] * m.m[2][2] * m.m[3][0]) +
@@ -235,7 +235,7 @@ math::mat4_t<numType> math::inverse(const mat4_t<numType>& m) {
     // FML
 }
 
-template <typename numType> inline
+template <typename numType> constexpr
 math::mat4_t<numType> math::transpose(const mat4_t<numType>& m) {
     return mat4_t<numType>(
         m.m[0][0], m.m[1][0], m.m[2][0], m.m[3][0],
@@ -264,7 +264,7 @@ math::mat4_t<numType> math::rotate(const mat4_t<numType>& m, const vec3_t<numTyp
     );
 }
 
-template <typename numType> inline
+template <typename numType> constexpr
 math::mat4_t<numType> math::scale(const mat4_t<numType>& m, const vec3_t<numType>& scale) {
     return mat4_t<numType>(
         m.m[0][0] * scale.v[0], m.m[0][1], m.m[0][2], m.m[0][3],
@@ -274,7 +274,7 @@ math::mat4_t<numType> math::scale(const mat4_t<numType>& m, const vec3_t<numType
     );
 }
 
-template <typename numType> inline
+template <typename numType> constexpr
 math::mat4_t<numType> math::translate(const mat4_t<numType>& m, const vec3_t<numType>& t) {
     return mat4_t<numType>(
         m.m[0][0], m.m[0][1], m.m[0][2], m.m[0][3],

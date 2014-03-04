@@ -23,41 +23,44 @@ namespace math {
 /*
  * 2D Vectors
  */
-template <typename numType> inline numType          dot(const vec2_t<numType>&, const vec2_t<numType>&);
-template <typename numType> inline vec2_t<numType>  normalize(const vec2_t<numType>&);
-template <typename numType> inline numType          magnitude(const vec2_t<numType>&);
-template <typename numType> inline vec2_t<numType>  rotate(const vec2_t<numType>&, numType);
-template <typename numType> inline numType          angleBetween(const vec2_t<numType>&, const vec2_t<numType>&);
-template <typename numType> inline numType          angleBetween(const vec2_t<numType>&, const vec2_t<numType>&, const vec2_t<numType>& origin);
+template <typename N> constexpr N           dot(const vec2_t<N>&, const vec2_t<N>&);
+template <typename N> inline vec2_t<N>      normalize(const vec2_t<N>&);
+template <typename N> inline N              magnitude(const vec2_t<N>&);
+template <typename N> inline vec2_t<N>      rotate(const vec2_t<N>&, N);
+template <typename N> inline N              angleBetween(const vec2_t<N>&, const vec2_t<N>&);
+template <typename N> inline N              angleBetween(const vec2_t<N>&, const vec2_t<N>&, const vec2_t<N>& origin);
+template <typename n> constexpr vec2_t<n>   lerp(const vec2_t<n>&, const vec2_t<n>&, n);
 
 /*
  * 3D Vectors
  */
-template <typename numType> inline numType          dot(const vec3_t<numType>&, const vec3_t<numType>&);
-template <typename numType> inline vec3_t<numType>  cross(const vec3_t<numType>&, const vec3_t<numType>&);
-template <typename numType> inline vec3_t<numType>  normalize(const vec3_t<numType>&);
-template <typename numType> inline numType          magnitude(const vec3_t<numType>&);
-template <typename numType> inline vec3_t<numType>  xRotation(numType);
-template <typename numType> inline vec3_t<numType>  yRotation(numType);
-template <typename numType> inline vec3_t<numType>  zRotation(numType);
-template <typename numType> inline numType          angleBetween(const vec3_t<numType>&, const vec3_t<numType>&);
-template <typename numType> inline numType          angleBetween(const vec3_t<numType>&, const vec3_t<numType>&, const vec3_t<numType>& origin);
+template <typename N> constexpr N           dot(const vec3_t<N>&, const vec3_t<N>&);
+template <typename N> constexpr vec3_t<N>   cross(const vec3_t<N>&, const vec3_t<N>&);
+template <typename N> inline vec3_t<N>      normalize(const vec3_t<N>&);
+template <typename N> inline N              magnitude(const vec3_t<N>&);
+template <typename N> inline vec3_t<N>      xRotation(N);
+template <typename N> inline vec3_t<N>      yRotation(N);
+template <typename N> inline vec3_t<N>      zRotation(N);
+template <typename N> inline N              angleBetween(const vec3_t<N>&, const vec3_t<N>&);
+template <typename N> inline N              angleBetween(const vec3_t<N>&, const vec3_t<N>&, const vec3_t<N>& origin);
+template <typename n> constexpr vec3_t<n>   lerp(const vec3_t<n>&, const vec3_t<n>&, n);
 
 /*
  * 4D Vectors
  */
-template <typename numType> inline numType          dot(const vec4_t<numType>&, const vec4_t<numType>&);
-template <typename numType> inline vec4_t<numType>  normalize(const vec4_t<numType>&);
-template <typename numType> inline numType          magnitude(const vec4_t<numType>&);
-template <typename numType> inline numType          angleBetween(const vec4_t<numType>&, const vec4_t<numType>&);
-template <typename numType> inline numType          angleBetween(const vec3_t<numType>&, const vec3_t<numType>&, const vec3_t<numType>& origin);
+template <typename N> constexpr N           dot(const vec4_t<N>&, const vec4_t<N>&);
+template <typename N> inline vec4_t<N>      normalize(const vec4_t<N>&);
+template <typename N> inline N              magnitude(const vec4_t<N>&);
+template <typename N> inline N              angleBetween(const vec4_t<N>&, const vec4_t<N>&);
+template <typename N> inline N              angleBetween(const vec3_t<N>&, const vec3_t<N>&, const vec3_t<N>& origin);
+template <typename n> constexpr vec4_t<n>   lerp(const vec4_t<n>&, const vec4_t<n>&, n);
 
 } // end math namespace
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2D Vectors
 ///////////////////////////////////////////////////////////////////////////////
-template <typename numType> inline
+template <typename numType> constexpr
 numType math::dot(const vec2_t<numType>& v1, const vec2_t<numType>& v2) {
     return (v1.v[0] * v2.v[0]) + (v1.v[1] * v2.v[1]);
 }
@@ -111,15 +114,20 @@ numType math::angleBetween(const vec2_t<numType>& v1, const vec2_t<numType>& v2,
     ));
 }
 
+template <typename numType> constexpr
+math::vec2_t<numType> math::lerp(const vec2_t<numType>& v1, const vec2_t<numType>& v2, numType percent) {
+    return vec2_t<numType>{v1 + ((v2 - v1) * percent)};
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // 3D Vectors
 ///////////////////////////////////////////////////////////////////////////////
-template <typename numType> inline
+template <typename numType> constexpr
 numType math::dot(const vec3_t<numType>& v1, const vec3_t<numType>& v2) {
     return (v1.v[0] * v2.v[0]) + (v1.v[1] * v2.v[1]) + (v1.v[2] * v2.v[2]);
 }
 
-template <typename numType> inline
+template <typename numType> constexpr
 math::vec3_t<numType> math::cross(const vec3_t<numType>& v1, const vec3_t<numType>& v2) {
     return vec3_t<numType>(
         (v1.v[1] * v2.v[2]) - (v1.v[2] * v2.v[1]),
@@ -205,10 +213,15 @@ numType math::angleBetween(const vec3_t<numType>& v1, const vec3_t<numType>& v2,
     ));
 }
 
+template <typename numType> constexpr
+math::vec3_t<numType> math::lerp(const vec3_t<numType>& v1, const vec3_t<numType>& v2, numType percent) {
+    return vec3_t<numType>{v1 + ((v2 - v1) * percent)};
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // 4D Vectors
 ///////////////////////////////////////////////////////////////////////////////
-template <typename numType> inline
+template <typename numType> constexpr
 numType math::dot(const vec4_t<numType>& v1, const vec4_t<numType>& v2) {
     return (v1.v[0] * v2.v[0]) + (v1.v[1] * v2.v[1]) + (v1.v[2] * v2.v[2]) + (v1.v[3] * v2.v[3]);
 }
@@ -255,6 +268,11 @@ numType math::angleBetween(const vec4_t<numType>& v1, const vec4_t<numType>& v2,
     return numType(acos(
         dot(v1 - origin, v2 - origin) / (magnitude(v1) * magnitude(v2))
     ));
+}
+
+template <typename numType> constexpr
+math::vec4_t<numType> math::lerp(const vec4_t<numType>& v1, const vec4_t<numType>& v2, numType percent) {
+    return vec4_t<numType>{v1 + ((v2 - v1) * percent)};
 }
 
 } // hamLibs namespace

@@ -97,8 +97,19 @@ struct mat2_t {
     {}
     
 	~mat2_t() = default;
+    
+    // Subscripting
 	const numType*  operator    []      (int i) const { return m[i]; }
 	inline numType* operator    []      (int i) { return m[i]; }
+    
+    // Conversions & Casting
+    template <typename otherType>
+    constexpr explicit operator mat2_t<otherType>() const {
+        return mat2_t<otherType>{
+            (otherType)m[0][0], (otherType)m[0][1],
+            (otherType)m[1][0], (otherType)m[1][1]
+        };
+    }
 
 	//mat-mat operators
 	mat2_t&			operator	++		(); //prefix operators
@@ -143,7 +154,7 @@ struct mat2_t {
 HL_DECLARE_CLASS_TYPE(mat2f, mat2_t, float);
 HL_DECLARE_CLASS_TYPE(mat2d, mat2_t, double);
 HL_DECLARE_CLASS_TYPE(mat2i, mat2_t, int);
-HL_DECLARE_CLASS_TYPE(mat2Fixed, mat2_t, medp_t);
+HL_DECLARE_CLASS_TYPE(mat2x, mat2_t, medp_t);
 HL_DECLARE_CLASS_TYPE(mat2, mat2_t, HL_FLOAT);
 
 //---------------------------------------------------------------------

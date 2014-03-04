@@ -71,8 +71,17 @@ struct quat_t {
     
 	~quat_t() = default;
     
+    // Subscripting Operators
 	constexpr numType operator      []      (int i) const { return q[i]; }
 	inline numType& operator        []      (int i) { return q[i]; }
+    
+    // Conversions & Casting
+    template <typename otherType>
+    constexpr explicit operator quat_t<otherType>() const {
+        return quat_t<otherType>{
+            (otherType)q[0], (otherType)q[1], (otherType)q[2], (otherType)q[3]
+        };
+    }
 
 	//quaternion-quaternion operators
 	quat_t&			operator	++	(); //prefix operators
@@ -108,7 +117,7 @@ struct quat_t {
 HL_DECLARE_CLASS_TYPE(quatf, quat_t, float);
 HL_DECLARE_CLASS_TYPE(quatd, quat_t, double);
 HL_DECLARE_CLASS_TYPE(quati, quat_t, int);
-HL_DECLARE_CLASS_TYPE(quatFixed, quat_t, medp_t);
+HL_DECLARE_CLASS_TYPE(quatx, quat_t, medp_t);
 HL_DECLARE_CLASS_TYPE(quat, quat_t, HL_FLOAT);
 
 //---------------------------------------------------------------------

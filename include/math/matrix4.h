@@ -139,8 +139,20 @@ struct mat4_t {
     
 	~mat4_t() = default;
     
+    // Subscripting Operators
 	const numType*  operator    []      (int i) const { return m[i]; }
 	inline numType* operator    []      (int i) { return m[i]; }
+    
+    // Conversions & Casting
+    template <typename otherType>
+    constexpr explicit operator mat4_t<otherType>() const {
+        return mat4_t<otherType>{
+            (otherType)m[0][0], (otherType)m[0][1], (otherType)m[0][2], (otherType)m[0][3],
+            (otherType)m[1][0], (otherType)m[1][1], (otherType)m[1][2], (otherType)m[1][3],
+            (otherType)m[2][0], (otherType)m[2][1], (otherType)m[2][2], (otherType)m[2][3],
+            (otherType)m[3][0], (otherType)m[3][1], (otherType)m[3][2], (otherType)m[3][3]
+        };
+    }
 
 	//matrix-matrix operators
 	mat4_t&			operator	++		(); //prefix operators
@@ -185,7 +197,7 @@ struct mat4_t {
 HL_DECLARE_CLASS_TYPE(mat4f, mat4_t, float);
 HL_DECLARE_CLASS_TYPE(mat4d, mat4_t, double);
 HL_DECLARE_CLASS_TYPE(mat4i, mat4_t, int);
-HL_DECLARE_CLASS_TYPE(mat4Fixed, mat4_t, medp_t);
+HL_DECLARE_CLASS_TYPE(mat4x, mat4_t, medp_t);
 HL_DECLARE_CLASS_TYPE(mat4, mat4_t, HL_FLOAT);
 
 //---------------------------------------------------------------------

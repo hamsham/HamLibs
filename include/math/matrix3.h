@@ -110,9 +110,19 @@ struct mat3_t {
     
 	~mat3_t() = default;
 
-	//array operators
+	//Subscripting operators
 	const numType*  operator    []      (int i) const { return m[i]; }
 	inline numType* operator    []      (int i) { return m[i]; }
+    
+    // Conversions & Casting
+    template <typename otherType>
+    constexpr explicit operator mat3_t<otherType>() const {
+        return mat3_t<otherType>{
+            (otherType)m[0][0], (otherType)m[0][1], (otherType)m[0][2],
+            (otherType)m[1][0], (otherType)m[1][1], (otherType)m[1][2],
+            (otherType)m[2][0], (otherType)m[2][1], (otherType)m[2][2]
+        };
+    }
 
 	//matrix-matrix operators
 	mat3_t&			operator	++		(); //prefix operators
@@ -157,7 +167,7 @@ struct mat3_t {
 HL_DECLARE_CLASS_TYPE(mat3f, mat3_t, float);
 HL_DECLARE_CLASS_TYPE(mat3d, mat3_t, double);
 HL_DECLARE_CLASS_TYPE(mat3i, mat3_t, int);
-HL_DECLARE_CLASS_TYPE(mat3Fixed, mat3_t, medp_t);
+HL_DECLARE_CLASS_TYPE(mat3x, mat3_t, medp_t);
 HL_DECLARE_CLASS_TYPE(mat3, mat3_t, HL_FLOAT);
 
 //---------------------------------------------------------------------

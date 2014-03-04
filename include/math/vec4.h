@@ -77,8 +77,17 @@ struct vec4_t {
     
 	~vec4_t() = default;
     
+    // Subscripting Operators
 	constexpr numType operator      []      (int i) const { return v[i]; }
 	inline numType& operator        []      (int i) { return v[i]; }
+    
+    // Conversions & Casting
+    template <typename otherType>
+    constexpr explicit operator vec4_t<otherType>() const {
+        return vec4_t<otherType>{
+            (otherType)v[0], (otherType)v[1], (otherType)v[2], (otherType)v[3]
+        };
+    }
 
 	//vector-vector operators
 	vec4_t&			operator		= 		(const vec4_t<numType>&);
@@ -127,7 +136,7 @@ struct vec4_t {
 HL_DECLARE_CLASS_TYPE(vec4f, vec4_t, float);
 HL_DECLARE_CLASS_TYPE(vec4d, vec4_t, double);
 HL_DECLARE_CLASS_TYPE(vec4i, vec4_t, int);
-HL_DECLARE_CLASS_TYPE(vec4Fixed, vec4_t, medp_t);
+HL_DECLARE_CLASS_TYPE(vec4x, vec4_t, medp_t);
 HL_DECLARE_CLASS_TYPE(vec4, vec4_t, HL_FLOAT);
 
 //---------------------------------------------------------------------

@@ -86,8 +86,8 @@ math::mat2_t<numType> math::transpose(const mat2_t<numType>& m) {
 
 template <typename numType> inline
 math::mat2_t<numType> math::rotate(const mat2_t<numType>& m, numType angle) {
-    const numType c(std::cos(angle));
-    const numType s(std::sin(angle));
+    const numType c(HL_COS(angle));
+    const numType s(HL_SIN(angle));
     return mat2_t<numType>(
         c, s,
         -s, c
@@ -138,8 +138,8 @@ math::mat3_t<numType> math::transpose(const mat3_t<numType>& m) {
 
 template <typename numType> inline
 math::mat3_t<numType> math::rotate(const mat3_t<numType>& m, const vec3_t<numType>& axis, numType angle) {
-    const numType c(std::cos(angle));
-    const numType s(std::sin(angle));
+    const numType c(HL_COS(angle));
+    const numType s(HL_SIN(angle));
     const vec3_t<numType> a(normalize<numType>(axis));
     const numType omc(numType(1) - c);
     const numType xy((a.v[0] * a.v[1]) * omc);
@@ -247,8 +247,8 @@ math::mat4_t<numType> math::transpose(const mat4_t<numType>& m) {
 
 template <typename numType> inline
 math::mat4_t<numType> math::rotate(const mat4_t<numType>& m, const vec3_t<numType>& axis, numType angle) {
-    const numType c(std::cos(angle));
-    const numType s(std::sin(angle));
+    const numType c(HL_COS(angle));
+    const numType s(HL_SIN(angle));
     const vec3_t<numType> a(normalize<numType>(axis));
     const numType omc(numType(1) - c);
     const numType xy((a.v[0] * a.v[1]) * omc);

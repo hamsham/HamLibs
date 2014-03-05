@@ -130,9 +130,9 @@ math::quat_t<numType> math::slerp(const quat_t<numType>& q1, const quat_t<numTyp
     numType mult1, mult2;
 
     if (theta >= HL_EPSILON) {
-        const numType st = (numType) std::sin(theta);
-        mult1 = std::sin((numType(1) - t) * theta) / st;
-        mult2 = std::sin(t * theta) / st;
+        const numType st = (numType) HL_SIN(theta);
+        mult1 = HL_SIN((numType(1) - t) * theta) / st;
+        mult2 = HL_SIN(t * theta) / st;
     }
     else {
         // To avoid division by 0 and by very small numbers the approximation of sin(angle)
@@ -407,24 +407,24 @@ math::vec4_t<numType> math::toAxisAngle(const quat_t<numType>& q) {
 template <typename numType> inline
 math::quat_t<numType> math::fromAxisAngle(const vec3_t<numType>& axis, numType angle) {
     numType a{angle * numType(0.5)};
-    numType s{std::sin(a)};
+    numType s{HL_SIN(a)};
     return quat_t<numType>{
         s * axis.v[0],
         s * axis.v[1],
         s * axis.v[2],
-        std::cos(a)
+        HL_COS(a)
     };
 }
 
 template <typename numType> inline
 math::quat_t<numType> math::fromAxisAngle(const vec4_t<numType>& v) {
     numType a{v.v[3] * numType(0.5)};
-    numType s{std::sin(a)};
+    numType s{HL_SIN(a)};
     return quat_t<numType>{
         s * v.v[0],
         s * v.v[1],
         s * v.v[2],
-        std::cos(a)
+        HL_COS(a)
     };
 }
 

@@ -26,6 +26,10 @@
 #define HL_RAD2DEG(x)   (x * 57.2957795130823208768) // x * (180 / PI)
 #define HL_SQRT( x )    sqrt( x )
 
+#define HL_SIN(x)       std::sin(x)
+#define HL_COS(x)       std::cos(x)
+#define HL_TAN(x)       std::tan(x)
+
 #define HL_PI           3.14159265358979323846
 #define HL_TWO_PI       6.28318530717958647693
 #define HL_PI_OVER_2    1.57079632679489661923
@@ -42,7 +46,11 @@
 #define HL_ROUND(x)		(std::floor(x + 0.5f))
 #define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
 #define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
-#define HL_SQRT( x )    sqrtf( x )
+#define HL_SQRT(x)      sqrtf(x)
+
+#define HL_SIN(x)       hamLibs::math::sin(x)
+#define HL_COS(x)       hamLibs::math::cos(x)
+#define HL_TAN(x)       hamLibs::math::tan(x)
 
 #define HL_PI           3.14159265358979323846f
 #define HL_TWO_PI       6.28318530717958647693f
@@ -73,25 +81,33 @@ namespace hamLibs {
         template <class numType> class vec3_t;
         template <class numType> class vec4_t;
 
-        template <typename numType> constexpr numType min(numType, numType);
-        template <typename numType> constexpr numType max(numType, numType);
+        template <typename numType> constexpr numType   min(numType, numType);
+        template <typename numType> constexpr numType   max(numType, numType);
 
-        template <typename numType> inline numType fastSqrt(numType);
-        template <typename numType> inline numType fastInvSqrt(numType);
-        template <> inline float fastSqrt< float >(float);
-        template <> inline float fastInvSqrt< float >(float);
+        template <typename numType> inline numType      fastSqrt(numType);
+        template <typename numType> inline numType      fastInvSqrt(numType);
+        template <> inline float                        fastSqrt<float>(float);
+        template <> inline float                        fastInvSqrt<float>(float);
 
-        template <typename numType> constexpr numType degToRad(numType);
-        template <typename numType> constexpr numType radToDeg(numType);
+        template <typename numType> constexpr numType   degToRad(numType);
+        template <typename numType> constexpr numType   radToDeg(numType);
 
-        template <typename numType> inline numType fastLog2(numType);
-        template <> inline float fastLog2< float >(float);
-        template <typename numType> inline numType fastLog(numType);
-        template <typename numType> inline numType fastLogBase(numType base, numType);
+        template <typename numType> inline numType      fastLog2(numType);
+        template <> inline float                        fastLog2<float>(float);
+        template <typename numType> inline numType      fastLog(numType);
+        template <typename numType> inline numType      fastLogBase(numType base, numType);
 
-        inline unsigned nextPow2(unsigned);
-        inline unsigned prevPow2(unsigned);
-        inline unsigned nearPow2(unsigned);
+        inline unsigned                                 nextPow2(unsigned);
+        inline unsigned                                 prevPow2(unsigned);
+        inline unsigned                                 nearPow2(unsigned);
+        
+        template <typename scalar_t> constexpr scalar_t factorial(scalar_t);
+        
+        template <typename scalar_t, typename int_t> constexpr scalar_t pow(scalar_t, int_t);
+        
+        template <typename scalar_t> constexpr scalar_t sin(scalar_t);
+        template <typename scalar_t> constexpr scalar_t cos(scalar_t);
+        template <typename scalar_t> constexpr scalar_t tan(scalar_t);
 
         //-------------------------------------------------------------
         //				Definitions
@@ -244,6 +260,49 @@ namespace hamLibs {
             const unsigned hi = np2 - n;
 
             return lo < hi ? pp2 : np2;
+        }
+
+        //-----------------------------------------------------------------
+        
+        template <typename scalar_t>
+        constexpr scalar_t factorial(scalar_t x) {
+            return (1 < x) ? x*factorial(x-1) : 1;
+        }
+        
+        //-----------------------------------------------------------------
+        
+        template <typename scalar_t, typename int_t>
+        constexpr scalar_t pow(scalar_t x, int_t y) {
+            return (0 < y) ? x * pow(x,y-1) : 1;
+        }
+        
+        //-----------------------------------------------------------------
+        
+        template <typename scalar_t>
+        constexpr scalar_t sin(scalar_t x) {
+            return x
+                -((x*x*x)/6)
+                +((x*x*x*x*x)/120)
+                -((x*x*x*x*x*x*x)/5040)
+                +((x*x*x*x*x*x*x*x*x)/362880);
+        }
+        
+        template <typename scalar_t>
+        constexpr scalar_t cos(scalar_t x) {
+            return 1
+                -((x*x)/2)
+                +((x*x*x*x)/24)
+                -((x*x*x*x*x*x)/720)
+                +((x*x*x*x*x*x*x*x)/40320);
+        }
+        
+        template <typename scalar_t>
+        constexpr scalar_t tan(scalar_t x) {
+            return x
+                +(x*x*x*scalar_t(1)/3)
+                +(x*x*x*x*x*scalar_t(2)/15)
+                +(x*x*x*x*x*x*x*scalar_t(17)/315)
+                +(x*x*x*x*x*x*x*x*x*scalar_t(62)/2835);
         }
 
     }//end math namespace

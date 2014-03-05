@@ -91,8 +91,8 @@ numType math::magnitude(const vec2_t<numType>& v) {
 
 template <typename numType> inline
 math::vec2_t<numType> math::rotate(const vec2_t<numType>& v, numType angle) {
-    const numType s = sin(angle);
-    const numType c = cos(angle);
+    const numType s = HL_SIN(angle);
+    const numType c = HL_COS(angle);
 
     return vec2_t<numType>(
         (v.v[0] * c) - (v.v[1] * s),
@@ -165,7 +165,7 @@ numType math::magnitude(const vec3_t<numType>& v) {
 
 template <typename numType> inline
 math::vec3_t<numType> math::xRotation(numType angle) {
-    const numType s = sin(angle);
+    const numType s = HL_SIN(angle);
     const numType c = cos(angle);
 
     return vec3_t<numType>(
@@ -177,7 +177,7 @@ math::vec3_t<numType> math::xRotation(numType angle) {
 
 template <typename numType> inline
 math::vec3_t<numType> math::yRotation(numType angle) {
-    const numType s = sin(angle);
+    const numType s = HL_SIN(angle);
     const numType c = cos(angle);
 
     return vec3_t<numType>(
@@ -189,8 +189,8 @@ math::vec3_t<numType> math::yRotation(numType angle) {
 
 template <typename numType> inline
 math::vec3_t<numType> math::zRotation(numType angle) {
-    const numType s = sin(angle);
-    const numType c = cos(angle);
+    const numType s = HL_SIN(angle);
+    const numType c = HL_COS(angle);
 
     return vec3_t<numType>(
         c + s,

@@ -286,7 +286,7 @@ math::mat4_t<numType> math::translate(const mat4_t<numType>& m, const vec3_t<num
 
 template <typename numType> inline
 math::mat4_t<numType> math::perspective(numType fov, numType aspect, numType zNear, numType zFar) {
-    const numType top(tan(HL_DEG2RAD(fov) / numType(2)) * zNear);
+    const numType top(HL_TAN(HL_DEG2RAD(fov) / numType(2)) * zNear);
     const numType bottom(-top);
     const numType xMin(bottom * aspect);
     const numType xMax(top * aspect);
@@ -302,7 +302,7 @@ math::mat4_t<numType> math::perspective(numType fov, numType aspect, numType zNe
 
 template <typename numType> inline
 math::mat4_t<numType> math::infinitePerspective(numType fov, numType aspect, numType zNear) {
-    const numType top(tan(HL_DEG2RAD(fov) / numType(2)) * zNear);
+    const numType top(HL_TAN(HL_DEG2RAD(fov) / numType(2)) * zNear);
     const numType bottom(-top);
     const numType xMin(bottom * aspect);
     const numType xMax(top * aspect);

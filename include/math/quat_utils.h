@@ -119,7 +119,7 @@ math::quat_t<numType> math::lerp(const quat_t<numType>& q1, const quat_t<numType
  */
 template <typename numType> inline
 math::quat_t<numType> math::slerp(const quat_t<numType>& q1, const quat_t<numType>& q2, numType t) {
-    numType dotProd = (q1.q[0] * q2.q[0]) + (q1.q[1] * q2.q[1]) + (q1.q[2] * q2.q[2]) + (q1.q[3] * q2.q[3]);
+    numType dotProd = dot(q1, q2);
 
     // Reverse the sign of q2 if q1.q2 < 0.
     if (dotProd < numType(0)) {
@@ -333,14 +333,14 @@ math::vec3_t<numType> math::toEuler(const quat_t<numType>& q) {
 
 template <typename numType> inline
 math::quat_t<numType> math::fromEuler(const math::vec3_t<numType>& angles) {
-    const numType cp{cos(angles.v[0] * numType(0.5))};
-    const numType sp{sin(angles.v[0] * numType(0.5))};
+    const numType cp{HL_COS(angles.v[0] * numType(0.5))};
+    const numType sp{HL_SIN(angles.v[0] * numType(0.5))};
 
-    const numType cy{cos(angles.v[1] * numType(0.5))};
-    const numType sy{sin(angles.v[1] * numType(0.5))};
+    const numType cy{HL_COS(angles.v[1] * numType(0.5))};
+    const numType sy{HL_SIN(angles.v[1] * numType(0.5))};
 
-    const numType cr{cos(angles.v[2] * numType(0.5))};
-    const numType sr{sin(angles.v[2] * numType(0.5))};
+    const numType cr{HL_COS(angles.v[2] * numType(0.5))};
+    const numType sr{HL_SIN(angles.v[2] * numType(0.5))};
 
     return math::quat_t<numType>{
         (sy * cp * cr) - (cy * sp * sr),
@@ -352,14 +352,14 @@ math::quat_t<numType> math::fromEuler(const math::vec3_t<numType>& angles) {
 
 template <typename numType> inline
 math::quat_t<numType> math::fromEuler(numType pitch, numType yaw, numType roll) {
-    const numType cp{cos(pitch * numType(0.5))};
-    const numType sp{sin(pitch * numType(0.5))};
+    const numType cp{HL_COS(pitch * numType(0.5))};
+    const numType sp{HL_SIN(pitch * numType(0.5))};
 
-    const numType cy{cos(yaw * numType(0.5))};
-    const numType sy{sin(yaw * numType(0.5))};
+    const numType cy{HL_COS(yaw * numType(0.5))};
+    const numType sy{HL_SIN(yaw * numType(0.5))};
 
-    const numType cr{cos(roll * numType(0.5))};
-    const numType sr{sin(roll * numType(0.5))};
+    const numType cr{HL_COS(roll * numType(0.5))};
+    const numType sr{HL_SIN(roll * numType(0.5))};
 
     return math::quat_t<numType>{
         (sy * cp * cr) - (cy * sp * sr),

@@ -104,11 +104,11 @@ namespace hamLibs {
         template <typename scalar_t> constexpr scalar_t factorial(scalar_t);
         
         template <typename scalar_t, typename int_t> constexpr scalar_t pow(scalar_t, int_t);
-/*
+        
         template <typename scalar_t> constexpr scalar_t sin(scalar_t);
         template <typename scalar_t> constexpr scalar_t cos(scalar_t);
         template <typename scalar_t> constexpr scalar_t tan(scalar_t);
-*/
+        
         //-------------------------------------------------------------
         //				Definitions
         //-------------------------------------------------------------
@@ -277,7 +277,7 @@ namespace hamLibs {
         }
         
         //-----------------------------------------------------------------
-/*
+        
         template <typename scalar_t>
         constexpr scalar_t sin(scalar_t x) {
             return x
@@ -304,7 +304,6 @@ namespace hamLibs {
                 +(x*x*x*x*x*x*x*scalar_t(17.0/315))
                 +(x*x*x*x*x*x*x*x*x*scalar_t(62.0/2835));
         }
-*/
 
     }//end math namespace
 }//end hamlibs namespace

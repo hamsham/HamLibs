@@ -46,11 +46,11 @@
 #define HL_ROUND(x)		(std::floor(x + 0.5f))
 #define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
 #define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
-#define HL_SQRT(x)      sqrtf(x)
+#define HL_SQRT(x)      std::sqrt(x)
 
-#define HL_SIN(x)       hamLibs::math::sin(x)
-#define HL_COS(x)       hamLibs::math::cos(x)
-#define HL_TAN(x)       hamLibs::math::tan(x)
+#define HL_SIN(x)       std::sin(x)
+#define HL_COS(x)       std::cos(x)
+#define HL_TAN(x)       std::tan(x)
 
 #define HL_PI           3.14159265358979323846f
 #define HL_TWO_PI       6.28318530717958647693f
@@ -104,11 +104,11 @@ namespace hamLibs {
         template <typename scalar_t> constexpr scalar_t factorial(scalar_t);
         
         template <typename scalar_t, typename int_t> constexpr scalar_t pow(scalar_t, int_t);
-        
+/*
         template <typename scalar_t> constexpr scalar_t sin(scalar_t);
         template <typename scalar_t> constexpr scalar_t cos(scalar_t);
         template <typename scalar_t> constexpr scalar_t tan(scalar_t);
-
+*/
         //-------------------------------------------------------------
         //				Definitions
         //-------------------------------------------------------------
@@ -277,33 +277,34 @@ namespace hamLibs {
         }
         
         //-----------------------------------------------------------------
-        
+/*
         template <typename scalar_t>
         constexpr scalar_t sin(scalar_t x) {
             return x
-                -((x*x*x)/6)
-                +((x*x*x*x*x)/120)
-                -((x*x*x*x*x*x*x)/5040)
-                +((x*x*x*x*x*x*x*x*x)/362880);
+                -(x*x*x*scalar_t(1.0/6))
+                +(x*x*x*x*x*scalar_t(1.0/120))
+                -(x*x*x*x*x*x*x*scalar_t(1.0/5040))
+                +(x*x*x*x*x*x*x*x*x*scalar_t(1.0/362880));
         }
-        
+
         template <typename scalar_t>
         constexpr scalar_t cos(scalar_t x) {
             return 1
-                -((x*x)/2)
-                +((x*x*x*x)/24)
-                -((x*x*x*x*x*x)/720)
-                +((x*x*x*x*x*x*x*x)/40320);
+                -(x*x*scalar_t(1.0/2))
+                +(x*x*x*x*scalar_t(1.0/4))
+                -(x*x*x*x*x*x*scalar_t(1.0/720))
+                +(x*x*x*x*x*x*x*x*scalar_t(1.0/40320));
         }
-        
+
         template <typename scalar_t>
         constexpr scalar_t tan(scalar_t x) {
             return x
-                +(x*x*x*scalar_t(1)/3)
-                +(x*x*x*x*x*scalar_t(2)/15)
-                +(x*x*x*x*x*x*x*scalar_t(17)/315)
-                +(x*x*x*x*x*x*x*x*x*scalar_t(62)/2835);
+                +(x*x*x*scalar_t(1.0/3))
+                +(x*x*x*x*x*scalar_t(2.0/15))
+                +(x*x*x*x*x*x*x*scalar_t(17.0/315))
+                +(x*x*x*x*x*x*x*x*x*scalar_t(62.0/2835));
         }
+*/
 
     }//end math namespace
 }//end hamlibs namespace

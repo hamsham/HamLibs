@@ -8,7 +8,7 @@
 #ifndef __HL_FIXED_H__
 #define	__HL_FIXED_H__
 
-#include "../defs/preprocessor.h"
+#include "scalar_utils.h"
 
 /*
  * NOTE:

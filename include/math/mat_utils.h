@@ -8,7 +8,7 @@
 #ifndef __HL_MAT_UTILS_H__
 #define	__HL_MAT_UTILS_H__
 
-#include "math.h"
+#include "vec_utils.h"
 #include "matrix2.h"
 #include "matrix3.h"
 #include "matrix4.h"

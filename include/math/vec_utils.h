@@ -8,7 +8,7 @@
 #ifndef __HL_VEC_UTILS_H__
 #define	__HL_VEC_UTILS_H__
 
-#include "math.h"
+#include "scalar_utils.h"
 #include "vec2.h"
 #include "vec3.h"
 #include "vec4.h"

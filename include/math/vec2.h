@@ -13,7 +13,7 @@
 #ifndef __HL_MATH_VEC2_H__
 #define __HL_MATH_VEC2_H__
 
-#include "../utils/assert.h"
+#include "scalar_utils.h"
 #include "math/fixed.h"
 
 namespace hamLibs {

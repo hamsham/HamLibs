@@ -313,19 +313,17 @@ math::vec3_t<numType> math::toEuler(const quat_t<numType>& q) {
     
     const numType pitch{
         std::atan2(
-        numType(2) * ((q.q[3] * q.q[0]) * (q.q[1] * q.q[2])),
-        numType(1) - (numType(2) * (xx + yy))
+            numType(2) * ((q.q[3] * q.q[0]) * (q.q[1] * q.q[2])),
+            numType(1) - (numType(2) * (xx + yy))
         )
     };
     const numType yaw{
-        std::asin(
-        numType(2) * ((q.q[3] * q.q[1]) - (q.q[2] * q.q[0]))
-        )
+        std::asin(numType(2) * ((q.q[3] * q.q[1]) - (q.q[2] * q.q[0])))
     };
     const numType roll{
         std::atan2(
-        numType(2) * ((q.q[3] * q.q[2]) + (q.q[0] * q.q[1])),
-        numType(1) - (numType(2) * (yy + zz))
+            numType(2) * ((q.q[3] * q.q[2]) + (q.q[0] * q.q[1])),
+            numType(1) - (numType(2) * (yy + zz))
         )
     };
     return vec3_t<numType>(pitch, yaw, roll);

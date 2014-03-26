@@ -85,8 +85,13 @@ template <typename numType> inline numType      fastLog(numType);
 template <typename numType> inline numType      fastLogBase(numType base, numType);
 
 inline unsigned                                 nextPow2(unsigned);
+inline int                                      nextPow2(int);
 inline unsigned                                 prevPow2(unsigned);
+inline int                                      prevPow2(int);
 inline unsigned                                 nearPow2(unsigned);
+inline int                                      nearPow2(int);
+constexpr bool                                  isPow2(unsigned);
+constexpr bool                                  isPow2(int);
 
 template <typename scalar_t> constexpr scalar_t factorial(scalar_t);
 
@@ -227,6 +232,10 @@ inline unsigned math::nextPow2(unsigned n) {
     return ++n;
 }
 
+inline int math::nextPow2(int n) {
+    return (int)nextPow2((unsigned)n);
+}
+
 inline unsigned math::prevPow2(unsigned n) {
     if (n == 0) {
         return 0;
@@ -241,6 +250,10 @@ inline unsigned math::prevPow2(unsigned n) {
     return n - (n >> 1);
 }
 
+inline int math::prevPow2(int n) {
+    return (int)prevPow2((unsigned)n);
+}
+
 inline unsigned math::nearPow2(unsigned n) {
     const unsigned pp2 = prevPow2(n);
     const unsigned np2 = nextPow2(n);
@@ -248,6 +261,18 @@ inline unsigned math::nearPow2(unsigned n) {
     const unsigned hi = np2 - n;
 
     return lo < hi ? pp2 : np2;
+}
+
+inline int math::nearPow2(int n) {
+    return (int)nearPow2((unsigned)n);
+}
+
+constexpr bool math::isPow2(unsigned n) {
+    return n && !(n & (n-1));
+}
+
+constexpr bool math::isPow2(int n) {
+    return (int)isPow2((unsigned)n);
 }
 
 //-----------------------------------------------------------------

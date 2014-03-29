@@ -13,48 +13,25 @@
 namespace hamLibs {
 namespace utils {
 
-/*
-union endianValue {
-    //constexpr uint8_t lsBit[ sizeof( uint32_t ) ] = {0,1,2,3};
-    uint8_t lsBit[ sizeof( uint32_t ) ];
-    uint32_t byteOrder;
-    
-    constexpr endianValue() :
-        lsBit{0,1,2,3}
-    {}
-    constexpr endianValue(const endianValue&) = default;
-    constexpr endianValue(endianValue&&) = default;
-    
-    ~endianValue() = default;
+enum hl_endianness : uint32_t {
+    HL_LITTLE_ENDIAN   = 0x03020100,
+    HL_BIG_ENDIAN      = 0x00010203,
+    HL_PDP_ENDIAN      = 0x01000302,
+    HL_UNKNOWN_ENDIAN  = 0xFFFFFFFF
 };
 
-constexpr int checkEndianness() {
-    return ( endianValue().byteOrder == 0x03020100 )        // If Little Endian Byte Order,
-        ? HL_LITTLE_ENDIAN                                  // return 0 for little endian.
-        : ( endianValue().byteOrder == 0x00010203 )     // Else if Big Endian Byte Order,
-            ? HL_BIG_ENDIAN                                 // return 1 for big endian.
-            : ( endianValue().byteOrder == 0x01000302 ) // Else if PDP Endian Byte Order,
-                ? HL_PDP_ENDIAN                         // return 2 for pdp endian.
-                : HL_UNKNOWN_ENDIAN;                    // Else return -1 for wtf endian.
+static constexpr uint8_t endianValues[4] = {0, 1, 2, 3};
+
+constexpr hl_endianness getEndianOrder() {
+    return
+        (0x00 == endianValues[0])           // If Little Endian Byte Order,
+            ? HL_LITTLE_ENDIAN              // return 0 for little endian.
+            : (0x03 == endianValues[0])     // Else if Big Endian Byte Order,
+                ? HL_BIG_ENDIAN             // return 1 for big endian.
+                : (0x02 == endianValues[0]) // Else if PDP Endian Byte Order,
+                    ? HL_PDP_ENDIAN         // return 2 for pdp endian.
+                    : HL_UNKNOWN_ENDIAN;    // Else return -1 for wtf endian.
 }
-
-constexpr static int HL_ENDIANNESS_CHECK = checkEndianness();
-*/
-
-
-enum e_endianness : int {
-    HL_UNKNOWN_ENDIAN  = -1,
-    HL_LITTLE_ENDIAN   = 0x03020100ul,
-    HL_BIG_ENDIAN      = 0x00010203ul,
-    HL_PDP_ENDIAN      = 0x01000302ul
-};
-
-static constexpr union {
-    uint8_t lsBit[ sizeof( uint32_t ) ];
-    uint32_t byteOrder;
-} endianValue = {{0,1,2,3}};
-
-#define HL_ENDIAN_ORDER (hamLibs::utils::endianValue.byteOrder)
 
 } /* End Utils namespace */
 } /* End HamLibs namespace */

@@ -36,18 +36,18 @@ typedef unsigned long hashVal_t;
  * this function is reserved for "hashDJB2()" and should not be used
  */
 template <typename charType>
-constexpr hashVal_t hashDJB2_impl( const charType* str, unsigned int hashVal ) {
-	return ( !*str )
+constexpr hashVal_t hashDJB2_impl(const charType* str, unsigned int hashVal) {
+	return (!*str)
 	? hashVal
-	: hashDJB2_impl( str+1, ((hashVal << 5) + hashVal) ^ *str );
+	: hashDJB2_impl(str+1, ((hashVal << 5) + hashVal) ^ *str);
 }
 
 /*
  * DJB2 Hashing Function
  */
 template <typename charType>
-constexpr hashVal_t hashDJB2( const charType* str ) {
-	return ( !str ) ? 0 : hashDJB2_impl( str, 5381 );
+constexpr hashVal_t hashDJB2(const charType* str) {
+	return (!str) ? 0 : hashDJB2_impl(str, 5381);
 }
 
 /*
@@ -56,18 +56,18 @@ constexpr hashVal_t hashDJB2( const charType* str ) {
  * http://www.cse.yorku.ca/~oz/hash.html
  */
 template <typename charType>
-constexpr hashVal_t hashSDBM_impl( const charType* str, unsigned int hashVal ) {
-    return ( !*str )
+constexpr hashVal_t hashSDBM_impl(const charType* str, unsigned int hashVal) {
+    return (!*str)
     ?   hashVal
-    :   hashSDBM_impl( str+1, *str + (hashVal << 6) + (hashVal << 16) - hashVal );
+    :   hashSDBM_impl(str+1, *str + (hashVal << 6) + (hashVal << 16) - hashVal);
 }
 
 /*
  * SDBM Hashing Function
  */
 template <typename charType>
-constexpr hashVal_t hashSDBM( const charType* str ) {
-    return ( !str ) ? 0 : hashSDBM_impl( str, 65599 );
+constexpr hashVal_t hashSDBM(const charType* str) {
+    return (!str) ? 0 : hashSDBM_impl(str, 65599);
 }
 
 /*
@@ -76,15 +76,15 @@ constexpr hashVal_t hashSDBM( const charType* str ) {
  * http://www.eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
 */
 template <typename charType>
-constexpr hashVal_t hashFNV1Recursive( const charType* str, unsigned int hashVal ) {
-    return ( !*str )
+constexpr hashVal_t hashFNV1Recursive(const charType* str, unsigned int hashVal) {
+    return (!*str)
     ?   hashVal
-    :   hashFNV1Recursive( str+1, *str ^ (hashVal * 16777619) );
+    :   hashFNV1Recursive(str+1, *str ^ (hashVal * 16777619));
 }
 
 template <typename charType>
-constexpr hashVal_t hashFNV1( const charType* str ) {
-    return ( !str ) ? 0 : hashFNV1Recursive( str, 2166136261 );
+constexpr hashVal_t hashFNV1(const charType* str) {
+    return (!str) ? 0 : hashFNV1Recursive(str, 2166136261);
 }
 
 /*

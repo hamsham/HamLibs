@@ -29,7 +29,8 @@ template <typename N> inline N              magnitude(const vec2_t<N>&);
 template <typename N> inline vec2_t<N>      rotate(const vec2_t<N>&, N);
 template <typename N> inline N              angleBetween(const vec2_t<N>&, const vec2_t<N>&);
 template <typename N> inline N              angleBetween(const vec2_t<N>&, const vec2_t<N>&, const vec2_t<N>& origin);
-template <typename n> constexpr vec2_t<n>   lerp(const vec2_t<n>&, const vec2_t<n>&, n);
+template <typename N> constexpr vec2_t<N>   lerp(const vec2_t<N>&, const vec2_t<N>&, N);
+template <typename N> inline vec2_t<N>      project(const vec2_t<N>& v1, const vec2_t<N>& v2);
 
 /*
  * 3D Vectors
@@ -43,7 +44,8 @@ template <typename N> inline vec3_t<N>      yRotation(N);
 template <typename N> inline vec3_t<N>      zRotation(N);
 template <typename N> inline N              angleBetween(const vec3_t<N>&, const vec3_t<N>&);
 template <typename N> inline N              angleBetween(const vec3_t<N>&, const vec3_t<N>&, const vec3_t<N>& origin);
-template <typename n> constexpr vec3_t<n>   lerp(const vec3_t<n>&, const vec3_t<n>&, n);
+template <typename N> constexpr vec3_t<N>   lerp(const vec3_t<N>&, const vec3_t<N>&, N);
+template <typename N> inline vec3_t<N>      project(const vec3_t<N>& v1, const vec3_t<N>& v2);
 
 /*
  * 4D Vectors
@@ -53,7 +55,8 @@ template <typename N> inline vec4_t<N>      normalize(const vec4_t<N>&);
 template <typename N> inline N              magnitude(const vec4_t<N>&);
 template <typename N> inline N              angleBetween(const vec4_t<N>&, const vec4_t<N>&);
 template <typename N> inline N              angleBetween(const vec3_t<N>&, const vec3_t<N>&, const vec3_t<N>& origin);
-template <typename n> constexpr vec4_t<n>   lerp(const vec4_t<n>&, const vec4_t<n>&, n);
+template <typename N> constexpr vec4_t<N>   lerp(const vec4_t<N>&, const vec4_t<N>&, N);
+template <typename N> inline vec4_t<N>      project(const vec4_t<N>& v1, const vec4_t<N>& v2);
 
 } // end math namespace
 
@@ -117,6 +120,19 @@ numType math::angleBetween(const vec2_t<numType>& v1, const vec2_t<numType>& v2,
 template <typename numType> constexpr
 math::vec2_t<numType> math::lerp(const vec2_t<numType>& v1, const vec2_t<numType>& v2, numType percent) {
     return vec2_t<numType>{v1 + ((v2 - v1) * percent)};
+}
+
+template <typename numType> inline
+math::vec2_t<numType> math::project(const vec2_t<numType>& v1, const vec2_t<numType>& v2) {
+    const numType v1Len = math::magnitude(v1);
+    const numType v2Len = math::magnitude(v2);
+    
+    const math::vec2_t<numType> v1Norm = v1 / v1Len;
+    const math::vec2_t<numType> v2Norm = v2 / v2Len;
+    
+    const numType cosTheta = math::dot(v1Norm, v2Norm);
+    
+    return v2Norm * cosTheta * v1Len;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -218,6 +234,19 @@ math::vec3_t<numType> math::lerp(const vec3_t<numType>& v1, const vec3_t<numType
     return vec3_t<numType>{v1 + ((v2 - v1) * percent)};
 }
 
+template <typename numType> inline
+math::vec3_t<numType> math::project(const vec3_t<numType>& v1, const vec3_t<numType>& v2) {
+    const numType v1Len = math::magnitude(v1);
+    const numType v2Len = math::magnitude(v2);
+    
+    const math::vec3_t<numType> v1Norm = v1 / v1Len;
+    const math::vec3_t<numType> v2Norm = v2 / v2Len;
+    
+    const numType cosTheta = math::dot(v1Norm, v2Norm);
+    
+    return v2Norm * cosTheta * v1Len;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // 4D Vectors
 ///////////////////////////////////////////////////////////////////////////////
@@ -273,6 +302,19 @@ numType math::angleBetween(const vec4_t<numType>& v1, const vec4_t<numType>& v2,
 template <typename numType> constexpr
 math::vec4_t<numType> math::lerp(const vec4_t<numType>& v1, const vec4_t<numType>& v2, numType percent) {
     return vec4_t<numType>{v1 + ((v2 - v1) * percent)};
+}
+
+template <typename numType> inline
+math::vec4_t<numType> math::project(const vec4_t<numType>& v1, const vec4_t<numType>& v2) {
+    const numType v1Len = math::magnitude(v1);
+    const numType v2Len = math::magnitude(v2);
+    
+    const math::vec4_t<numType> v1Norm = v1 / v1Len;
+    const math::vec4_t<numType> v2Norm = v2 / v2Len;
+    
+    const numType cosTheta = math::dot(v1Norm, v2Norm);
+    
+    return v2Norm * cosTheta * v1Len;
 }
 
 } // hamLibs namespace

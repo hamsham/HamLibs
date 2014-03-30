@@ -34,11 +34,11 @@ enum endian_t : uint32_t {
  */
 constexpr endian_t getEndianOrder() {
     return
-        ((1 & 0xFFFFFFFF) == HL_LITTLE_ENDIAN)
+        ((0xFFFFFFFF & 1) == HL_LITTLE_ENDIAN)
             ? HL_LITTLE_ENDIAN
-            : ((1 & 0xFFFFFFFF) == HL_BIG_ENDIAN)
+            : ((0xFFFFFFFF & 1) == HL_BIG_ENDIAN)
                 ? HL_BIG_ENDIAN
-                : ((1 & 0xFFFFFFFF) == HL_PDP_ENDIAN)
+                : ((0xFFFFFFFF & 1) == HL_PDP_ENDIAN)
                     ? HL_PDP_ENDIAN
                     : HL_UNKNOWN_ENDIAN;
 }

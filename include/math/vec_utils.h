@@ -140,9 +140,9 @@ math::vec2_t<numType> math::project(const vec2_t<numType>& v1, const vec2_t<numT
 
 template <typename numType> inline
 math::vec2_t<numType> math::reflect(const vec2_t<numType>& v, const vec2_t<numType>& norm) {
-    const math::vec2_t<numType>&& vNorm = math::normalize(v);
-    const numType cosTheta = numType(2) * math::dot(vNorm, norm);
-    return norm - (vNorm * cosTheta);
+    const math::vec2_t<numType>&& nv = math::normalize(v);
+    const math::vec2_t<numType>&& bounce = norm * (math::dot(nv, norm) * numType(2));
+    return bounce - nv;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -259,9 +259,9 @@ math::vec3_t<numType> math::project(const vec3_t<numType>& v1, const vec3_t<numT
 
 template <typename numType> inline
 math::vec3_t<numType> math::reflect(const vec3_t<numType>& v, const vec3_t<numType>& norm) {
-    const math::vec3_t<numType>&& vNorm = math::normalize(v);
-    const numType cosTheta = numType(2) * math::dot(vNorm, norm);
-    return norm - (vNorm * cosTheta);
+    const math::vec3_t<numType>&& nv = math::normalize(v);
+    const math::vec3_t<numType>&& bounce = norm * (math::dot(nv, norm) * numType(2));
+    return bounce - nv;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -336,9 +336,9 @@ math::vec4_t<numType> math::project(const vec4_t<numType>& v1, const vec4_t<numT
 
 template <typename numType> inline
 math::vec4_t<numType> math::reflect(const vec4_t<numType>& v, const vec4_t<numType>& norm) {
-    const math::vec4_t<numType>&& vNorm = math::normalize(v);
-    const numType cosTheta = numType(2) * math::dot(vNorm, norm);
-    return norm - (vNorm * cosTheta);
+    const math::vec4_t<numType>&& nv = math::normalize(v);
+    const math::vec4_t<numType>&& bounce = norm * (math::dot(nv, norm) * numType(2));
+    return bounce - nv;
 }
 
 } // hamLibs namespace

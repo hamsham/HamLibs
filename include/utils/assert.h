@@ -7,13 +7,13 @@
 namespace hamLibs {
 namespace utils {
 
-enum errorType : int {
+enum error_t : int {
 	ALERT, // prints to std::cout
 	WARNING, // prints to std::cerr
 	ERROR // prints to std::cerr, throws an exception of type int
 };
 
-void assert_runtime( bool condition, errorType type, const char* msg );
+void runtime_assert(bool condition, error_t type, const char* msg);
 
 } /* End Utils namespace */
 } /* End HamLibs namespace */
@@ -23,7 +23,7 @@ void assert_runtime( bool condition, errorType type, const char* msg );
  */
 #ifndef HL_ASSERT_BASIC
 	#define HL_ASSERT_BASIC( x, fileName, lineNum, type )\
-		hamLibs::utils::assert_runtime(\
+		hamLibs::utils::runtime_assert(\
 			x, type,\
 			"Assertion failed"\
             " on line " HL_STRINGIFY( lineNum )\

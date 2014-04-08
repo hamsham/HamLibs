@@ -154,9 +154,9 @@ math::quat_t<numType> math::slerp(const quat_t<numType>& q1, const quat_t<numTyp
 ///////////////////////////////////////////////////////////////////////////////
 template <typename numType> inline
 math::mat3_t<numType> math::quatToMat3(const quat_t<numType>& q) {
-    const numType xx = q.q[0] * q.q[0] * numType(numType(2));
-    const numType yy = q.q[1] * q.q[1] * numType(numType(2));
-    const numType zz = q.q[2] * q.q[2] * numType(numType(2));
+    const numType xx = q.q[0] * q.q[0] * numType(2);
+    const numType yy = q.q[1] * q.q[1] * numType(2);
+    const numType zz = q.q[2] * q.q[2] * numType(2);
     const numType xy = q.q[0] * q.q[1];
     const numType xz = q.q[0] * q.q[2];
     const numType xw = q.q[0] * q.q[3];
@@ -165,17 +165,17 @@ math::mat3_t<numType> math::quatToMat3(const quat_t<numType>& q) {
     const numType zw = q.q[2] * q.q[3];
 
     return mat3_t<numType>{
-        numType(1)-(yy + zz), numType(numType(2))*(xy + zw), numType(numType(2))*(xz - yw),
-        numType(numType(2))*(xy - zw), numType(1)-(xx + zz), numType(numType(2))*(yz + xw),
-        numType(numType(2))*(xz + yw), numType(numType(2))*(yz - xw), numType(1)-(xx + yy)
+        numType(1)-(yy + zz),   numType(2)*(xy + zw),   numType(2)*(xz - yw),
+        numType(2)*(xy - zw),   numType(1)-(xx + zz),   numType(2)*(yz + xw),
+        numType(2)*(xz + yw),   numType(2)*(yz - xw),   numType(1)-(xx + yy)
     };
 }
 
 template <typename numType> inline
 math::mat4_t<numType> math::quatToMat4(const quat_t<numType>& q) {
-    const numType xx = q.q[0] * q.q[0] * numType(numType(2));
-    const numType yy = q.q[1] * q.q[1] * numType(numType(2));
-    const numType zz = q.q[2] * q.q[2] * numType(numType(2));
+    const numType xx = q.q[0] * q.q[0] * numType(2);
+    const numType yy = q.q[1] * q.q[1] * numType(2);
+    const numType zz = q.q[2] * q.q[2] * numType(2);
     const numType xy = q.q[0] * q.q[1];
     const numType xz = q.q[0] * q.q[2];
     const numType xw = q.q[0] * q.q[3];
@@ -184,10 +184,10 @@ math::mat4_t<numType> math::quatToMat4(const quat_t<numType>& q) {
     const numType zw = q.q[2] * q.q[3];
 
     return mat4_t<numType>{
-        numType(1)-(yy + zz), numType(numType(2))*(xy + zw), numType(numType(2))*(xz - yw), numType(0),
-        numType(numType(2))*(xy - zw), numType(1)-(xx + zz), numType(numType(2))*(yz + xw), numType(0),
-        numType(numType(2))*(xz + yw), numType(numType(2))*(yz - xw), numType(1)-(xx + yy), numType(0),
-        numType(0), numType(0), numType(0), numType(1)
+        numType(1)-(yy + zz),   numType(2)*(xy + zw),   numType(2)*(xz - yw),   numType(0),
+        numType(2)*(xy - zw),   numType(1)-(xx + zz),   numType(2)*(yz + xw),   numType(0),
+        numType(2)*(xz + yw),   numType(2)*(yz - xw),   numType(1)-(xx + yy),   numType(0),
+        numType(0),             numType(0),             numType(0),             numType(1)
     };
 }
 
@@ -273,6 +273,12 @@ math::quat_t<numType> math::matToQuat(const mat4_t<numType>& m) {
 ///////////////////////////////////////////////////////////////////////////////
 // Quaternions & Euler Angles
 ///////////////////////////////////////////////////////////////////////////////
+/*
+ * Methods to extract quaternion components was found here:
+ * http://nic-gamedev.blogspot.com/2011/11/quaternion-math-getting-local-axis.html
+ * 
+ * The equations for these functions can also be found in the quatToMatN() functions.
+ */
 template <typename numType> constexpr
 math::vec3_t<numType> math::getAxisX(const math::quat_t<numType>& q) {
     return math::vec3_t<numType>{
@@ -295,7 +301,7 @@ template <typename numType> constexpr
 math::vec3_t<numType> math::getAxisZ(const math::quat_t<numType>& q) {
     return math::vec3_t<numType>{
         numType(2) * (q[0] * q[2] + q[3] * q[1]),
-        numType(2) * (q[1] * q[0] - q[3] * q[0]),
+        numType(2) * (q[1] * q[2] - q[3] * q[0]),
         numType(1) - numType(2) * (q[0] * q[0] + q[1] * q[1])
     };
 }

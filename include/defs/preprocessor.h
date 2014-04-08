@@ -218,21 +218,21 @@
  * Minimum value
  */
 #ifndef HL_MIN
-    #define HL_MAX( x, y ) (( x > y) ? x : y )
+    #define HL_MAX( x, y ) ( (x > y) ? x : y )
 #endif
 
 /**
  * Maxumum Value
  */
-#define HL_MIN( x, y ) (( x < y) ? x : y )
+#define HL_MIN( x, y ) ( (x < y) ? x : y )
 
 /**
  * Class Template Declaration
  */
 #ifndef HL_DECLARE_CLASS_TYPE
     #define HL_DECLARE_CLASS_TYPE(nickName, name, ...)\
-        extern template class name <__VA_ARGS__>;\
-        typedef name<__VA_ARGS__> nickName
+        typedef name<__VA_ARGS__> nickName; \
+        extern template class name<__VA_ARGS__>
 #endif
 
 /**

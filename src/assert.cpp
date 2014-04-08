@@ -2,7 +2,7 @@
 #include <iostream>
 #include "../include/utils/assert.h"
 
-void hamLibs::utils::runtime_assert(bool condition, error_t type, const char* msg) {
+void hamLibs::utils::runtime_assert(bool condition, error_t type, const char* const msg) {
 	if (condition) {
         return;
     }

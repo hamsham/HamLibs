@@ -13,7 +13,7 @@ enum error_t : int {
 	ERROR // prints to std::cerr, throws an exception of type int
 };
 
-void runtime_assert(bool condition, error_t type, const char* msg);
+void runtime_assert(bool condition, error_t type, const char* const msg);
 
 } /* End Utils namespace */
 } /* End HamLibs namespace */

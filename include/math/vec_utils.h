@@ -32,6 +32,7 @@ template <typename N> inline N              angleBetween(const vec2_t<N>&, const
 template <typename N> constexpr vec2_t<N>   lerp(const vec2_t<N>&, const vec2_t<N>&, N);
 template <typename N> inline vec2_t<N>      project(const vec2_t<N>& v1, const vec2_t<N>& v2);
 template <typename N> inline vec2_t<N>      reflect(const vec2_t<N>& v1, const vec2_t<N>& norm);
+template <typename N> constexpr vec2_t<N>   midpoint(const vec2_t<N>& v1, const vec2_t<N>& v2);
 
 /*
  * 3D Vectors
@@ -48,6 +49,7 @@ template <typename N> inline N              angleBetween(const vec3_t<N>&, const
 template <typename N> constexpr vec3_t<N>   lerp(const vec3_t<N>&, const vec3_t<N>&, N);
 template <typename N> inline vec3_t<N>      project(const vec3_t<N>& v1, const vec3_t<N>& v2);
 template <typename N> inline vec3_t<N>      reflect(const vec3_t<N>& v1, const vec3_t<N>& norm);
+template <typename N> constexpr vec3_t<N>   midpoint(const vec3_t<N>& v1, const vec3_t<N>& v2);
 
 /*
  * 4D Vectors
@@ -60,6 +62,7 @@ template <typename N> inline N              angleBetween(const vec3_t<N>&, const
 template <typename N> constexpr vec4_t<N>   lerp(const vec4_t<N>&, const vec4_t<N>&, N);
 template <typename N> inline vec4_t<N>      project(const vec4_t<N>& v1, const vec4_t<N>& v2);
 template <typename N> inline vec4_t<N>      reflect(const vec4_t<N>& v1, const vec4_t<N>& norm);
+template <typename N> constexpr vec4_t<N>   midpoint(const vec4_t<N>& v1, const vec4_t<N>& v2);
 
 } // end math namespace
 
@@ -143,6 +146,14 @@ math::vec2_t<numType> math::reflect(const vec2_t<numType>& v, const vec2_t<numTy
     const math::vec2_t<numType>&& nv = math::normalize(v);
     const math::vec2_t<numType>&& bounce = norm * (math::dot(nv, norm) * numType(2));
     return bounce - nv;
+}
+
+template <typename numType> constexpr
+math::vec2_t<numType> math::midpoint(const vec2_t<numType>& v1, const vec2_t<numType>& v2) {
+    return vec2_t<numType>{
+        (v1[0]+v2[0]) * numType(0.5),
+        (v1[1]+v2[1]) * numType(0.5)
+    };
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -264,6 +275,15 @@ math::vec3_t<numType> math::reflect(const vec3_t<numType>& v, const vec3_t<numTy
     return bounce - nv;
 }
 
+template <typename numType> constexpr
+math::vec3_t<numType> math::midpoint(const vec3_t<numType>& v1, const vec3_t<numType>& v2) {
+    return vec3_t<numType>{
+        (v1[0]+v2[0]) * numType(0.5),
+        (v1[1]+v2[1]) * numType(0.5),
+        (v1[2]+v2[2]) * numType(0.5)
+    };
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // 4D Vectors
 ///////////////////////////////////////////////////////////////////////////////
@@ -339,6 +359,16 @@ math::vec4_t<numType> math::reflect(const vec4_t<numType>& v, const vec4_t<numTy
     const math::vec4_t<numType>&& nv = math::normalize(v);
     const math::vec4_t<numType>&& bounce = norm * (math::dot(nv, norm) * numType(2));
     return bounce - nv;
+}
+
+template <typename numType> constexpr
+math::vec4_t<numType> math::midpoint(const vec4_t<numType>& v1, const vec4_t<numType>& v2) {
+    return vec3_t<numType>{
+        (v1[0]+v2[0]) * numType(0.5),
+        (v1[1]+v2[1]) * numType(0.5),
+        (v1[2]+v2[2]) * numType(0.5),
+        (v1[3]+v2[3]) * numType(0.5)
+    };
 }
 
 } // hamLibs namespace

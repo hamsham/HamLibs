@@ -68,75 +68,334 @@ namespace hamLibs {
  */
 namespace math {
 
-template <typename numType> constexpr numType   min(numType, numType);
-template <typename numType> constexpr numType   max(numType, numType);
+/**
+ * max
+ * Get the minimum of two single numbers
+ * This function can be run at compile-time.
+ * 
+ * @param a
+ * 
+ * @param b
+ * 
+ * @return The largest number of the two parameters a and b.
+ */
+template <typename scalar_t>
+constexpr scalar_t min(scalar_t a, scalar_t b);
 
-template <typename numType> inline numType      fastSqrt(numType);
-template <typename numType> inline numType      fastInvSqrt(numType);
-template <> inline float                        fastSqrt<float>(float);
-template <> inline float                        fastInvSqrt<float>(float);
+/**
+ * max
+ * Get the maximum of two single numbers.
+ * This function can be run at compile-time.
+ * 
+ * @param a
+ * 
+ * @param b
+ * 
+ * @return The largest number of the two parameters a and b.
+ */
+template <typename scalar_t>
+constexpr scalar_t max(scalar_t a, scalar_t b);
 
-template <typename numType> constexpr numType   degToRad(numType);
-template <typename numType> constexpr numType   radToDeg(numType);
+/**
+ * Perform a square root on a single number without using the standard library.
+ * This method uses IEEE floating point arithmetic. Use only if the input
+ * argument uses this format.
+ * 
+ * @param a number whose square root should be obtained.
+ * 
+ * @return The square root of the input number.
+ */
+template <typename scalar_t>
+inline scalar_t fastSqrt(scalar_t);
 
-template <typename numType> inline numType      fastLog2(numType);
-template <> inline float                        fastLog2<float>(float);
-template <typename numType> inline numType      fastLog(numType);
-template <typename numType> inline numType      fastLogBase(numType base, numType);
+/**
+ * Perform a square root on a single number without using the standard library.
+ * This method uses IEEE floating point arithmetic. Use only if the input
+ * argument uses this format.
+ * 
+ * @param a number whose square root should be obtained.
+ * 
+ * @return The square root of the input number.
+ */
+template <>
+inline float fastSqrt<float>(float);
 
-inline unsigned                                 nextPow2(unsigned);
-inline int                                      nextPow2(int);
-inline unsigned                                 prevPow2(unsigned);
-inline int                                      prevPow2(int);
-inline unsigned                                 nearPow2(unsigned);
-inline int                                      nearPow2(int);
-constexpr bool                                  isPow2(unsigned);
-constexpr bool                                  isPow2(int);
+/**
+ * Get the inverse square root of a number.
+ * This method uses IEEE floating point arithmetic. Use only if the input
+ * argument uses this format.
+ * 
+ * @param a number whose square root should be obtained.
+ * 
+ * @return The inverse square root (1/sqrt(x)) of the input number.
+ */
+template <typename scalar_t>
+inline scalar_t fastInvSqrt(scalar_t);
 
-template <typename scalar_t> constexpr scalar_t factorial(scalar_t);
+/**
+ * Get the inverse square root of a number.
+ * This method uses IEEE floating point arithmetic. Use only if the input
+ * argument uses this format.
+ * 
+ * @param a number whose square root should be obtained.
+ * 
+ * @return The inverse square root (1/sqrt(x)) of the input number.
+ */
+template <>
+inline float fastInvSqrt<float>(float);
 
-template <typename scalar_t, typename int_t> constexpr scalar_t pow(scalar_t, int_t);
+/**
+ * Convert a number from degrees to radians.
+ * 
+ * @param the value of an angle, in degrees.
+ * 
+ * @return the value of an angle, in radians.
+ */
+template <typename scalar_t>
+constexpr scalar_t degToRad(scalar_t);
 
-template <typename scalar_t> constexpr scalar_t sin(scalar_t);
-template <typename scalar_t> constexpr scalar_t cos(scalar_t);
-template <typename scalar_t> constexpr scalar_t tan(scalar_t);
+/**
+ * Convert a number from radians to degrees.
+ * This function can be run at compile-time.
+ * 
+ * @param the value of an angle, in radians.
+ * 
+ * @return the value of an angle, in degrees.
+ */
+template <typename scalar_t>
+constexpr scalar_t radToDeg(scalar_t);
+
+/**
+ * Calculate the log-base2 of a number
+ * @param a number
+ * @return the log-base2 of a number, using IEEE floating point arithmetic
+ */
+template <typename scalar_t>
+inline scalar_t fastLog2(scalar_t);
+
+/**
+ * Calculate the log-base2 of a number
+ * @param a number
+ * @return the log-base2 of a number, using IEEE floating point arithmetic
+ */
+template <>
+inline float fastLog2<float>(float);
+
+/**
+ * Calculate the log-base10 of a number
+ * @param a number
+ * @return the log-base10 of a number, using IEEE floating point arithmetic
+ */
+template <typename scalar_t>
+inline scalar_t fastLog(scalar_t);
+
+/**
+ * Calculate the log-base2 of a number
+ * @param a number
+ * @return the log-base2 of a number, using IEEE floating point arithmetic
+ */
+template <typename scalar_t>
+inline scalar_t fastLogBase(scalar_t base, scalar_t);
+
+/**
+ * Find the next (greater) power of two that is closest to the value of a number
+ * 
+ * @param An unsigned integral type
+ * 
+ * @return The next greatest power of two.
+ */
+inline unsigned nextPow2(unsigned);
+
+/**
+ * Find the next (greater) power of two that is closest to the value of a number
+ * 
+ * @param A signed integral type
+ * 
+ * @return The next greatest power of two.
+ */
+inline int nextPow2(int);
+
+/**
+ * Find the previous (lesser) power of two that is closest to the value of a number
+ * 
+ * @param An unsigned integral type
+ * 
+ * @return The next lesser power of two.
+ */
+inline unsigned prevPow2(unsigned);
+
+/**
+ * Find the previous (lesser) power of two that is closest to the value of a number
+ * 
+ * @param A signed integral type
+ * 
+ * @return The next lesser power of two.
+ */
+inline int prevPow2(int);
+
+/**
+ * Find the closest power of two to a number. This may either be greater than
+ * or less than the input number.
+ * 
+ * @param An unsigned integral type
+ * 
+ * @return The closest power of two to a number.
+ */
+inline unsigned nearPow2(unsigned);
+
+/**
+ * Find the closest power of two to a number. This may either be greater than
+ * or less than the input number.
+ * 
+ * @param A signed integral type
+ * 
+ * @return The closest power of two to a number.
+ */
+inline int nearPow2(int);
+
+/**
+ * Determine if a number is a power of two or not.
+ * 
+ * @param A number who's value should be evaluated.
+ * 
+ * @return True if the number is a poiwer of two.
+ * False if the number is not a power of two.
+ */
+constexpr bool isPow2(unsigned);
+
+/**
+ * Determine if a number is a power of two or not.
+ * 
+ * @param A number who's value should be evaluated.
+ * 
+ * @return True if the number is a poiwer of two.
+ * False if the number is not a power of two.
+ */
+constexpr bool isPow2(int);
+
+/**
+ * Retrieve the factorial of a number
+ * 
+ * @param A number who's factorial is to be calculated.
+ * 
+ * @return The factorial of a given number.
+ */
+template <typename scalar_t>
+constexpr scalar_t factorial(scalar_t);
+
+/**
+ * Evaluate a number to a given power.
+ * 
+ * @param A number who's power is to be evaluated.
+ * 
+ * @param The degree to which the first parameter's power should be evaluated.
+ * 
+ * @return A number, raised to a given power.
+ */
+template <typename scalar_t, typename int_t>
+constexpr scalar_t pow(scalar_t, int_t);
+
+/**
+ * Evaluate the sine of an angle at compile-time.
+ * 
+ * @param An angle, in radians, who's sine value is to be calculated.
+ * 
+ * @return The sine of a given angle.
+ */
+template <typename scalar_t>
+constexpr scalar_t sin(scalar_t);
+
+/**
+ * Evaluate the cosine of an angle at compile-time.
+ * 
+ * @param An angle, in radians, who's cosine value is to be calculated.
+ * 
+ * @return The cosine of a given angle.
+ */
+template <typename scalar_t>
+constexpr scalar_t cos(scalar_t);
+
+/**
+ * Evaluate the tangent of an angle at compile-time.
+ * 
+ * @param An angle, in radians, who's tangent value is to be calculated.
+ * 
+ * @return The tangent of a given angle.
+ */
+template <typename scalar_t>
+constexpr scalar_t tan(scalar_t);
+
+/**
+ * Evaluate the sum of a series of numbers at compile-time.
+ * 
+ * @param A set of numbers who's values are to be added together.
+ * 
+ * @return The sum of a set of numbers.
+ */
+template <typename scalar_t>
+constexpr scalar_t sum(const scalar_t&);
+
+/**
+ * Evaluate the sum of a series of numbers at compile-time.
+ * 
+ * @param A set of numbers who's values are to be added together.
+ * 
+ * @return The sum of a set of numbers.
+ */
+template <typename scalar_t, typename... scalars_t>
+constexpr scalar_t sum(const scalar_t& num, const scalars_t&... nums);
+
+/**
+ * Evaluate the average of a series of numbers at compile-time.
+ * 
+ * @param A set of numbers who's values are to be averaged.
+ * 
+ * @return The average of a set of numbers.
+ */
+template <typename scalar_t>
+constexpr scalar_t average();
+
+/**
+ * Evaluate the average of a series of numbers at compile-time.
+ * 
+ * @param A set of numbers who's values are to be averaged.
+ * 
+ * @return The average of a set of numbers.
+ */
+template <typename scalar_t, typename... scalars_t>
+constexpr scalar_t average(const scalar_t& num, const scalars_t&... nums);
 
 } // end math namespace
 
 ///////////////////////////////////////////////////////////////////////////////
 // Function definitiona
 ///////////////////////////////////////////////////////////////////////////////
-template <typename numType> constexpr
-numType math::min(numType a, numType b) {
+template <typename scalar_t> constexpr
+scalar_t math::min(scalar_t a, scalar_t b) {
     return (a < b) ? a : b;
 }
 
-template <typename numType> constexpr
-numType math::max(numType a, numType b) {
+template <typename scalar_t> constexpr
+scalar_t math::max(scalar_t a, scalar_t b) {
     return (a > b) ? a : b;
 }
 
-//-----------------------------------------------------------------
-
-/* Fast inverse square root method adopted for regular square rooting.
+/*
+ * Fast inverse square root method adopted for regular square rooting.
  * this method was found at:
  *		http://rrrola.wz.cz/inv_sqrt.html
  * and:
  *		http://jheriko-rtw.blogspot.com/2009/04/understanding-and-improving-fast.html
  */
-template <typename numType> inline
-numType math::fastInvSqrt(numType input) {
-    return (numType) fastInvSqrt<float>((float) input);
+template <typename scalar_t> inline
+scalar_t math::fastInvSqrt(scalar_t input) {
+    return (scalar_t) fastInvSqrt<float>((float) input);
 }
 
-//-----------------------------------------------------------------
-
-template <typename numType> inline
-numType math::fastSqrt(numType input) {
-    return numType(1.0f / fastInvSqrt<numType>(input));
+template <typename scalar_t> inline
+scalar_t math::fastSqrt(scalar_t input) {
+    return scalar_t(1.0f / fastInvSqrt<scalar_t>(input));
 }
-
-//-----------------------------------------------------------------
 
 template <> inline
 float math::fastInvSqrt<float>(float x) {
@@ -149,28 +408,20 @@ float math::fastInvSqrt<float>(float x) {
     return 0.703952253f * y.f * (2.38924456f - x * y.f * y.f);
 }
 
-//-----------------------------------------------------------------
-
 template <> inline
 float math::fastSqrt<float>(float input) {
     return float( 1.0f / fastInvSqrt<float>(input));
 }
 
-//-----------------------------------------------------------------
-
-template <typename numType> constexpr
-numType math::degToRad(numType input) {
+template <typename scalar_t> constexpr
+scalar_t math::degToRad(scalar_t input) {
     return HL_DEG2RAD(input);
 }
 
-//-----------------------------------------------------------------
-
-template <typename numType> constexpr
-numType math::radToDeg(numType input) {
+template <typename scalar_t> constexpr
+scalar_t math::radToDeg(scalar_t input) {
     return HL_RAD2DEG(input);
 }
-
-//-----------------------------------------------------------------
 
 /*
  * Fast Approximate logarithms
@@ -180,12 +431,10 @@ numType math::radToDeg(numType input) {
  * Accurate to within 5 decimal places.
  * This method relies on the IEEE floating point specification
  */
-template <typename numType> inline
-numType math::fastLog2(numType n) {
-    return (numType) fastLog2<float>((float) n);
+template <typename scalar_t> inline
+scalar_t math::fastLog2(scalar_t n) {
+    return (scalar_t) fastLog2<float>((float) n);
 }
-
-//-----------------------------------------------------------------
 
 template <> inline
 float math::fastLog2<float>(float n) {
@@ -202,21 +451,15 @@ float math::fastLog2<float>(float n) {
     return n + log2;
 }
 
-//-----------------------------------------------------------------
-
-template <typename numType> inline
-numType math::fastLog(numType n) {
-    return fastLog2<numType>(n) * 0.693147181f; // ln( 2 )
+template <typename scalar_t> inline
+scalar_t math::fastLog(scalar_t n) {
+    return fastLog2<scalar_t>(n) * 0.693147181f; // ln( 2 )
 }
 
-//-----------------------------------------------------------------
-
-template <typename numType> inline
-numType math::fastLogBase(numType base, numType n) {
-    return fastLog2<numType>(n) / fastLog2<numType>(base);
+template <typename scalar_t> inline
+scalar_t math::fastLogBase(scalar_t base, scalar_t n) {
+    return fastLog2<scalar_t>(n) / fastLog2<scalar_t>(base);
 }
-
-//-----------------------------------------------------------------
 
 inline unsigned math::nextPow2(unsigned n) {
     if (n == 0) {
@@ -275,21 +518,15 @@ constexpr bool math::isPow2(int n) {
     return (int)isPow2((unsigned)n);
 }
 
-//-----------------------------------------------------------------
-
 template <typename scalar_t>
 constexpr scalar_t math::factorial(scalar_t x) {
     return (1 < x) ? x*factorial(x-1) : 1;
 }
 
-//-----------------------------------------------------------------
-
 template <typename scalar_t, typename int_t>
 constexpr scalar_t math::pow(scalar_t x, int_t y) {
     return (0 < y) ? x * pow(x,y-1) : 1;
 }
-
-//-----------------------------------------------------------------
 
 template <typename scalar_t>
 constexpr scalar_t math::sin(scalar_t x) {
@@ -316,6 +553,26 @@ constexpr scalar_t math::tan(scalar_t x) {
         +(x*x*x*x*x*scalar_t(2.0/15))
         +(x*x*x*x*x*x*x*scalar_t(17.0/315))
         +(x*x*x*x*x*x*x*x*x*scalar_t(62.0/2835));
+}
+
+template <typename scalar_t>
+constexpr scalar_t sum(const scalar_t& num) {
+    return num;
+}
+
+template <typename scalar_t, typename... scalars_t>
+constexpr scalar_t sum(const scalar_t& num, const scalars_t&... nums) {
+    return num + sum(nums...);
+}
+
+template <typename scalar_t>
+constexpr scalar_t average() {
+    return scalar_t(0);
+}
+
+template <typename scalar_t, typename... scalars_t>
+constexpr scalar_t average(const scalar_t& num, const scalars_t&... nums) {
+    return sum(num, nums...) / scalar_t(sizeof...(scalars_t)+1);
 }
 
 } /* end hamlibs namespace */

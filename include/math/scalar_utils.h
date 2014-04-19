@@ -16,50 +16,45 @@
  * Floating Point Values & Precision
  */
 #ifdef HL_HIGH_PRECISION
-#define HL_FLOAT        double
-#define HL_INT          int64_t
+    #define HL_FLOAT        double
+    #define HL_INT          int64_t
 
-#define HL_ROUND(x)     (std::floor(x + 0.5))
-#define HL_DEG2RAD(x)   (x * 0.01745329251994329577) // x * (PI / 180)
-#define HL_RAD2DEG(x)   (x * 57.2957795130823208768) // x * (180 / PI)
-#define HL_SQRT( x )    sqrt( x )
+    #define HL_ROUND(x)     (std::floor(0.5 + x))
+    #define HL_DEG2RAD(x)   (x * 0.01745329251994329577) // x * (PI / 180)
+    #define HL_RAD2DEG(x)   (x * 57.2957795130823208768) // x * (180 / PI)
 
-#define HL_SIN(x)       std::sin(x)
-#define HL_COS(x)       std::cos(x)
-#define HL_TAN(x)       std::tan(x)
-
-#define HL_PI           3.14159265358979323846
-#define HL_TWO_PI       6.28318530717958647693
-#define HL_PI_OVER_2    1.57079632679489661923
-#define HL_PI_OVER_3    1.04719755119659774615
-#define HL_PI_OVER_4    0.78539816339744830962
-#define HL_PI_OVER_6    0.52359877559829887307
-#define HL_PI_INVERSE   0.31830988618379067153 // 1 / pi
-#define HL_E            2.71828182845904523536
-#define HL_EPSILON      1.0e-9
+    #define HL_PI           3.14159265358979323846
+    #define HL_TWO_PI       6.28318530717958647693
+    #define HL_PI_OVER_2    1.57079632679489661923
+    #define HL_PI_OVER_3    1.04719755119659774615
+    #define HL_PI_OVER_4    0.78539816339744830962
+    #define HL_PI_OVER_6    0.52359877559829887307
+    #define HL_PI_INVERSE   0.31830988618379067153 // 1 / pi
+    #define HL_E            2.71828182845904523536
+    #define HL_EPSILON      1.0e-9
 #else
-#define HL_FLOAT        float
-#define HL_INT          int32_t
+    #define HL_FLOAT        float
+    #define HL_INT          int32_t
 
-#define HL_ROUND(x)		(std::floor(x + 0.5f))
-#define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
-#define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
+    #define HL_ROUND(x)		(std::floor(0.5f + x))
+    #define HL_DEG2RAD(x)	(x * 0.01745329251994329577f) // x * (PI / 180)
+    #define HL_RAD2DEG(x)	(x * 57.2957795130823208768f) // x * (180 / PI)
+
+    #define HL_PI           3.14159265358979323846f
+    #define HL_TWO_PI       6.28318530717958647693f
+    #define HL_PI_OVER_2    1.57079632679489661923f
+    #define HL_PI_OVER_3    1.04719755119659774615f
+    #define HL_PI_OVER_4    0.78539816339744830962f
+    #define HL_PI_OVER_6    0.52359877559829887307f
+    #define HL_PI_INVERSE   0.31830988618379067153f // 1 / pi
+    #define HL_E            2.71828182845904523536f
+    #define HL_EPSILON      1.0e-5f
+#endif
+
 #define HL_SQRT(x)      std::sqrt(x)
-
 #define HL_SIN(x)       std::sin(x)
 #define HL_COS(x)       std::cos(x)
 #define HL_TAN(x)       std::tan(x)
-
-#define HL_PI           3.14159265358979323846f
-#define HL_TWO_PI       6.28318530717958647693f
-#define HL_PI_OVER_2    1.57079632679489661923f
-#define HL_PI_OVER_3    1.04719755119659774615f
-#define HL_PI_OVER_4    0.78539816339744830962f
-#define HL_PI_OVER_6    0.52359877559829887307f
-#define HL_PI_INVERSE   0.31830988618379067153f // 1 / pi
-#define HL_E            2.71828182845904523536f
-#define HL_EPSILON      1.0e-5f
-#endif
 
 namespace hamLibs {
 
@@ -531,28 +526,28 @@ constexpr scalar_t math::pow(scalar_t x, int_t y) {
 template <typename scalar_t>
 constexpr scalar_t math::sin(scalar_t x) {
     return x
-        -(x*x*x*scalar_t(1.0/6))
-        +(x*x*x*x*x*scalar_t(1.0/120))
-        -(x*x*x*x*x*x*x*scalar_t(1.0/5040))
-        +(x*x*x*x*x*x*x*x*x*scalar_t(1.0/362880));
+        -(x*x*x*scalar_t(1.f/6))
+        +(x*x*x*x*x*scalar_t(1.f/120))
+        -(x*x*x*x*x*x*x*scalar_t(1.f/5040))
+        +(x*x*x*x*x*x*x*x*x*scalar_t(1.f/362880));
 }
 
 template <typename scalar_t>
 constexpr scalar_t math::cos(scalar_t x) {
     return 1
-        -(x*x*scalar_t(1.0/2))
-        +(x*x*x*x*scalar_t(1.0/4))
-        -(x*x*x*x*x*x*scalar_t(1.0/720))
-        +(x*x*x*x*x*x*x*x*scalar_t(1.0/40320));
+        -(x*x*scalar_t(1.f/2))
+        +(x*x*x*x*scalar_t(1.f/4))
+        -(x*x*x*x*x*x*scalar_t(1.f/720))
+        +(x*x*x*x*x*x*x*x*scalar_t(1.f/40320));
 }
 
 template <typename scalar_t>
 constexpr scalar_t math::tan(scalar_t x) {
     return x
-        +(x*x*x*scalar_t(1.0/3))
-        +(x*x*x*x*x*scalar_t(2.0/15))
-        +(x*x*x*x*x*x*x*scalar_t(17.0/315))
-        +(x*x*x*x*x*x*x*x*x*scalar_t(62.0/2835));
+        +(x*x*x*scalar_t(1.f/3))
+        +(x*x*x*x*x*scalar_t(2.f/15))
+        +(x*x*x*x*x*x*x*scalar_t(17.f/315))
+        +(x*x*x*x*x*x*x*x*x*scalar_t(62.f/2835));
 }
 
 template <typename scalar_t>

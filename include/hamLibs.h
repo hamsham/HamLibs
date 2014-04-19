@@ -17,9 +17,10 @@
 //---------------------------------------------------------------------
 //              Meat & Potatoes
 //---------------------------------------------------------------------
-#include "utils/logger.h"
-#include "utils/hash.h"
 #include "utils/assert.h"
+#include "utils/hash.h"
+#include "utils/logger.h"
+#include "utils/pointer.h"
 #include "utils/randomNum.h"
 #include "utils/timeObject.h"
 

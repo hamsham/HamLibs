@@ -178,11 +178,9 @@ class pointer {
          *  
          *  @return a raw pointer to the object contained within *this.
          */
-        /*
-        operator data_t*() const {
+        explicit operator data_t*() const {
             return pData;
         }
-        */
         
         /**
          *  Casting Operator
@@ -191,11 +189,9 @@ class pointer {
          *  
          *  @return a raw pointer to the object contained within *this.
          */
-        /*
-        operator data_t*() {
+        explicit operator data_t*() {
             return pData;
         }
-        */
         
         /**
          *  Dereference operator

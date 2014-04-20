@@ -6,7 +6,13 @@
  */
 
 #include <iostream>
-#include "defs/endian.h"
+
+#include "../include/hamLibs.h"
+
+using hamLibs::utils::HL_UNKNOWN_ENDIAN;
+using hamLibs::utils::HL_LITTLE_ENDIAN;
+using hamLibs::utils::HL_BIG_ENDIAN;
+using hamLibs::utils::HL_PDP_ENDIAN;
 
 int main() {
     switch(HL_ENDIANNESS) {

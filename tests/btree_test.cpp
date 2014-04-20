@@ -176,7 +176,5 @@ int main() {
     
     bench1.join();
     bench2.join();
-    
-    return std::cin.get();
 }
 

@@ -30,7 +30,7 @@ template <typename N> inline N              magnitude(const quat_t<N>&);
 template <typename N> inline quat_t<N>      inverse(const quat_t<N>&);
 template <typename N> constexpr quat_t<N>   conjugate(const quat_t<N>&);
 template <typename N> inline quat_t<N>      normalize(const quat_t<N>&);
-template <typename N> constexpr quat_t<N>   lerp(const quat_t<N>&, const quat_t<N>&, N);
+template <typename N> constexpr quat_t<N>   mix(const quat_t<N>&, const quat_t<N>&, N);
 template <typename N> inline quat_t<N>      slerp(const quat_t<N>&, const quat_t<N>&, N);
 
 /*
@@ -104,7 +104,7 @@ math::quat_t<numType> math::normalize(const quat_t<numType>& q) {
 }
 
 template <typename numType> constexpr
-math::quat_t<numType> math::lerp(const quat_t<numType>& q1, const quat_t<numType>& q2, numType percent) {
+math::quat_t<numType> math::mix(const quat_t<numType>& q1, const quat_t<numType>& q2, numType percent) {
     return quat_t<numType>{q1 + ((q2 - q1) * percent)};
 }
 

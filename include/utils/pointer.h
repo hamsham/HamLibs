@@ -43,8 +43,8 @@ class pointer {
          *  @param numElements
          *  Determines the number of items in the array.
          */
-        pointer(unsigned numElements) :
-            pData{new(std::nothrow) data_t[numElements]},
+        explicit pointer(unsigned numElements) :
+            pData{numElements > 0 ? new(std::nothrow) data_t[numElements] : nullptr},
             count{pData != nullptr ? numElements : 0}
         {}
         
@@ -74,7 +74,7 @@ class pointer {
          *  @param numElements
          *  Determines the number of items in the array.
          */
-        pointer(const pointer& p) :
+        explicit pointer(const pointer& p) :
             pData{new(std::nothrow) data_t[p.count]},
             count{pData != nullptr ? p.count : 0}
         {
@@ -94,7 +94,7 @@ class pointer {
          *  @param numElements
          *  Determines the number of items in the array.
          */
-        pointer(pointer&& p) :
+        explicit pointer(pointer&& p) :
             pData{p.pData},
             count{p.count}
         {

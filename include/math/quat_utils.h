@@ -26,11 +26,13 @@ namespace math {
  * Quaternion Functions
  */
 template <typename N> constexpr N           dot(const quat_t<N>&, const quat_t<N>&);
-template <typename N> inline N              magnitude(const quat_t<N>&);
+template <typename N> constexpr N           length_squared(const quat_t<N>&);
+template <typename N> inline N              length(const quat_t<N>&);
 template <typename N> inline quat_t<N>      inverse(const quat_t<N>&);
 template <typename N> constexpr quat_t<N>   conjugate(const quat_t<N>&);
 template <typename N> inline quat_t<N>      normalize(const quat_t<N>&);
-template <typename N> constexpr quat_t<N>   mix(const quat_t<N>&, const quat_t<N>&, N);
+template <typename N> constexpr quat_t<N>   lerp(const quat_t<N>&, const quat_t<N>&, N);
+template <typename N> constexpr quat_t<N>   nlerp(const quat_t<N>&, const quat_t<N>&, N);
 template <typename N> inline quat_t<N>      slerp(const quat_t<N>&, const quat_t<N>&, N);
 
 /*
@@ -66,21 +68,26 @@ numType math::dot(const quat_t<numType>& q1, const quat_t<numType>& q2) {
     return (q1.q[0] * q2.q[0]) + (q1.q[1] * q2.q[1]) + (q1.q[2] * q2.q[2]) + (q1.q[3] * q2.q[3]);
 }
 
+template <typename numType> constexpr
+numType math::length_squared(const quat_t<numType>& q) {
+    return (q.q[0]*q.q[0]) + (q.q[1]*q.q[1]) + (q.q[2]*q.q[2]) + (q.q[3]*q.q[3]);
+}
+
 template <typename numType> inline
-numType math::magnitude(const quat_t<numType>& q) {
-    return HL_SQRT((q.q[0] * q.q[0]) + (q.q[1] * q.q[1]) + (q.q[2] * q.q[2]) + (q.q[3] * q.q[3]));
+numType math::length(const quat_t<numType>& q) {
+    return HL_SQRT(length_squared<numType>(q));
 }
 
 template <typename numType> inline
 math::quat_t<numType> math::inverse(const quat_t<numType>& q) {
-    const numType dotInv{
-        numType(1) / ((q.q[0] * q.q[0]) + (q.q[1] * q.q[1]) + (q.q[2] * q.q[2]) + (q.q[3] * q.q[3]))
+    const numType lenInv{
+        numType(1) / math::length<numType>(q)
     };
     return quat_t<numType>{
-        -q.q[0] * dotInv,
-        -q.q[1] * dotInv,
-        -q.q[2] * dotInv,
-        q.q[3] * dotInv
+        -q.q[0] * lenInv,
+        -q.q[1] * lenInv,
+        -q.q[2] * lenInv,
+        q.q[3] * lenInv
     };
 }
 
@@ -92,7 +99,7 @@ math::quat_t<numType> math::conjugate(const quat_t<numType>& q) {
 template <typename numType> inline
 math::quat_t<numType> math::normalize(const quat_t<numType>& q) {
     const numType magInv{
-        numType(1) / HL_SQRT((q.q[0] * q.q[0]) + (q.q[1] * q.q[1]) + (q.q[2] * q.q[2]) + (q.q[3] * q.q[3]))
+        numType(1) / length<numType>(q)
     };
     
     return quat_t<numType>{
@@ -104,8 +111,13 @@ math::quat_t<numType> math::normalize(const quat_t<numType>& q) {
 }
 
 template <typename numType> constexpr
-math::quat_t<numType> math::mix(const quat_t<numType>& q1, const quat_t<numType>& q2, numType percent) {
+math::quat_t<numType> math::lerp(const quat_t<numType>& q1, const quat_t<numType>& q2, numType percent) {
     return quat_t<numType>{q1 + ((q2 - q1) * percent)};
+}
+
+template <typename numType> constexpr
+math::quat_t<numType> math::nlerp(const quat_t<numType>& q1, const quat_t<numType>& q2, numType percent) {
+    return normalize(lerp<numType>(q1, q2));
 }
 
 /**

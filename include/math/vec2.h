@@ -21,7 +21,7 @@ namespace math {
 
 /* 2x2 Matrix forward declaration */
 template <typename numType>
-class mat2_t;
+struct mat2_t;
 
 /******************************************************************************
  * 2D Vector Class
@@ -35,57 +35,24 @@ struct vec2_t {
 		} index;
 	};
     
-    /*
-     * Delegated Constructors
-     * 
-     * vec2_t()
-     * vec2_t( numType n )
-     * vec2_t( numType x, numType y )
-     * vec2_t( const vec2_t& )
-     * vec2_t( vec2_t&& )
-     */
 	// Main Constructor
-	constexpr vec2_t(numType inX, numType inY) :
-    	v{ inX, inY }
-    {}
-        
-	constexpr vec2_t() :
-        vec2_t(
-            numType(0), numType(0)
-        )
-    {}
+	constexpr vec2_t(numType inX, numType inY);
     
-	constexpr vec2_t( numType n ) :
-        vec2_t(
-            n, n
-        )
-    {}
-    
-	constexpr vec2_t(const vec2_t<numType>& input) :
-    	vec2_t(
-    		input.v[0], input.v[1]
-    	)
-    {}
-    
-	constexpr vec2_t(vec2_t<numType>&& input) :
-    	vec2_t(
-    		input.v[0], input.v[1]
-    	)
-    {}
+    // Delegated Constructors
+	constexpr vec2_t();
+	constexpr vec2_t(numType n);
+	constexpr vec2_t(const vec2_t<numType>& input);
+	constexpr vec2_t(vec2_t<numType>&& input);
     
 	~vec2_t() = default;
     
-    // Subscripting Operators
-	constexpr numType operator      []      (int i) const { return v[i]; }
-	inline numType& operator        []      (int i) { return v[i]; }
-    
     // Conversions & Casting
     template <typename otherType>
-    constexpr explicit operator vec2_t<otherType>() const {
-        return vec2_t<otherType>{
-            (otherType)v[0], (otherType)v[1]
-        };
-    }
+    constexpr explicit operator vec2_t<otherType>() const;
+    
+    // Subscripting Operators
+	constexpr numType operator      []      (int i) const;
+	inline numType& operator        []      (int i);
     
 	//vector-vector operators
 	vec2_t&			operator		= 		(const vec2_t<numType>&);
@@ -151,6 +118,57 @@ vec2_t<numType> operator * (numType n, const vec2_t<numType>& v);
 
 template <typename numType> inline
 vec2_t<numType> operator / (numType n, const vec2_t<numType>& v);
+
+//---------------------------------------------------------------------
+// Constructors
+//---------------------------------------------------------------------
+// Main Constructor
+template <typename numType>
+constexpr vec2_t<numType>::vec2_t(numType inX, numType inY) :
+    v{inX, inY}
+{}
+
+template <typename numType>
+constexpr vec2_t<numType>::vec2_t() :
+    vec2_t(numType(0), numType(0))
+{}
+
+template <typename numType>
+constexpr vec2_t<numType>::vec2_t(numType n) :
+    vec2_t(n, n)
+{}
+
+template <typename numType>
+constexpr vec2_t<numType>::vec2_t(const vec2_t<numType>& input) :
+    vec2_t(input.v[0], input.v[1])
+{}
+
+template <typename numType>
+constexpr vec2_t<numType>::vec2_t(vec2_t<numType>&& input) :
+    vec2_t(input.v[0], input.v[1])
+{}
+
+//---------------------------------------------------------------------
+// Conversions & Casting
+//---------------------------------------------------------------------
+template <typename numType>
+template <typename otherType>
+constexpr vec2_t<numType>::operator vec2_t<otherType>() const {
+    return vec2_t<otherType>{(otherType)v[0], (otherType)v[1]};
+}
+
+//---------------------------------------------------------------------
+// Subscripting Operators
+//---------------------------------------------------------------------
+template <typename numType>
+constexpr numType vec2_t<numType>::operator[] (int i) const {
+    return v[i];
+}
+    
+template <typename numType>
+inline numType& vec2_t<numType>::operator[] (int i) {
+    return v[i];
+}
 
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations

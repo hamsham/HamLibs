@@ -26,90 +26,38 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct mat2_t {
-	union {
-		numType	m[2][2];
-		struct {
-			numType	xx, xy,
-					yx, yy;
-		} index;
+    
+    union {
+        numType	m[2][2];
         
         struct {
             vec2_t<numType> x;
             vec2_t<numType> y;
         } row;
-	};
+    };
     
-    /*
-     * Delegated Constructors
-     * 
-     * mat2_t()
-     * mat2_t( numType n )
-     * mat2_t( numType n0, numType n1, numType n2, ..., numType n3 )
-     * mat2_t( vec2_t x, vec2_t y )
-     * mat2_t( const mat2_t& )
-     * mat2_t( mat2_t&& )
-     */
 	// Main Constructor
     constexpr mat2_t(
         numType inXX, numType inXY,
-        numType inYX, numType inYY) :
-        m{
-            { inXX, inXY },
-            { inYX, inYY },
-        }
-    {}
+        numType inYX, numType inYY
+    );
     
-    constexpr mat2_t() :
-        mat2_t(
-            numType(0), numType(0),
-            numType(0), numType(0)
-        )
-    {}
-    
-    constexpr mat2_t(numType n) :
-        mat2_t(
-            n, numType(0),
-            numType(0), n
-        )
-    {}
-    
-    constexpr mat2_t(const mat2_t<numType>& input) :
-        mat2_t(
-            input.m[0][0], input.m[0][1],
-            input.m[1][0], input.m[1][1]
-        )
-    {}
-    
-    constexpr mat2_t(mat2_t<numType>&& input) :
-        mat2_t(
-            input.m[0][0], input.m[0][1],
-            input.m[1][0], input.m[1][1]
-        )
-    {}
-    
-    constexpr mat2_t(
-        const vec2_t<numType>& x,
-        const vec2_t<numType>& y
-    ) : mat2_t(
-            x.v[0], x.v[1],
-            y.v[0], y.v[1]
-        )
-    {}
+    // Delegated constructors
+    constexpr mat2_t();
+    constexpr mat2_t(numType);
+    constexpr mat2_t(const mat2_t<numType>&);
+    constexpr mat2_t(mat2_t<numType>&&);
+    constexpr mat2_t(const vec2_t<numType>& x, const vec2_t<numType>& y);
     
 	~mat2_t() = default;
     
-    // Subscripting
-	const numType*  operator    []      (int i) const { return m[i]; }
-	inline numType* operator    []      (int i) { return m[i]; }
-    
     // Conversions & Casting
     template <typename otherType>
-    constexpr explicit operator mat2_t<otherType>() const {
-        return mat2_t<otherType>{
-            (otherType)m[0][0], (otherType)m[0][1],
-            (otherType)m[1][0], (otherType)m[1][1]
-        };
-    }
+    constexpr explicit operator mat2_t<otherType>() const;
+    
+    // Subscripting
+	const numType*  operator    []      (int i) const;
+	inline numType* operator    []      (int i);
 
 	//mat-mat operators
 	mat2_t&			operator	++		(); //prefix operators
@@ -171,6 +119,87 @@ mat2_t<numType> operator * (numType n, const mat2_t<numType>& m);
 
 template <typename numType> inline
 mat2_t<numType> operator / (numType n, const mat2_t<numType>& m);
+
+//---------------------------------------------------------------------
+// Constructors
+//---------------------------------------------------------------------
+// Main Constructor
+template <typename numType>
+constexpr mat2_t<numType>::mat2_t(
+    numType inXX, numType inXY,
+    numType inYX, numType inYY) :
+    m{
+        { inXX, inXY },
+        { inYX, inYY },
+    }
+{}
+
+template <typename numType>
+constexpr mat2_t<numType>::mat2_t() :
+    mat2_t(
+        numType(0), numType(0),
+        numType(0), numType(0)
+    )
+{}
+
+template <typename numType>
+constexpr mat2_t<numType>::mat2_t(numType n) :
+    mat2_t(
+        n, numType(0),
+        numType(0), n
+    )
+{}
+
+template <typename numType>
+constexpr mat2_t<numType>::mat2_t(const mat2_t<numType>& input) :
+    mat2_t(
+        input.m[0][0], input.m[0][1],
+        input.m[1][0], input.m[1][1]
+    )
+{}
+
+template <typename numType>
+constexpr mat2_t<numType>::mat2_t(mat2_t<numType>&& input) :
+    mat2_t(
+        input.m[0][0], input.m[0][1],
+        input.m[1][0], input.m[1][1]
+    )
+{}
+
+template <typename numType>
+constexpr mat2_t<numType>::mat2_t(
+    const vec2_t<numType>& x,
+    const vec2_t<numType>& y
+) : mat2_t(
+        x.v[0], x.v[1],
+        y.v[0], y.v[1]
+    )
+{}
+
+//---------------------------------------------------------------------
+// Conversions & Casting
+//---------------------------------------------------------------------
+template <typename numType>
+template <typename otherType>
+constexpr mat2_t<numType>::operator mat2_t<otherType>() const {
+    return mat2_t<otherType>{
+        (otherType)m[0][0], (otherType)m[0][1],
+        (otherType)m[1][0], (otherType)m[1][1]
+    };
+}
+
+//---------------------------------------------------------------------
+// Subscripting Operators
+//---------------------------------------------------------------------
+template <typename numType>
+const numType* mat2_t<numType>::operator[](int i) const {
+    return m[i];
+}
+
+template <typename numType>
+inline numType* mat2_t<numType>::operator[](int i) {
+    return m[i];
+}
 
 //---------------------------------------------------------------------
 //	mat-mat Operators

@@ -31,57 +31,22 @@ struct quat_t {
 		} index;
 	};
     
-    /*
-     * Delegated Constructors
-     * 
-     * quat_t()
-     * quat_t( numType n )
-     * quat_t( numType x, numType y, numType z, numType w )
-     * quat_t( const quat_t& )
-     * quat_t( quat_t&& )
-     */
 	// Main Constructor
-	constexpr quat_t(numType inX, numType inY, numType inZ, numType inW) :
-    	q{ inX, inY, inZ, inW }
-    {}
-        
-	constexpr quat_t() :
-        quat_t(
-            numType(0), numType(0), numType(0), numType(1)
-        )
-    {}
-    
-	constexpr quat_t( numType n ) :
-        quat_t(
-            n, n, n, numType(1)
-        )
-    {}
-    
-	constexpr quat_t(const quat_t<numType>& input) :
-    	quat_t(
-    		input.q[0], input.q[1], input.q[2], input.q[3]
-    	)
-    {}
-    
-	constexpr quat_t(quat_t<numType>&& input) :
-    	quat_t(
-    		input.q[0], input.q[1], input.q[2], input.q[3]
-    	)
-    {}
+	constexpr quat_t(numType inX, numType inY, numType inZ, numType inW);
+	constexpr quat_t();
+	constexpr quat_t(numType n);
+	constexpr quat_t(const quat_t<numType>& input);
+	constexpr quat_t(quat_t<numType>&& input);
     
 	~quat_t() = default;
     
-    // Subscripting Operators
-	constexpr numType operator      []      (int i) const { return q[i]; }
-	inline numType& operator        []      (int i) { return q[i]; }
-    
     // Conversions & Casting
     template <typename otherType>
-    constexpr explicit operator quat_t<otherType>() const {
-        return quat_t<otherType>{
-            (otherType)q[0], (otherType)q[1], (otherType)q[2], (otherType)q[3]
-        };
-    }
+    constexpr explicit operator quat_t<otherType>() const;
+    
+    // Subscripting Operators
+	constexpr numType operator  []  (int i) const;
+	inline numType& operator    []  (int i);
 
 	//quaternion-quaternion operators
 	quat_t&			operator	++	(); //prefix operators
@@ -134,6 +99,59 @@ quat_t<numType> operator * (numType n, const quat_t<numType>& q);
 
 template <typename numType> inline
 quat_t<numType> operator / (numType n, const quat_t<numType>& q);
+
+//---------------------------------------------------------------------
+// Constructors
+//---------------------------------------------------------------------
+// Main Constructor
+template <typename numType>
+constexpr quat_t<numType>::quat_t(numType inX, numType inY, numType inZ, numType inW) :
+    q{inX, inY, inZ, inW}
+{}
+
+template <typename numType>
+constexpr quat_t<numType>::quat_t() :
+    quat_t(numType(0), numType(0), numType(0), numType(1))
+{}
+
+template <typename numType>
+constexpr quat_t<numType>::quat_t(numType n) :
+    quat_t(n, n, n, numType(1))
+{}
+
+template <typename numType>
+constexpr quat_t<numType>::quat_t(const quat_t<numType>& input) :
+    quat_t(input.q[0], input.q[1], input.q[2], input.q[3])
+{}
+
+template <typename numType>
+constexpr quat_t<numType>::quat_t(quat_t<numType>&& input) :
+    quat_t(input.q[0], input.q[1], input.q[2], input.q[3])
+{}
+
+//---------------------------------------------------------------------
+// Conversions & Casting
+//---------------------------------------------------------------------
+template <typename numType>
+template <typename otherType>
+constexpr quat_t<numType>::operator quat_t<otherType>() const {
+    return quat_t<otherType>{
+        (otherType)q[0], (otherType)q[1], (otherType)q[2], (otherType)q[3]
+    };
+}
+
+//---------------------------------------------------------------------
+// Subscripting Operators
+//---------------------------------------------------------------------
+template <typename numType>
+constexpr numType quat_t<numType>::operator[] (int i) const {
+    return q[i];
+}
+
+template <typename numType>
+inline numType& quat_t<numType>::operator[] (int i) {
+    return q[i];
+}
 
 //---------------------------------------------------------------------
 //	Quaternion-Quaternion Operators

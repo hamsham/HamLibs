@@ -22,7 +22,7 @@ namespace math {
 
 /* 3x3 Matrix forward declaration */
 template <typename numType>
-class mat3_t;
+struct mat3_t;
 
 /******************************************************************************
  * 3D Vector Class
@@ -36,57 +36,22 @@ struct vec3_t {
 		} index;
 	};
     
-    /*
-     * Delegated Constructors
-     * 
-     * vec3_t()
-     * vec3_t( numType n )
-     * vec3_t( numType x, numType y, numType z )
-     * vec3_t( const vec3_t& )
-     * vec3_t( vec3_t&& )
-     */
 	// Main Constructor
-	constexpr vec3_t(numType inX, numType inY, numType inZ) :
-    	v{ inX, inY, inZ }
-    {}
-        
-	constexpr vec3_t() :
-        vec3_t(
-            numType(0), numType(0), numType(0)
-        )
-    {}
-    
-	constexpr vec3_t( numType n ) :
-        vec3_t(
-            n, n, n
-        )
-    {}
-    
-	constexpr vec3_t(const vec3_t<numType>& input) :
-    	vec3_t(
-    		input.v[0], input.v[1], input.v[2]
-    	)
-    {}
-    
-	constexpr vec3_t(vec3_t<numType>&& input) :
-    	vec3_t(
-    		input.v[0], input.v[1], input.v[2]
-    	)
-    {}
+	constexpr vec3_t(numType inX, numType inY, numType inZ);
+	constexpr vec3_t();
+	constexpr vec3_t(numType n);
+	constexpr vec3_t(const vec3_t<numType>& input);
+	constexpr vec3_t(vec3_t<numType>&& input);
     
 	~vec3_t() = default;
     
-    // Subscripting Operators
-	constexpr numType operator      []      (int i) const { return v[i]; }
-	inline numType& operator        []      (int i) { return v[i]; }
-    
     // Conversions & Casting
     template <typename otherType>
-    constexpr explicit operator vec3_t<otherType>() const {
-        return vec3_t<otherType>{
-            (otherType)v[0], (otherType)v[1], (otherType)v[2]
-        };
-    }
+    constexpr explicit operator vec3_t<otherType>() const;
+    
+    // Subscripting Operators
+	constexpr numType operator      []      (int i) const;
+	inline numType& operator        []      (int i);
 
 	//vector-vector operators
 	vec3_t&			operator		= 		(const vec3_t<numType>&);
@@ -152,6 +117,57 @@ vec3_t<numType> operator * (numType n, const vec3_t<numType>& v);
 
 template <typename numType> inline
 vec3_t<numType> operator / (numType n, const vec3_t<numType>& v);
+
+//---------------------------------------------------------------------
+// Constructors
+//---------------------------------------------------------------------
+// Main Constructor
+template <typename numType>
+constexpr vec3_t<numType>::vec3_t(numType inX, numType inY, numType inZ) :
+    v{inX, inY, inZ}
+{}
+
+template <typename numType>
+constexpr vec3_t<numType>::vec3_t() :
+    vec3_t(numType(0), numType(0), numType(0))
+{}
+
+template <typename numType>
+constexpr vec3_t<numType>::vec3_t(numType n) :
+    vec3_t(n, n, n)
+{}
+
+template <typename numType>
+constexpr vec3_t<numType>::vec3_t(const vec3_t<numType>& input) :
+    vec3_t(input.v[0], input.v[1], input.v[2])
+{}
+
+template <typename numType>
+constexpr vec3_t<numType>::vec3_t(vec3_t<numType>&& input) :
+    vec3_t(input.v[0], input.v[1], input.v[2])
+{}
+
+//---------------------------------------------------------------------
+// Conversions & Casting
+//---------------------------------------------------------------------
+template <typename numType>
+template <typename otherType>
+constexpr vec3_t<numType>::operator vec3_t<otherType>() const {
+    return vec3_t<otherType>{(otherType)v[0], (otherType)v[1], (otherType)v[2]};
+}
+
+//---------------------------------------------------------------------
+// Subscripting Operators
+//---------------------------------------------------------------------
+template <typename numType>
+constexpr numType vec3_t<numType>::operator[] (int i) const {
+    return v[i];
+}
+
+template <typename numType>
+inline numType& vec3_t<numType>::operator[] (int i) {
+    return v[i];
+}
 
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations

@@ -23,7 +23,7 @@ namespace math {
 
 /* 4x4 Matrix forward declaration */
 template <typename numType>
-class mat4_t;
+struct mat4_t;
 
 /******************************************************************************
  * 4D Vector Class
@@ -37,57 +37,22 @@ struct vec4_t {
 		} index;
 	};
     
-    /*
-     * Delegated Constructors
-     * 
-     * vec4_t()
-     * vec4_t( numType n )
-     * vec4_t( numType x, numType y, numType z, numType w )
-     * vec4_t( const vec4_t& )
-     * vec4_t( vec4_t&& )
-     */
 	// Main Constructor
-	constexpr vec4_t(numType inX, numType inY, numType inZ, numType inW) :
-    	v{ inX, inY, inZ, inW }
-    {}
-        
-	constexpr vec4_t() :
-        vec4_t(
-            numType(0), numType(0), numType(0), numType(1)
-        )
-    {}
-    
-	constexpr vec4_t( numType n ) :
-        vec4_t(
-            n, n, n, numType(1)
-        )
-    {}
-    
-	constexpr vec4_t(const vec4_t<numType>& input) :
-    	vec4_t(
-    		input.v[0], input.v[1], input.v[2], input.v[3]
-    	)
-    {}
-    
-	constexpr vec4_t(vec4_t<numType>&& input) :
-    	vec4_t(
-    		input.v[0], input.v[1], input.v[2], input.v[3]
-    	)
-    {}
+	constexpr vec4_t(numType inX, numType inY, numType inZ, numType inW);
+	constexpr vec4_t();
+	constexpr vec4_t(numType n);
+	constexpr vec4_t(const vec4_t<numType>& input);
+	constexpr vec4_t(vec4_t<numType>&& input);
     
 	~vec4_t() = default;
     
-    // Subscripting Operators
-	constexpr numType operator      []      (int i) const { return v[i]; }
-	inline numType& operator        []      (int i) { return v[i]; }
-    
     // Conversions & Casting
     template <typename otherType>
-    constexpr explicit operator vec4_t<otherType>() const {
-        return vec4_t<otherType>{
-            (otherType)v[0], (otherType)v[1], (otherType)v[2], (otherType)v[3]
-        };
-    }
+    constexpr explicit operator vec4_t<otherType>() const;
+    
+    // Subscripting Operators
+	constexpr numType operator      []      (int i) const;
+	inline numType& operator        []      (int i);
 
 	//vector-vector operators
 	vec4_t&			operator		= 		(const vec4_t<numType>&);
@@ -153,6 +118,67 @@ vec4_t<numType> operator * (numType n, const vec4_t<numType>& v);
 
 template <typename numType> inline
 vec4_t<numType> operator / (numType n, const vec4_t<numType>& v);
+
+//---------------------------------------------------------------------
+// Constructors
+//---------------------------------------------------------------------
+// Main Constructor
+template <typename numType>
+constexpr vec4_t<numType>::vec4_t(numType inX, numType inY, numType inZ, numType inW) :
+    v{inX, inY, inZ, inW}
+{}
+
+template <typename numType>
+constexpr vec4_t<numType>::vec4_t() :
+    vec4_t(
+        numType(0), numType(0), numType(0), numType(1)
+    )
+{}
+
+template <typename numType>
+constexpr vec4_t<numType>::vec4_t(numType n) :
+    vec4_t(
+        n, n, n, numType(1)
+    )
+{}
+
+template <typename numType>
+constexpr vec4_t<numType>::vec4_t(const vec4_t<numType>& input) :
+    vec4_t(
+        input.v[0], input.v[1], input.v[2], input.v[3]
+    )
+{}
+
+template <typename numType>
+constexpr vec4_t<numType>::vec4_t(vec4_t<numType>&& input) :
+    vec4_t(
+        input.v[0], input.v[1], input.v[2], input.v[3]
+    )
+{}
+
+//---------------------------------------------------------------------
+// Conversions & Casting
+//---------------------------------------------------------------------
+template <typename numType>
+template <typename otherType>
+constexpr vec4_t<numType>::operator vec4_t<otherType>() const {
+    return vec4_t<otherType>{
+        (otherType)v[0], (otherType)v[1], (otherType)v[2], (otherType)v[3]
+    };
+}
+
+//---------------------------------------------------------------------
+// Subscripting Operators
+//---------------------------------------------------------------------
+template <typename numType>
+constexpr numType vec4_t<numType>::operator[] (int i) const {
+    return v[i];
+}
+
+template <typename numType>
+inline numType& vec4_t<numType>::operator[] (int i) {
+    return v[i];
+}
 
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations

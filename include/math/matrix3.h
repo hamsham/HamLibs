@@ -27,102 +27,43 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct mat3_t {
-	union {
-		numType m[3][3];
-        
-		struct {
-			numType	xx, xy, xz,
-					yx, yy, yz,
-					zx, zy, zz;
-		} index;
+    union {
+        numType m[3][3];
         
         struct {
             vec3_t<numType> x;
             vec3_t<numType> y;
             vec3_t<numType> z;
         } row;
-	};
+    };
     
-    /*
-     * Delegated Constructors
-     * 
-     * mat3_t()
-     * mat3_t( numType n )
-     * mat3_t( numType n0, numType n1, numType n2, ..., numType n8 )
-     * mat3_t( vec3_t x, vec3_t y, vec3_t z )
-     * mat3_t( const mat3_t& )
-     * mat3_t( mat3_t&& )
-     */
 	// Main Constructor
     constexpr mat3_t(
         numType inXX, numType inXY, numType inXZ,
         numType inYX, numType inYY, numType inYZ,
-        numType inZX, numType inZY, numType inZZ) :
-        m{
-            { inXX, inXY, inXZ },
-            { inYX, inYY, inYZ },
-            { inZX, inZY, inZZ }
-        }
-    {}
+        numType inZX, numType inZY, numType inZZ
+    );
     
-    constexpr mat3_t() :
-        mat3_t(
-            numType(0), numType(0), numType(0),
-            numType(0), numType(0), numType(0),
-            numType(0), numType(0), numType(0)
-        )
-    {}
-    
-    constexpr mat3_t(numType n) :
-        mat3_t(
-            n, numType(0), numType(0),
-            numType(0), n, numType(0),
-            numType(0), numType(0), n
-        )
-    {}
-    
-    constexpr mat3_t(const mat3_t<numType>& input) :
-        mat3_t(
-            input.m[0][0], input.m[0][1], input.m[0][2],
-            input.m[1][0], input.m[1][1], input.m[1][2],
-            input.m[2][0], input.m[2][1], input.m[2][2]
-        )
-    {}
-    
-    constexpr mat3_t(mat3_t<numType>&& input) :
-        mat3_t(
-            input.m[0][0], input.m[0][1], input.m[0][2],
-            input.m[1][0], input.m[1][1], input.m[1][2],
-            input.m[2][0], input.m[2][1], input.m[2][2]
-        )
-    {}
-    
+    // Delegated Constructors
+    constexpr mat3_t();
+    constexpr mat3_t(numType);
+    constexpr mat3_t(const mat3_t<numType>&);
+    constexpr mat3_t(mat3_t<numType>&&);
     constexpr mat3_t(
         const vec3_t<numType>& x,
         const vec3_t<numType>& y,
         const vec3_t<numType>& z
-    ) : mat3_t(
-            x.v[0], x.v[1], x.v[2],
-            y.v[0], y.v[1], y.v[2],
-            z.v[0], z.v[1], z.v[2]
-        )
-    {}
+    );
     
 	~mat3_t() = default;
-
-	//Subscripting operators
-	const numType*  operator    []      (int i) const { return m[i]; }
-	inline numType* operator    []      (int i) { return m[i]; }
     
     // Conversions & Casting
     template <typename otherType>
-    constexpr explicit operator mat3_t<otherType>() const {
-        return mat3_t<otherType>{
-            (otherType)m[0][0], (otherType)m[0][1], (otherType)m[0][2],
-            (otherType)m[1][0], (otherType)m[1][1], (otherType)m[1][2],
-            (otherType)m[2][0], (otherType)m[2][1], (otherType)m[2][2]
-        };
-    }
+    constexpr explicit operator mat3_t<otherType>() const;
+
+	//Subscripting operators
+	const numType*  operator    []      (int i) const;
+	inline numType* operator    []      (int i);
 
 	//matrix-matrix operators
 	mat3_t&			operator	++		(); //prefix operators
@@ -184,6 +125,96 @@ mat3_t<numType> operator * (numType n, const mat3_t<numType>& m);
 
 template <typename numType> inline
 mat3_t<numType> operator / (numType n, const mat3_t<numType>& m);
+
+//---------------------------------------------------------------------
+// Constructors
+//---------------------------------------------------------------------
+// Main Constructor
+template <typename numType>
+constexpr mat3_t<numType>::mat3_t(
+    numType inXX, numType inXY, numType inXZ,
+    numType inYX, numType inYY, numType inYZ,
+    numType inZX, numType inZY, numType inZZ) :
+    m{
+        { inXX, inXY, inXZ },
+        { inYX, inYY, inYZ },
+        { inZX, inZY, inZZ }
+    }
+{}
+
+template <typename numType>
+constexpr mat3_t<numType>::mat3_t() :
+    mat3_t(
+        numType(0), numType(0), numType(0),
+        numType(0), numType(0), numType(0),
+        numType(0), numType(0), numType(0)
+    )
+{}
+
+template <typename numType>
+constexpr mat3_t<numType>::mat3_t(numType n) :
+    mat3_t(
+        n, numType(0), numType(0),
+        numType(0), n, numType(0),
+        numType(0), numType(0), n
+    )
+{}
+
+template <typename numType>
+constexpr mat3_t<numType>::mat3_t(const mat3_t<numType>& input) :
+    mat3_t(
+        input.m[0][0], input.m[0][1], input.m[0][2],
+        input.m[1][0], input.m[1][1], input.m[1][2],
+        input.m[2][0], input.m[2][1], input.m[2][2]
+    )
+{}
+
+template <typename numType>
+constexpr mat3_t<numType>::mat3_t(mat3_t<numType>&& input) :
+    mat3_t(
+        input.m[0][0], input.m[0][1], input.m[0][2],
+        input.m[1][0], input.m[1][1], input.m[1][2],
+        input.m[2][0], input.m[2][1], input.m[2][2]
+    )
+{}
+
+template <typename numType>
+constexpr mat3_t<numType>::mat3_t(
+    const vec3_t<numType>& x,
+    const vec3_t<numType>& y,
+    const vec3_t<numType>& z
+) : mat3_t(
+        x.v[0], x.v[1], x.v[2],
+        y.v[0], y.v[1], y.v[2],
+        z.v[0], z.v[1], z.v[2]
+    )
+{}
+
+//---------------------------------------------------------------------
+// Conversions & Casting
+//---------------------------------------------------------------------
+template <typename numType>
+template <typename otherType>
+constexpr mat3_t<numType>::operator mat3_t<otherType>() const {
+    return mat3_t<otherType>{
+        (otherType)m[0][0], (otherType)m[0][1], (otherType)m[0][2],
+        (otherType)m[1][0], (otherType)m[1][1], (otherType)m[1][2],
+        (otherType)m[2][0], (otherType)m[2][1], (otherType)m[2][2]
+    };
+}
+
+//---------------------------------------------------------------------
+// Subscripting Operators
+//---------------------------------------------------------------------
+template <typename numType>
+const numType* mat3_t<numType>::operator[](int i) const {
+    return m[i];
+}
+
+template <typename numType>
+inline numType* mat3_t<numType>::operator[](int i) {
+    return m[i];
+}
 
 //---------------------------------------------------------------------
 //	Matrix-Matrix Operators

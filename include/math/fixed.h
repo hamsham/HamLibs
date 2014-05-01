@@ -35,11 +35,11 @@ public:
         number(f.number)
     {}
 
-    constexpr fixed_t(fixedBase f) :
+    explicit constexpr fixed_t(fixedBase f) :
         number(f)
     {}
 
-    constexpr fixed_t(float f) :
+    explicit constexpr fixed_t(float f) :
         number((fixedBase(1) << fracDigits) * f)
     {}
 
@@ -192,11 +192,19 @@ public:
         return *this;
     }
 
-    constexpr operator float() {
+    explicit constexpr operator float() {
         return float(1.f / (fixedBase(1) << fracDigits)) * number;
     }
 
-    constexpr fixed_t& operator =(float f) {
+    explicit constexpr operator fixedBase() {
+        return fracDigits;
+    }
+
+    inline fixed_t& operator =(float f) {
+        return *this = fixed_t(f);
+    }
+
+    inline fixed_t& operator =(fixedBase f) {
         return *this = fixed_t(f);
     }
 };

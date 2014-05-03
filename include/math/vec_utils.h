@@ -84,6 +84,12 @@ numType math::dot(const vec2_t<numType>& v1, const vec2_t<numType>& v2) {
     return (v1.v[0] * v2.v[0]) + (v1.v[1] * v2.v[1]);
 }
 
+template <typename numType> constexpr
+numType math::cross(const vec2_t<numType>& v1, const vec2_t<numType>& v2) {
+    return (v1[0]*v2[1])-(v1[1]*v2[0]);
+}
+
+
 template <typename numType> inline
 math::vec2_t<numType> math::normalize(const vec2_t<numType>& v) {
     const numType magInv = numType(1) / length<numType>(v);

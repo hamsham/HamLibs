@@ -377,12 +377,13 @@ mat3_t<numType> vec3_t<numType>::operator - (const mat3_t<numType>& m) const {
 	);
 }
 
+// Multiplies by a row vector
 template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator * (const mat3_t<numType>& m) const {
 	return vec3_t<numType>(
-		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]) + (m.m[0][2] * v[2]),
-		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1]) + (m.m[1][2] * v[2]),
-		(m.m[2][0] * v[0]) + (m.m[2][1] * v[1]) + (m.m[2][2] * v[2])
+		(m.m[0][0] * v[0]) + (m.m[1][0] * v[1]) + (m.m[2][0] * v[2]),
+		(m.m[0][1] * v[0]) + (m.m[1][1] * v[1]) + (m.m[2][1] * v[2]),
+		(m.m[0][2] * v[0]) + (m.m[1][2] * v[1]) + (m.m[2][2] * v[2])
 	);
 }
 
@@ -413,6 +414,7 @@ mat3_t<numType> mat3_t<numType>::operator - (const vec3_t<numType>& input) const
 	);
 }
 
+// Multiply by a column-vector
 template <typename numType> inline
 vec3_t<numType> mat3_t<numType>::operator * (const vec3_t<numType>& inVect) const {
 	return vec3_t<numType>(

@@ -434,13 +434,14 @@ mat4_t<numType> vec4_t<numType>::operator - (const mat4_t<numType>& m) const {
 	);
 }
 
+// Multiplies by a row vector
 template <typename numType> inline
 vec4_t<numType> vec4_t<numType>::operator * (const mat4_t<numType>& m) const {
 	return vec4_t<numType>(
-		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]) + (m.m[0][2] * v[2]) + (m.m[0][3] * v[3]),
-		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1]) + (m.m[1][2] * v[2]) + (m.m[1][3] * v[3]),
-		(m.m[2][0] * v[0]) + (m.m[2][1] * v[1]) + (m.m[2][2] * v[2]) + (m.m[2][3] * v[3]),
-		(m.m[3][0] * v[0]) + (m.m[3][1] * v[1]) + (m.m[3][2] * v[2]) + (m.m[3][3] * v[3])
+		(m.m[0][0] * v[0]) + (m.m[1][0] * v[1]) + (m.m[2][0] * v[2]) + (m.m[3][0] * v[3]),
+		(m.m[0][1] * v[0]) + (m.m[1][1] * v[1]) + (m.m[2][1] * v[2]) + (m.m[3][1] * v[3]),
+		(m.m[0][2] * v[0]) + (m.m[1][2] * v[1]) + (m.m[2][2] * v[2]) + (m.m[3][2] * v[3]),
+		(m.m[0][3] * v[0]) + (m.m[1][3] * v[1]) + (m.m[2][3] * v[2]) + (m.m[3][3] * v[3])
 	);
 }
 
@@ -473,6 +474,7 @@ mat4_t<numType> mat4_t<numType>::operator - (const vec4_t<numType>& input) const
 	);
 }
 
+// Multiply by a column-vector
 template <typename numType> inline
 vec4_t<numType> mat4_t<numType>::operator * (const vec4_t<numType>& inVect) const {
 	return vec4_t<numType>(

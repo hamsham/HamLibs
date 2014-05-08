@@ -340,11 +340,12 @@ mat2_t<numType> vec2_t<numType>::operator - (const mat2_t<numType>& m) const {
 	);
 }
 
+// Multiplies by a row vector
 template <typename numType> inline
 vec2_t<numType> vec2_t<numType>::operator * (const mat2_t<numType>& m) const {
 	return vec2_t<numType>(
-		(m.m[0][0] * v[0]) + (m.m[0][1] * v[1]),
-		(m.m[1][0] * v[0]) + (m.m[1][1] * v[1])
+		(m.m[0][0] * v[0]) + (m.m[1][0] * v[1]),
+		(m.m[0][1] * v[0]) + (m.m[1][1] * v[1])
 	);
 }
 
@@ -373,6 +374,7 @@ mat2_t<numType> mat2_t<numType>::operator - (const vec2_t<numType>& input) const
 	);
 }
 
+// Multiply by a column-vector
 template <typename numType> inline
 vec2_t<numType> mat2_t<numType>::operator * (const vec2_t<numType>& inVec) const {
 	return vec2_t<numType>(

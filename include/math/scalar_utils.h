@@ -78,6 +78,17 @@ template <typename scalar_t>
 constexpr scalar_t min(scalar_t a, scalar_t b);
 
 /**
+ * mix
+ * Perform a linear interpolation of x between the two scalars a, b
+ * @param a
+ * @param b
+ * 
+ * @return The linear "mix" of a and b.
+ */
+template <typename scalar_t> constexpr
+scalar_t mix(scalar_t a, scalar_t b, scalar_t percent);
+
+/**
  * max
  * Get the maximum of two single numbers.
  * This function can be run at compile-time.
@@ -90,6 +101,21 @@ constexpr scalar_t min(scalar_t a, scalar_t b);
  */
 template <typename scalar_t>
 constexpr scalar_t max(scalar_t a, scalar_t b);
+
+/**
+ * smoothstep
+ * Perform a smooth interpolation of a number along the sub-sequence [a, b].
+ * 
+ * @param a
+ * A number within the same sub-sequence that x lies on.
+ * 
+ * @param b
+ * A number within the same sub-sequence that x lies on.
+ * 
+ * @return The smooth linear interpolation of x in between the interval a and b.
+ */
+template <typename scalar_t> inline
+scalar_t smoothstep(scalar_t a, scalar_t b, scalar_t x);
 
 /**
  * Perform a square root on a single number without using the standard library.
@@ -371,8 +397,26 @@ scalar_t math::min(scalar_t a, scalar_t b) {
 }
 
 template <typename scalar_t> constexpr
+scalar_t math::mix(scalar_t a, scalar_t b, scalar_t percent) {
+    return a + ((b - a) * percent);
+}
+
+template <typename scalar_t> constexpr
 scalar_t math::max(scalar_t a, scalar_t b) {
     return (a > b) ? a : b;
+}
+
+template <typename scalar_t> inline
+scalar_t math::smoothstep(scalar_t a, scalar_t b, scalar_t x) {
+    if (x <= a) {
+        return scalar_t{0};
+    }
+    else if (x >= b) {
+        return scalar_t{1};
+    }
+    
+    const scalar_t t = (x-a)/(b-a);
+    return (scalar_t{3}*t*t*t) - (scalar_t{2}*t*t);
 }
 
 /*

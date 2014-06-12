@@ -14,6 +14,7 @@
 #include "matrix3.h"
 #include "matrix4.h"
 #include "quat.h"
+#include "vec_utils.h"
 
 namespace hamLibs {
 
@@ -34,6 +35,7 @@ template <typename N> inline quat_t<N>      normalize(const quat_t<N>&);
 template <typename N> constexpr quat_t<N>   lerp(const quat_t<N>&, const quat_t<N>&, N);
 template <typename N> constexpr quat_t<N>   nlerp(const quat_t<N>&, const quat_t<N>&, N);
 template <typename N> inline quat_t<N>      slerp(const quat_t<N>&, const quat_t<N>&, N);
+template <typename N> inline quat_t<N>      lookAt(const vec3_t<N>& target, const vec3_t<N>& dir);
 
 /*
  * Quaternions & Matrices
@@ -159,6 +161,31 @@ math::quat_t<numType> math::slerp(const quat_t<numType>& q1, const quat_t<numTyp
         mult1 * q1.q[2] + mult2 * q2.q[2],
         mult1 * q1.q[3] + mult2 * q2.q[3]
     };
+}
+
+/**
+ * Quaternion LookAt
+ * 
+ * @param target
+ * A vec3 type used to determine the orientation of the returned quaternion.
+ * 
+ * @param dir
+ * A unit vector, giving the axis of rotation for the returned orientation.
+ * This should typically be vec3{0, 0, 1} to indicate that the returned
+ * quaternion should point its forwards axis in the Z-direction.
+ * 
+ * @return A quaternion, oriented in the direction of a target.
+ */
+template <typename numType>
+math::quat_t<numType> math::lookAt(const math::vec3_t<numType>& target, const math::vec3_t<numType>& dir){
+    const vec3_t<numType>&& a = normalize<numType>(target);
+    const vec3_t<numType>&& b = normalize<numType>(dir);
+    
+    const vec3_t<numType>&& w = cross<numType>(a, b);
+    
+    const quat_t<numType> q{w[0], w[1], w[2], numType{1} + dot<numType>(a, b)};
+    
+	return normalize<numType>(q);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

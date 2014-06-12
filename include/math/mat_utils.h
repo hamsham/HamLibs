@@ -53,6 +53,8 @@ template <typename N> inline mat4_t<N>      ortho(N left, N right, N top, N bott
 template <typename N> inline mat4_t<N>      ortho(N left, N right, N top, N bottom, N near, N far);
 template <typename N> inline mat4_t<N>      frustum(N left, N right, N top, N bottom, N near, N far);
 template <typename N> inline mat4_t<N>      lookAt(const vec3_t<N>& pos, const vec3_t<N>& target, const vec3_t<N>& up);
+template <typename N> inline mat4_t<N>      billboard(const vec3_t<N>& pos, const mat4_t<N>& viewMatrix);
+
 
 } // end math namespace
 
@@ -368,6 +370,16 @@ math::mat4_t<numType> math::lookAt(const vec3_t<numType>& pos, const vec3_t<numT
         xAxis.v[2], yAxis.v[2], zAxis.v[2], numType(0),
         -dot(xAxis, pos), -dot(yAxis, pos), -dot(zAxis, pos), numType(1)
     );
+}
+
+template <typename numType> inline
+math::mat4_t<numType> math::billboard(const vec3_t<numType>& pos, const vec3_t<numType>& viewMat) {
+    return mat4_t<numType>{
+        viewMat[0][0],  viewMat[1][0],  viewMat[2][0],  pos[0],
+        viewMat[0][1],  viewMat[1][1],  viewMat[2][1],  pos[1],
+        viewMat[0][2],  viewMat[1][2],  viewMat[2][2],  pos[2],
+        numType{0},     numType{0},     numType{0},     numType{1}
+    };
 }
 
 } // hamLibs namespace

@@ -69,7 +69,7 @@ numType math::determinant(const mat2_t<numType>& m) {
 template <typename numType> inline
 math::mat2_t<numType> math::inverse(const mat2_t<numType>& m) {
     const numType determinantInv(
-        numType(1) / ((m.m[0][0] * m.m[1][1]) - (m.m[0][1] * m.m[1][0]))
+        numType{1} / ((m.m[0][0] * m.m[1][1]) - (m.m[0][1] * m.m[1][0]))
     );
 
     return mat2_t<numType>(
@@ -120,7 +120,7 @@ numType math::determinant(const mat3_t<numType>& m) {
 
 template <typename numType> inline
 math::mat3_t<numType> math::inverse(const mat3_t<numType>& m) {
-    const numType detInv(numType(1) / determinant(m));
+    const numType detInv(numType{1} / determinant(m));
     
     return mat3_t<numType>(
         m.m[0][0] * detInv, m.m[1][0] * detInv, m.m[2][0] * detInv,
@@ -143,7 +143,7 @@ math::mat3_t<numType> math::rotate(const mat3_t<numType>& m, const vec3_t<numTyp
     const numType c(HL_COS(angle));
     const numType s(HL_SIN(angle));
     const vec3_t<numType> a(normalize<numType>(axis));
-    const numType omc(numType(1) - c);
+    const numType omc(numType{1} - c);
     const numType xy((a.v[0] * a.v[1]) * omc);
     const numType yz((a.v[1] * a.v[2]) * omc);
     const numType zx((a.v[2] * a.v[0]) * omc);
@@ -233,7 +233,7 @@ math::mat4_t<numType> math::inverse(const mat4_t<numType>& m) {
         (m.m[0][1] * zzwx) - (m.m[0][2] * zywx) + (m.m[0][2] * zxwy) - (m.m[0][0] * zzwy) - (m.m[0][1] * zxwz) + (m.m[0][0] * zywz),
         (xzyy * m.m[3][0]) - (xyyz * m.m[3][0]) - (xzyx * m.m[3][1]) + (xxyz * m.m[3][1]) + (xyyx * m.m[3][2]) - (xxyy * m.m[3][2]),
         (xyyz * m.m[2][0]) - (xzyy * m.m[2][0]) + (xzyx * m.m[2][1]) - (xxyz * m.m[2][1]) - (xyyx * m.m[2][2]) + (xxyy * m.m[2][2])
-    ) * numType(1) / determinant(m);
+    ) * numType{1} / determinant(m);
     // FML
 }
 
@@ -252,17 +252,17 @@ math::mat4_t<numType> math::rotate(const mat4_t<numType>& m, const vec3_t<numTyp
     const numType c(HL_COS(angle));
     const numType s(HL_SIN(angle));
     const vec3_t<numType> a(normalize<numType>(axis));
-    const numType omc(numType(1) - c);
+    const numType omc(numType{1} - c);
     const numType xy((a.v[0] * a.v[1]) * omc);
     const numType yz((a.v[1] * a.v[2]) * omc);
     const numType zx((a.v[2] * a.v[0]) * omc);
     const numType sx(s * a.v[0]), sy(s * a.v[1]), sz(s * a.v[2]);
 
     return m * mat4_t<numType>(
-        c + ((a.v[0] * a.v[0]) * omc), xy + sz, zx - sy, numType(0),
-        xy - sz, c + ((a.v[1] * a.v[1]) * omc), yz + sx, numType(0),
-        zx + sy, yz - sx, c + ((a.v[2] * a.v[2]) * omc), numType(0),
-        numType(0), numType(0), numType(0), numType(1)
+        c + ((a.v[0] * a.v[0]) * omc), xy + sz, zx - sy, numType{0},
+        xy - sz, c + ((a.v[1] * a.v[1]) * omc), yz + sx, numType{0},
+        zx + sy, yz - sx, c + ((a.v[2] * a.v[2]) * omc), numType{0},
+        numType{0}, numType{0}, numType{0}, numType{1}
     );
 }
 
@@ -288,32 +288,32 @@ math::mat4_t<numType> math::translate(const mat4_t<numType>& m, const vec3_t<num
 
 template <typename numType> inline
 math::mat4_t<numType> math::perspective(numType fov, numType aspect, numType zNear, numType zFar) {
-    const numType top(HL_TAN(HL_DEG2RAD(fov) / numType(2)) * zNear);
+    const numType top(HL_TAN(HL_DEG2RAD(fov) / numType{2}) * zNear);
     const numType bottom(-top);
     const numType xMin(bottom * aspect);
     const numType xMax(top * aspect);
     const numType zDelta(zFar - zNear);
 
     return mat4_t<numType>(
-        (numType(2) * zNear) / (xMax - xMin), numType(0), numType(0), numType(0),
-        numType(0), (numType(2) * zNear) / (top - bottom), numType(0), numType(0),
-        numType(0), numType(0), -(zFar + zNear) / zDelta, numType(-1),
-        numType(0), numType(0), (numType(-2) * zFar * zNear) / zDelta, numType(0)
+        (numType{2} * zNear) / (xMax - xMin), numType{0}, numType{0}, numType{0},
+        numType{0}, (numType{2} * zNear) / (top - bottom), numType{0}, numType{0},
+        numType{0}, numType{0}, -(zFar + zNear) / zDelta, numType(-1),
+        numType{0}, numType{0}, (numType(-2) * zFar * zNear) / zDelta, numType{0}
     );
 }
 
 template <typename numType> inline
 math::mat4_t<numType> math::infinitePerspective(numType fov, numType aspect, numType zNear) {
-    const numType top(HL_TAN(HL_DEG2RAD(fov) / numType(2)) * zNear);
+    const numType top(HL_TAN(HL_DEG2RAD(fov) / numType{2}) * zNear);
     const numType bottom(-top);
     const numType xMin(bottom * aspect);
     const numType xMax(top * aspect);
 
     return mat4_t<numType>(
-        (numType(2) * zNear) / (xMax - xMin), numType(0), numType(0), numType(0),
-        numType(0), (numType(2) * zNear) / (top - bottom), numType(0), numType(0),
-        numType(0), numType(0), numType(-1), numType(-1),
-        numType(0), numType(0), numType(-2) * zNear, numType(0)
+        (numType{2} * zNear) / (xMax - xMin), numType{0}, numType{0}, numType{0},
+        numType{0}, (numType{2} * zNear) / (top - bottom), numType{0}, numType{0},
+        numType{0}, numType{0}, numType(-1), numType(-1),
+        numType{0}, numType{0}, numType(-2) * zNear, numType{0}
     );
 }
 
@@ -323,10 +323,10 @@ math::mat4_t<numType> math::ortho(numType left, numType right, numType top, numT
     const numType h(bottom - top);
 
     return mat4_t<numType>(
-        numType(2) / w, numType(0), numType(0), numType(0),
-        numType(0), numType(2) / h, numType(0), numType(0),
-        numType(0), numType(0), numType(-1), numType(0),
-        -(right + left) / w, -(top + bottom) / h, numType(0), numType(1)
+        numType{2} / w, numType{0}, numType{0}, numType{0},
+        numType{0}, numType{2} / h, numType{0}, numType{0},
+        numType{0}, numType{0}, numType(-1), numType{0},
+        -(right + left) / w, -(top + bottom) / h, numType{0}, numType{1}
     );
 }
 
@@ -337,10 +337,10 @@ math::mat4_t<numType> math::ortho(numType left, numType right, numType top, numT
     const numType z(far - near);
 
     return mat4_t<numType>(
-        numType(2) / w, numType(0), numType(0), numType(0),
-        numType(0), numType(2) / h, numType(0), numType(0),
-        numType(0), numType(0), numType(-2) / z, numType(0),
-        -(right + left) / w, -(top + bottom) / h, -(far + near) / z, numType(1)
+        numType{2} / w, numType{0}, numType{0}, numType{0},
+        numType{0}, numType{2} / h, numType{0}, numType{0},
+        numType{0}, numType{0}, numType(-2) / z, numType{0},
+        -(right + left) / w, -(top + bottom) / h, -(far + near) / z, numType{1}
     );
 }
 
@@ -351,10 +351,10 @@ math::mat4_t<numType> math::frustum(numType left, numType right, numType top, nu
     const numType z(far - near);
 
     return mat4_t<numType>(
-        (numType(2) * near) / w, numType(0), numType(0), numType(0),
-        numType(0), (numType(2) * near) / h, numType(0), numType(0),
+        (numType{2} * near) / w, numType{0}, numType{0}, numType{0},
+        numType{0}, (numType{2} * near) / h, numType{0}, numType{0},
         (right + left) / w, (top + bottom) / h, -(far + near) / z, numType(-1),
-        numType(0), numType(0), (numType(-2) * far * near) / z, numType(0)
+        numType{0}, numType{0}, (numType(-2) * far * near) / z, numType{0}
     );
 }
 
@@ -365,10 +365,10 @@ math::mat4_t<numType> math::lookAt(const vec3_t<numType>& pos, const vec3_t<numT
     const vec3_t<numType> yAxis(normalize(cross(zAxis, xAxis)));
 
     return mat4_t<numType>(
-        xAxis.v[0], yAxis.v[0], zAxis.v[0], numType(0),
-        xAxis.v[1], yAxis.v[1], zAxis.v[1], numType(0),
-        xAxis.v[2], yAxis.v[2], zAxis.v[2], numType(0),
-        -dot(xAxis, pos), -dot(yAxis, pos), -dot(zAxis, pos), numType(1)
+        xAxis.v[0], yAxis.v[0], zAxis.v[0], numType{0},
+        xAxis.v[1], yAxis.v[1], zAxis.v[1], numType{0},
+        xAxis.v[2], yAxis.v[2], zAxis.v[2], numType{0},
+        -dot(xAxis, pos), -dot(yAxis, pos), -dot(zAxis, pos), numType{1}
     );
 }
 

@@ -375,10 +375,10 @@ math::mat4_t<numType> math::lookAt(const vec3_t<numType>& pos, const vec3_t<numT
 template <typename numType> inline
 math::mat4_t<numType> math::billboard(const vec3_t<numType>& pos, const mat4_t<numType>& viewMat) {
     return mat4_t<numType>{
-        viewMat[0][0],  viewMat[1][0],  viewMat[2][0],  pos[0],
-        viewMat[0][1],  viewMat[1][1],  viewMat[2][1],  pos[1],
-        viewMat[0][2],  viewMat[1][2],  viewMat[2][2],  pos[2],
-        numType{0},     numType{0},     numType{0},     numType{1}
+        viewMat[0][0],  viewMat[1][0],  viewMat[2][0],  numType{0},
+        viewMat[0][1],  viewMat[1][1],  viewMat[2][1],  numType{0},
+        viewMat[0][2],  viewMat[1][2],  viewMat[2][2],  numType{0},
+        pos[0],         pos[1],         pos[2],         numType{1}
     };
 }
 

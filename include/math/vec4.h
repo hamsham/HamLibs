@@ -55,13 +55,13 @@ struct vec4_t {
 	inline numType& operator        []      (int i);
 
 	//vector-vector operators
-	vec4_t&			operator		= 		(const vec4_t<numType>&);
-	vec4_t&			operator		= 		(vec4_t<numType>&&);
 	vec4_t			operator 		+ 		(const vec4_t<numType>&) const;
 	vec4_t			operator 		- 		(const vec4_t<numType>&) const;
 	vec4_t			operator 		- 		() const;
 	vec4_t			operator 		* 		(const vec4_t<numType>&) const;
 	vec4_t			operator 		/ 		(const vec4_t<numType>&) const;
+	vec4_t&			operator		= 		(const vec4_t<numType>&);
+	vec4_t&			operator		= 		(vec4_t<numType>&&);
 	vec4_t&			operator 		+= 		(const vec4_t<numType>&);
 	vec4_t&			operator 		-= 		(const vec4_t<numType>&);
 	vec4_t&			operator 		*= 		(const vec4_t<numType>&);
@@ -130,30 +130,22 @@ constexpr vec4_t<numType>::vec4_t(numType inX, numType inY, numType inZ, numType
 
 template <typename numType>
 constexpr vec4_t<numType>::vec4_t() :
-    vec4_t(
-        numType(0), numType(0), numType(0), numType(1)
-    )
+    v{numType(0), numType(0), numType(0), numType(1)}
 {}
 
 template <typename numType>
 constexpr vec4_t<numType>::vec4_t(numType n) :
-    vec4_t(
-        n, n, n, numType(1)
-    )
+    v{n, n, n, numType(1)}
 {}
 
 template <typename numType>
-constexpr vec4_t<numType>::vec4_t(const vec4_t<numType>& input) :
-    vec4_t(
-        input.v[0], input.v[1], input.v[2], input.v[3]
-    )
+constexpr vec4_t<numType>::vec4_t(const vec4_t<numType>& v) :
+    v{v.v[0], v.v[1], v.v[2], v.v[3]}
 {}
 
 template <typename numType>
-constexpr vec4_t<numType>::vec4_t(vec4_t<numType>&& input) :
-    vec4_t(
-        input.v[0], input.v[1], input.v[2], input.v[3]
-    )
+constexpr vec4_t<numType>::vec4_t(vec4_t<numType>&& v) :
+    v{v.v[0], v.v[1], v.v[2], v.v[3]}
 {}
 
 //---------------------------------------------------------------------
@@ -183,24 +175,6 @@ inline numType& vec4_t<numType>::operator[] (int i) {
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations
 //---------------------------------------------------------------------
-template <typename numType> inline
-vec4_t<numType>& vec4_t<numType>::operator = (const vec4_t<numType>& input) {
-	v[0] = input.v[0];
-	v[1] = input.v[1];
-	v[2] = input.v[2];
-	v[3] = input.v[3];
-	return *this;
-}
-
-template <typename numType> inline
-vec4_t<numType>& vec4_t<numType>::operator = (vec4_t<numType>&& input) {
-	v[0] = input.v[0];
-	v[1] = input.v[1];
-	v[2] = input.v[2];
-	v[3] = input.v[3];
-	return *this;
-}
-
 template <typename numType> inline
 vec4_t<numType> vec4_t<numType>::operator + (const vec4_t<numType>& input) const {
 	return vec4_t(
@@ -245,6 +219,24 @@ vec4_t<numType> vec4_t<numType>::operator / (const vec4_t<numType>& input) const
 		v[2] / input.v[2],
 		v[3] / input.v[3]
 	);
+}
+
+template <typename numType> inline
+vec4_t<numType>& vec4_t<numType>::operator = (const vec4_t<numType>& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	v[2] = input.v[2];
+	v[3] = input.v[3];
+	return *this;
+}
+
+template <typename numType> inline
+vec4_t<numType>& vec4_t<numType>::operator = (vec4_t<numType>&& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	v[2] = input.v[2];
+	v[3] = input.v[3];
+	return *this;
 }
 
 template <typename numType> inline

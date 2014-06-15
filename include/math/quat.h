@@ -111,22 +111,22 @@ constexpr quat_t<numType>::quat_t(numType inX, numType inY, numType inZ, numType
 
 template <typename numType>
 constexpr quat_t<numType>::quat_t() :
-    quat_t(numType(0), numType(0), numType(0), numType(1))
+    q{numType(0), numType(0), numType(0), numType(1)}
 {}
 
 template <typename numType>
 constexpr quat_t<numType>::quat_t(numType n) :
-    quat_t(n, n, n, numType(1))
+    q{n, n, n, numType(1)}
 {}
 
 template <typename numType>
-constexpr quat_t<numType>::quat_t(const quat_t<numType>& input) :
-    quat_t(input.q[0], input.q[1], input.q[2], input.q[3])
+constexpr quat_t<numType>::quat_t(const quat_t<numType>& q) :
+    q{q.q[0], q.q[1], q.q[2],q.q[3]}
 {}
 
 template <typename numType>
-constexpr quat_t<numType>::quat_t(quat_t<numType>&& input) :
-    quat_t(input.q[0], input.q[1], input.q[2], input.q[3])
+constexpr quat_t<numType>::quat_t(quat_t<numType>&& q) :
+    q{q.q[0], q.q[1], q.q[2],q.q[3]}
 {}
 
 //---------------------------------------------------------------------

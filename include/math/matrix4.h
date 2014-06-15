@@ -47,7 +47,6 @@ struct mat4_t {
         numType inWX, numType inWY, numType inWZ, numType inWW
     );
     
-    // Delegated Constructors
     constexpr mat4_t();
     constexpr mat4_t(numType);
     constexpr mat4_t(const mat3_t<numType>&);
@@ -152,12 +151,12 @@ constexpr mat4_t<numType>::mat4_t(
 
 template <typename numType>
 constexpr mat4_t<numType>::mat4_t() :
-    mat4_t(
-        numType(0), numType(0), numType(0), numType(0),
-        numType(0), numType(0), numType(0), numType(0),
-        numType(0), numType(0), numType(0), numType(0),
-        numType(0), numType(0), numType(0), numType(0)
-    )
+    m{
+        {numType(0), numType(0), numType(0), numType(0)},
+        {numType(0), numType(0), numType(0), numType(0)},
+        {numType(0), numType(0), numType(0), numType(0)},
+        {numType(0), numType(0), numType(0), numType(0)}
+    }
 {}
 
 template <typename numType>
@@ -172,42 +171,22 @@ constexpr mat4_t<numType>::mat4_t(numType n) :
 
 template <typename numType>
 constexpr mat4_t<numType>::mat4_t(const mat3_t<numType>& input) :
-    mat4_t(
-        input.m[0][0], input.m[0][1], input.m[0][2], numType(0),
-        input.m[1][0], input.m[1][1], input.m[1][2], numType(0),
-        input.m[2][0], input.m[2][1], input.m[2][2], numType(0),
-        numType(0), numType(0), numType(0), numType(1)
-    )
-{}
-
-template <typename numType>
-constexpr mat4_t<numType>::mat4_t(const mat4_t<numType>& input) :
-    mat4_t(
-        input.m[0][0], input.m[0][1], input.m[0][2], input.m[0][3],
-        input.m[1][0], input.m[1][1], input.m[1][2], input.m[1][3],
-        input.m[2][0], input.m[2][1], input.m[2][2], input.m[2][3],
-        input.m[3][0], input.m[3][1], input.m[3][2], input.m[3][3]
-    )
+    m{
+        {input.m[0][0], input.m[0][1], input.m[0][2], numType(0)},
+        {input.m[1][0], input.m[1][1], input.m[1][2], numType(0)},
+        {input.m[2][0], input.m[2][1], input.m[2][2], numType(0)},
+        {numType(0), numType(0), numType(0), numType(1)}
+    }
 {}
 
 template <typename numType>
 constexpr mat4_t<numType>::mat4_t(mat3_t<numType>&& input) :
-    mat4_t(
-        input.m[0][0], input.m[0][1], input.m[0][2], numType(0),
-        input.m[1][0], input.m[1][1], input.m[1][2], numType(0),
-        input.m[2][0], input.m[2][1], input.m[2][2], numType(0),
-        numType(0), numType(0), numType(0), numType(1)
-    )
-{}
-
-template <typename numType>
-constexpr mat4_t<numType>::mat4_t(mat4_t<numType>&& input) :
-    mat4_t(
-        input.m[0][0], input.m[0][1], input.m[0][2], input.m[0][3],
-        input.m[1][0], input.m[1][1], input.m[1][2], input.m[1][3],
-        input.m[2][0], input.m[2][1], input.m[2][2], input.m[2][3],
-        input.m[3][0], input.m[3][1], input.m[3][2], input.m[3][3]
-    )
+    m{
+        {input.m[0][0], input.m[0][1], input.m[0][2], numType(0)},
+        {input.m[1][0], input.m[1][1], input.m[1][2], numType(0)},
+        {input.m[2][0], input.m[2][1], input.m[2][2], numType(0)},
+        {numType(0), numType(0), numType(0), numType(1)}
+    }
 {}
 
 template <typename numType>
@@ -216,12 +195,33 @@ constexpr mat4_t<numType>::mat4_t(
     const vec4_t<numType>& y,
     const vec4_t<numType>& z,
     const vec4_t<numType>& w
-) : mat4_t(
-        x.v[0], x.v[1], x.v[2], x.v[3],
-        y.v[0], y.v[1], y.v[2], y.v[3],
-        z.v[0], z.v[1], z.v[2], z.v[3],
-        w.v[0], w.v[1], w.v[2], w.v[3]
-    )
+) :
+    m{
+        {x.v[0], x.v[1], x.v[2], x.v[3]},
+        {y.v[0], y.v[1], y.v[2], y.v[3]},
+        {z.v[0], z.v[1], z.v[2], z.v[3]},
+        {w.v[0], w.v[1], w.v[2], w.v[3]}
+    }
+{}
+
+template <typename numType>
+constexpr mat4_t<numType>::mat4_t(const mat4_t<numType>& m) :
+    m{
+        {m.m[0][0], m.m[0][1], m.m[0][2], m.m[0][3]},
+        {m.m[1][0], m.m[1][1], m.m[1][2], m.m[1][3]},
+        {m.m[2][0], m.m[2][1], m.m[2][2], m.m[2][3]},
+        {m.m[3][0], m.m[3][1], m.m[3][2], m.m[3][3]}
+    }
+{}
+
+template <typename numType>
+constexpr mat4_t<numType>::mat4_t(mat4_t<numType>&& m) :
+    m{
+        {m.m[0][0], m.m[0][1], m.m[0][2], m.m[0][3]},
+        {m.m[1][0], m.m[1][1], m.m[1][2], m.m[1][3]},
+        {m.m[2][0], m.m[2][1], m.m[2][2], m.m[2][3]},
+        {m.m[3][0], m.m[3][1], m.m[3][2], m.m[3][3]}
+    }
 {}
 
 //---------------------------------------------------------------------
@@ -350,22 +350,54 @@ mat4_t<numType> mat4_t<numType>::operator * (const mat4_t<numType>& input) const
 	// I really hope this is correct
 }
 
-template <typename numType> inline
-mat4_t<numType>& mat4_t<numType>::operator = (const mat4_t<numType>& input) {
-	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2]; m[0][3] = input.m[0][3];
-	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2]; m[1][3] = input.m[1][3];
-	m[2][0] = input.m[2][0]; m[2][1] = input.m[2][1]; m[2][2] = input.m[2][2]; m[2][3] = input.m[2][3];
-	m[3][0] = input.m[3][0]; m[3][1] = input.m[3][1]; m[3][2] = input.m[3][2]; m[3][3] = input.m[3][3];
-	return *this;
+template <typename numType>
+mat4_t<numType>& mat4_t<numType>::operator =(const mat4_t<numType>& input) {
+    m[0][0] = input.m[0][0];
+    m[0][1] = input.m[0][1];
+    m[0][2] = input.m[0][2];
+    m[0][3] = input.m[0][3];
+    
+    m[1][0] = input.m[1][0];
+    m[1][1] = input.m[1][1];
+    m[1][2] = input.m[1][2];
+    m[1][3] = input.m[1][3];
+    
+    m[2][0] = input.m[2][0];
+    m[2][1] = input.m[2][1];
+    m[2][2] = input.m[2][2];
+    m[2][3] = input.m[2][3];
+    
+    m[3][0] = input.m[3][0];
+    m[3][1] = input.m[3][1];
+    m[3][2] = input.m[3][2];
+    m[3][3] = input.m[3][3];
+    
+    return *this;
 }
 
-template <typename numType> inline
-mat4_t<numType>& mat4_t<numType>::operator = (mat4_t<numType>&& input) {
-	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2]; m[0][3] = input.m[0][3];
-	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2]; m[1][3] = input.m[1][3];
-	m[2][0] = input.m[2][0]; m[2][1] = input.m[2][1]; m[2][2] = input.m[2][2]; m[2][3] = input.m[2][3];
-	m[3][0] = input.m[3][0]; m[3][1] = input.m[3][1]; m[3][2] = input.m[3][2]; m[3][3] = input.m[3][3];
-	return *this;
+template <typename numType>
+mat4_t<numType>& mat4_t<numType>::operator =(mat4_t<numType>&& input) {
+    m[0][0] = input.m[0][0];
+    m[0][1] = input.m[0][1];
+    m[0][2] = input.m[0][2];
+    m[0][3] = input.m[0][3];
+    
+    m[1][0] = input.m[1][0];
+    m[1][1] = input.m[1][1];
+    m[1][2] = input.m[1][2];
+    m[1][3] = input.m[1][3];
+    
+    m[2][0] = input.m[2][0];
+    m[2][1] = input.m[2][1];
+    m[2][2] = input.m[2][2];
+    m[2][3] = input.m[2][3];
+    
+    m[3][0] = input.m[3][0];
+    m[3][1] = input.m[3][1];
+    m[3][2] = input.m[3][2];
+    m[3][3] = input.m[3][3];
+    
+    return *this;
 }
 
 template <typename numType> inline

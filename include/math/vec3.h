@@ -54,13 +54,13 @@ struct vec3_t {
 	inline numType& operator        []      (int i);
 
 	//vector-vector operators
-	vec3_t&			operator		= 		(const vec3_t<numType>&);
-	vec3_t&			operator		= 		(vec3_t<numType>&&);
 	vec3_t			operator 		+ 		(const vec3_t<numType>&) const;
 	vec3_t			operator 		- 		(const vec3_t<numType>&) const;
 	vec3_t			operator 		- 		() const;
 	vec3_t			operator 		* 		(const vec3_t<numType>&) const;
 	vec3_t			operator 		/ 		(const vec3_t<numType>&) const;
+	vec3_t&			operator		= 		(const vec3_t<numType>&);
+	vec3_t&			operator		= 		(vec3_t<numType>&&);
 	vec3_t&			operator 		+= 		(const vec3_t<numType>&);
 	vec3_t&			operator 		-= 		(const vec3_t<numType>&);
 	vec3_t&			operator 		*= 		(const vec3_t<numType>&);
@@ -129,22 +129,22 @@ constexpr vec3_t<numType>::vec3_t(numType inX, numType inY, numType inZ) :
 
 template <typename numType>
 constexpr vec3_t<numType>::vec3_t() :
-    vec3_t(numType(0), numType(0), numType(0))
+    v{numType(0), numType(0), numType(0)}
 {}
 
 template <typename numType>
 constexpr vec3_t<numType>::vec3_t(numType n) :
-    vec3_t(n, n, n)
+    v{n, n, n}
 {}
 
 template <typename numType>
-constexpr vec3_t<numType>::vec3_t(const vec3_t<numType>& input) :
-    vec3_t(input.v[0], input.v[1], input.v[2])
+constexpr vec3_t<numType>::vec3_t(const vec3_t<numType>& v) :
+    v{v.v[0], v.v[1], v.v[2]}
 {}
 
 template <typename numType>
-constexpr vec3_t<numType>::vec3_t(vec3_t<numType>&& input) :
-    vec3_t(input.v[0], input.v[1], input.v[2])
+constexpr vec3_t<numType>::vec3_t(vec3_t<numType>&& v) :
+    v{v.v[0], v.v[1], v.v[2]}
 {}
 
 //---------------------------------------------------------------------
@@ -172,22 +172,6 @@ inline numType& vec3_t<numType>::operator[] (int i) {
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations
 //---------------------------------------------------------------------
-template <typename numType> inline
-vec3_t<numType>& vec3_t<numType>::operator = (const vec3_t<numType>& input) {
-	v[0] = input.v[0];
-	v[1] = input.v[1];
-	v[2] = input.v[2];
-	return *this;
-}
-
-template <typename numType> inline
-vec3_t<numType>& vec3_t<numType>::operator = (vec3_t<numType>&& input) {
-	v[0] = input.v[0];
-	v[1] = input.v[1];
-	v[2] = input.v[2];
-	return *this;
-}
-
 template <typename numType> inline
 vec3_t<numType> vec3_t<numType>::operator + (const vec3_t<numType>& input) const {
 	return vec3_t<numType>(
@@ -228,6 +212,22 @@ vec3_t<numType> vec3_t<numType>::operator / (const vec3_t<numType>& input) const
 		v[1] / input.v[1],
 		v[2] / input.v[2]
 	);
+}
+
+template <typename numType> inline
+vec3_t<numType>& vec3_t<numType>::operator = (const vec3_t<numType>& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	v[2] = input.v[2];
+	return *this;
+}
+
+template <typename numType> inline
+vec3_t<numType>& vec3_t<numType>::operator = (vec3_t<numType>&& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	v[2] = input.v[2];
+	return *this;
 }
 
 template <typename numType> inline

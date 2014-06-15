@@ -136,44 +136,45 @@ constexpr mat2_t<numType>::mat2_t(
 
 template <typename numType>
 constexpr mat2_t<numType>::mat2_t() :
-    mat2_t(
-        numType(0), numType(0),
-        numType(0), numType(0)
-    )
+    m{
+        {numType(0), numType(0)},
+        {numType(0), numType(0)}
+    }
 {}
 
 template <typename numType>
 constexpr mat2_t<numType>::mat2_t(numType n) :
-    mat2_t(
-        n, numType(0),
-        numType(0), n
-    )
-{}
-
-template <typename numType>
-constexpr mat2_t<numType>::mat2_t(const mat2_t<numType>& input) :
-    mat2_t(
-        input.m[0][0], input.m[0][1],
-        input.m[1][0], input.m[1][1]
-    )
-{}
-
-template <typename numType>
-constexpr mat2_t<numType>::mat2_t(mat2_t<numType>&& input) :
-    mat2_t(
-        input.m[0][0], input.m[0][1],
-        input.m[1][0], input.m[1][1]
-    )
+    m{
+        {n, numType(0)},
+        {numType(0), n}
+    }
 {}
 
 template <typename numType>
 constexpr mat2_t<numType>::mat2_t(
     const vec2_t<numType>& x,
     const vec2_t<numType>& y
-) : mat2_t(
-        x.v[0], x.v[1],
-        y.v[0], y.v[1]
-    )
+) :
+    m{
+        {x.v[0], x.v[1]},
+        {y.v[0], y.v[1]}
+    }
+{}
+
+template <typename numType>
+constexpr mat2_t<numType>::mat2_t(const mat2_t<numType>& m) :
+    m{
+        {m.m[0][0], m.m[0][1]},
+        {m.m[1][0], m.m[1][1]}
+    }
+{}
+
+template <typename numType>
+constexpr mat2_t<numType>::mat2_t(mat2_t<numType>&& m) :
+    m{
+        {m.m[0][0], m.m[0][1]},
+        {m.m[1][0], m.m[1][1]}
+    }
 {}
 
 //---------------------------------------------------------------------
@@ -272,18 +273,26 @@ mat2_t<numType> mat2_t<numType>::operator * (const mat2_t<numType>& input) const
 	);
 }
 
-template <typename numType> inline
-mat2_t<numType>& mat2_t<numType>::operator = (const mat2_t<numType>& input) {
-	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1];
-	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1];
-	return *this;
+template <typename numType>
+mat2_t<numType>& mat2_t<numType>::operator =(const mat2_t<numType>& input) {
+    m[0][0] = input.m[0][0];
+    m[0][1] = input.m[0][1];
+    
+    m[1][0] = input.m[1][0];
+    m[1][1] = input.m[1][1];
+    
+    return *this;
 }
 
-template <typename numType> inline
-mat2_t<numType>& mat2_t<numType>::operator = (mat2_t<numType>&& input) {
-	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1];
-	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1];
-	return *this;
+template <typename numType>
+mat2_t<numType>& mat2_t<numType>::operator =(mat2_t<numType>&& input) {
+    m[0][0] = input.m[0][0];
+    m[0][1] = input.m[0][1];
+    
+    m[1][0] = input.m[1][0];
+    m[1][1] = input.m[1][1];
+    
+    return *this;
 }
 
 template <typename numType> inline

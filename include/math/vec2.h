@@ -55,13 +55,13 @@ struct vec2_t {
 	inline numType& operator        []      (int i);
     
 	//vector-vector operators
-	vec2_t&			operator		= 		(const vec2_t<numType>&);
-	vec2_t&			operator		= 		(vec2_t<numType>&&);
 	vec2_t			operator 		+ 		(const vec2_t<numType>&) const;
 	vec2_t			operator 		- 		(const vec2_t<numType>&) const;
 	vec2_t			operator 		- 		() const;
 	vec2_t			operator 		* 		(const vec2_t<numType>&) const;
 	vec2_t			operator 		/ 		(const vec2_t<numType>&) const;
+	vec2_t&			operator		= 		(const vec2_t<numType>&);
+	vec2_t&			operator		= 		(vec2_t<numType>&&);
 	vec2_t&			operator 		+= 		(const vec2_t<numType>&);
 	vec2_t&			operator 		-= 		(const vec2_t<numType>&);
 	vec2_t&			operator 		*= 		(const vec2_t<numType>&);
@@ -130,22 +130,22 @@ constexpr vec2_t<numType>::vec2_t(numType inX, numType inY) :
 
 template <typename numType>
 constexpr vec2_t<numType>::vec2_t() :
-    vec2_t(numType(0), numType(0))
+    v{numType(0), numType(0)}
 {}
 
 template <typename numType>
 constexpr vec2_t<numType>::vec2_t(numType n) :
-    vec2_t(n, n)
+    v{n, n}
 {}
 
 template <typename numType>
-constexpr vec2_t<numType>::vec2_t(const vec2_t<numType>& input) :
-    vec2_t(input.v[0], input.v[1])
+constexpr vec2_t<numType>::vec2_t(const vec2_t<numType>& v) :
+    v{v.v[0], v.v[1]}
 {}
 
 template <typename numType>
-constexpr vec2_t<numType>::vec2_t(vec2_t<numType>&& input) :
-    vec2_t(input.v[0], input.v[1])
+constexpr vec2_t<numType>::vec2_t(vec2_t<numType>&& v) :
+    v{v.v[0], v.v[1]}
 {}
 
 //---------------------------------------------------------------------
@@ -173,20 +173,6 @@ inline numType& vec2_t<numType>::operator[] (int i) {
 //---------------------------------------------------------------------
 //	Vector-Vector Math Operations
 //---------------------------------------------------------------------
-template <typename numType> inline
-vec2_t<numType>& vec2_t<numType>::operator = (const vec2_t<numType>& input) {
-	v[0] = input.v[0];
-	v[1] = input.v[1];
-	return *this;
-}
-
-template <typename numType> inline
-vec2_t<numType>& vec2_t<numType>::operator = (vec2_t<numType>&& input) {
-	v[0] = input.v[0];
-	v[1] = input.v[1];
-	return *this;
-}
-
 template <typename numType> inline
 vec2_t<numType> vec2_t<numType>::operator + (const vec2_t<numType>& input) const {
 	return vec2_t<numType>(
@@ -229,6 +215,20 @@ template <typename numType> inline
 vec2_t<numType>& vec2_t<numType>::operator += (const vec2_t<numType>& input) {
 	v[0] += input.v[0];
 	v[1] += input.v[1];
+	return *this;
+}
+
+template <typename numType> inline
+vec2_t<numType>& vec2_t<numType>::operator = (const vec2_t<numType>& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
+	return *this;
+}
+
+template <typename numType> inline
+vec2_t<numType>& vec2_t<numType>::operator = (vec2_t<numType>&& input) {
+	v[0] = input.v[0];
+	v[1] = input.v[1];
 	return *this;
 }
 
@@ -329,25 +329,13 @@ bool vec2_t<numType>::operator>= (const vec2_t<numType>& compare) const {
 //	Vector-Scalar Math Operations
 //---------------------------------------------------------------------
 template <typename numType> inline
-vec2_t<numType> vec2_t<numType>::operator = (numType input) {
-	v[0] = input;
-	v[1] = input;
-	return *this;
-}
-template <typename numType> inline
-vec2_t<numType> vec2_t<numType>::operator + (numType input) const {
-	return vec2_t<numType>(
-		v[0] + input,
-		v[1] + input
-	);
-}
-template <typename numType> inline
 vec2_t<numType> vec2_t<numType>::operator - (numType input) const {
 	return vec2_t<numType>(
 		v[0] - input,
 		v[1] - input
 	);
 }
+
 template <typename numType> inline
 vec2_t<numType> vec2_t<numType>::operator * (numType input) const {
 	return vec2_t<numType>(
@@ -355,6 +343,7 @@ vec2_t<numType> vec2_t<numType>::operator * (numType input) const {
 		v[1] * input
 	);
 }
+
 template <typename numType> inline
 vec2_t<numType> vec2_t<numType>::operator / (numType input) const {
 	return vec2_t<numType>(
@@ -362,24 +351,43 @@ vec2_t<numType> vec2_t<numType>::operator / (numType input) const {
 		v[1] / input
 	);
 }
+
+template <typename numType> inline
+vec2_t<numType> vec2_t<numType>::operator = (numType input) {
+	v[0] = input;
+	v[1] = input;
+	return *this;
+}
+
+template <typename numType> inline
+vec2_t<numType> vec2_t<numType>::operator + (numType input) const {
+	return vec2_t<numType>(
+		v[0] + input,
+		v[1] + input
+	);
+}
+
 template <typename numType> inline
 vec2_t<numType>& vec2_t<numType>::operator += (numType input) {
     v[0] += input;
     v[1] += input;
 	return *this;
 }
+
 template <typename numType> inline
 vec2_t<numType>& vec2_t<numType>::operator -= (numType input) {
     v[0] -= input;
     v[1] -= input;
 	return *this;
 }
+
 template <typename numType> inline
 vec2_t<numType>& vec2_t<numType>::operator *= (numType input) {
     v[0] *= input;
     v[1] *= input;
 	return *this;
 }
+
 template <typename numType> inline
 vec2_t<numType>& vec2_t<numType>::operator /= (numType input) {
     v[0] /= input;

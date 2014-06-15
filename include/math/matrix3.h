@@ -144,38 +144,20 @@ constexpr mat3_t<numType>::mat3_t(
 
 template <typename numType>
 constexpr mat3_t<numType>::mat3_t() :
-    mat3_t(
-        numType(0), numType(0), numType(0),
-        numType(0), numType(0), numType(0),
-        numType(0), numType(0), numType(0)
-    )
+    m{
+        {numType(0), numType(0), numType(0)},
+        {numType(0), numType(0), numType(0)},
+        {numType(0), numType(0), numType(0)}
+    }
 {}
 
 template <typename numType>
 constexpr mat3_t<numType>::mat3_t(numType n) :
-    mat3_t(
-        n, numType(0), numType(0),
-        numType(0), n, numType(0),
-        numType(0), numType(0), n
-    )
-{}
-
-template <typename numType>
-constexpr mat3_t<numType>::mat3_t(const mat3_t<numType>& input) :
-    mat3_t(
-        input.m[0][0], input.m[0][1], input.m[0][2],
-        input.m[1][0], input.m[1][1], input.m[1][2],
-        input.m[2][0], input.m[2][1], input.m[2][2]
-    )
-{}
-
-template <typename numType>
-constexpr mat3_t<numType>::mat3_t(mat3_t<numType>&& input) :
-    mat3_t(
-        input.m[0][0], input.m[0][1], input.m[0][2],
-        input.m[1][0], input.m[1][1], input.m[1][2],
-        input.m[2][0], input.m[2][1], input.m[2][2]
-    )
+    m{
+        {n, numType(0), numType(0)},
+        {numType(0), n, numType(0)},
+        {numType(0), numType(0), n}
+    }
 {}
 
 template <typename numType>
@@ -183,11 +165,30 @@ constexpr mat3_t<numType>::mat3_t(
     const vec3_t<numType>& x,
     const vec3_t<numType>& y,
     const vec3_t<numType>& z
-) : mat3_t(
-        x.v[0], x.v[1], x.v[2],
-        y.v[0], y.v[1], y.v[2],
-        z.v[0], z.v[1], z.v[2]
-    )
+) :
+    m{
+        {x.v[0], x.v[1], x.v[2]},
+        {y.v[0], y.v[1], y.v[2]},
+        {z.v[0], z.v[1], z.v[2]}
+    }
+{}
+
+template <typename numType>
+constexpr mat3_t<numType>::mat3_t(const mat3_t<numType>& m) :
+    m{
+        {m.m[0][0], m.m[0][1], m.m[0][2]},
+        {m.m[1][0], m.m[1][1], m.m[1][2]},
+        {m.m[2][0], m.m[2][1], m.m[2][2]}
+    }
+{}
+
+template <typename numType>
+constexpr mat3_t<numType>::mat3_t(mat3_t<numType>&& m) :
+    m{
+        {m.m[0][0], m.m[0][1], m.m[0][2]},
+        {m.m[1][0], m.m[1][1], m.m[1][2]},
+        {m.m[2][0], m.m[2][1], m.m[2][2]}
+    }
 {}
 
 //---------------------------------------------------------------------
@@ -301,20 +302,38 @@ mat3_t<numType> mat3_t<numType>::operator * (const mat3_t<numType>& input) const
 	);
 }
 
-template <typename numType> inline
-mat3_t<numType>& mat3_t<numType>::operator = (const mat3_t<numType>& input) {
-	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2];
-	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2];
-	m[2][0] = input.m[2][0]; m[2][1] = input.m[2][1]; m[2][2] = input.m[2][2];
-	return *this;
+template <typename numType>
+mat3_t<numType>& mat3_t<numType>::operator =(const mat3_t<numType>& input) {
+    m[0][0] = input.m[0][0];
+    m[0][1] = input.m[0][1];
+    m[0][2] = input.m[0][2];
+    
+    m[1][0] = input.m[1][0];
+    m[1][1] = input.m[1][1];
+    m[1][2] = input.m[1][2];
+    
+    m[2][0] = input.m[2][0];
+    m[2][1] = input.m[2][1];
+    m[2][2] = input.m[2][2];
+    
+    return *this;
 }
 
-template <typename numType> inline
-mat3_t<numType>& mat3_t<numType>::operator = (mat3_t<numType>&& input) {
-	m[0][0] = input.m[0][0]; m[0][1] = input.m[0][1]; m[0][2] = input.m[0][2];
-	m[1][0] = input.m[1][0]; m[1][1] = input.m[1][1]; m[1][2] = input.m[1][2];
-	m[2][0] = input.m[2][0]; m[2][1] = input.m[2][1]; m[2][2] = input.m[2][2];
-	return *this;
+template <typename numType>
+mat3_t<numType>& mat3_t<numType>::operator =(mat3_t<numType>&& input) {
+    m[0][0] = input.m[0][0];
+    m[0][1] = input.m[0][1];
+    m[0][2] = input.m[0][2];
+    
+    m[1][0] = input.m[1][0];
+    m[1][1] = input.m[1][1];
+    m[1][2] = input.m[1][2];
+    
+    m[2][0] = input.m[2][0];
+    m[2][1] = input.m[2][1];
+    m[2][2] = input.m[2][2];
+    
+    return *this;
 }
 
 template <typename numType> inline

@@ -168,7 +168,7 @@ math::mat3_t<numType> math::scale(const mat3_t<numType>& m, const vec3_t<numType
 
 template <typename numType> constexpr
 math::mat3_t<numType> math::translate(const mat3_t<numType>& m, const vec2_t<numType>& t) {
-    return mat4_t<numType>(
+    return mat3_t<numType>(
         m.m[0][0], m.m[0][1], m.m[0][2],
         m.m[1][0], m.m[1][1], m.m[1][2],
         m.m[2][0] + t.v[0], m.m[2][1] + t.v[1], m.m[2][2]

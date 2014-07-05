@@ -26,15 +26,8 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct mat2_t {
-    
-    union {
-        numType	m[2][2];
-        
-        struct {
-            vec2_t<numType> x;
-            vec2_t<numType> y;
-        } row;
-    };
+    // data
+    vec2_t<numType> m[2];
     
 	// Main Constructor
     constexpr mat2_t(
@@ -56,8 +49,8 @@ struct mat2_t {
     constexpr explicit operator mat2_t<otherType>() const;
     
     // Subscripting
-	const numType*  operator    []      (int i) const;
-	inline numType* operator    []      (int i);
+	inline const vec2_t<numType>& operator[] (int i) const;
+	inline vec2_t<numType>& operator[] (int i);
 
 	//mat-mat operators
 	mat2_t&			operator	++		(); //prefix operators
@@ -193,12 +186,12 @@ constexpr mat2_t<numType>::operator mat2_t<otherType>() const {
 // Subscripting Operators
 //---------------------------------------------------------------------
 template <typename numType>
-const numType* mat2_t<numType>::operator[](int i) const {
+inline const vec2_t<numType>& mat2_t<numType>::operator[](int i) const {
     return m[i];
 }
 
 template <typename numType>
-inline numType* mat2_t<numType>::operator[](int i) {
+inline vec2_t<numType>& mat2_t<numType>::operator[](int i) {
     return m[i];
 }
 
@@ -264,12 +257,11 @@ template <typename numType> inline
 mat2_t<numType> mat2_t<numType>::operator * (const mat2_t<numType>& input) const {
 	return mat2_t<numType>(
 	//X
-		(m[0][0]*input.m[0][0]) + (m[0][1]*input.m[1][0]),
-		(m[0][0]*input.m[0][1]) + (m[0][1]*input.m[1][1]),
-		
+		(input.m[0][0]*m[0][0]) + (input.m[0][1]*m[1][0]),
+		(input.m[0][0]*m[0][1]) + (input.m[0][1]*m[1][1]),
 	//Y
-		(m[1][0]*input.m[0][0]) + (m[1][1]*input.m[1][0]),
-		(m[1][0]*input.m[0][1]) + (m[1][1]*input.m[1][1])
+		(input.m[1][0]*m[0][0]) + (input.m[1][1]*m[1][0]),
+		(input.m[1][0]*m[0][1]) + (input.m[1][1]*m[1][1])
 	);
 }
 

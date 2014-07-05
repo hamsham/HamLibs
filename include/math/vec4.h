@@ -30,12 +30,8 @@ struct mat4_t;
 ******************************************************************************/
 template <typename numType>
 struct vec4_t {
-	union {
-		numType v[4];
-		struct {
-			numType x, y, z, w;
-		} index;
-	};
+    // data
+    numType v[4];
     
 	// Main Constructor
 	constexpr vec4_t(numType inX, numType inY, numType inZ, numType inW);
@@ -49,6 +45,9 @@ struct vec4_t {
     // Conversions & Casting
     template <typename otherType>
     constexpr explicit operator vec4_t<otherType>() const;
+    
+    const numType*  operator        &       () const;
+    inline numType* operator        &       ();
     
     // Subscripting Operators
 	constexpr numType operator      []      (int i) const;
@@ -157,6 +156,16 @@ constexpr vec4_t<numType>::operator vec4_t<otherType>() const {
     return vec4_t<otherType>{
         (otherType)v[0], (otherType)v[1], (otherType)v[2], (otherType)v[3]
     };
+}
+
+template <typename numType>
+const numType* vec4_t<numType>::operator&() const {
+    return v;
+}
+
+template <typename numType>
+inline numType* vec4_t<numType>::operator&() {
+    return v;
 }
 
 //---------------------------------------------------------------------

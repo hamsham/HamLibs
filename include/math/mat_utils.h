@@ -74,8 +74,8 @@ math::mat2_t<numType> math::inverse(const mat2_t<numType>& m) {
     );
 
     return mat2_t<numType>(
-        m.m[1][1] * determinantInv, m.m[0][1] * determinantInv,
-        m.m[1][0] * determinantInv, m.m[0][0] * determinantInv
+        m.m[1][1]*determinantInv, m.m[0][1]*determinantInv,
+        m.m[1][0]*determinantInv, m.m[0][0]*determinantInv
     );
 }
 
@@ -91,17 +91,17 @@ template <typename numType> inline
 math::mat2_t<numType> math::rotate(const mat2_t<numType>& m, numType angle) {
     const numType c(HL_COS(angle));
     const numType s(HL_SIN(angle));
-    return mat2_t<numType>(
+    return m * mat2_t<numType>(
         c, s,
         -s, c
-    ) * m;
+    );
 }
 
 template <typename numType> constexpr
 math::mat2_t<numType> math::scale(const mat2_t<numType>& m, const vec2_t<numType>& amount) {
     return mat2_t<numType>(
-        m.m[0][0] * amount.v[0], m.m[0][1],
-        m.m[1][0], m.m[1][1] * amount.v[1]
+        m.m[0][0]*amount.v[0],  m.m[0][1],
+        m.m[1][0],              m.m[1][1]*amount.v[1]
     );
 }
 
@@ -171,7 +171,7 @@ math::mat3_t<numType> math::translate(const mat3_t<numType>& m, const vec2_t<num
     return mat3_t<numType>(
         m.m[0][0], m.m[0][1], m.m[0][2],
         m.m[1][0], m.m[1][1], m.m[1][2],
-        m.m[2][0] + t.v[0], m.m[2][1] + t.v[1], m.m[2][2]
+        m.m[2][0]+t.v[0], m.m[2][1]+t.v[1], m.m[2][2]
     );
 }
 
@@ -292,7 +292,7 @@ math::mat4_t<numType> math::translate(const mat4_t<numType>& m, const vec3_t<num
         m.m[0][0], m.m[0][1], m.m[0][2], m.m[0][3],
         m.m[1][0], m.m[1][1], m.m[1][2], m.m[1][3],
         m.m[2][0], m.m[2][1], m.m[2][2], m.m[2][3],
-        m.m[3][0] + t.v[0], m.m[3][1] + t.v[1], m.m[3][2] + t.v[2], m.m[3][3]
+        m.m[3][0]+t.v[0], m.m[3][1]+t.v[1], m.m[3][2]+t.v[2], m.m[3][3]
     );
 }
 

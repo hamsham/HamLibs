@@ -28,12 +28,8 @@ struct mat2_t;
 ******************************************************************************/
 template <typename numType>
 struct vec2_t {
-	union {
-		numType v[2];
-		struct {
-			numType	x, y;
-		} index;
-	};
+    // data
+	numType v[2];
     
 	// Main Constructor
 	constexpr vec2_t(numType inX, numType inY);
@@ -49,6 +45,9 @@ struct vec2_t {
     // Conversions & Casting
     template <typename otherType>
     constexpr explicit operator vec2_t<otherType>() const;
+    
+    const numType*  operator        &       () const;
+    inline numType* operator        &       ();
     
     // Subscripting Operators
 	constexpr numType operator      []      (int i) const;
@@ -155,6 +154,16 @@ template <typename numType>
 template <typename otherType>
 constexpr vec2_t<numType>::operator vec2_t<otherType>() const {
     return vec2_t<otherType>{(otherType)v[0], (otherType)v[1]};
+}
+
+template <typename numType>
+const numType* vec2_t<numType>::operator&() const {
+    return v;
+}
+
+template <typename numType>
+inline numType* vec2_t<numType>::operator&() {
+    return v;
 }
 
 //---------------------------------------------------------------------

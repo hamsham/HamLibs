@@ -24,12 +24,8 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct quat_t {
-	union {
-		numType q[4];
-		struct {
-			numType x, y, z, w;
-		} index;
-	};
+    // data
+	numType q[4];
     
 	// Main Constructor
 	constexpr quat_t(numType inX, numType inY, numType inZ, numType inW);
@@ -43,6 +39,9 @@ struct quat_t {
     // Conversions & Casting
     template <typename otherType>
     constexpr explicit operator quat_t<otherType>() const;
+    
+    const numType*  operator    &   () const;
+    inline numType* operator    &   ();
     
     // Subscripting Operators
 	constexpr numType operator  []  (int i) const;
@@ -138,6 +137,16 @@ constexpr quat_t<numType>::operator quat_t<otherType>() const {
     return quat_t<otherType>{
         (otherType)q[0], (otherType)q[1], (otherType)q[2], (otherType)q[3]
     };
+}
+
+template <typename numType>
+const numType* quat_t<numType>::operator&() const {
+    return q;
+}
+
+template <typename numType>
+inline numType* quat_t<numType>::operator&() {
+    return q;
 }
 
 //---------------------------------------------------------------------

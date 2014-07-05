@@ -28,16 +28,8 @@ namespace math {
 //---------------------------------------------------------------------
 template <typename numType>
 struct mat4_t {
-    union {
-        numType m[4][4];
-        
-        struct {
-            vec4_t<numType> x;
-            vec4_t<numType> y;
-            vec4_t<numType> z;
-            vec4_t<numType> w;
-        } row;
-    };
+    // data
+    vec4_t<numType> m[4];
     
 	// Main Constructor
     constexpr mat4_t(
@@ -67,8 +59,8 @@ struct mat4_t {
     constexpr explicit operator mat4_t<otherType>() const;
     
     // Subscripting Operators
-	const numType*  operator    []      (int i) const;
-	inline numType* operator    []      (int i);
+	inline const vec4_t<numType>& operator[] (int i) const;
+	inline vec4_t<numType>& operator[] (int i);
 
 	//matrix-matrix operators
 	mat4_t&			operator	++		(); //prefix operators
@@ -242,12 +234,12 @@ constexpr mat4_t<numType>::operator mat4_t<otherType>() const {
 // Subscripting Operators
 //---------------------------------------------------------------------
 template <typename numType>
-const numType* mat4_t<numType>::operator[](int i) const {
+inline const vec4_t<numType>& mat4_t<numType>::operator[](int i) const {
     return m[i];
 }
 
 template <typename numType>
-inline numType* mat4_t<numType>::operator[](int i) {
+inline vec4_t<numType>& mat4_t<numType>::operator[](int i) {
     return m[i];
 }
 
@@ -327,25 +319,25 @@ template <typename numType> inline
 mat4_t<numType> mat4_t<numType>::operator * (const mat4_t<numType>& input) const {
 	return mat4_t<numType>(
 	//X
-		(m[0][0]*input.m[0][0]) + (m[0][1]*input.m[1][0]) + (m[0][2]*input.m[2][0]) + (m[0][3]*input.m[3][0]),
-		(m[0][0]*input.m[0][1]) + (m[0][1]*input.m[1][1]) + (m[0][2]*input.m[2][1]) + (m[0][3]*input.m[3][1]),
-		(m[0][0]*input.m[0][2]) + (m[0][1]*input.m[1][2]) + (m[0][2]*input.m[2][2]) + (m[0][3]*input.m[3][2]),
-		(m[0][0]*input.m[0][3]) + (m[0][1]*input.m[1][3]) + (m[0][2]*input.m[2][3]) + (m[0][3]*input.m[3][3]),
+		(input.m[0][0]*m[0][0]) + (input.m[0][1]*m[1][0]) + (input.m[0][2]*m[2][0]) + (input.m[0][3]*m[3][0]),
+		(input.m[0][0]*m[0][1]) + (input.m[0][1]*m[1][1]) + (input.m[0][2]*m[2][1]) + (input.m[0][3]*m[3][1]),
+		(input.m[0][0]*m[0][2]) + (input.m[0][1]*m[1][2]) + (input.m[0][2]*m[2][2]) + (input.m[0][3]*m[3][2]),
+		(input.m[0][0]*m[0][3]) + (input.m[0][1]*m[1][3]) + (input.m[0][2]*m[2][3]) + (input.m[0][3]*m[3][3]),
 	//Y
-		(m[1][0]*input.m[0][0]) + (m[1][1]*input.m[1][0]) + (m[1][2]*input.m[2][0]) + (m[1][3]*input.m[3][0]),
-		(m[1][0]*input.m[0][1]) + (m[1][1]*input.m[1][1]) + (m[1][2]*input.m[2][1]) + (m[1][3]*input.m[3][1]),
-		(m[1][0]*input.m[0][2]) + (m[1][1]*input.m[1][2]) + (m[1][2]*input.m[2][2]) + (m[1][3]*input.m[3][2]),
-		(m[1][0]*input.m[0][3]) + (m[1][1]*input.m[1][3]) + (m[1][2]*input.m[2][3]) + (m[1][3]*input.m[3][3]),
+		(input.m[1][0]*m[0][0]) + (input.m[1][1]*m[1][0]) + (input.m[1][2]*m[2][0]) + (input.m[1][3]*m[3][0]),
+		(input.m[1][0]*m[0][1]) + (input.m[1][1]*m[1][1]) + (input.m[1][2]*m[2][1]) + (input.m[1][3]*m[3][1]),
+		(input.m[1][0]*m[0][2]) + (input.m[1][1]*m[1][2]) + (input.m[1][2]*m[2][2]) + (input.m[1][3]*m[3][2]),
+		(input.m[1][0]*m[0][3]) + (input.m[1][1]*m[1][3]) + (input.m[1][2]*m[2][3]) + (input.m[1][3]*m[3][3]),
 	//Z
-		(m[2][0]*input.m[0][0]) + (m[2][1]*input.m[1][0]) + (m[2][2]*input.m[2][0]) + (m[2][3]*input.m[3][0]),
-		(m[2][0]*input.m[0][1]) + (m[2][1]*input.m[1][1]) + (m[2][2]*input.m[2][1]) + (m[2][3]*input.m[3][1]),
-		(m[2][0]*input.m[0][2]) + (m[2][1]*input.m[1][2]) + (m[2][2]*input.m[2][2]) + (m[2][3]*input.m[3][2]),
-		(m[2][0]*input.m[0][3]) + (m[2][1]*input.m[1][3]) + (m[2][2]*input.m[2][3]) + (m[2][3]*input.m[3][3]),
+		(input.m[2][0]*m[0][0]) + (input.m[2][1]*m[1][0]) + (input.m[2][2]*m[2][0]) + (input.m[2][3]*m[3][0]),
+		(input.m[2][0]*m[0][1]) + (input.m[2][1]*m[1][1]) + (input.m[2][2]*m[2][1]) + (input.m[2][3]*m[3][1]),
+		(input.m[2][0]*m[0][2]) + (input.m[2][1]*m[1][2]) + (input.m[2][2]*m[2][2]) + (input.m[2][3]*m[3][2]),
+		(input.m[2][0]*m[0][3]) + (input.m[2][1]*m[1][3]) + (input.m[2][2]*m[2][3]) + (input.m[2][3]*m[3][3]),
 	//W
-		(m[3][0]*input.m[0][0]) + (m[3][1]*input.m[1][0]) + (m[3][2]*input.m[2][0]) + (m[3][3]*input.m[3][0]),
-		(m[3][0]*input.m[0][1]) + (m[3][1]*input.m[1][1]) + (m[3][2]*input.m[2][1]) + (m[3][3]*input.m[3][1]),
-		(m[3][0]*input.m[0][2]) + (m[3][1]*input.m[1][2]) + (m[3][2]*input.m[2][2]) + (m[3][3]*input.m[3][2]),
-		(m[3][0]*input.m[0][3]) + (m[3][1]*input.m[1][3]) + (m[3][2]*input.m[2][3]) + (m[3][3]*input.m[3][3])
+		(input.m[3][0]*m[0][0]) + (input.m[3][1]*m[1][0]) + (input.m[3][2]*m[2][0]) + (input.m[3][3]*m[3][0]),
+		(input.m[3][0]*m[0][1]) + (input.m[3][1]*m[1][1]) + (input.m[3][2]*m[2][1]) + (input.m[3][3]*m[3][1]),
+		(input.m[3][0]*m[0][2]) + (input.m[3][1]*m[1][2]) + (input.m[3][2]*m[2][2]) + (input.m[3][3]*m[3][2]),
+		(input.m[3][0]*m[0][3]) + (input.m[3][1]*m[1][3]) + (input.m[3][2]*m[2][3]) + (input.m[3][3]*m[3][3])
 	);
 	// I really hope this is correct
 }

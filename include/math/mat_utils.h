@@ -181,68 +181,94 @@ math::mat3_t<numType> math::translate(const mat3_t<numType>& m, const vec2_t<num
 template <typename numType> constexpr
 numType math::determinant(const mat4_t<numType>& m) {
     return numType(
-        (m.m[0][3] * m.m[1][2] * m.m[2][1] * m.m[3][0]) - (m.m[0][2] * m.m[1][3] * m.m[2][1] * m.m[3][0]) - (m.m[0][3] * m.m[1][1] * m.m[2][2] * m.m[3][0]) + (m.m[0][1] * m.m[1][3] * m.m[2][2] * m.m[3][0]) +
-        (m.m[0][2] * m.m[1][1] * m.m[2][3] * m.m[3][0]) - (m.m[0][1] * m.m[1][2] * m.m[2][3] * m.m[3][0]) - (m.m[0][3] * m.m[1][2] * m.m[2][0] * m.m[3][1]) + (m.m[0][2] * m.m[1][3] * m.m[2][0] * m.m[3][1]) +
-        (m.m[0][3] * m.m[1][0] * m.m[2][2] * m.m[3][1]) - (m.m[0][0] * m.m[1][3] * m.m[2][2] * m.m[3][1]) - (m.m[0][2] * m.m[1][0] * m.m[2][3] * m.m[3][1]) + (m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1]) +
-        (m.m[0][3] * m.m[1][1] * m.m[2][0] * m.m[3][2]) - (m.m[0][1] * m.m[1][3] * m.m[2][0] * m.m[3][2]) - (m.m[0][3] * m.m[1][0] * m.m[2][1] * m.m[3][2]) + (m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2]) +
-        (m.m[0][1] * m.m[1][0] * m.m[2][3] * m.m[3][2]) - (m.m[0][0] * m.m[1][1] * m.m[2][3] * m.m[3][2]) - (m.m[0][2] * m.m[1][1] * m.m[2][0] * m.m[3][3]) + (m.m[0][1] * m.m[1][2] * m.m[2][0] * m.m[3][3]) +
-        (m.m[0][2] * m.m[1][0] * m.m[2][1] * m.m[3][3]) - (m.m[0][0] * m.m[1][2] * m.m[2][1] * m.m[3][3]) - (m.m[0][1] * m.m[1][0] * m.m[2][2] * m.m[3][3]) + (m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3])
+        (m.m[0][3] * m.m[1][2] * m.m[2][1] * m.m[3][0]) -
+        (m.m[0][2] * m.m[1][3] * m.m[2][1] * m.m[3][0]) -
+        (m.m[0][3] * m.m[1][1] * m.m[2][2] * m.m[3][0]) +
+        (m.m[0][1] * m.m[1][3] * m.m[2][2] * m.m[3][0]) +
+        
+        (m.m[0][2] * m.m[1][1] * m.m[2][3] * m.m[3][0]) -
+        (m.m[0][1] * m.m[1][2] * m.m[2][3] * m.m[3][0]) -
+        (m.m[0][3] * m.m[1][2] * m.m[2][0] * m.m[3][1]) +
+        (m.m[0][2] * m.m[1][3] * m.m[2][0] * m.m[3][1]) +
+            
+        (m.m[0][3] * m.m[1][0] * m.m[2][2] * m.m[3][1]) -
+        (m.m[0][0] * m.m[1][3] * m.m[2][2] * m.m[3][1]) -
+        (m.m[0][2] * m.m[1][0] * m.m[2][3] * m.m[3][1]) +
+        (m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1]) +
+            
+        (m.m[0][3] * m.m[1][1] * m.m[2][0] * m.m[3][2]) -
+        (m.m[0][1] * m.m[1][3] * m.m[2][0] * m.m[3][2]) -
+        (m.m[0][3] * m.m[1][0] * m.m[2][1] * m.m[3][2]) +
+        (m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2]) +
+            
+        (m.m[0][1] * m.m[1][0] * m.m[2][3] * m.m[3][2]) -
+        (m.m[0][0] * m.m[1][1] * m.m[2][3] * m.m[3][2]) -
+        (m.m[0][2] * m.m[1][1] * m.m[2][0] * m.m[3][3]) +
+        (m.m[0][1] * m.m[1][2] * m.m[2][0] * m.m[3][3]) +
+            
+        (m.m[0][2] * m.m[1][0] * m.m[2][1] * m.m[3][3]) -
+        (m.m[0][0] * m.m[1][2] * m.m[2][1] * m.m[3][3]) -
+        (m.m[0][1] * m.m[1][0] * m.m[2][2] * m.m[3][3]) +
+        (m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3])
     );
     //umm... wow
 }
 
 template <typename numType> inline
 math::mat4_t<numType> math::inverse(const mat4_t<numType>& m) {
+    // grab a pointer to the internal array in order to reduce the amount of dereferences
+    // This helped to shrink the number of assembly instructions.
+    const vec4_t<numType>* pm = m.m;
 
     //these operations appear only 2 times in the return value
-    const numType zwwx(m.m[2][3] * m.m[3][0]);
+    const numType zwwx(pm[2][3] * pm[3][0]);
 
     //these operations appear 3 times in the return value
-    const numType xxyy(m.m[0][0] * m.m[1][1]);
-    const numType xxyz(m.m[0][0] * m.m[1][2]);
-    const numType xzyy(m.m[0][2] * m.m[1][1]);
-    const numType xyyz(m.m[0][1] * m.m[1][2]);
-    const numType zwwy(m.m[2][3] * m.m[3][1]);
-    const numType zwwz(m.m[2][3] * m.m[3][2]);
+    const numType xxyy(pm[0][0] * pm[1][1]);
+    const numType xxyz(pm[0][0] * pm[1][2]);
+    const numType xzyy(pm[0][2] * pm[1][1]);
+    const numType xyyz(pm[0][1] * pm[1][2]);
+    const numType zwwy(pm[2][3] * pm[3][1]);
+    const numType zwwz(pm[2][3] * pm[3][2]);
 
     //these operations appear 4 times in the return value
-    const numType xxyw(m.m[0][0] * m.m[1][3]);
-    const numType xyyx(m.m[0][1] * m.m[1][0]);
-    const numType xyyw(m.m[0][1] * m.m[1][3]);
-    const numType xzyx(m.m[0][2] * m.m[1][0]);
-    const numType xzyw(m.m[0][2] * m.m[1][3]);
-    const numType xwyx(m.m[0][3] * m.m[1][0]);
-    const numType xwyy(m.m[0][3] * m.m[1][1]);
-    const numType xwyz(m.m[0][3] * m.m[1][2]);
-    const numType yyzw(m.m[1][1] * m.m[2][3]);
-    const numType yzzw(m.m[1][2] * m.m[2][3]);
-    const numType zxwy(m.m[2][0] * m.m[3][1]);
-    const numType zxwz(m.m[2][0] * m.m[3][2]);
-    const numType zxww(m.m[2][0] * m.m[3][3]);
-    const numType zywx(m.m[2][1] * m.m[3][0]);
-    const numType zywz(m.m[2][1] * m.m[3][2]);
-    const numType zyww(m.m[2][1] * m.m[3][3]);
-    const numType zzwx(m.m[2][2] * m.m[3][0]);
-    const numType zzwy(m.m[2][2] * m.m[3][1]);
-    const numType zzww(m.m[2][2] * m.m[3][3]);
+    const numType xxyw(pm[0][0] * pm[1][3]);
+    const numType xyyx(pm[0][1] * pm[1][0]);
+    const numType xyyw(pm[0][1] * pm[1][3]);
+    const numType xzyx(pm[0][2] * pm[1][0]);
+    const numType xzyw(pm[0][2] * pm[1][3]);
+    const numType xwyx(pm[0][3] * pm[1][0]);
+    const numType xwyy(pm[0][3] * pm[1][1]);
+    const numType xwyz(pm[0][3] * pm[1][2]);
+    const numType yyzw(pm[1][1] * pm[2][3]);
+    const numType yzzw(pm[1][2] * pm[2][3]);
+    const numType zxwy(pm[2][0] * pm[3][1]);
+    const numType zxwz(pm[2][0] * pm[3][2]);
+    const numType zxww(pm[2][0] * pm[3][3]);
+    const numType zywx(pm[2][1] * pm[3][0]);
+    const numType zywz(pm[2][1] * pm[3][2]);
+    const numType zyww(pm[2][1] * pm[3][3]);
+    const numType zzwx(pm[2][2] * pm[3][0]);
+    const numType zzwy(pm[2][2] * pm[3][1]);
+    const numType zzww(pm[2][2] * pm[3][3]);
 
     return mat4_t<numType>(
-        (yzzw * m.m[3][1]) - (m.m[1][3] * zzwy) + (m.m[1][3] * zywz) - (yyzw * m.m[3][2]) - (m.m[1][2] * zyww) + (m.m[1][1] * zzww),
-        (m.m[0][3] * zzwy) - (m.m[0][2] * zwwy) - (m.m[0][3] * zywz) + (m.m[0][1] * zwwz) + (m.m[0][2] * zyww) - (m.m[0][1] * zzww),
-        (xzyw * m.m[3][1]) - (xwyz * m.m[3][1]) + (xwyy * m.m[3][2]) - (xyyw * m.m[3][2]) - (xzyy * m.m[3][3]) + (xyyz * m.m[3][3]),
-        (xwyz * m.m[2][1]) - (xzyw * m.m[2][1]) - (xwyy * m.m[2][2]) + (xyyw * m.m[2][2]) + (m.m[0][2] * yyzw) - (m.m[0][1] * yzzw),
-        (m.m[1][3] * zzwx) - (yzzw * m.m[3][0]) - (m.m[1][3] * zxwz) + (m.m[1][0] * zwwz) + (m.m[1][2] * zxww) - (m.m[1][0] * zzww),
-        (m.m[0][2] * zwwx) - (m.m[0][3] * zzwx) + (m.m[0][3] * zxwz) - (m.m[0][0] * zwwz) - (m.m[0][2] * zxww) + (m.m[0][0] * zzww),
-        (xwyz * m.m[3][0]) - (xzyw * m.m[3][0]) - (xwyx * m.m[3][2]) + (xxyw * m.m[3][2]) + (xzyx * m.m[3][3]) - (xxyz * m.m[3][3]),
-        (xzyw * m.m[2][0]) - (xwyz * m.m[2][0]) + (xwyx * m.m[2][2]) - (xxyw * m.m[2][2]) - (xzyx * m.m[2][3]) + (m.m[0][0] * yzzw),
-        (yyzw * m.m[3][0]) - (m.m[1][3] * zywx) + (m.m[1][3] * zxwy) - (m.m[1][0] * zwwy) - (m.m[1][1] * zxww) + (m.m[1][0] * zyww),
-        (m.m[0][3] * zywx) - (m.m[0][1] * zwwx) - (m.m[0][3] * zxwy) + (m.m[0][0] * zwwy) + (m.m[0][1] * zxww) - (m.m[0][0] * zyww),
-        (xyyw * m.m[3][0]) - (xwyy * m.m[3][0]) + (xwyx * m.m[3][1]) - (xxyw * m.m[3][1]) - (xyyx * m.m[3][3]) + (xxyy * m.m[3][3]),
-        (xwyy * m.m[2][0]) - (xyyw * m.m[2][0]) - (xwyx * m.m[2][1]) + (xxyw * m.m[2][1]) + (xyyx * m.m[2][3]) - (m.m[0][0] * yyzw),
-        (m.m[1][2] * zywx) - (m.m[1][1] * zzwx) - (m.m[1][2] * zxwy) + (m.m[1][0] * zzwy) + (m.m[1][1] * zxwz) - (m.m[1][0] * zywz),
-        (m.m[0][1] * zzwx) - (m.m[0][2] * zywx) + (m.m[0][2] * zxwy) - (m.m[0][0] * zzwy) - (m.m[0][1] * zxwz) + (m.m[0][0] * zywz),
-        (xzyy * m.m[3][0]) - (xyyz * m.m[3][0]) - (xzyx * m.m[3][1]) + (xxyz * m.m[3][1]) + (xyyx * m.m[3][2]) - (xxyy * m.m[3][2]),
-        (xyyz * m.m[2][0]) - (xzyy * m.m[2][0]) + (xzyx * m.m[2][1]) - (xxyz * m.m[2][1]) - (xyyx * m.m[2][2]) + (xxyy * m.m[2][2])
+        (yzzw * pm[3][1]) - (pm[1][3] * zzwy) + (pm[1][3] * zywz) - (yyzw * pm[3][2]) - (pm[1][2] * zyww) + (pm[1][1] * zzww),
+        (pm[0][3] * zzwy) - (pm[0][2] * zwwy) - (pm[0][3] * zywz) + (pm[0][1] * zwwz) + (pm[0][2] * zyww) - (pm[0][1] * zzww),
+        (xzyw * pm[3][1]) - (xwyz * pm[3][1]) + (xwyy * pm[3][2]) - (xyyw * pm[3][2]) - (xzyy * pm[3][3]) + (xyyz * pm[3][3]),
+        (xwyz * pm[2][1]) - (xzyw * pm[2][1]) - (xwyy * pm[2][2]) + (xyyw * pm[2][2]) + (pm[0][2] * yyzw) - (pm[0][1] * yzzw),
+        (pm[1][3] * zzwx) - (yzzw * pm[3][0]) - (pm[1][3] * zxwz) + (pm[1][0] * zwwz) + (pm[1][2] * zxww) - (pm[1][0] * zzww),
+        (pm[0][2] * zwwx) - (pm[0][3] * zzwx) + (pm[0][3] * zxwz) - (pm[0][0] * zwwz) - (pm[0][2] * zxww) + (pm[0][0] * zzww),
+        (xwyz * pm[3][0]) - (xzyw * pm[3][0]) - (xwyx * pm[3][2]) + (xxyw * pm[3][2]) + (xzyx * pm[3][3]) - (xxyz * pm[3][3]),
+        (xzyw * pm[2][0]) - (xwyz * pm[2][0]) + (xwyx * pm[2][2]) - (xxyw * pm[2][2]) - (xzyx * pm[2][3]) + (pm[0][0] * yzzw),
+        (yyzw * pm[3][0]) - (pm[1][3] * zywx) + (pm[1][3] * zxwy) - (pm[1][0] * zwwy) - (pm[1][1] * zxww) + (pm[1][0] * zyww),
+        (pm[0][3] * zywx) - (pm[0][1] * zwwx) - (pm[0][3] * zxwy) + (pm[0][0] * zwwy) + (pm[0][1] * zxww) - (pm[0][0] * zyww),
+        (xyyw * pm[3][0]) - (xwyy * pm[3][0]) + (xwyx * pm[3][1]) - (xxyw * pm[3][1]) - (xyyx * pm[3][3]) + (xxyy * pm[3][3]),
+        (xwyy * pm[2][0]) - (xyyw * pm[2][0]) - (xwyx * pm[2][1]) + (xxyw * pm[2][1]) + (xyyx * pm[2][3]) - (pm[0][0] * yyzw),
+        (pm[1][2] * zywx) - (pm[1][1] * zzwx) - (pm[1][2] * zxwy) + (pm[1][0] * zzwy) + (pm[1][1] * zxwz) - (pm[1][0] * zywz),
+        (pm[0][1] * zzwx) - (pm[0][2] * zywx) + (pm[0][2] * zxwy) - (pm[0][0] * zzwy) - (pm[0][1] * zxwz) + (pm[0][0] * zywz),
+        (xzyy * pm[3][0]) - (xyyz * pm[3][0]) - (xzyx * pm[3][1]) + (xxyz * pm[3][1]) + (xyyx * pm[3][2]) - (xxyy * pm[3][2]),
+        (xyyz * pm[2][0]) - (xzyy * pm[2][0]) + (xzyx * pm[2][1]) - (xxyz * pm[2][1]) - (xyyx * pm[2][2]) + (xxyy * pm[2][2])
     ) * numType{1} / determinant(m);
     // FML
 }

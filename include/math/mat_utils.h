@@ -333,8 +333,8 @@ math::mat4_t<numType> math::perspective(numType fov, numType aspect, numType zNe
     return mat4_t<numType>(
         (numType{2} * zNear) / (xMax - xMin), numType{0}, numType{0}, numType{0},
         numType{0}, (numType{2} * zNear) / (top - bottom), numType{0}, numType{0},
-        numType{0}, numType{0}, -(zFar + zNear) / zDelta, numType(-1),
-        numType{0}, numType{0}, (numType(-2) * zFar * zNear) / zDelta, numType{0}
+        numType{0}, numType{0}, -(zFar + zNear) / zDelta, numType{-1},
+        numType{0}, numType{0}, (numType{-2} * zFar * zNear) / zDelta, numType{0}
     );
 }
 
@@ -348,8 +348,8 @@ math::mat4_t<numType> math::infinitePerspective(numType fov, numType aspect, num
     return mat4_t<numType>(
         (numType{2} * zNear) / (xMax - xMin), numType{0}, numType{0}, numType{0},
         numType{0}, (numType{2} * zNear) / (top - bottom), numType{0}, numType{0},
-        numType{0}, numType{0}, numType(-1), numType(-1),
-        numType{0}, numType{0}, numType(-2) * zNear, numType{0}
+        numType{0}, numType{0}, numType{-1}, numType{-1},
+        numType{0}, numType{0}, numType{-2} * zNear, numType{0}
     );
 }
 
@@ -361,37 +361,37 @@ math::mat4_t<numType> math::ortho(numType left, numType right, numType top, numT
     return mat4_t<numType>(
         numType{2} / w, numType{0}, numType{0}, numType{0},
         numType{0}, numType{2} / h, numType{0}, numType{0},
-        numType{0}, numType{0}, numType(-1), numType{0},
+        numType{0}, numType{0}, numType{-1}, numType{0},
         -(right + left) / w, -(top + bottom) / h, numType{0}, numType{1}
     );
 }
 
 template <typename numType> inline
 math::mat4_t<numType> math::ortho(numType left, numType right, numType top, numType bottom, numType near, numType far) {
-    const numType w(right - left);
-    const numType h(bottom - top);
-    const numType z(far - near);
+    const numType w = right - left;
+    const numType h = bottom - top;
+    const numType d = far - near;
 
-    return mat4_t<numType>(
+    return mat4_t<numType>{
         numType{2} / w, numType{0}, numType{0}, numType{0},
         numType{0}, numType{2} / h, numType{0}, numType{0},
-        numType{0}, numType{0}, numType(-2) / z, numType{0},
-        -(right + left) / w, -(top + bottom) / h, -(far + near) / z, numType{1}
-    );
+        numType{0}, numType{0}, numType{-2} / d, numType{0},
+        -(right + left) / w, -(top + bottom) / h, -(far + near) / d, numType{1}
+    };
 }
 
 template <typename numType> inline
 math::mat4_t<numType> math::frustum(numType left, numType right, numType top, numType bottom, numType near, numType far) {
-    const numType w(right - left);
-    const numType h(bottom - top);
-    const numType z(far - near);
+    const numType w = right - left;
+    const numType h = bottom - top;
+    const numType d = far - near;
 
-    return mat4_t<numType>(
+    return mat4_t<numType>{
         (numType{2} * near) / w, numType{0}, numType{0}, numType{0},
         numType{0}, (numType{2} * near) / h, numType{0}, numType{0},
-        (right + left) / w, (top + bottom) / h, -(far + near) / z, numType(-1),
-        numType{0}, numType{0}, (numType(-2) * far * near) / z, numType{0}
-    );
+        (right + left) / w, (top + bottom) / h, -(far + near) / d, numType{-1},
+        numType{0}, numType{0}, (numType{-2} * far * near) / d, numType{0}
+    };
 }
 
 template <typename numType> inline

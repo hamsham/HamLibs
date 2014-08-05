@@ -103,6 +103,24 @@ template <typename scalar_t>
 constexpr scalar_t max(scalar_t a, scalar_t b);
 
 /**
+ * clamp
+ * Bind a number to within a certain range.
+ * 
+ * @param n
+ * A number that should be constrained to be within a specific range.
+ * 
+ * @param minVal
+ * The minimum allowable value that 'n' can be.
+ * 
+ * @param maxVal
+ * The maximum allowable value that 'n' can be.
+ * 
+ * @return a number, such that minVal <= n <= maxVal
+ */
+template <typename scalar_t>
+constexpr scalar_t clamp(scalar_t n, scalar_t minVal, scalar_t maxVal);
+
+/**
  * smoothstep
  * Perform a smooth interpolation of a number along the sub-sequence [a, b].
  * 
@@ -404,6 +422,11 @@ scalar_t math::mix(scalar_t a, scalar_t b, scalar_t percent) {
 template <typename scalar_t> constexpr
 scalar_t math::max(scalar_t a, scalar_t b) {
     return (a > b) ? a : b;
+}
+
+template <typename scalar_t>
+constexpr scalar_t math::clamp(scalar_t n, scalar_t minVal, scalar_t maxVal) {
+    return (n < minVal) ? minVal : (n > maxVal) ? maxVal : n;
 }
 
 template <typename scalar_t> inline

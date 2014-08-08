@@ -83,13 +83,13 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ./bin/WIN32/libhamlibs.a
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ./bin/libhamlibs.a
 
-./bin/WIN32/libhamlibs.a: ${OBJECTFILES}
-	${MKDIR} -p ./bin/WIN32
-	${RM} ./bin/WIN32/libhamlibs.a
-	${AR} -rv ./bin/WIN32/libhamlibs.a ${OBJECTFILES} 
-	$(RANLIB) ./bin/WIN32/libhamlibs.a
+./bin/libhamlibs.a: ${OBJECTFILES}
+	${MKDIR} -p ./bin
+	${RM} ./bin/libhamlibs.a
+	${AR} -rv ./bin/libhamlibs.a ${OBJECTFILES} 
+	$(RANLIB) ./bin/libhamlibs.a
 
 ${OBJECTDIR}/src/assert.o: nbproject/Makefile-${CND_CONF}.mk src/assert.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -494,7 +494,7 @@ ${OBJECTDIR}/src/vec_utils_nomain.o: ${OBJECTDIR}/src/vec_utils.o src/vec_utils.
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ./bin/WIN32/libhamlibs.a
+	${RM} ./bin/libhamlibs.a
 
 # Subprojects
 .clean-subprojects:

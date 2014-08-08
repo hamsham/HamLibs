@@ -132,7 +132,7 @@
           </preprocessorList>
         </ccTool>
         <archiverTool>
-          <output>bin/WIN32/libhamlibs-debug.a</output>
+          <output>./bin/WIN32/libhamlibs-debug.a</output>
         </archiverTool>
       </compileType>
       <item path="../tests/btree_test.cpp" ex="false" tool="1" flavor2="0">
@@ -334,7 +334,7 @@
           <developmentMode>5</developmentMode>
         </asmTool>
         <archiverTool>
-          <output>bin/WIN32/libhamlibs.a</output>
+          <output>./bin/WIN32/libhamlibs.a</output>
         </archiverTool>
       </compileType>
       <item path="../tests/btree_test.cpp" ex="false" tool="1" flavor2="0">

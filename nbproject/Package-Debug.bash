@@ -13,7 +13,7 @@ CND_BUILDDIR=build
 CND_DLIB_EXT=dll
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=bin/WIN32/libhamlibs-debug.a
+OUTPUT_PATH=./bin/WIN32/libhamlibs-debug.a
 OUTPUT_BASENAME=libhamlibs-debug.a
 PACKAGE_TOP_DIR=HamLibs/
 

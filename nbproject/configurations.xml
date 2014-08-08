@@ -316,9 +316,6 @@
       <compileType>
         <cTool>
           <developmentMode>5</developmentMode>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
         </cTool>
         <ccTool>
           <developmentMode>0</developmentMode>

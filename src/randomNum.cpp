@@ -1,5 +1,6 @@
 
-#include <ctime>
+#include <chrono>
+
 #include "../include/utils/randomNum.h"
 #include "../include/utils/assert.h"
 
@@ -8,23 +9,93 @@ constexpr unsigned long getMaxULong() { return 0UL - 1; }
 namespace hamLibs {
 namespace utils {
 
-void randomNum::seed( unsigned long s ) {
-    for ( unsigned int i = 0; i < 16; ++i ) {
-        state[i] = s;
+/*
+ * Seeded Constructor
+ */
+randomNum::randomNum(unsigned long s) {
+    this->seed(s);
+}
+
+/*
+ * Default Constructor
+ */
+randomNum::randomNum() {
+    this->seed();
+}
+
+/*
+ * Copy Constructor
+ */
+randomNum::randomNum(const randomNum& rn) :
+    index{rn.index}
+{
+    for (unsigned i = 0; i < 16; ++i) {
+        state[i] = rn.state[i];
+    }
+}
+
+/*
+ * Move Constructor
+ */
+randomNum::randomNum(randomNum&& rn) :
+    index{rn.index}
+{
+    for (unsigned i = 0; i < 16; ++i) {
+        state[i] = rn.state[i];
+    }
+}
+
+/*
+ * Destructor
+ */
+randomNum::~randomNum() {
+}
+
+/*
+ * Copy Operator
+ */
+randomNum& randomNum::operator=(const randomNum& rn) {
+    index = rn.index;
+    
+    for (unsigned i = 0; i < 16; ++i) {
+        state[i] = rn.state[i];
+    }
+    return *this;
+}
+
+/*
+ * Move Operator
+ */
+randomNum& randomNum::operator=(randomNum&& rn) {
+    index = rn.index;
+    
+    for (unsigned i = 0; i < 16; ++i) {
+        state[i] = rn.state[i];
+    }
+    return *this;
+}
+
+/*
+ * Initialize the random distribution
+ */
+void randomNum::seed(unsigned long s) {
+    for (unsigned int i = 0; i < 16; ++i) {
+        state[i] = s++;
         genRandNum(); // initializing the state to random bits
     }
     index = 0;
 }
 
+/*
+ * Default random distribution initialization
+ */
 void randomNum::seed() {
-    unsigned long s = time( NULL );
-    for ( unsigned int i = 0; i < 16; ++i ) {
-        state[i] = s;
-        genRandNum();
-    }
-    index = 0;
+    this->seed((long unsigned)std::chrono::system_clock::now().time_since_epoch().count());
 }
 
+/*
+ * Generate a random number
+ */
 unsigned long randomNum::genRandNum() {
     unsigned long a, b, c, d;
     a = state[index];
@@ -40,17 +111,23 @@ unsigned long randomNum::genRandNum() {
     return state[index];
 }
 
-float randomNum::randRangeF( float low, float high ) {
-    HL_ASSERT( low < high );
-    return low + ((float)genRandNum() / ( (float)getMaxULong() / (high-low) ));
+/*
+ * Generate a random float within a an inclusive range
+ */
+float randomNum::randRangeF(float low, float high) {
+    HL_DEBUG_ASSERT(low < high);
+    return low + ((float)genRandNum() / ((float)getMaxULong() / (high-low)));
 }
 
-int randomNum::randRangeI( int low, int high ) {
-    HL_ASSERT( low < high );
+/*
+ * Generate a random int within an inclusive range.
+ */
+int randomNum::randRangeI(int low, int high) {
+    HL_DEBUG_ASSERT(low < high);
     return static_cast<int>(randRangeF(
         static_cast<float>(low),
         static_cast<float>(high)
-    ));
+   ));
 }
 
 } // end utils namespace

@@ -13,26 +13,30 @@ namespace utils {
 
 class randomNum {
     private:
-        unsigned long state[ 16 ];
+        unsigned long state[16] = {0};
         unsigned int index = 0;
         
     public:
-        ~randomNum() {}
-        randomNum() {}
-        randomNum( unsigned long s ) {
-            seed( s );
-        }
+        randomNum(unsigned long s);
+        randomNum();
+        randomNum(const randomNum&);
+        randomNum(randomNum&&);
+        
+        ~randomNum();
+        
+        randomNum& operator=(const randomNum&);
+        randomNum& operator=(randomNum&&);
         
         // seeding is not necessary, but may help in case initial
         // random numbers appear with poor distribution
-        void seed( unsigned long s );
+        void seed(unsigned long s);
         void seed();
         
         // Returns a 32-bit random number
         unsigned long genRandNum();
         
-        float randRangeF( float low, float high );
-        int randRangeI( int low, int high );
+        float randRangeF(float low, float high);
+        int randRangeI(int low, int high);
 };
         
 } // end utils namespace

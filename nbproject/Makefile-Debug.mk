@@ -21,7 +21,7 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
+CND_PLATFORM=MinGW32_Qt-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Debug
 CND_DISTDIR=dist
@@ -69,8 +69,8 @@ TESTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m32 -mieee-fp -mmmx -msse -msse2 -mfpmath=sse -g -O2 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++
-CXXFLAGS=-m32 -mieee-fp -mmmx -msse -msse2 -mfpmath=sse -g -O2 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++
+CCFLAGS=-mieee-fp -mmmx -msse -msse2 -mfpmath=sse -g -O2 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++
+CXXFLAGS=-mieee-fp -mmmx -msse -msse2 -mfpmath=sse -g -O2 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -83,13 +83,13 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ./bin/libhamlibs-debug.a
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs_d.a
 
-./bin/libhamlibs-debug.a: ${OBJECTFILES}
-	${MKDIR} -p ./bin
-	${RM} ./bin/libhamlibs-debug.a
-	${AR} -rv ./bin/libhamlibs-debug.a ${OBJECTFILES} 
-	$(RANLIB) ./bin/libhamlibs-debug.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs_d.a: ${OBJECTFILES}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs_d.a
+	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs_d.a ${OBJECTFILES} 
+	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs_d.a
 
 ${OBJECTDIR}/src/assert.o: nbproject/Makefile-${CND_CONF}.mk src/assert.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -494,7 +494,7 @@ ${OBJECTDIR}/src/vec_utils_nomain.o: ${OBJECTDIR}/src/vec_utils.o src/vec_utils.
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ./bin/libhamlibs-debug.a
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs_d.a
 
 # Subprojects
 .clean-subprojects:

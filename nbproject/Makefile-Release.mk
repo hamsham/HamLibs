@@ -21,7 +21,7 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
+CND_PLATFORM=MinGW32_Qt-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist
@@ -69,8 +69,8 @@ TESTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m32 -mieee-fp -mmmx -msse -msse2 -mfpmath=sse -O3 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++
-CXXFLAGS=-m32 -mieee-fp -mmmx -msse -msse2 -mfpmath=sse -O3 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++
+CCFLAGS=-mieee-fp -mmmx -msse -msse2 -mfpmath=sse -O3 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++ -mwindows
+CXXFLAGS=-mieee-fp -mmmx -msse -msse2 -mfpmath=sse -O3 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++ -mwindows
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -83,13 +83,13 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ./bin/libhamlibs.a
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs.a
 
-./bin/libhamlibs.a: ${OBJECTFILES}
-	${MKDIR} -p ./bin
-	${RM} ./bin/libhamlibs.a
-	${AR} -rv ./bin/libhamlibs.a ${OBJECTFILES} 
-	$(RANLIB) ./bin/libhamlibs.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs.a: ${OBJECTFILES}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs.a
+	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs.a ${OBJECTFILES} 
+	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs.a
 
 ${OBJECTDIR}/src/assert.o: nbproject/Makefile-${CND_CONF}.mk src/assert.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -494,7 +494,7 @@ ${OBJECTDIR}/src/vec_utils_nomain.o: ${OBJECTDIR}/src/vec_utils.o src/vec_utils.
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ./bin/libhamlibs.a
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs.a
 
 # Subprojects
 .clean-subprojects:

@@ -7,21 +7,21 @@ CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
-CND_PLATFORM_Debug=MinGW-Windows
-CND_ARTIFACT_DIR_Debug=./bin
-CND_ARTIFACT_NAME_Debug=libhamlibs-debug.a
-CND_ARTIFACT_PATH_Debug=./bin/libhamlibs-debug.a
-CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-Windows/package
+CND_PLATFORM_Debug=MinGW32_Qt-Windows
+CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW32_Qt-Windows
+CND_ARTIFACT_NAME_Debug=libhamlibs_d.a
+CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW32_Qt-Windows/libhamlibs_d.a
+CND_PACKAGE_DIR_Debug=dist/Debug/MinGW32_Qt-Windows/package
 CND_PACKAGE_NAME_Debug=HamLibs.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/HamLibs.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/MinGW32_Qt-Windows/package/HamLibs.tar
 # Release configuration
-CND_PLATFORM_Release=MinGW-Windows
-CND_ARTIFACT_DIR_Release=./bin
+CND_PLATFORM_Release=MinGW32_Qt-Windows
+CND_ARTIFACT_DIR_Release=dist/Release/MinGW32_Qt-Windows
 CND_ARTIFACT_NAME_Release=libhamlibs.a
-CND_ARTIFACT_PATH_Release=./bin/libhamlibs.a
-CND_PACKAGE_DIR_Release=dist/Release/MinGW-Windows/package
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW32_Qt-Windows/libhamlibs.a
+CND_PACKAGE_DIR_Release=dist/Release/MinGW32_Qt-Windows/package
 CND_PACKAGE_NAME_Release=HamLibs.tar
-CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/HamLibs.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW32_Qt-Windows/package/HamLibs.tar
 #
 # include compiler specific variables
 #

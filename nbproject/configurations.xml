@@ -123,7 +123,6 @@
         </cTool>
         <ccTool>
           <developmentMode>0</developmentMode>
-          <architecture>1</architecture>
           <standard>8</standard>
           <incDir>
             <pElem>include</pElem>
@@ -134,7 +133,7 @@
           </preprocessorList>
         </ccTool>
         <archiverTool>
-          <output>./bin/libhamlibs-debug.a</output>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libhamlibs_d.a</output>
         </archiverTool>
       </compileType>
       <item path="../tests/btree_test.cpp" ex="false" tool="1" flavor2="0">
@@ -326,12 +325,11 @@
         <ccTool>
           <developmentMode>0</developmentMode>
           <stripSymbols>true</stripSymbols>
-          <architecture>1</architecture>
           <standard>8</standard>
           <incDir>
             <pElem>include</pElem>
           </incDir>
-          <commandLine>-mieee-fp -mmmx -msse -msse2 -mfpmath=sse -O3 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++</commandLine>
+          <commandLine>-mieee-fp -mmmx -msse -msse2 -mfpmath=sse -O3 -pedantic-errors -Werror -Wall -Wextra -flto -static-libgcc -static-libstdc++ -mwindows</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -340,7 +338,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
         <archiverTool>
-          <output>./bin/libhamlibs.a</output>
         </archiverTool>
       </compileType>
       <item path="../tests/btree_test.cpp" ex="false" tool="1" flavor2="0">

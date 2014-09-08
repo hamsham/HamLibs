@@ -24,7 +24,7 @@ void runtime_assert(bool condition, error_t type, const char* const msg);
 #ifndef HL_ASSERT_BASIC
 	#define HL_ASSERT_BASIC( x, fileName, lineNum, type )\
 		hamLibs::utils::runtime_assert(\
-			x, type,\
+			(x), type,\
 			"Assertion failed"\
             " on line " HL_STRINGIFY( lineNum )\
             " of " HL_STRINGIFY( fileName )\
